@@ -42,6 +42,10 @@ class _HomeTabState extends State<HomeTab> {
               '${StringUtils.capitalize(_character?.origin)}',
               key: Key("characterOrigin"),
             ),
+            Text(
+              '${_character?.age}',
+              key: Key("characterAge"),
+            ),
           ],
         ),
       ),

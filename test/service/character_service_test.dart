@@ -14,7 +14,7 @@ void main() {
     });
 
     test('getCharacter generates a new character and saves it', () async {
-      final expectedCharacter = Factory.character();
+      final expectedCharacter = Factory.character(age: 0);
 
       when(Mocks.characterClient.generateCharacter()).thenAnswer((_) async => expectedCharacter);
 

@@ -5,6 +5,7 @@ class Character extends Equatable {
   final String lastName;
   final String sex;
   final String origin;
+  int age;
 
-  Character({this.firstName, this.lastName, this.sex, this.origin}) : super([firstName, lastName, sex, origin]);
+  Character({this.firstName, this.lastName, this.sex, this.origin, this.age}) : super([firstName, lastName, sex, origin, age]);
 }

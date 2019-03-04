@@ -26,6 +26,7 @@ void main() {
         "${StringUtils.capitalize(expectedCharacter.firstName)} ${StringUtils.capitalize(expectedCharacter.lastName)}");
     expect(homeTabView.getCharacterSex(), "${StringUtils.capitalize(expectedCharacter.sex)}");
     expect(homeTabView.getCharacterOrigin(), "${StringUtils.capitalize(expectedCharacter.origin)}");
+    expect(homeTabView.getCharacterAge(), "${expectedCharacter.age}");
   });
 }
 
@@ -46,6 +47,10 @@ class _HomeTabView {
     return getDataFromTextByKey("characterOrigin");
   }
 
+  String getCharacterAge() {
+    return getDataFromTextByKey("characterAge");
+  }
+
   String getDataFromTextByKey(String key) {
     var textFinder = find.byKey(Key(key));
     expect(textFinder, findsOneWidget);
@@ -57,5 +62,7 @@ class _HomeTabView {
 
 Widget buildTestableWidget(Widget widget) {
   return new MediaQuery(
-      data: new MediaQueryData(), child: new MaterialApp(home: widget));
+      data: new MediaQueryData(),
+      child: new MaterialApp(home: widget),
+  );
 }

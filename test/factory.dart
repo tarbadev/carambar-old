@@ -2,11 +2,12 @@ import 'package:carambar/domain/entity/character.dart';
 import 'package:carambar/service/client/character_client_response.dart';
 
 class Factory {
-  static Character character() {
+  static Character character({age: 18}) {
     return Character(
         firstName: "john",
         lastName: "doe",
         sex: "male",
+        age: age,
         origin: "united states"
     );
   }

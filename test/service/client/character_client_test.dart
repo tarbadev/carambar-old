@@ -19,7 +19,7 @@ void main() {
     test('getCharacter generates a new character and saves it', () async {
       final file = new File('test_resources/characterServiceResponse.json');
       final characterResponse = await file.readAsString();
-      final expectedCharacter = Factory.character();
+      final expectedCharacter = Factory.character(age: null);
 
       when(Mocks.client.get('https://randomuser.me/api/'))
           .thenAnswer((_) async => http.Response(characterResponse, 200));

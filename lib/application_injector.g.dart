@@ -9,10 +9,11 @@ part of 'application_injector.dart';
 class _$ApplicationInjector extends ApplicationInjector {
   void configureAnnotations() {
     final Container container = Container();
-    container.registerFactory((c) => InternalFileRepository());
+    container.registerFactory(
+        (c) => CharacterRepository(c<String>('characterFileName')));
     container.registerFactory(
         (c) => CharacterService(
-            c<InternalFileRepository>(), c<CharacterClient>('characterClient')),
+            c<CharacterRepository>(), c<CharacterClient>('characterClient')),
         name: 'characterService');
   }
 }

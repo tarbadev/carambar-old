@@ -26,6 +26,7 @@ void main() {
     test('home displays the new character informations', () async {
       expect(await homeTab.getCharacterName(), isNotEmpty);
       expect(await homeTab.getCharacterSex(), isNotEmpty);
+      expect(await homeTab.getCharacterAge(), isNotEmpty);
       expect(await homeTab.getCharacterOrigin(), isNotEmpty);
     });
   });

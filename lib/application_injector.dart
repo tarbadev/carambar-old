@@ -1,4 +1,4 @@
-import 'package:carambar/repository/internal_file_repository.dart';
+import 'package:carambar/repository/character_repository.dart';
 import 'package:carambar/service/character_service.dart';
 import 'package:carambar/service/client/character_client.dart';
 import 'package:kiwi/kiwi.dart';
@@ -12,7 +12,7 @@ abstract class ApplicationInjector {
     configureInstances();
   }
 
-  @Register.factory(InternalFileRepository)
+  @Register.factory(CharacterRepository, resolvers: {String: "characterFileName"})
   @Register.factory(
     CharacterService,
     name: "characterService",
@@ -22,8 +22,11 @@ abstract class ApplicationInjector {
 
   void configureInstances() {
     final Container container = Container();
-    container.registerInstance(CharacterClient(http.Client()),
-        name: "characterClient");
+    container.registerInstance(
+        CharacterClient(http.Client()),
+        name: "characterClient"
+    );
+    container.registerInstance("character.json", name: "characterFileName");
   }
 }
 
