@@ -2,6 +2,7 @@ import 'package:flutter_driver/flutter_driver.dart';
 
 class HomeTab {
   final FlutterDriver driver;
+  final ageButtonFinder = find.byValueKey('ageButton');
   final characterNameTextFinder = find.byValueKey('characterName');
   final characterSexTextFinder = find.byValueKey('characterSex');
   final characterAgeTextFinder = find.byValueKey('characterAge');
@@ -23,5 +24,9 @@ class HomeTab {
 
   Future<String> getCharacterAge() async {
     return await driver.getText(characterAgeTextFinder);
+  }
+
+  Future<void> clickOnAgeButton() async {
+    await driver.tap(ageButtonFinder);
   }
 }

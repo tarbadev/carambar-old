@@ -6,12 +6,12 @@ import 'package:http/http.dart' as http;
 
 class MockCharacterService extends Mock implements CharacterService {}
 class MockCharacterClient extends Mock implements CharacterClient {}
-class MockInternalFileRepository extends Mock implements CharacterRepository {}
+class MockCharacterRepository extends Mock implements CharacterRepository {}
 class MockClient extends Mock implements http.Client {}
 
 class Mocks {
   static final CharacterService characterService = MockCharacterService();
   static final CharacterClient characterClient = MockCharacterClient();
-  static final CharacterRepository internalFileRepository = MockInternalFileRepository();
+  static final CharacterRepository characterRepository = MockCharacterRepository();
   static final http.Client client = MockClient();
 }

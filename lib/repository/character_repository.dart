@@ -23,4 +23,14 @@ class CharacterRepository {
 
     await (await _file).writeAsString(jsonEncode(characterEntity));
   }
+
+  Future<Character> read() async {
+    try {
+      String characterFileContent = await (await _file).readAsString();
+      CharacterEntity characterEntity = CharacterEntity.fromJson(characterFileContent);
+      return characterEntity.toCharacter();
+    } catch (e) {
+      return null;
+    }
+  }
 }

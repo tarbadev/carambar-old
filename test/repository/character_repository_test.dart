@@ -1,6 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:carambar/domain/entity/character.dart';
 import 'package:carambar/repository/character_repository.dart';
+import 'package:carambar/repository/entity/character_entity.dart';
 import 'package:flutter/services.dart';
 import 'package:test_api/test_api.dart';
 import 'package:path_provider/path_provider.dart';
@@ -29,7 +32,7 @@ void main() {
       characterRepository = CharacterRepository(internalFileUtil.fileName);
     });
 
-    test('getCharacter generates a new character and saves it', () async {
+    test('save saves character to file', () async {
       final character = Factory.character();
 
       await characterRepository.save(character);
@@ -43,6 +46,15 @@ void main() {
           '}';
 
       expect(await internalFileUtil.read(), expectedJsonString);
+    });
+
+    test('read reads character from file', () async {
+      final character = Factory.character();
+      await internalFileUtil.save(jsonEncode(CharacterEntity.fromCharacter(character)));
+
+      Character returnedCharacter = await characterRepository.read();
+
+      expect(returnedCharacter, character);
     });
   });
 }
