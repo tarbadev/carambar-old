@@ -33,14 +33,53 @@ void main() {
       expect(await homeTab.getCharacterOrigin(), isNotEmpty);
     });
 
-    test('home displays an age button that changes the age of the character', () async {
+    test('home displays an age button that changes the age and age category of the character', () async {
       await driver.waitUntilNoTransientCallbacks();
 
       expect(await homeTab.getCharacterAge(), "0");
+      expect(await homeTab.getCharacterAgeCategory(), "Baby");
+
+      await homeTab.clickOnAgeButton();
+      await homeTab.clickOnAgeButton();
+
+      expect(await homeTab.getCharacterAge(), "2");
+      expect(await homeTab.getCharacterAgeCategory(), "Baby");
 
       await homeTab.clickOnAgeButton();
 
-      expect(await homeTab.getCharacterAge(), "1");
+      expect(await homeTab.getCharacterAge(), "3");
+      expect(await homeTab.getCharacterAgeCategory(), "Child");
+
+      await homeTab.clickOnAgeButton();
+      await homeTab.clickOnAgeButton();
+      await homeTab.clickOnAgeButton();
+      await homeTab.clickOnAgeButton();
+      await homeTab.clickOnAgeButton();
+      await homeTab.clickOnAgeButton();
+      await homeTab.clickOnAgeButton();
+      await homeTab.clickOnAgeButton();
+
+      expect(await homeTab.getCharacterAge(), "11");
+      expect(await homeTab.getCharacterAgeCategory(), "Child");
+
+      await homeTab.clickOnAgeButton();
+
+      expect(await homeTab.getCharacterAge(), "12");
+      expect(await homeTab.getCharacterAgeCategory(), "Teen");
+
+      await homeTab.clickOnAgeButton();
+      await homeTab.clickOnAgeButton();
+      await homeTab.clickOnAgeButton();
+      await homeTab.clickOnAgeButton();
+      await homeTab.clickOnAgeButton();
+
+      expect(await homeTab.getCharacterAge(), "17");
+      expect(await homeTab.getCharacterAgeCategory(), "Teen");
+
+      await homeTab.clickOnAgeButton();
+
+      expect(await homeTab.getCharacterAge(), "18");
+      expect(await homeTab.getCharacterAgeCategory(), "Adult");
     });
   });
 }

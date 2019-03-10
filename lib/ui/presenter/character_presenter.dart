@@ -23,8 +23,18 @@ class CharacterPresenter extends Equatable {
   }
 
   static String _ageCategoryPresenter(AgeCategory ageCategory) {
-    if (ageCategory == AgeCategory.baby) {
-      return 'Baby';
+    switch (ageCategory) {
+      case AgeCategory.adult:
+        return 'Adult';
+        break;
+      case AgeCategory.teen:
+        return 'Teen';
+        break;
+      case AgeCategory.child:
+        return 'Child';
+        break;
+      default:
+        return 'Baby';
     }
   }
 

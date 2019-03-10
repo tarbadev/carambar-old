@@ -1,7 +1,7 @@
 import 'package:carambar/domain/entity/nationality.dart';
 import 'package:equatable/equatable.dart';
 
-enum AgeCategory { baby }
+enum AgeCategory { baby, child, teen, adult }
 
 class Character extends Equatable {
   final String firstName;
@@ -11,7 +11,10 @@ class Character extends Equatable {
   int age;
 
   AgeCategory get ageCategory {
-    return AgeCategory.baby;
+    if (age >= 18) return AgeCategory.adult;
+    else if (age >= 12) return AgeCategory.teen;
+    else if (age >= 3) return AgeCategory.child;
+    else return AgeCategory.baby;
   }
 
   Character({this.firstName, this.lastName, this.sex, this.origin, this.age})
