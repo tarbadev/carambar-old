@@ -1,30 +1,15 @@
 import 'package:carambar/ui/home_tab.dart';
-import 'package:carambar/ui/widget/character_information.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 import '../factory.dart';
 import '../fake_application_injector.dart';
+import '../helpers/testable_widget.dart';
 import '../helpers/view/home_tab_view.dart';
 import '../mock_definition.dart';
-import '../helpers/testable_widget.dart';
 
 void main() {
   setupTest();
-
-  testWidgets('home shows a the character informations',
-      (WidgetTester tester) async {
-    when(Mocks.characterService.getCharacter())
-        .thenAnswer((_) async => Factory.character());
-
-    await tester.pumpWidget(buildTestableWidget(HomeTab()));
-
-    expect(find.byType(CharacterInformation), findsNothing);
-
-    await tester.pump();
-
-    expect(find.byType(CharacterInformation), findsOneWidget);
-  });
 
   testWidgets(
       'home shows a button Age that calls the incrementAge method from characterService',
