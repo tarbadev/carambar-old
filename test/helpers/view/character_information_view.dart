@@ -20,4 +20,8 @@ class CharacterInformationView extends BaseView {
   String getCharacterAge() {
     return getDataFromTextByKey("characterAge");
   }
+
+  String getCharacterAgeCategory() {
+    return getDataFromTextByKey("characterAgeCategory");
+  }
 }

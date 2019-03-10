@@ -1,4 +1,5 @@
 import 'package:carambar/domain/entity/character.dart';
+import 'package:carambar/domain/entity/nationality.dart';
 import 'package:carambar/service/client/character_client_response.dart';
 
 class Factory {
@@ -8,7 +9,7 @@ class Factory {
         lastName: "doe",
         sex: "male",
         age: age,
-        origin: "united states"
+        origin: Nationality.unitedStates
     );
   }
 

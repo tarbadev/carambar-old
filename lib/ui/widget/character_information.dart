@@ -1,11 +1,14 @@
 import 'package:carambar/domain/entity/character.dart';
-import 'package:carambar/ui/util/string_utils.dart';
+import 'package:carambar/ui/presenter/character_presenter.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class CharacterInformation extends StatelessWidget {
-  final Character character;
+  CharacterPresenter _characterPresenter;
 
-  CharacterInformation({Key key, this.character}) : super(key: key);
+  CharacterInformation({Key key, Character character}) : super(key: key) {
+    _characterPresenter = CharacterPresenter.fromCharacter(character);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,20 +16,24 @@ class CharacterInformation extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            '${StringUtils.capitalize(character.firstName)} ${StringUtils.capitalize(character.lastName)}',
+            _characterPresenter.name,
             key: Key("characterName"),
           ),
           Text(
-            '${StringUtils.capitalize(character.sex)}',
+            _characterPresenter.sex,
             key: Key("characterSex"),
           ),
           Text(
-            '${StringUtils.capitalize(character.origin)}',
+            _characterPresenter.origin,
             key: Key("characterOrigin"),
           ),
           Text(
-            '${character.age}',
+            _characterPresenter.age,
             key: Key("characterAge"),
+          ),
+          Text(
+            _characterPresenter.ageCategory,
+            key: Key("characterAgeCategory"),
           ),
         ]);
   }

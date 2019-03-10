@@ -29,6 +29,7 @@ void main() {
       expect(await homeTab.getCharacterName(), isNotEmpty);
       expect(await homeTab.getCharacterSex(), isNotEmpty);
       expect(await homeTab.getCharacterAge(), "0");
+      expect(await homeTab.getCharacterAgeCategory(), "Baby");
       expect(await homeTab.getCharacterOrigin(), isNotEmpty);
     });
 

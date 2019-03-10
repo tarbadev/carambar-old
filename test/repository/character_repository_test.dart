@@ -41,7 +41,7 @@ void main() {
           '"firstName":"john",' +
           '"lastName":"doe",' +
           '"sex":"male",' +
-          '"origin":"united states",' +
+          '"origin":"Nationality.unitedStates",' +
           '"age":18' +
           '}';
 

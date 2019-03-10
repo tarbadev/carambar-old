@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:carambar/domain/entity/character.dart';
+import 'package:carambar/domain/entity/nationality.dart';
 
 class CharacterEntity {
   final String firstName;
@@ -12,7 +13,8 @@ class CharacterEntity {
   CharacterEntity(
       {this.firstName, this.lastName, this.sex, this.origin, this.age});
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         'firstName': firstName,
         'lastName': lastName,
         'sex': sex,
@@ -24,7 +26,7 @@ class CharacterEntity {
       : firstName = character.firstName,
         lastName = character.lastName,
         sex = character.sex,
-        origin = character.origin,
+        origin = character.origin.toString(),
         age = character.age;
 
   static fromJson(String characterEntityJson) {
@@ -44,7 +46,7 @@ class CharacterEntity {
       lastName: lastName,
       age: age,
       sex: sex,
-      origin: origin,
+      origin: Nationality.values.firstWhere((e) => e.toString() == origin),
     );
   }
 }

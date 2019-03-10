@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:carambar/domain/entity/character.dart';
+import 'package:carambar/domain/entity/nationality.dart';
 
 CharacterClientResponse characterClientResponseFromJson(String str) {
   final jsonData = json.decode(str);
@@ -39,23 +40,23 @@ class CharacterClientResponse {
 
 class CharacterClientModel {
   final _mapOriginResponseToDomain = {
-    "AU": "australia",
-    "BR": "brazil",
-    "CA": "canada",
-    "CH": "switzerland",
-    "DE": "germany",
-    "DK": "denmark",
-    "ES": "spain",
-    "FI": "finland",
-    "FR": "france",
-    "GB": "united kingdom",
-    "IE": "ireland",
-    "IR": "iran",
-    "NO": "norway",
-    "NL": "netherlands",
-    "NZ": "new zealand",
-    "TR": "turkey",
-    "US": "united states",
+    "AU": Nationality.australia,
+    "BR": Nationality.brazil,
+    "CA": Nationality.canada,
+    "CH": Nationality.switzerland,
+    "DE": Nationality.germany,
+    "DK": Nationality.denmark,
+    "ES": Nationality.spain,
+    "FI": Nationality.finland,
+    "FR": Nationality.france,
+    "GB": Nationality.unitedKingdom,
+    "IE": Nationality.ireland,
+    "IR": Nationality.iran,
+    "NO": Nationality.norway,
+    "NL": Nationality.netherlands,
+    "NZ": Nationality.newZealand,
+    "TR": Nationality.turkey,
+    "US": Nationality.unitedStates,
   };
 
   String gender;

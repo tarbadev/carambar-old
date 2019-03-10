@@ -18,7 +18,8 @@ import 'package:http/http.dart' as http;
 
 void main() {
   getIntegrationApplicationInjector().configure();
-  final http.Client mockHttpClient = getIntegrationApplicationInjector().mockClient;
+  final http.Client mockHttpClient =
+      getIntegrationApplicationInjector().mockClient;
 
   setUpAll(() async {
     final directory = await Directory.systemTemp.createTemp();
@@ -45,13 +46,14 @@ void main() {
       expect(homeTabView.characterInformationView.getCharacterSex(),
           "${StringUtils.capitalize(character.sex)}");
       expect(homeTabView.characterInformationView.getCharacterOrigin(),
-          "${StringUtils.capitalize(character.origin)}");
+          "United States");
       expect(homeTabView.characterInformationView.getCharacterAge(),
           "${character.age}");
     });
   });
 
-  testWidgets('home shows the generated character', (WidgetTester tester) async {
+  testWidgets('home shows the generated character',
+      (WidgetTester tester) async {
     tester.runAsync(() async {
       final file = new File('test_resources/characterServiceResponse.json');
       final characterResponse = await file.readAsString();
@@ -68,7 +70,7 @@ void main() {
       expect(homeTabView.characterInformationView.getCharacterSex(),
           "${StringUtils.capitalize(character.sex)}");
       expect(homeTabView.characterInformationView.getCharacterOrigin(),
-          "${StringUtils.capitalize(character.origin)}");
+          "United States");
       expect(homeTabView.characterInformationView.getCharacterAge(),
           "${character.age}");
     });

@@ -12,18 +12,18 @@ void main() {
 
   testWidgets('home shows a the character informations',
       (WidgetTester tester) async {
-    var character = Factory.character(age: 34);
+    var character = Factory.character(age: 2);
     var characterInformationView = CharacterInformationView(tester);
 
     await tester.pumpWidget(
         buildTestableWidget(CharacterInformation(character: character)));
 
     expect(characterInformationView.getCharacterName(),
-        "${StringUtils.capitalize(character.firstName)} ${StringUtils.capitalize(character.lastName)}");
+        '${StringUtils.capitalize(character.firstName)} ${StringUtils.capitalize(character.lastName)}');
     expect(characterInformationView.getCharacterSex(),
-        "${StringUtils.capitalize(character.sex)}");
-    expect(characterInformationView.getCharacterOrigin(),
-        "${StringUtils.capitalize(character.origin)}");
-    expect(characterInformationView.getCharacterAge(), "${character.age}");
+        '${StringUtils.capitalize(character.sex)}');
+    expect(characterInformationView.getCharacterOrigin(), 'United States');
+    expect(characterInformationView.getCharacterAge(), '${character.age}');
+    expect(characterInformationView.getCharacterAgeCategory(), 'Baby');
   });
 }
