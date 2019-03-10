@@ -7,11 +7,11 @@ import 'base_view.dart';
 import 'character_information_view.dart';
 
 class HomeTabView extends BaseView {
-  CharacterInformationView characterView;
+  CharacterInformationView characterInformationView;
   final WidgetTester tester;
 
   HomeTabView(this.tester) : super(tester) {
-    characterView = CharacterInformationView(tester);
+    characterInformationView = CharacterInformationView(tester);
   }
 
   Future<void> clickOnAgeButton() async {

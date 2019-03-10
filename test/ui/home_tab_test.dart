@@ -5,9 +5,9 @@ import 'package:mockito/mockito.dart';
 
 import '../factory.dart';
 import '../fake_application_injector.dart';
+import '../helpers/view/home_tab_view.dart';
 import '../mock_definition.dart';
-import 'testable_widget.dart';
-import 'view/home_tab_view.dart';
+import '../helpers/testable_widget.dart';
 
 void main() {
   setupTest();
@@ -38,7 +38,7 @@ void main() {
     await tester.pumpWidget(buildTestableWidget(HomeTab()));
     await tester.pump();
 
-    expect(homeTabView.characterView.getCharacterAge(), "0");
+    expect(homeTabView.characterInformationView.getCharacterAge(), "0");
 
     await homeTabView.clickOnAgeButton();
 
@@ -47,7 +47,7 @@ void main() {
     await tester.pump();
     await tester.pump();
 
-    expect(homeTabView.characterView.getCharacterAge(), "1");
+    expect(homeTabView.characterInformationView.getCharacterAge(), "1");
 
     await homeTabView.clickOnAgeButton();
 

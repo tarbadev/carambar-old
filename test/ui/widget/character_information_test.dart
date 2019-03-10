@@ -4,8 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../../factory.dart';
 import '../../fake_application_injector.dart';
-import '../testable_widget.dart';
-import '../view/character_information_view.dart';
+import '../../helpers/view/character_information_view.dart';
+import '../../helpers/testable_widget.dart';
 
 void main() {
   setupTest();
