@@ -1,15 +1,10 @@
-import 'package:carambar/domain/entity/character.dart';
-import 'package:carambar/ui/presenter/character_presenter.dart';
+import 'package:carambar/ui/presenter/display_character.dart';
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
 class CharacterInformation extends StatelessWidget {
-  final Character character;
-  CharacterPresenter _characterPresenter;
+  final DisplayCharacter displayCharacter;
 
-  CharacterInformation({Key key, @required this.character}) : super(key: key) {
-    _characterPresenter = CharacterPresenter.fromCharacter(character);
-  }
+  CharacterInformation({Key key, @required this.displayCharacter}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +20,7 @@ class CharacterInformation extends StatelessWidget {
                   Row(
                     children: <Widget>[
                       Text(
-                        _characterPresenter.name,
+                        displayCharacter.name,
                         key: Key("characterName"),
                         textScaleFactor: 2,
                       ),
@@ -33,7 +28,7 @@ class CharacterInformation extends StatelessWidget {
                           child: Align(
                               alignment: FractionalOffset.bottomRight,
                               child: Text(
-                                _characterPresenter.age,
+                                displayCharacter.age,
                                 key: Key("characterAge"),
                                 textScaleFactor: 1.5,
                               ))),
@@ -43,19 +38,19 @@ class CharacterInformation extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.only(right: 5),
                       child: Text(
-                        _characterPresenter.ageCategory,
+                        displayCharacter.ageCategory,
                         key: Key("characterAgeCategory"),
                       ),
                     ),
                     Text(
-                      _characterPresenter.sex,
+                      displayCharacter.sex,
                       key: Key("characterSex"),
                     ),
                     Expanded(
                         child: Align(
                             alignment: FractionalOffset.bottomRight,
                             child: Text(
-                              _characterPresenter.origin,
+                              displayCharacter.origin,
                               key: Key("characterOrigin"),
                             )))
                   ]),

@@ -1,50 +1,30 @@
 import 'package:carambar/ui/presenter/character_presenter.dart';
+import 'package:mockito/mockito.dart';
 import 'package:test_api/test_api.dart';
 
 import '../../factory.dart';
+import '../../mock_definition.dart';
 
 void main() {
-  group("CharacterPresenter", () {
-    test('fromCharacter generates CharacterPresenter', () async {
-      var expectedCharacterPresenter = CharacterPresenter(
-        'John Doe',
-        'Male',
-        '2',
-        'United States',
-        'Baby',
-      );
+  group("Character Presenter", () {
+    var characterPresenter;
 
-      expect(CharacterPresenter.fromCharacter(Factory.character(age: 2)), expectedCharacterPresenter);
+    setUp(() {
+      characterPresenter = CharacterPresenter(Mocks.characterService);
+    });
 
-      expectedCharacterPresenter = CharacterPresenter(
-        'John Doe',
-        'Male',
-        '8',
-        'United States',
-        'Child',
-      );
+    test('getDisplayCharacter returns the DisplayCharacter from the character', () async {
+      var expectedDisplayCharacter = Factory.displayCharacter();
 
-      expect(CharacterPresenter.fromCharacter(Factory.character(age: 8)), expectedCharacterPresenter);
+      when(Mocks.characterService.getCharacter()).thenAnswer((_) async => Factory.character());
 
-      expectedCharacterPresenter = CharacterPresenter(
-        'John Doe',
-        'Male',
-        '15',
-        'United States',
-        'Teen',
-      );
+      expect(await characterPresenter.getDisplayCharacter(), expectedDisplayCharacter);
+    });
 
-      expect(CharacterPresenter.fromCharacter(Factory.character(age: 15)), expectedCharacterPresenter);
+    test('incrementAge calls CharacterService', () async {
+      await characterPresenter.incrementAge();
 
-      expectedCharacterPresenter = CharacterPresenter(
-        'John Doe',
-        'Male',
-        '42',
-        'United States',
-        'Adult',
-      );
-
-      expect(CharacterPresenter.fromCharacter(Factory.character(age: 42)), expectedCharacterPresenter);
+      verify(Mocks.characterService.incrementAge());
     });
   });
 }

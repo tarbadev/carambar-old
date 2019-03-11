@@ -1,6 +1,4 @@
-
-
-import 'package:carambar/domain/entity/age_event.dart';
+import 'package:carambar/ui/presenter/display_age_event.dart';
 import 'package:carambar/ui/widget/age_event_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -16,10 +14,10 @@ class HomeTabView extends BaseView {
     await tester.tap(find.byKey(Key("ageButton")));
   }
 
-  Future<List<AgeEvent>> getEventList() async {
+  Future<List<DisplayAgeEvent>> getEventList() async {
     var ageEventListFinder = find.byType(AgeEventList);
     expect(ageEventListFinder, findsOneWidget);
 
-    return (ageEventListFinder.evaluate().single.widget as AgeEventList).ageEvents;
+    return (ageEventListFinder.evaluate().single.widget as AgeEventList).displayAgeEvents;
   }
 }

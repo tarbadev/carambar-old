@@ -13,10 +13,10 @@ void main() {
 
   testWidgets('character tab shows a the character informations',
       (WidgetTester tester) async {
-    var character = Factory.character();
+    var displayCharacter = Factory.displayCharacter();
 
-    when(Mocks.characterService.getCharacter())
-        .thenAnswer((_) async => character);
+    when(Mocks.characterPresenter.getDisplayCharacter())
+        .thenAnswer((_) async => displayCharacter);
 
     await tester.pumpWidget(buildTestableWidget(CharacterTab()));
 
@@ -29,6 +29,6 @@ void main() {
 
     CharacterInformation characterInformation =
         characterInformationFinder.evaluate().single.widget;
-    expect(characterInformation.character, character);
+    expect(characterInformation.displayCharacter, displayCharacter);
   });
 }

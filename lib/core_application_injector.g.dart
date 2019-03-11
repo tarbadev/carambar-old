@@ -11,15 +11,14 @@ class _$CoreApplicationInjector extends CoreApplicationInjector {
     final Container container = Container();
     container.registerFactory(
         (c) => AgeEventRepository(c<String>('ageEventsFileName')));
-    container.registerFactory((c) => AgeEventService(c<AgeEventRepository>()),
-        name: 'ageEventService');
+    container.registerFactory((c) => AgeEventService(c<AgeEventRepository>()));
+    container.registerFactory((c) => AgeEventPresenter(c<AgeEventService>()),
+        name: 'ageEventPresenter');
     container.registerFactory(
         (c) => CharacterRepository(c<String>('characterFileName')));
-    container.registerFactory(
-        (c) => CharacterService(
-            c<CharacterRepository>(),
-            c<CharacterClient>('characterClient'),
-            c<AgeEventService>('ageEventService')),
-        name: 'characterService');
+    container.registerFactory((c) => CharacterService(c<CharacterRepository>(),
+        c<CharacterClient>('characterClient'), c<AgeEventService>()));
+    container.registerFactory((c) => CharacterPresenter(c<CharacterService>()),
+        name: 'characterPresenter');
   }
 }

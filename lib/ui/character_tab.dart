@@ -1,5 +1,7 @@
 import 'package:carambar/domain/entity/character.dart';
 import 'package:carambar/service/character_service.dart';
+import 'package:carambar/ui/presenter/character_presenter.dart';
+import 'package:carambar/ui/presenter/display_character.dart';
 import 'package:carambar/ui/widget/character_information.dart';
 import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
@@ -12,24 +14,24 @@ class CharacterTab extends StatefulWidget {
 }
 
 class _CharacterTabState extends State<CharacterTab> {
-  CharacterService _characterService;
+  CharacterPresenter _characterPresenter;
 
   @override
   void initState() {
     super.initState();
 
     var container = kiwi.Container();
-    _characterService = container.resolve("characterService");
+    _characterPresenter = container.resolve("characterPresenter");
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: FutureBuilder<Character>(
-          future: _characterService.getCharacter(),
+      child: FutureBuilder<DisplayCharacter>(
+          future: _characterPresenter.getDisplayCharacter(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              return CharacterInformation(character: snapshot.data);
+              return CharacterInformation(displayCharacter: snapshot.data);
             } else {
               return Text("Loading...");
             }
