@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class CharacterInformation extends StatelessWidget {
+  final Character character;
   CharacterPresenter _characterPresenter;
 
-  CharacterInformation({Key key, Character character}) : super(key: key) {
+  CharacterInformation({Key key, @required this.character}) : super(key: key) {
     _characterPresenter = CharacterPresenter.fromCharacter(character);
   }
 

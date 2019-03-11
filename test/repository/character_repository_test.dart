@@ -9,6 +9,7 @@ import 'package:test_api/test_api.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../factory.dart';
+import '../helpers/storage/storage.dart';
 
 void main() {
   setUpAll(() async {
@@ -25,11 +26,12 @@ void main() {
 
   group("CharacterRepository", () {
     CharacterRepository characterRepository;
-    InternalFileUtil internalFileUtil;
+    CharacterStorage characterStorage;
 
-    setUp(() {
-      internalFileUtil = InternalFileUtil();
-      characterRepository = CharacterRepository(internalFileUtil.fileName);
+    setUp(() async {
+      characterStorage = CharacterStorage();
+      await characterStorage.delete();
+      characterRepository = CharacterRepository(characterStorage.fileName);
     });
 
     test('save saves character to file', () async {
@@ -45,40 +47,22 @@ void main() {
           '"age":18' +
           '}';
 
-      expect(await internalFileUtil.read(), expectedJsonString);
+      expect(await characterStorage.read(), expectedJsonString);
     });
 
-    test('read reads character from file', () async {
+    test('readCharacter reads character from file', () async {
       final character = Factory.character();
-      await internalFileUtil.save(jsonEncode(CharacterEntity.fromCharacter(character)));
+      await characterStorage.store(character);
 
-      Character returnedCharacter = await characterRepository.read();
+      Character returnedCharacter = await characterRepository.readCharacter();
 
       expect(returnedCharacter, character);
     });
+
+    test('readCharacter returns null when there is no existing file', () async {
+      Character returnedCharacter = await characterRepository.readCharacter();
+
+      expect(returnedCharacter, isNull);
+    });
   });
-}
-
-class InternalFileUtil {
-  final String fileName = "testFile.json";
-
-  Future<String> get filePath async {
-    return (await getApplicationDocumentsDirectory()).path;
-  }
-
-  Future<File> get _file async {
-    return File('${await filePath}/$fileName');
-  }
-
-  Future<void> save(String textToSave) async {
-    await (await _file).writeAsString(textToSave);
-  }
-
-  Future<String> read() async {
-    try {
-      return await (await _file).readAsString();
-    } catch (e) {
-      return null;
-    }
-  }
 }

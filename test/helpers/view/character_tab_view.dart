@@ -2,8 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'base_view.dart';
 
-class CharacterInformationView extends BaseView {
-  CharacterInformationView(WidgetTester tester) : super(tester);
+class CharacterTabView extends BaseView {
+  CharacterTabView(WidgetTester tester) : super(tester);
 
   String getCharacterName() {
     return getDataFromTextByKey("characterName");

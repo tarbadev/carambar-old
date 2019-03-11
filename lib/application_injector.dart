@@ -1,33 +1,22 @@
-import 'package:carambar/repository/character_repository.dart';
-import 'package:carambar/service/character_service.dart';
+import 'package:carambar/core_application_injector.dart';
 import 'package:carambar/service/client/character_client.dart';
-import 'package:kiwi/kiwi.dart';
 import 'package:http/http.dart' as http;
+import 'package:kiwi/kiwi.dart';
 
-part 'application_injector.g.dart';
-
-abstract class ApplicationInjector {
+class ApplicationInjector {
   void configure() {
-    configureAnnotations();
+    getCoreApplicationInjector().configure();
     configureInstances();
   }
-
-  @Register.factory(CharacterRepository, resolvers: {String: "characterFileName"})
-  @Register.factory(
-    CharacterService,
-    name: "characterService",
-    resolvers: {CharacterClient: 'characterClient'},
-  )
-  void configureAnnotations();
 
   void configureInstances() {
     final Container container = Container();
     container.registerInstance(
         CharacterClient(http.Client()),
-        name: "characterClient"
+        name: 'characterClient'
     );
-    container.registerInstance("character.json", name: "characterFileName");
+    container.registerInstance('character.json', name: 'characterFileName');
+    container.registerInstance('ageEvents.json', name: 'ageEventsFileName');
   }
 }
-
-ApplicationInjector getApplicationInjector() => new _$ApplicationInjector();
+ApplicationInjector getApplicationInjector() => ApplicationInjector();

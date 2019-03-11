@@ -1,36 +1,24 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:carambar/domain/entity/character.dart';
 import 'package:carambar/repository/entity/character_entity.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:carambar/repository/internal_file_repository.dart';
 
-class CharacterRepository {
-  final String _fileName;
-
-  CharacterRepository(this._fileName);
-
-  Future<String> get _filePath async {
-    return (await getApplicationDocumentsDirectory()).path;
-  }
-
-  Future<File> get _file async {
-    return File('${await _filePath}/$_fileName');
-  }
+class CharacterRepository extends InternalFileRepository {
+  CharacterRepository(String fileName) : super(fileName);
 
   Future<void> save(Character character) async {
     var characterEntity = CharacterEntity.fromCharacter(character);
 
-    await (await _file).writeAsString(jsonEncode(characterEntity));
+    await write(characterEntity);
   }
 
-  Future<Character> read() async {
-    try {
-      String characterFileContent = await (await _file).readAsString();
-      CharacterEntity characterEntity = CharacterEntity.fromJson(characterFileContent);
-      return characterEntity.toCharacter();
-    } catch (e) {
+  Future<Character> readCharacter() async {
+    String characterFileContent = await read();
+
+    if (characterFileContent == null) {
       return null;
     }
+
+    CharacterEntity characterEntity = CharacterEntity.fromJson(characterFileContent);
+    return characterEntity.toCharacter();
   }
 }

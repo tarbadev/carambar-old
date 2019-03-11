@@ -17,16 +17,14 @@ void main() {
     }
   });
 
-  group('Home Tab', () {
-    HomeTab homeTab;
+  group('Character Tab', () {
     CharacterTab characterTab;
 
     setUp(() {
-      homeTab = HomeTab(driver);
       characterTab = CharacterTab(driver);
     });
 
-    test('character tab displays the new character informations', () async {
+    test('should display the generated character informations', () async {
       await driver.waitUntilNoTransientCallbacks();
 
       await characterTab.goTo();
@@ -37,17 +35,39 @@ void main() {
       expect(await characterTab.getCharacterAgeCategory(), "Baby");
       expect(await characterTab.getCharacterOrigin(), isNotEmpty);
     });
+  });
 
-    test('home displays an age button that changes the age and age category of the character', () async {
+  group('Home Tab', () {
+    HomeTab homeTab;
+    CharacterTab characterTab;
+
+    setUp(() {
+      homeTab = HomeTab(driver);
+      characterTab = CharacterTab(driver);
+    });
+
+    test('should display an age button that changes the age of the character',
+        () async {
       await driver.waitUntilNoTransientCallbacks();
 
       await characterTab.goTo();
 
       expect(await characterTab.getCharacterAge(), "0");
-      expect(await characterTab.getCharacterAgeCategory(), "Baby");
 
       await homeTab.goTo();
       await homeTab.clickOnAgeButton();
+      await characterTab.goTo();
+
+      expect(await characterTab.getCharacterAge(), "1");
+    });
+
+    test(
+        'should change the age and age category of the character when tapping on the age button',
+        () async {
+      await driver.waitUntilNoTransientCallbacks();
+
+      expect(await characterTab.getCharacterAge(), "1");
+      await homeTab.goTo();
       await homeTab.clickOnAgeButton();
       await characterTab.goTo();
 
@@ -60,45 +80,14 @@ void main() {
 
       expect(await characterTab.getCharacterAge(), "3");
       expect(await characterTab.getCharacterAgeCategory(), "Child");
+    });
 
+    test('should add an event when tapping on the age button', () async {
+      await driver.waitUntilNoTransientCallbacks();
       await homeTab.goTo();
-      await homeTab.clickOnAgeButton();
-      await homeTab.clickOnAgeButton();
-      await homeTab.clickOnAgeButton();
-      await homeTab.clickOnAgeButton();
-      await homeTab.clickOnAgeButton();
-      await homeTab.clickOnAgeButton();
-      await homeTab.clickOnAgeButton();
-      await homeTab.clickOnAgeButton();
-      await characterTab.goTo();
 
-      expect(await characterTab.getCharacterAge(), "11");
-      expect(await characterTab.getCharacterAgeCategory(), "Child");
-
-      await homeTab.goTo();
-      await homeTab.clickOnAgeButton();
-      await characterTab.goTo();
-
-      expect(await characterTab.getCharacterAge(), "12");
-      expect(await characterTab.getCharacterAgeCategory(), "Teen");
-
-      await homeTab.goTo();
-      await homeTab.clickOnAgeButton();
-      await homeTab.clickOnAgeButton();
-      await homeTab.clickOnAgeButton();
-      await homeTab.clickOnAgeButton();
-      await homeTab.clickOnAgeButton();
-      await characterTab.goTo();
-
-      expect(await characterTab.getCharacterAge(), "17");
-      expect(await characterTab.getCharacterAgeCategory(), "Teen");
-
-      await homeTab.goTo();
-      await homeTab.clickOnAgeButton();
-      await characterTab.goTo();
-
-      expect(await characterTab.getCharacterAge(), "18");
-      expect(await characterTab.getCharacterAgeCategory(), "Adult");
+      expect(await homeTab.ageEvent('3').isVisible, isTrue);
+      expect(await homeTab.ageEvent('3').age, 'Age 3');
     });
   });
 }

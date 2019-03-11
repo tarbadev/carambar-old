@@ -1,6 +1,9 @@
+import 'package:carambar/domain/entity/age_event.dart';
 import 'package:carambar/domain/entity/character.dart';
 import 'package:carambar/domain/entity/nationality.dart';
 import 'package:carambar/service/client/character_client_response.dart';
+
+import 'helpers/view/age_event_view.dart';
 
 class Factory {
   static Character character({int age: 18}) {
@@ -29,5 +32,15 @@ class Factory {
         thumbnail: "https://randomuser.me/api/portraits/thumb/women/29.jpg",
       ),
     );
+  }
+
+  static const List<String> _factoryEventList = ['Some event'];
+
+  static ageEvent({int age: 0, List<String> events: _factoryEventList}) {
+    return AgeEvent(age: age, events: events);
+  }
+
+  static eventView({int age: 0}) {
+    return AgeEventView(age, ['Some event']);
   }
 }

@@ -13,17 +13,22 @@ void main() {
 
   testWidgets('character tab shows a the character informations',
       (WidgetTester tester) async {
+    var character = Factory.character();
+
     when(Mocks.characterService.getCharacter())
-        .thenAnswer((_) async => Factory.character());
+        .thenAnswer((_) async => character);
 
     await tester.pumpWidget(buildTestableWidget(CharacterTab()));
 
-    expect(find.byType(CharacterInformation), findsNothing);
+    var characterInformationFinder = find.byType(CharacterInformation);
+    expect(characterInformationFinder, findsNothing);
 
     await tester.pump();
 
-    expect(find.byType(CharacterInformation), findsOneWidget);
+    expect(characterInformationFinder, findsOneWidget);
+
+    CharacterInformation characterInformation =
+        characterInformationFinder.evaluate().single.widget;
+    expect(characterInformation.character, character);
   });
 }
-
-

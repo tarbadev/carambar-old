@@ -1,4 +1,6 @@
+import 'package:carambar/domain/entity/age_event.dart';
 import 'package:carambar/ui/home_tab.dart';
+import 'package:carambar/ui/widget/age_event_list.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -21,23 +23,30 @@ void main() {
         .thenAnswer((_) async => expectedCharacter);
 
     await tester.pumpWidget(buildTestableWidget(HomeTab()));
-    await tester.pump();
-
-    expect(homeTabView.characterInformationView.getCharacterAge(), "0");
 
     await homeTabView.clickOnAgeButton();
-
-    when(Mocks.characterService.getCharacter())
-        .thenAnswer((_) async => Factory.character(age: 1));
-    await tester.pump();
-    await tester.pump();
-
-    expect(homeTabView.characterInformationView.getCharacterAge(), "1");
-
     await homeTabView.clickOnAgeButton();
 
     verify(Mocks.characterService.incrementAge()).called(2);
   });
+
+  testWidgets('home shows a list of events from the EventService',
+      (WidgetTester tester) async {
+    List<AgeEvent> expectedAgeEvents = [Factory.ageEvent(age: 0), Factory.ageEvent(age: 1)];
+
+    when(Mocks.ageEventService.getAgeEvents()).thenAnswer((_) async => expectedAgeEvents);
+
+    await tester.pumpWidget(buildTestableWidget(HomeTab()));
+    var eventListFinder = find.byType(AgeEventList);
+    expect(eventListFinder, findsNothing);
+
+    await tester.pump();
+
+    verify(Mocks.ageEventService.getAgeEvents());
+
+    expect(eventListFinder, findsOneWidget);
+
+    AgeEventList eventList = eventListFinder.evaluate().single.widget;
+    expect(eventList.ageEvents, expectedAgeEvents);
+  });
 }
-
-
