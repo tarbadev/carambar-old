@@ -5,26 +5,24 @@ import 'package:carambar/service/client/character_client_response.dart';
 import 'package:carambar/ui/presenter/display_age_event.dart';
 import 'package:carambar/ui/presenter/display_character.dart';
 
-import 'helpers/view/age_event_view.dart';
-
 class Factory {
   static Character character({int age: 18}) {
     return Character(
       firstName: "john",
       lastName: "doe",
-      sex: "male",
+      gender: "male",
       age: age,
       origin: Nationality.unitedStates,
     );
   }
 
-  static DisplayCharacter displayCharacter() {
+  static DisplayCharacter displayCharacter({age: '18', ageCategory: 'Adult'}) {
     return DisplayCharacter(
       "John Doe",
       "Male",
-      "18",
+      age,
       "United States",
-      "Adult",
+      ageCategory,
     );
   }
 
@@ -48,15 +46,15 @@ class Factory {
 
   static const List<String> _factoryEventList = ['Some event'];
 
-  static AgeEvent ageEvent({int age: 0, List<String> events: _factoryEventList}) {
+  static AgeEvent ageEvent(
+      {int age: 0, List<String> events: _factoryEventList}) {
     return AgeEvent(age: age, events: events);
   }
 
-  static DisplayAgeEvent displayAgeEvent({int id: 0, String age: "Age 0", List<String> events: _factoryEventList}) {
+  static DisplayAgeEvent displayAgeEvent(
+      {int id: 0,
+      String age: "Age 0",
+      List<String> events: _factoryEventList}) {
     return DisplayAgeEvent(id, age, events);
-  }
-
-  static eventView({int age: 0}) {
-    return AgeEventView(age, ['Some event']);
   }
 }

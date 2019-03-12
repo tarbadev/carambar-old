@@ -15,13 +15,12 @@ void main() {
       reset(Mocks.characterClient);
     });
 
-    test('getCharacter generates a new character and saves it', () async {
+    test('generateCharacter generates a new character and saves it', () async {
       final expectedCharacter = Factory.character(age: 0);
 
-      when(Mocks.characterRepository.readCharacter()).thenAnswer((_) async => null);
       when(Mocks.characterClient.generateCharacter()).thenAnswer((_) async => expectedCharacter);
 
-      expect(await characterService.getCharacter(), expectedCharacter);
+      expect(await characterService.generateCharacter(), expectedCharacter);
 
       verify(Mocks.characterRepository.save(expectedCharacter));
     });
@@ -32,9 +31,6 @@ void main() {
       when(Mocks.characterRepository.readCharacter()).thenAnswer((_) async => expectedCharacter);
 
       expect(await characterService.getCharacter(), expectedCharacter);
-
-      verifyNever(Mocks.characterRepository.save(expectedCharacter));
-      verifyNever(Mocks.characterClient.generateCharacter());
     });
 
     test('incrementAge gets the character, increments age and saves it', () async {

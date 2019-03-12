@@ -42,7 +42,7 @@ void main() {
       final expectedJsonString = '{' +
           '"firstName":"john",' +
           '"lastName":"doe",' +
-          '"sex":"male",' +
+          '"gender":"male",' +
           '"origin":"Nationality.unitedStates",' +
           '"age":18' +
           '}';

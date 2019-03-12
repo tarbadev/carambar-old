@@ -5,17 +5,19 @@ import 'package:equatable/equatable.dart';
 
 class DisplayCharacter extends Equatable {
   final String name;
-  final String sex;
+  final String gender;
   final String age;
   final String origin;
   final String ageCategory;
+  String get genderChild => gender == "Male" ? "Boy" : "Girl";
 
-  DisplayCharacter(this.name, this.sex, this.age, this.origin, this.ageCategory): super([name, sex, age, origin, ageCategory]);
+  DisplayCharacter(this.name, this.gender, this.age, this.origin, this.ageCategory): super([name, gender, age, origin, ageCategory]);
+
 
   static DisplayCharacter fromCharacter(Character character) {
     return DisplayCharacter(
         '${StringUtils.capitalize(character.firstName)} ${StringUtils.capitalize(character.lastName)}',
-        '${StringUtils.capitalize(character.sex)}',
+        '${StringUtils.capitalize(character.gender)}',
         '${character.age}',
         _mapNationalityToString[character.origin],
         _ageCategoryPresenter(character.ageCategory)

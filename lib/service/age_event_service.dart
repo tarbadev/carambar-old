@@ -10,9 +10,18 @@ class AgeEventService {
     return await _ageEventRepository.readAgeEvents() ?? [];
   }
 
-  Future<void> addEvent(int age) async {
+  Future<void> addEvent(int age, {String event}) async {
     List<AgeEvent> events = await getAgeEvents();
-    events.add(AgeEvent(age: age, events: []));
+    AgeEvent ageEvent = events.firstWhere(
+        (existingAgeEvent) => existingAgeEvent.age == age, orElse: () {
+      var newAgeEvent = AgeEvent(age: age, events: []);
+      events.add(newAgeEvent);
+      return newAgeEvent;
+    });
+
+    if (event != null) {
+      ageEvent.events.add(event);
+    }
 
     await _ageEventRepository.save(events);
   }

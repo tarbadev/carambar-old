@@ -4,7 +4,7 @@ class CharacterTab {
   final FlutterDriver driver;
   final characterTabFinder = find.byValueKey('bottomNavigationCharacter');
   final characterNameTextFinder = find.byValueKey('characterName');
-  final characterSexTextFinder = find.byValueKey('characterSex');
+  final characterGenderTextFinder = find.byValueKey('characterGender');
   final characterAgeTextFinder = find.byValueKey('characterAge');
   final characterAgeCategoryTextFinder = find.byValueKey('characterAgeCategory');
   final characterOriginTextFinder = find.byValueKey('characterOrigin');
@@ -15,8 +15,8 @@ class CharacterTab {
     return await driver.getText(characterNameTextFinder);
   }
 
-  Future<String> getCharacterSex() async {
-    return await driver.getText(characterSexTextFinder);
+  Future<String> getCharacterGender() async {
+    return await driver.getText(characterGenderTextFinder);
   }
 
   Future<String> getCharacterOrigin() async {

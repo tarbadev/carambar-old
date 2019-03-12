@@ -21,13 +21,28 @@ class HomeTab {
 class AgeEventElement {
   final FlutterDriver driver;
   final String id;
-  
-  SerializableFinder get _ageEventItemFinder => find.byValueKey('AgeEventItem__$id');
-  SerializableFinder get _ageFinder => find.byValueKey('AgeEventItem__${id}__age');
-  SerializableFinder get _eventsFinder => find.byValueKey('AgeEventItem__${id}__events');
+
+  SerializableFinder get _ageEventItemFinder =>
+      find.byValueKey('AgeEventItem__$id');
+
+  SerializableFinder get _ageFinder =>
+      find.byValueKey('AgeEventItem__${id}__age');
 
   Future<String> get age async => await driver.getText(_ageFinder);
-  Future<String> get events async => await driver.getText(_eventsFinder);
+
+  Future<List<String>> get events async {
+    List<String> events = [];
+    try {
+      var index = 0;
+      do {
+        events.add(await driver.getText(
+            find.byValueKey('AgeEventItem__${id}__events__${index++}'),
+            timeout: Duration(milliseconds: 500)));
+      } while (true);
+    } catch (_) {}
+
+    return events;
+  }
 
   AgeEventElement(this.driver, this.id);
 
@@ -35,10 +50,10 @@ class AgeEventElement {
 }
 
 Future<bool> widgetExists(
-    FlutterDriver driver,
-    SerializableFinder finder, {
-      Duration timeout,
-    }) async {
+  FlutterDriver driver,
+  SerializableFinder finder, {
+  Duration timeout,
+}) async {
   try {
     await driver.waitFor(finder, timeout: timeout);
 

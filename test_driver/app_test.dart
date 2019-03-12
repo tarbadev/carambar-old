@@ -30,7 +30,7 @@ void main() {
       await characterTab.goTo();
 
       expect(await characterTab.getCharacterName(), isNotEmpty);
-      expect(await characterTab.getCharacterSex(), isNotEmpty);
+      expect(await characterTab.getCharacterGender(), isNotEmpty);
       expect(await characterTab.getCharacterAge(), "0");
       expect(await characterTab.getCharacterAgeCategory(), "Baby");
       expect(await characterTab.getCharacterOrigin(), isNotEmpty);
@@ -44,6 +44,26 @@ void main() {
     setUp(() {
       homeTab = HomeTab(driver);
       characterTab = CharacterTab(driver);
+    });
+
+    test('should display an event with the generated character', () async {
+      await driver.waitUntilNoTransientCallbacks();
+
+      await characterTab.goTo();
+      var characterName = await characterTab.getCharacterName();
+      var characterGender = await characterTab.getCharacterGender() == 'Male' ? 'boy' : 'girl';
+      var characterOrigin = await characterTab.getCharacterOrigin();
+      var expectedEvent = """
+        You just started your life!
+        You're a baby $characterGender named $characterName from $characterOrigin
+      """.trim();
+
+      await homeTab.goTo();
+
+      var ageEventView = homeTab.ageEvent('0');
+      expect(await ageEventView.isVisible, isTrue);
+      expect(await ageEventView.age, 'Age 0');
+      expect(await ageEventView.events, [expectedEvent]);
     });
 
     test('should display an age button that changes the age of the character',

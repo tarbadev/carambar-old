@@ -1,6 +1,8 @@
 import 'package:carambar/service/age_event_service.dart';
 import 'package:carambar/ui/presenter/display_age_event.dart';
 
+enum EventType { NewCharacter }
+
 class AgeEventPresenter {
   final AgeEventService _ageEventService;
 

@@ -94,7 +94,7 @@ class CharacterClientModel {
     return Character(
       firstName: name.first,
       lastName: name.last,
-      sex: gender,
+      gender: gender,
       origin: _mapOriginResponseToDomain[nat],
     );
   }

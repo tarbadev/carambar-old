@@ -6,7 +6,7 @@ enum AgeCategory { baby, child, teen, adult }
 class Character extends Equatable {
   final String firstName;
   final String lastName;
-  final String sex;
+  final String gender;
   final Nationality origin;
   int age;
 
@@ -17,6 +17,6 @@ class Character extends Equatable {
     else return AgeCategory.baby;
   }
 
-  Character({this.firstName, this.lastName, this.sex, this.origin, this.age})
-      : super([firstName, lastName, sex, origin, age]);
+  Character({this.firstName, this.lastName, this.gender, this.origin, this.age})
+      : super([firstName, lastName, gender, origin, age]);
 }

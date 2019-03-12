@@ -8,33 +8,74 @@ import '../mock_definition.dart';
 
 void main() {
   group("AgeEventService", () {
+    List<AgeEvent> existingAgeEvents;
     AgeEventService ageEventService;
 
     setUp(() {
-      ageEventService = AgeEventService(Mocks.ageEventRepository);
       reset(Mocks.ageEventRepository);
+      ageEventService = AgeEventService(Mocks.ageEventRepository);
+
+      existingAgeEvents = [
+        Factory.ageEvent(age: 0, events: []),
+        Factory.ageEvent(age: 1, events: ["An existing event"])
+      ];
     });
 
     test('getAgeEvent returns the events from the repository', () async {
-      final List<AgeEvent> expectedAgeEvents = [Factory.ageEvent(age: 0), Factory.ageEvent(age: 1)];
+      final List<AgeEvent> expectedAgeEvents = existingAgeEvents;
 
-      when(Mocks.ageEventRepository.readAgeEvents()).thenAnswer((_) async => expectedAgeEvents);
+      when(Mocks.ageEventRepository.readAgeEvents())
+          .thenAnswer((_) async => expectedAgeEvents);
 
       expect(await ageEventService.getAgeEvents(), expectedAgeEvents);
     });
 
-    test('getAgeEvent returns an empty list when the repository returns null', () async {
-      when(Mocks.ageEventRepository.readAgeEvents()).thenAnswer((_) async => null);
+    test('getAgeEvent returns an empty list when the repository returns null',
+        () async {
+      when(Mocks.ageEventRepository.readAgeEvents())
+          .thenAnswer((_) async => null);
 
       expect(await ageEventService.getAgeEvents(), []);
     });
 
     test('addEvent adds an event to the current list', () async {
-      when(Mocks.ageEventRepository.readAgeEvents()).thenAnswer((_) async => [Factory.ageEvent(age: 0), Factory.ageEvent(age: 1)]);
+      when(Mocks.ageEventRepository.readAgeEvents())
+          .thenAnswer((_) async => existingAgeEvents);
 
       await ageEventService.addEvent(2);
 
-      verify(Mocks.ageEventRepository.save([Factory.ageEvent(age: 0), Factory.ageEvent(age: 1), Factory.ageEvent(age: 2, events: [])]));
+      verify(Mocks.ageEventRepository.save([
+        existingAgeEvents[0],
+        existingAgeEvents[1],
+        Factory.ageEvent(age: 2, events: [])
+      ]));
+    });
+
+    test('addEvent adds an event to the current list with an event message', () async {
+      when(Mocks.ageEventRepository.readAgeEvents())
+          .thenAnswer((_) async => null);
+
+      var event = "Some Event";
+      await ageEventService.addEvent(0, event: event);
+
+      verify(Mocks.ageEventRepository.save([
+        Factory.ageEvent(age: 0, events: [event])
+      ]));
+    });
+
+    test('addEvent adds an event to the current list of events for this age',
+        () async {
+      var expectedEvent = "Some event";
+
+      when(Mocks.ageEventRepository.readAgeEvents())
+          .thenAnswer((_) async => existingAgeEvents);
+
+      await ageEventService.addEvent(1, event: expectedEvent);
+
+      verify(Mocks.ageEventRepository.save([
+        Factory.ageEvent(age: 0, events: []),
+        Factory.ageEvent(age: 1, events: [existingAgeEvents[1].events[0], expectedEvent]),
+      ]));
     });
   });
 }

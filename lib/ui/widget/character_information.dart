@@ -43,8 +43,8 @@ class CharacterInformation extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      displayCharacter.sex,
-                      key: Key("characterSex"),
+                      displayCharacter.gender,
+                      key: Key("characterGender"),
                     ),
                     Expanded(
                         child: Align(

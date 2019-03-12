@@ -9,8 +9,8 @@ class CharacterTabView extends BaseView {
     return getDataFromTextByKey("characterName");
   }
 
-  String getCharacterSex() {
-    return getDataFromTextByKey("characterSex");
+  String getCharacterGender() {
+    return getDataFromTextByKey("characterGender");
   }
 
   String getCharacterOrigin() {

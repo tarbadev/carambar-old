@@ -8,8 +8,9 @@ class AgeEventList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<AgeEventItem> ageEventItems =
-        displayAgeEvents.map((ageEvent) => AgeEventItem(displayAgeEvent: ageEvent)).toList();
+    final ageEventItems = displayAgeEvents
+        .map((ageEvent) => AgeEventItem(displayAgeEvent: ageEvent))
+        .toList();
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -28,6 +29,10 @@ class AgeEventItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String baseKey = 'AgeEventItem__${displayAgeEvent.id}';
+    var index = 0;
+    final events = displayAgeEvent.events.map((event) {
+      return Text(event, key: Key('${baseKey}__events__$index'));
+    }).toList();
     return Card(
         key: Key(baseKey),
         child: Padding(
@@ -38,8 +43,12 @@ class AgeEventItem extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       displayAgeEvent.age,
-                      textScaleFactor: 1.5,
                       key: Key('${baseKey}__age'),
+                      textScaleFactor: 1.5,
+                    ),
+                    Column(
+                      key: Key('${baseKey}__events'),
+                      children: events,
                     )
                   ],
                 )

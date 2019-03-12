@@ -11,9 +11,7 @@ class CharacterService {
   CharacterService(this._characterRepository, this._characterClient, this._ageEventService);
 
   Future<Character> getCharacter() async {
-    var character = await _characterRepository.readCharacter() ?? await _generateCharacter();
-
-    return character;
+    return await _characterRepository.readCharacter();
   }
 
   Future<void> incrementAge() async {
@@ -25,7 +23,7 @@ class CharacterService {
     await _characterRepository.save(character);
   }
 
-  Future<Character> _generateCharacter() async {
+  Future<Character> generateCharacter() async {
     var character = await _characterClient.generateCharacter();
     character.age = 0;
 
