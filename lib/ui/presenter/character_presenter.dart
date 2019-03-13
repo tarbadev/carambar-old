@@ -15,10 +15,13 @@ class CharacterPresenter {
       character = await _characterService.generateCharacter();
       var displayCharacter = DisplayCharacter.fromCharacter(character);
 
-      var newCharacterEvent = """
-        You just started your life!
-        You're a baby ${displayCharacter.genderChild.toLowerCase()} named ${displayCharacter.name} from ${displayCharacter.origin}
-      """.trim();
+      var newCharacterEvent = '''
+      You just started your life!
+      You're a baby ${displayCharacter.genderChild.toLowerCase()} named ${displayCharacter.name} from ${displayCharacter.origin}
+      '''
+          .split('\n')
+          .map((line) => line.trim())
+          .reduce((line1, line2) => line2.isNotEmpty ? '$line1\n$line2' : line1);
       await _ageEventService.addEvent(character.age, event: newCharacterEvent);
     }
 

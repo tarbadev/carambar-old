@@ -44,11 +44,9 @@ void main() {
       var character = Factory.character(age: 0);
       var expectedDisplayCharacter =
           Factory.displayCharacter(age: "0", ageCategory: 'Baby');
-      var expectedEvent = """
-        You just started your life!
-        You're a baby boy named John Doe from United States
-      """
-          .trim();
+      var line1 = 'You just started your life!';
+      var line2 = 'You\'re a baby boy named John Doe from United States';
+      var expectedEvent = '$line1\n$line2';
 
       when(Mocks.characterService.getCharacter()).thenAnswer((_) async => null);
       when(Mocks.characterService.generateCharacter())

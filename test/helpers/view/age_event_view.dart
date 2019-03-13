@@ -11,7 +11,7 @@ class AgeEventView {
   String get age => (tester.widget(_ageFinder) as Text).data;
   List<String> get events => (tester.widget(_eventsFinder) as Column)
       .children
-      .map((eventText) => (eventText as Text).data)
+      .map((eventPadding) => ((eventPadding as Padding).child as Text).data)
       .toList();
 
   AgeEventView(this.id, this.tester);

@@ -30,14 +30,19 @@ class AgeEventItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final String baseKey = 'AgeEventItem__${displayAgeEvent.id}';
     var index = 0;
-    final events = displayAgeEvent.events.map((event) {
-      return Text(event, key: Key('${baseKey}__events__$index'));
-    }).toList();
+    final events = displayAgeEvent.events
+        .map((event) => event.split('\n'))
+        .reduce((l1, l2) => l1..addAll(l2))
+        .map((event) => Padding(
+            padding: EdgeInsets.only(bottom: 1, top: 1),
+            child: Text(event, key: Key('${baseKey}__events__${index++}'))))
+        .toList();
     return Card(
         key: Key(baseKey),
         child: Padding(
-            padding: EdgeInsets.all(5),
+            padding: EdgeInsets.all(10),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Row(
                   children: <Widget>[
@@ -45,13 +50,18 @@ class AgeEventItem extends StatelessWidget {
                       displayAgeEvent.age,
                       key: Key('${baseKey}__age'),
                       textScaleFactor: 1.5,
-                    ),
-                    Column(
-                      key: Key('${baseKey}__events'),
-                      children: events,
                     )
                   ],
-                )
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    textDirection: TextDirection.ltr,
+                    key: Key('${baseKey}__events'),
+                    children: events,
+                  ),
+                ),
               ],
             )));
   }
