@@ -1,5 +1,3 @@
-import 'package:carambar/domain/entity/character.dart';
-import 'package:carambar/service/character_service.dart';
 import 'package:carambar/ui/presenter/character_presenter.dart';
 import 'package:carambar/ui/presenter/display_character.dart';
 import 'package:carambar/ui/widget/character_information.dart';

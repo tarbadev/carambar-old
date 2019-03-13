@@ -1,6 +1,5 @@
 import 'package:carambar/domain/entity/character.dart';
 import 'package:carambar/service/client/character_client_response.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class CharacterClient {
