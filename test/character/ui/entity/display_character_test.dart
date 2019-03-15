@@ -5,7 +5,7 @@ import '../../../helpers/factory.dart';
 
 void main() {
   group("DisplayCharacter", () {
-    test('fromCharacter generates DisplayCharacter', () async {
+    test('fromCharacter generates DisplayCharacter', () {
       var expectedDisplayCharacter = DisplayCharacter(
         'John Doe',
         'Male',
@@ -20,10 +20,21 @@ void main() {
       expectedDisplayCharacter = DisplayCharacter(
         'John Doe',
         'Male',
+        '4',
+        'United States',
+        'Child',
+        'Kindergarten',
+      );
+
+      expect(DisplayCharacter.fromCharacter(Factory.character(age: 4)), expectedDisplayCharacter);
+
+      expectedDisplayCharacter = DisplayCharacter(
+        'John Doe',
+        'Male',
         '8',
         'United States',
         'Child',
-        'None',
+        'Primary School',
       );
 
       expect(DisplayCharacter.fromCharacter(Factory.character(age: 8)), expectedDisplayCharacter);
@@ -31,10 +42,21 @@ void main() {
       expectedDisplayCharacter = DisplayCharacter(
         'John Doe',
         'Male',
+        '12',
+        'United States',
+        'Teen',
+        'Middle School',
+      );
+
+      expect(DisplayCharacter.fromCharacter(Factory.character(age: 12)), expectedDisplayCharacter);
+
+      expectedDisplayCharacter = DisplayCharacter(
+        'John Doe',
+        'Male',
         '15',
         'United States',
         'Teen',
-        'None',
+        'High School',
       );
 
       expect(DisplayCharacter.fromCharacter(Factory.character(age: 15)), expectedDisplayCharacter);

@@ -104,13 +104,63 @@ void main() {
       expect(await homeTab.ageEvent('3').age, 'Age 3');
     });
 
-//    test('should change school when aging', () async {
-//      await driver.waitUntilNoTransientCallbacks();
-//      await homeTab.goTo();
-//
-//      expect(await homeTab.ageEvent('3').isVisible, isTrue);
-//      expect(await homeTab.ageEvent('3').events, contains('You just started Kindergarten'));
-//    });
+    test('should change school when aging and add event', () async {
+      await driver.waitUntilNoTransientCallbacks();
+      await homeTab.goTo();
+
+      expect(await homeTab.ageEvent('3').isVisible, isTrue);
+      expect(await homeTab.ageEvent('3').events, contains('You just started Kindergarten'));
+
+      await characterTab.goTo();
+      expect(await characterTab.getCharacterSchool(), 'Kindergarten');
+
+      await homeTab.goTo();
+      await homeTab.clickOnAgeButton();
+      await homeTab.clickOnAgeButton();
+      await homeTab.clickOnAgeButton();
+
+      expect(await homeTab.ageEvent('6').isVisible, isTrue);
+      expect(await homeTab.ageEvent('6').events, contains('You just started Primary School'));
+
+      await characterTab.goTo();
+      expect(await characterTab.getCharacterSchool(), 'Primary School');
+
+      await homeTab.goTo();
+      await homeTab.clickOnAgeButton();
+      await homeTab.clickOnAgeButton();
+      await homeTab.clickOnAgeButton();
+      await homeTab.clickOnAgeButton();
+      await homeTab.clickOnAgeButton();
+
+      expect(await homeTab.ageEvent('11').isVisible, isTrue);
+      expect(await homeTab.ageEvent('11').events, contains('You just started Middle School'));
+
+      await characterTab.goTo();
+      expect(await characterTab.getCharacterSchool(), 'Middle School');
+
+      await homeTab.goTo();
+      await homeTab.clickOnAgeButton();
+      await homeTab.clickOnAgeButton();
+      await homeTab.clickOnAgeButton();
+      await homeTab.clickOnAgeButton();
+
+      expect(await homeTab.ageEvent('15').isVisible, isTrue);
+      expect(await homeTab.ageEvent('15').events, contains('You just started High School'));
+
+      await characterTab.goTo();
+      expect(await characterTab.getCharacterSchool(), 'High School');
+
+      await homeTab.goTo();
+      await homeTab.clickOnAgeButton();
+      await homeTab.clickOnAgeButton();
+      await homeTab.clickOnAgeButton();
+
+      expect(await homeTab.ageEvent('18').isVisible, isTrue);
+      expect(await homeTab.ageEvent('18').events, contains('You finished your studies'));
+
+      await characterTab.goTo();
+      expect(await characterTab.getCharacterSchool(), 'None');
+    });
   });
 
   group('Settings Tab', () {
@@ -119,7 +169,7 @@ void main() {
 
       await characterTab.goTo();
 
-      expect(await characterTab.getCharacterAge(), '3');
+      expect(await characterTab.getCharacterAge(), isNot('0'));
 
       await settingsTab.goTo();
       await settingsTab.endLife();

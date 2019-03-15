@@ -35,6 +35,10 @@ class DisplayCharacter extends Equatable {
 
   static final _mapSchoolToDisplaySchool = {
     School.None: 'None',
+    School.Kindergarten: 'Kindergarten',
+    School.PrimarySchool: 'Primary School',
+    School.MiddleSchool: 'Middle School',
+    School.HighSchool: 'High School',
   };
 
   static final _mapNationalityToString = {

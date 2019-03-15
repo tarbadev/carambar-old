@@ -16,14 +16,14 @@ class Factory {
     );
   }
 
-  static DisplayCharacter displayCharacter({age: '18', ageCategory: 'Adult'}) {
+  static DisplayCharacter displayCharacter({age: '18', ageCategory: 'Adult', school: 'None'}) {
     return DisplayCharacter(
       "John Doe",
       "Male",
       age,
       "United States",
       ageCategory,
-      'None',
+      school,
     );
   }
 

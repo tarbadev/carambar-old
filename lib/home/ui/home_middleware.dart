@@ -6,13 +6,13 @@ import 'package:carambar/character/ui/entity/display_character.dart';
 import 'package:carambar/home/domain/service/age_event_service.dart';
 import 'package:carambar/home/ui/entity/display_age_event.dart';
 import 'package:carambar/home/ui/home_actions.dart';
-import 'package:redux/redux.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
+import 'package:redux/redux.dart';
 
 List<Middleware<ApplicationState>> createHomeMiddleware() => [
-  TypedMiddleware<ApplicationState, InitiateStateAction>(_initiateAgeEvents),
-  TypedMiddleware<ApplicationState, IncrementAgeAction>(_incrementAge),
-];
+      TypedMiddleware<ApplicationState, InitiateStateAction>(_initiateAgeEvents),
+      TypedMiddleware<ApplicationState, IncrementAgeAction>(incrementAge),
+    ];
 
 Future _initiateAgeEvents(Store<ApplicationState> store, InitiateStateAction action, NextDispatcher next) async {
   var container = kiwi.Container();
@@ -24,15 +24,28 @@ Future _initiateAgeEvents(Store<ApplicationState> store, InitiateStateAction act
   next(action);
 }
 
-Future _incrementAge(Store<ApplicationState> store, IncrementAgeAction action, NextDispatcher next) async {
+Future incrementAge(Store<ApplicationState> store, IncrementAgeAction action, NextDispatcher next) async {
   var container = kiwi.Container();
   CharacterService _characterService = container.resolve<CharacterService>();
   AgeEventService _ageEventService = container.resolve<AgeEventService>();
 
-  var character = await _characterService.incrementAge();
-  var ageEvents = await _ageEventService.addEvent(character.age);
+  String originalSchool = store.state.character.school;
 
-  store.dispatch(SetCharacterAction(DisplayCharacter.fromCharacter(character)));
+  var character = await _characterService.incrementAge();
+  var newDisplayCharacter = DisplayCharacter.fromCharacter(character);
+  var event;
+
+  if (newDisplayCharacter.school != originalSchool) {
+    if (newDisplayCharacter.school == 'None') {
+      event = 'You finished your studies';
+    } else {
+      event = 'You just started ${newDisplayCharacter.school}';
+    }
+  }
+
+  var ageEvents = await _ageEventService.addEvent(character.age, event: event);
+
+  store.dispatch(SetCharacterAction(newDisplayCharacter));
   store.dispatch(SetAgeEventsAction(ageEvents.map((ageEvent) => DisplayAgeEvent.fromAgeEvent(ageEvent)).toList()));
 
   next(action);
