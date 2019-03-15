@@ -10,11 +10,11 @@ import 'package:kiwi/kiwi.dart' as kiwi;
 import 'package:redux/redux.dart';
 
 List<Middleware<ApplicationState>> createHomeMiddleware() => [
-      TypedMiddleware<ApplicationState, InitiateStateAction>(_initiateAgeEvents),
+      TypedMiddleware<ApplicationState, InitiateStateAction>(initiateAgeEvents),
       TypedMiddleware<ApplicationState, IncrementAgeAction>(incrementAge),
     ];
 
-Future _initiateAgeEvents(Store<ApplicationState> store, InitiateStateAction action, NextDispatcher next) async {
+Future initiateAgeEvents(Store<ApplicationState> store, InitiateStateAction action, NextDispatcher next) async {
   var container = kiwi.Container();
   var _ageEventService = container<AgeEventService>();
   var ageEvents = await _ageEventService.getAgeEvents();

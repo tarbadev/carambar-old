@@ -1,7 +1,7 @@
+import 'package:carambar/application/ui/application_actions.dart';
 import 'package:carambar/application/ui/application_state.dart';
 import 'package:carambar/character/ui/character_actions.dart';
 import 'package:carambar/character/ui/entity/display_character.dart';
-import 'package:carambar/home/ui/entity/display_age_event.dart';
 import 'package:carambar/home/ui/home_actions.dart';
 import 'package:carambar/home/ui/home_middleware.dart';
 import 'package:mockito/mockito.dart';
@@ -68,8 +68,7 @@ void main() {
         await incrementAge(mockStore, incrementAgeAction, next);
 
         verify(Mocks.ageEventService.addEvent(18, event: null));
-        verify(mockStore.dispatch(
-            SetAgeEventsAction(ageEvents.map((ageEvent) => DisplayAgeEvent.fromAgeEvent(ageEvent)).toList())));
+        verify(mockStore.dispatch(SetAgeEventsAction(Factory.ageEventsToDisplayAgeEvents(ageEvents))));
         verify(mockNext.next(incrementAgeAction));
       });
 
@@ -77,7 +76,9 @@ void main() {
         var incrementAgeAction = IncrementAgeAction();
         var originalDisplayCharacter = Factory.displayCharacter(age: '2');
         var character = Factory.character(age: 3);
-        var ageEvents = [Factory.ageEvent(age: 3, events: ['You just started Kindergarten'])];
+        var ageEvents = [
+          Factory.ageEvent(age: 3, events: ['You just started Kindergarten'])
+        ];
 
         when(mockApplicationState.character).thenReturn(originalDisplayCharacter);
         when(Mocks.characterService.incrementAge()).thenAnswer((_) async => character);
@@ -92,7 +93,9 @@ void main() {
         var incrementAgeAction = IncrementAgeAction();
         var originalDisplayCharacter = Factory.displayCharacter(age: '17', school: 'High School');
         var character = Factory.character(age: 18);
-        var ageEvents = [Factory.ageEvent(age: 18, events: ['You finished your studies'])];
+        var ageEvents = [
+          Factory.ageEvent(age: 18, events: ['You finished your studies'])
+        ];
 
         when(mockApplicationState.character).thenReturn(originalDisplayCharacter);
         when(Mocks.characterService.incrementAge()).thenAnswer((_) async => character);
@@ -102,6 +105,18 @@ void main() {
 
         verify(Mocks.ageEventService.addEvent(18, event: 'You finished your studies'));
       });
+    });
+
+    test('initiateAgeEvents retrieves the ageEvents and stores them in the state', () async {
+      var initiateStateAction = InitiateStateAction();
+      var ageEvents = [Factory.ageEvent(age: 18, events: [])];
+
+      when(Mocks.ageEventService.getAgeEvents()).thenAnswer((_) async => ageEvents);
+
+      await initiateAgeEvents(mockStore, initiateStateAction, next);
+
+      verify(mockStore.dispatch(SetAgeEventsAction(Factory.ageEventsToDisplayAgeEvents(ageEvents))));
+      verify(mockNext.next(initiateStateAction));
     });
   });
 }
