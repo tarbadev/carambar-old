@@ -33,32 +33,24 @@ class _HomeTabState extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, mainAxisSize: MainAxisSize.max, children: <Widget>[
-        FutureBuilder<List<DisplayAgeEvent>>(
-            future: _ageEventPresenter.getDisplayAgeEvents(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                return AgeEventList(displayAgeEvents: snapshot.data);
-              } else {
-                return Text("Loading...");
-              }
-            }),
-        Expanded(
-          child: Align(
-            alignment: FractionalOffset.bottomCenter,
-            child: MaterialButton(
-              key: Key("ageButton"),
-              color: Colors.lightBlue,
-              onPressed: _onAgeButtonClick,
-              child: Text(
-                "Age",
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ),
+      body: FutureBuilder<List<DisplayAgeEvent>>(
+          future: _ageEventPresenter.getDisplayAgeEvents(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return AgeEventList(displayAgeEvents: snapshot.data);
+            } else {
+              return Text("Loading...");
+            }
+          }),
+      bottomNavigationBar: MaterialButton(
+        key: Key("ageButton"),
+        color: Colors.lightBlue,
+        onPressed: _onAgeButtonClick,
+        child: Text(
+          "Age",
+          style: TextStyle(color: Colors.white),
         ),
-      ])),
+      ),
     );
   }
 }
