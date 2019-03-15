@@ -7,4 +7,4 @@ class SetAgeEventsAction extends Equatable {
   SetAgeEventsAction(this.displayAgeEvents): super([displayAgeEvents]);
 }
 
-class IncrementAgeAction {}
+class IncrementAgeAction extends Equatable {}

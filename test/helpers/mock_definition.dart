@@ -4,6 +4,7 @@ import 'package:carambar/character/domain/service/client/character_client.dart';
 import 'package:carambar/character/repository/character_repository.dart';
 import 'package:carambar/home/domain/service/age_event_service.dart';
 import 'package:carambar/home/repository/age_event_repository.dart';
+import 'package:carambar/home/ui/entity/display_age_event.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 import 'package:redux/redux.dart';
@@ -41,12 +42,17 @@ class Mocks {
   static final NextDispatcher next = (dynamic action) => mockNext.next(action);
   static final ApplicationState mockApplicationState = MockApplicationState();
 
-  static setupMockStore() {
+  static setupMockStore({List<DisplayAgeEvent> displayAgeEvents}) {
+    if (displayAgeEvents == null) {
+      displayAgeEvents = [Factory.displayAgeEvent()];
+    }
     reset(mockStore);
     reset(mockApplicationState);
     reset(mockNext);
 
     when(mockStore.state).thenReturn(mockApplicationState);
+    when(mockStore.onChange).thenAnswer((_) => Stream.empty());
     when(mockApplicationState.character).thenReturn(Factory.displayCharacter());
+    when(mockApplicationState.ageEvents).thenReturn(displayAgeEvents);
   }
 }

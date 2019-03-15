@@ -1,16 +1,18 @@
+import 'package:carambar/settings/ui/settings_actions.dart';
 import 'package:carambar/settings/ui/tab/settings_tab.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../../helpers/fake_application_injector.dart';
 import '../../../helpers/mock_definition.dart';
 import '../../../helpers/testable_widget.dart';
 import '../../../helpers/view/settings_tab_view.dart';
 
 void main() {
-  setupDependencyInjectorForTest();
+  setUp(() {
+    Mocks.setupMockStore();
+  });
 
-  testWidgets('Settings Tab calls endLife when "End Life" button is pressed',
+  testWidgets('Settings Tab dispatches an endLife action when "End Life" button is pressed',
       (WidgetTester tester) async {
     var settingsTabView = SettingsTabView(tester);
     await tester.pumpWidget(buildTestableWidget(SettingsTab()));
@@ -23,7 +25,6 @@ void main() {
 
     expect(settingsTabView.endLifeDialog.isVisible, isFalse);
 
-    verify(Mocks.characterService.deleteCharacter());
-    verify(Mocks.ageEventService.deleteAgeEvents());
+    verify(Mocks.mockStore.dispatch(EndLifeAction()));
   });
 }

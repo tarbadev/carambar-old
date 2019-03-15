@@ -7,10 +7,10 @@ import 'package:kiwi/kiwi.dart' as kiwi;
 import 'package:redux/redux.dart';
 
 List<Middleware<ApplicationState>> createSettingsMiddleware() => [
-  TypedMiddleware<ApplicationState, EndLifeAction>(_endLife),
+  TypedMiddleware<ApplicationState, EndLifeAction>(endLife),
 ];
 
-Future _endLife(Store<ApplicationState> store, EndLifeAction action, NextDispatcher next) async {
+Future endLife(Store<ApplicationState> store, EndLifeAction action, NextDispatcher next) async {
   var container = kiwi.Container();
   CharacterService _characterService = container.resolve<CharacterService>();
   AgeEventService _ageEventService = container.resolve<AgeEventService>();
