@@ -12,7 +12,7 @@ import '../../../helpers/testable_widget.dart';
 import '../../../helpers/view/home_tab_view.dart';
 
 void main() {
-  setupWidgetTest();
+  setupDependencyInjectorForTest();
 
   testWidgets('home shows a button Age that calls the incrementAge method from characterService',
       (WidgetTester tester) async {

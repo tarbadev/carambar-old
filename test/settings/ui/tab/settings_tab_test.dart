@@ -8,7 +8,7 @@ import '../../../helpers/testable_widget.dart';
 import '../../../helpers/view/settings_tab_view.dart';
 
 void main() {
-  setupWidgetTest();
+  setupDependencyInjectorForTest();
 
   testWidgets('Settings Tab calls endLife when "End Life" button is pressed',
       (WidgetTester tester) async {

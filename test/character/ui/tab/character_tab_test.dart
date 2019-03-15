@@ -7,7 +7,7 @@ import '../../../helpers/fake_application_injector.dart';
 import '../../../helpers/testable_widget.dart';
 
 void main() {
-  setupWidgetTest();
+  setupDependencyInjectorForTest();
 
   testWidgets('character tab shows a the character informations',
       (WidgetTester tester) async {

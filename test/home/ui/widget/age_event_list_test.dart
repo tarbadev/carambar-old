@@ -7,7 +7,7 @@ import '../../../helpers/testable_widget.dart';
 import '../../../helpers/view/age_event_view.dart';
 
 void main() {
-  setupWidgetTest();
+  setupDependencyInjectorForTest();
 
   testWidgets('home shows a the character informations',
       (WidgetTester tester) async {

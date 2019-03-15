@@ -10,10 +10,10 @@ import 'package:redux/redux.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 
 List<Middleware<ApplicationState>> createCharacterMiddleware() => [
-  TypedMiddleware<ApplicationState, InitiateStateAction>(_initiateCharacter),
+  TypedMiddleware<ApplicationState, InitiateStateAction>(initiateCharacter),
 ];
 
-Future _initiateCharacter(Store<ApplicationState> store, InitiateStateAction action, NextDispatcher next) async {
+Future initiateCharacter(Store<ApplicationState> store, InitiateStateAction action, NextDispatcher next) async {
   var container = kiwi.Container();
   CharacterService _characterService = container.resolve<CharacterService>();
   AgeEventService _ageEventService = container.resolve<AgeEventService>();
