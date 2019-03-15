@@ -1,5 +1,5 @@
-import 'package:carambar/ui/entity/display_age_event.dart';
-import 'package:carambar/ui/widget/age_event_list.dart';
+import 'package:carambar/home/ui/entity/display_age_event.dart';
+import 'package:carambar/home/ui/widget/age_event_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 

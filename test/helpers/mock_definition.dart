@@ -1,0 +1,27 @@
+import 'package:carambar/home/repository/age_event_repository.dart';
+import 'package:carambar/character/repository/character_repository.dart';
+import 'package:carambar/home/domain/service/age_event_service.dart';
+import 'package:carambar/character/domain/service/character_service.dart';
+import 'package:carambar/character/domain/service/client/character_client.dart';
+import 'package:http/http.dart' as http;
+import 'package:mockito/mockito.dart';
+
+class MockCharacterService extends Mock implements CharacterService {}
+class MockCharacterClient extends Mock implements CharacterClient {}
+class MockCharacterRepository extends Mock implements CharacterRepository {}
+
+class MockAgeEventService extends Mock implements AgeEventService {}
+class MockAgeEventRepository extends Mock implements AgeEventRepository {}
+
+class MockClient extends Mock implements http.Client {}
+
+class Mocks {
+  static final CharacterService characterService = MockCharacterService();
+  static final CharacterClient characterClient = MockCharacterClient();
+  static final CharacterRepository characterRepository = MockCharacterRepository();
+
+  static final AgeEventService ageEventService = MockAgeEventService();
+  static final AgeEventRepository ageEventRepository = MockAgeEventRepository();
+
+  static final http.Client client = MockClient();
+}

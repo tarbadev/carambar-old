@@ -1,16 +1,16 @@
-import 'package:carambar/actions.dart';
-import 'package:carambar/domain/entity/age_event.dart';
-import 'package:carambar/domain/entity/character.dart';
-import 'package:carambar/global_reducer.dart';
-import 'package:carambar/global_state.dart';
-import 'package:carambar/middleware.dart';
+import 'package:carambar/application/ui/application_actions.dart';
+import 'package:carambar/home/domain/entity/age_event.dart';
+import 'package:carambar/character/domain/entity/character.dart';
+import 'package:carambar/application/ui/application_reducer.dart';
+import 'package:carambar/application/ui/application_state.dart';
+import 'package:carambar/application/ui/application_middleware.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:mockito/mockito.dart';
 import 'package:redux/redux.dart';
 
-import '../factory.dart';
-import '../mock_definition.dart';
+import 'factory.dart';
+import 'mock_definition.dart';
 
 Widget buildTestableWidget(Widget widget, {List<AgeEvent> ageEvents, Character character}) {
   if(ageEvents == null) {
@@ -34,13 +34,13 @@ class _FakeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final store =
-        Store<GlobalState>(globalReducer, initialState: GlobalState.initial(), middleware: createStoreMiddleware());
+        Store<ApplicationState>(applicationReducer, initialState: ApplicationState.initial(), middleware: createApplicationMiddleware());
 
     store.dispatch(InitiateStateAction());
 
     return MediaQuery(
       data: MediaQueryData(),
-      child: StoreProvider<GlobalState>(
+      child: StoreProvider<ApplicationState>(
         store: store,
         child: MaterialApp(home: child),
       ),
