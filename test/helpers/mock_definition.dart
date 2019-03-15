@@ -2,6 +2,7 @@ import 'package:carambar/application/ui/application_state.dart';
 import 'package:carambar/character/domain/service/character_service.dart';
 import 'package:carambar/character/domain/service/client/character_client.dart';
 import 'package:carambar/character/repository/character_repository.dart';
+import 'package:carambar/character/ui/entity/display_character.dart';
 import 'package:carambar/home/domain/service/age_event_service.dart';
 import 'package:carambar/home/repository/age_event_repository.dart';
 import 'package:carambar/home/ui/entity/display_age_event.dart';
@@ -42,9 +43,15 @@ class Mocks {
   static final NextDispatcher next = (dynamic action) => mockNext.next(action);
   static final ApplicationState mockApplicationState = MockApplicationState();
 
-  static setupMockStore({List<DisplayAgeEvent> displayAgeEvents}) {
+  static setupMockStore({List<DisplayAgeEvent> displayAgeEvents, bool isEndLifeDialogVisible, DisplayCharacter displayCharacter}) {
     if (displayAgeEvents == null) {
       displayAgeEvents = [Factory.displayAgeEvent()];
+    }
+    if (isEndLifeDialogVisible == null) {
+      isEndLifeDialogVisible = false;
+    }
+    if (displayCharacter == null) {
+      displayCharacter = Factory.displayCharacter();
     }
     reset(mockStore);
     reset(mockApplicationState);
@@ -52,7 +59,8 @@ class Mocks {
 
     when(mockStore.state).thenReturn(mockApplicationState);
     when(mockStore.onChange).thenAnswer((_) => Stream.empty());
-    when(mockApplicationState.character).thenReturn(Factory.displayCharacter());
+    when(mockApplicationState.character).thenReturn(displayCharacter);
     when(mockApplicationState.ageEvents).thenReturn(displayAgeEvents);
+    when(mockApplicationState.isEndLifeDialogVisible).thenReturn(isEndLifeDialogVisible);
   }
 }

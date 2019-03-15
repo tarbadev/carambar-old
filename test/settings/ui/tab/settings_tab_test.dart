@@ -12,19 +12,51 @@ void main() {
     Mocks.setupMockStore();
   });
 
-  testWidgets('Settings Tab dispatches an endLife action when "End Life" button is pressed',
+  testWidgets('Settings Tab dispatches a SetEndLifeDialogVisibleAction when "End Life" button is pressed',
       (WidgetTester tester) async {
     var settingsTabView = SettingsTabView(tester);
-    await tester.pumpWidget(buildTestableWidget(SettingsTab()));
+    await tester.pumpWidget(buildTestableWidget(SettingsTab(), isEndLifeDialogVisible: false));
 
     expect(settingsTabView.endLifeDialog.isVisible, isFalse);
 
     await settingsTabView.clickOnEndLifeButton();
+
+    verify(Mocks.mockStore.dispatch(SetEndLifeDialogVisibleAction(true)));
+  });
+
+  testWidgets('Settings Tab dispatches an EndLifeAction when confirm button is pressed',
+      (WidgetTester tester) async {
+    var settingsTabView = SettingsTabView(tester);
+    await tester.pumpWidget(buildTestableWidget(SettingsTab(), isEndLifeDialogVisible: true));
+    await tester.pump();
+
     expect(settingsTabView.endLifeDialog.isVisible, isTrue);
     await settingsTabView.endLifeDialog.confirmEndLife();
 
-    expect(settingsTabView.endLifeDialog.isVisible, isFalse);
-
     verify(Mocks.mockStore.dispatch(EndLifeAction()));
+  });
+
+  testWidgets('Settings Tab dispatches an SetEndLifeDialogVisibleAction when confirm button is pressed',
+      (WidgetTester tester) async {
+    var settingsTabView = SettingsTabView(tester);
+    await tester.pumpWidget(buildTestableWidget(SettingsTab(), isEndLifeDialogVisible: true));
+    await tester.pump();
+
+    expect(settingsTabView.endLifeDialog.isVisible, isTrue);
+    await settingsTabView.endLifeDialog.confirmEndLife();
+
+    verify(Mocks.mockStore.dispatch(SetEndLifeDialogVisibleAction(false)));
+  });
+
+  testWidgets('Settings Tab dispatches an SetEndLifeDialogVisibleAction when cancel button is pressed',
+      (WidgetTester tester) async {
+    var settingsTabView = SettingsTabView(tester);
+    await tester.pumpWidget(buildTestableWidget(SettingsTab(), isEndLifeDialogVisible: true));
+    await tester.pump();
+
+    expect(settingsTabView.endLifeDialog.isVisible, isTrue);
+    await settingsTabView.endLifeDialog.cancelEndLife();
+
+    verify(Mocks.mockStore.dispatch(SetEndLifeDialogVisibleAction(false)));
   });
 }

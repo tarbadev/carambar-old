@@ -24,6 +24,7 @@ class EndLifeDialogElement {
   Finder get _dialogFinder => find.byType(AlertDialog);
 
   Finder get _confirmButtonFinder => find.byKey(Key('endLifeConfirmButton'));
+  Finder get _cancelButtonFinder => find.byKey(Key('endLifeCancelButton'));
 
   bool get isVisible {
     try {
@@ -36,6 +37,11 @@ class EndLifeDialogElement {
 
   Future<void> confirmEndLife() async {
     await _tester.tap(_confirmButtonFinder);
+    await _tester.pump();
+  }
+
+  Future<void> cancelEndLife() async {
+    await _tester.tap(_cancelButtonFinder);
     await _tester.pump();
   }
 }

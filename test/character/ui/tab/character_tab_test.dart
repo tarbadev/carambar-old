@@ -7,10 +7,9 @@ import '../../../helpers/testable_widget.dart';
 
 void main() {
   testWidgets('character tab shows a the character informations', (WidgetTester tester) async {
-    var character = Factory.character();
     var displayCharacter = Factory.displayCharacter();
 
-    await tester.pumpWidget(buildTestableWidget(CharacterTab(), character: character));
+    await tester.pumpWidget(buildTestableWidget(CharacterTab(), displayCharacter: displayCharacter));
 
     var characterInformationFinder = find.byType(CharacterInformation);
     expect(characterInformationFinder, findsOneWidget);

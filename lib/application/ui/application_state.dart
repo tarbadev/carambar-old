@@ -5,8 +5,9 @@ class ApplicationState {
   final int currentTab;
   final DisplayCharacter character;
   final List<DisplayAgeEvent> ageEvents;
+  final bool isEndLifeDialogVisible;
 
-  ApplicationState(this.currentTab, this.character, this.ageEvents);
+  ApplicationState(this.currentTab, this.character, this.ageEvents, this.isEndLifeDialogVisible);
 
-  factory ApplicationState.initial() => ApplicationState(0, null, []);
+  factory ApplicationState.initial() => ApplicationState(0, null, [], false);
 }

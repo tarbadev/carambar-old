@@ -6,4 +6,4 @@ final Reducer<DisplayCharacter> setCharacterReducer = combineReducers([
   TypedReducer<DisplayCharacter, SetCharacterAction>(_setCharacter),
 ]);
 
-DisplayCharacter _setCharacter(DisplayCharacter currentTab, SetCharacterAction action) => action.displayCharacter;
+DisplayCharacter _setCharacter(DisplayCharacter currentDisplayCharacter, SetCharacterAction action) => action.displayCharacter;
