@@ -1,5 +1,5 @@
 import 'package:carambar/actions.dart';
-import 'package:carambar/store.dart';
+import 'package:carambar/global_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
@@ -69,6 +69,5 @@ class _SettingsTabModel {
   factory _SettingsTabModel.create(Store<GlobalState> store) =>
       _SettingsTabModel(() {
         store.dispatch(EndLifeAction());
-        store.dispatch(SelectHomeTabAction());
       });
 }

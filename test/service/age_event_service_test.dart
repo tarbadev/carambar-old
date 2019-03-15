@@ -39,43 +39,48 @@ void main() {
     });
 
     test('addEvent adds an event to the current list', () async {
-      when(Mocks.ageEventRepository.readAgeEvents())
-          .thenAnswer((_) async => existingAgeEvents);
-
-      await ageEventService.addEvent(2);
-
-      verify(Mocks.ageEventRepository.save([
+      var ageEvents = [
         existingAgeEvents[0],
         existingAgeEvents[1],
         Factory.ageEvent(age: 2, events: [])
-      ]));
+      ];
+
+      when(Mocks.ageEventRepository.readAgeEvents())
+          .thenAnswer((_) async => existingAgeEvents);
+
+      expect(await ageEventService.addEvent(2), ageEvents);
+
+      verify(Mocks.ageEventRepository.save(ageEvents));
     });
 
     test('addEvent adds an event to the current list with an event message', () async {
+      var event = "Some Event";
+      var ageEvents = [
+        Factory.ageEvent(age: 0, events: [event])
+      ];
+
       when(Mocks.ageEventRepository.readAgeEvents())
           .thenAnswer((_) async => null);
 
-      var event = "Some Event";
-      await ageEventService.addEvent(0, event: event);
+      expect(await ageEventService.addEvent(0, event: event), ageEvents);
 
-      verify(Mocks.ageEventRepository.save([
-        Factory.ageEvent(age: 0, events: [event])
-      ]));
+      verify(Mocks.ageEventRepository.save(ageEvents));
     });
 
     test('addEvent adds an event to the current list of events for this age',
         () async {
       var expectedEvent = "Some event";
+      var ageEvents = [
+        Factory.ageEvent(age: 0, events: []),
+        Factory.ageEvent(age: 1, events: [existingAgeEvents[1].events[0], expectedEvent]),
+      ];
 
       when(Mocks.ageEventRepository.readAgeEvents())
           .thenAnswer((_) async => existingAgeEvents);
 
-      await ageEventService.addEvent(1, event: expectedEvent);
+      expect(await ageEventService.addEvent(1, event: expectedEvent), ageEvents);
 
-      verify(Mocks.ageEventRepository.save([
-        Factory.ageEvent(age: 0, events: []),
-        Factory.ageEvent(age: 1, events: [existingAgeEvents[1].events[0], expectedEvent]),
-      ]));
+      verify(Mocks.ageEventRepository.save(ageEvents));
     });
 
     test('deleteAgeEvents calls the repository to delete the ageEvents', () async {

@@ -1,4 +1,4 @@
-import 'package:carambar/ui/presenter/display_character.dart';
+import 'package:carambar/ui/entity/display_character.dart';
 import 'package:test_api/test_api.dart';
 
 import '../../factory.dart';

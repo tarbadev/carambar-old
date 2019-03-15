@@ -114,6 +114,8 @@ void main() {
 
       await settingsTab.goTo();
       await settingsTab.endLife();
+
+      expect(await homeTab.isVisible, isTrue);
       await characterTab.goTo();
 
       expect(await characterTab.getCharacterAge(), "0");

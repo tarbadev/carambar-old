@@ -1,56 +1,42 @@
-import 'package:carambar/ui/presenter/age_event_presenter.dart';
-import 'package:carambar/ui/presenter/character_presenter.dart';
-import 'package:carambar/ui/presenter/display_age_event.dart';
+import 'package:carambar/actions.dart';
+import 'package:carambar/global_state.dart';
+import 'package:carambar/ui/entity/display_age_event.dart';
 import 'package:carambar/ui/widget/age_event_list.dart';
 import 'package:flutter/material.dart';
-import 'package:kiwi/kiwi.dart' as kiwi;
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
 
-class HomeTab extends StatefulWidget {
+class HomeTab extends StatelessWidget {
   HomeTab({Key key}) : super(key: key);
 
   @override
-  _HomeTabState createState() => _HomeTabState();
-}
-
-class _HomeTabState extends State<HomeTab> {
-  CharacterPresenter _characterPresenter;
-  AgeEventPresenter _ageEventPresenter;
-
-  @override
-  void initState() {
-    super.initState();
-
-    var container = kiwi.Container();
-    _characterPresenter = container.resolve<CharacterPresenter>();
-    _ageEventPresenter = container.resolve<AgeEventPresenter>();
-  }
-
-  void _onAgeButtonClick() async {
-    await _characterPresenter.incrementAge();
-    setState(() {});
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: FutureBuilder<List<DisplayAgeEvent>>(
-          future: _ageEventPresenter.getDisplayAgeEvents(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              return AgeEventList(displayAgeEvents: snapshot.data);
-            } else {
-              return Text("Loading...");
-            }
-          }),
-      bottomNavigationBar: MaterialButton(
-        key: Key("ageButton"),
-        color: Colors.lightBlue,
-        onPressed: _onAgeButtonClick,
-        child: Text(
-          "Age",
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
+    return StoreConnector<GlobalState, _HomeTabModel>(
+      converter: (Store<GlobalState> store) => _HomeTabModel.create(store),
+      builder: (BuildContext context, _HomeTabModel viewModel) => Scaffold(
+            body: viewModel.ageEvents.isNotEmpty
+                ? AgeEventList(displayAgeEvents: viewModel.ageEvents)
+                : Text("Loading..."),
+            bottomNavigationBar: MaterialButton(
+              key: Key("ageButton"),
+              color: Colors.lightBlue,
+              onPressed: viewModel.onAgeButtonTapped,
+              child: Text(
+                "Age",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
     );
   }
+}
+
+class _HomeTabModel {
+  final List<DisplayAgeEvent> ageEvents;
+  final Function() onAgeButtonTapped;
+
+  _HomeTabModel(this.ageEvents, this.onAgeButtonTapped);
+
+  factory _HomeTabModel.create(Store<GlobalState> store) =>
+      _HomeTabModel(store.state.ageEvents, () => store.dispatch(IncrementAgeAction()));
 }

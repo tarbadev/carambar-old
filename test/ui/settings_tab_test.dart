@@ -8,7 +8,7 @@ import '../helpers/view/settings_tab_view.dart';
 import '../mock_definition.dart';
 
 void main() {
-  setupTest();
+  setupWidgetTest();
 
   testWidgets('Settings Tab calls endLife when "End Life" button is pressed',
       (WidgetTester tester) async {
@@ -23,6 +23,7 @@ void main() {
 
     expect(settingsTabView.endLifeDialog.isVisible, isFalse);
 
-    verify(Mocks.characterPresenter.endLife());
+    verify(Mocks.characterService.deleteCharacter());
+    verify(Mocks.ageEventService.deleteAgeEvents());
   });
 }

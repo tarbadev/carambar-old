@@ -10,7 +10,7 @@ void main() {
     CharacterService characterService;
 
     setUp(() {
-      characterService = CharacterService(Mocks.characterRepository, Mocks.characterClient, Mocks.ageEventService);
+      characterService = CharacterService(Mocks.characterRepository, Mocks.characterClient);
       reset(Mocks.characterRepository);
       reset(Mocks.characterClient);
     });
@@ -38,20 +38,10 @@ void main() {
 
       when(Mocks.characterRepository.readCharacter()).thenAnswer((_) async => character);
 
-      await characterService.incrementAge();
-
       character.age = 1;
+
+      expect(await characterService.incrementAge(), character);
       verify(Mocks.characterRepository.save(character));
-    });
-
-    test('incrementAge adds an event', () async {
-      final character = Factory.character(age: 1);
-
-      when(Mocks.characterRepository.readCharacter()).thenAnswer((_) async => character);
-
-      await characterService.incrementAge();
-
-      verify(Mocks.ageEventService.addEvent(2));
     });
 
     test('deleteCharacter calls the repository to delete the character', () async {

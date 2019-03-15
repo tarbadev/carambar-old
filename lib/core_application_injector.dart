@@ -3,8 +3,6 @@ import 'package:carambar/repository/character_repository.dart';
 import 'package:carambar/service/age_event_service.dart';
 import 'package:carambar/service/character_service.dart';
 import 'package:carambar/service/client/character_client.dart';
-import 'package:carambar/ui/presenter/age_event_presenter.dart';
-import 'package:carambar/ui/presenter/character_presenter.dart';
 import 'package:kiwi/kiwi.dart';
 
 part 'core_application_injector.g.dart';
@@ -16,10 +14,8 @@ abstract class CoreApplicationInjector {
 
   @Register.factory(AgeEventRepository, resolvers: {String: 'ageEventsFileName'})
   @Register.factory(AgeEventService)
-  @Register.factory(AgeEventPresenter)
   @Register.factory(CharacterRepository, resolvers: {String: 'characterFileName'})
   @Register.factory(CharacterService)
-  @Register.factory(CharacterPresenter)
   void configureAnnotations();
 }
 

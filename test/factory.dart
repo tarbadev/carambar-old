@@ -2,8 +2,8 @@ import 'package:carambar/domain/entity/age_event.dart';
 import 'package:carambar/domain/entity/character.dart';
 import 'package:carambar/domain/entity/nationality.dart';
 import 'package:carambar/service/client/character_client_response.dart';
-import 'package:carambar/ui/presenter/display_age_event.dart';
-import 'package:carambar/ui/presenter/display_character.dart';
+import 'package:carambar/ui/entity/display_age_event.dart';
+import 'package:carambar/ui/entity/display_character.dart';
 
 class Factory {
   static Character character({int age: 18}) {

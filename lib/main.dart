@@ -1,7 +1,7 @@
 import 'package:carambar/actions.dart';
 import 'package:carambar/application_injector.dart';
 import 'package:carambar/middleware.dart';
-import 'package:carambar/store.dart';
+import 'package:carambar/global_state.dart';
 import 'package:carambar/ui/character_tab.dart';
 import 'package:carambar/ui/home_tab.dart';
 import 'package:carambar/ui/settings_tab.dart';
@@ -29,6 +29,8 @@ class CarambarApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _store.dispatch(InitiateStateAction());
+
     return StoreProvider<GlobalState>(
         store: _store,
         child: MaterialApp(
@@ -93,8 +95,9 @@ class _MainPageModel {
 
   _MainPageModel(this.selectedTab, this.onTabTapped);
 
-  StatefulWidget getTab() => tabs.elementAt(selectedTab);
+  Widget getTab() => tabs.elementAt(selectedTab);
 
-  factory _MainPageModel.create(Store<GlobalState> store) =>
-      _MainPageModel(store.state.currentTab, (int index) => store.dispatch(SelectTabAction(index)));
+  factory _MainPageModel.create(Store<GlobalState> store) {
+    return _MainPageModel(store.state.currentTab, (int index) => store.dispatch(SelectTabAction(index)));
+  }
 }

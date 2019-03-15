@@ -1,39 +1,31 @@
-import 'package:carambar/ui/presenter/character_presenter.dart';
-import 'package:carambar/ui/presenter/display_character.dart';
+import 'package:carambar/global_state.dart';
+import 'package:carambar/ui/entity/display_character.dart';
 import 'package:carambar/ui/widget/character_information.dart';
 import 'package:flutter/material.dart';
-import 'package:kiwi/kiwi.dart' as kiwi;
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
 
-class CharacterTab extends StatefulWidget {
+class CharacterTab extends StatelessWidget {
   CharacterTab({Key key}) : super(key: key);
 
   @override
-  _CharacterTabState createState() => _CharacterTabState();
-}
-
-class _CharacterTabState extends State<CharacterTab> {
-  CharacterPresenter _characterPresenter;
-
-  @override
-  void initState() {
-    super.initState();
-
-    var container = kiwi.Container();
-    _characterPresenter = container.resolve<CharacterPresenter>();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Container(
-      child: FutureBuilder<DisplayCharacter>(
-          future: _characterPresenter.getDisplayCharacter(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              return CharacterInformation(displayCharacter: snapshot.data);
-            } else {
-              return Text("Loading...");
-            }
-          }),
+    return StoreConnector<GlobalState, _CharacterTabModel>(
+      converter: (Store<GlobalState> store) => _CharacterTabModel.create(store),
+      builder: (BuildContext context, _CharacterTabModel viewModel) => Container(
+          child: viewModel.displayCharacter != null
+              ? CharacterInformation(displayCharacter: viewModel.displayCharacter)
+              : Text("Loading...")),
     );
   }
+}
+
+class _CharacterTabModel {
+  final DisplayCharacter displayCharacter;
+
+  _CharacterTabModel(this.displayCharacter);
+
+  factory _CharacterTabModel.create(Store<GlobalState> store) => _CharacterTabModel(
+        store.state.character,
+      );
 }

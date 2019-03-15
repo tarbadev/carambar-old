@@ -6,21 +6,20 @@ import 'package:carambar/service/client/character_client.dart';
 class CharacterService {
   final CharacterRepository _characterRepository;
   final CharacterClient _characterClient;
-  final AgeEventService _ageEventService;
 
-  CharacterService(this._characterRepository, this._characterClient, this._ageEventService);
+  CharacterService(this._characterRepository, this._characterClient);
 
   Future<Character> getCharacter() async {
     return await _characterRepository.readCharacter();
   }
 
-  Future<void> incrementAge() async {
+  Future<Character> incrementAge() async {
     Character character = await _characterRepository.readCharacter();
     character.age++;
 
-    await _ageEventService.addEvent(character.age);
-
     await _characterRepository.save(character);
+
+    return character;
   }
 
   Future<Character> generateCharacter() async {

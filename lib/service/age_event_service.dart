@@ -10,7 +10,7 @@ class AgeEventService {
     return await _ageEventRepository.readAgeEvents() ?? [];
   }
 
-  Future<void> addEvent(int age, {String event}) async {
+  Future<List<AgeEvent>> addEvent(int age, {String event}) async {
     List<AgeEvent> events = await getAgeEvents();
     AgeEvent ageEvent = events.firstWhere(
         (existingAgeEvent) => existingAgeEvent.age == age, orElse: () {
@@ -24,6 +24,8 @@ class AgeEventService {
     }
 
     await _ageEventRepository.save(events);
+
+    return events;
   }
 
   Future<void> deleteAgeEvents() async => await _ageEventRepository.delete();

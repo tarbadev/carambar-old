@@ -9,16 +9,14 @@ import '../helpers/testable_widget.dart';
 import '../mock_definition.dart';
 
 void main() {
-  setupTest();
+  setupWidgetTest();
 
   testWidgets('character tab shows a the character informations',
       (WidgetTester tester) async {
+    var character = Factory.character();
     var displayCharacter = Factory.displayCharacter();
 
-    when(Mocks.characterPresenter.getDisplayCharacter())
-        .thenAnswer((_) async => displayCharacter);
-
-    await tester.pumpWidget(buildTestableWidget(CharacterTab()));
+    await tester.pumpWidget(buildTestableWidget(CharacterTab(), character: character));
 
     var characterInformationFinder = find.byType(CharacterInformation);
     expect(characterInformationFinder, findsNothing);

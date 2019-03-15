@@ -16,6 +16,8 @@ class HomeTab {
   }
 
   AgeEventElement ageEvent(String id) => AgeEventElement(driver, id);
+
+  Future<bool> get isVisible => widgetExists(driver, ageButtonFinder);
 }
 
 class AgeEventElement {

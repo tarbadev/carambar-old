@@ -2,10 +2,13 @@ import 'package:carambar/ui/widget/character_information.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../factory.dart';
+import '../../fake_application_injector.dart';
 import '../../helpers/testable_widget.dart';
 import '../../helpers/view/character_tab_view.dart';
 
 void main() {
+  setupWidgetTest();
+
   testWidgets('home shows a the character informations',
       (WidgetTester tester) async {
     var displayCharacter = Factory.displayCharacter();
