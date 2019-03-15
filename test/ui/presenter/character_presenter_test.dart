@@ -64,5 +64,12 @@ void main() {
 
       verify(Mocks.characterService.incrementAge());
     });
+
+    test('endLife calls CharacterService', () async {
+      await characterPresenter.endLife();
+
+      verify(Mocks.characterService.deleteCharacter());
+      verify(Mocks.ageEventService.deleteAgeEvents());
+    });
   });
 }

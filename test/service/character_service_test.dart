@@ -53,5 +53,11 @@ void main() {
 
       verify(Mocks.ageEventService.addEvent(2));
     });
+
+    test('deleteCharacter calls the repository to delete the character', () async {
+      await characterService.deleteCharacter();
+
+      verify(Mocks.characterRepository.delete());
+    });
   });
 }

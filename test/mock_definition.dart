@@ -1,12 +1,12 @@
-import 'package:carambar/repository/character_repository.dart';
 import 'package:carambar/repository/age_event_repository.dart';
+import 'package:carambar/repository/character_repository.dart';
+import 'package:carambar/service/age_event_service.dart';
 import 'package:carambar/service/character_service.dart';
 import 'package:carambar/service/client/character_client.dart';
-import 'package:carambar/service/age_event_service.dart';
 import 'package:carambar/ui/presenter/age_event_presenter.dart';
 import 'package:carambar/ui/presenter/character_presenter.dart';
-import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
+import 'package:mockito/mockito.dart';
 
 class MockCharacterPresenter extends Mock implements CharacterPresenter {}
 class MockAgeEventPresenter extends Mock implements AgeEventPresenter {}

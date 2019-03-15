@@ -29,4 +29,9 @@ class CharacterPresenter {
   }
 
   Future<void> incrementAge() async => await _characterService.incrementAge();
+
+  Future<void> endLife() async {
+    await _characterService.deleteCharacter();
+    await _ageEventService.deleteAgeEvents();
+  }
 }

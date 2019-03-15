@@ -30,7 +30,7 @@ class AgeEventItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final String baseKey = 'AgeEventItem__${displayAgeEvent.id}';
     var index = 0;
-    final events = displayAgeEvent.events
+    final events = displayAgeEvent.events.isEmpty ? <Widget>[] : displayAgeEvent.events
         .map((event) => event.split('\n'))
         .reduce((l1, l2) => l1..addAll(l2))
         .map((event) => Padding(

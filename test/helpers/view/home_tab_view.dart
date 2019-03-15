@@ -10,9 +10,18 @@ class HomeTabView extends BaseView {
 
   HomeTabView(this.tester) : super(tester);
 
-  Future<void> clickOnAgeButton() async {
-    await tester.tap(find.byKey(Key("ageButton")));
+  Finder get _ageButtonFinder => find.byKey(Key("ageButton"));
+
+  bool get isVisible {
+    try {
+      tester.renderObject<RenderBox>(_ageButtonFinder);
+      return true;
+    } catch (_) {
+      return false;
+    }
   }
+
+  Future<void> clickOnAgeButton() async => await tester.tap(_ageButtonFinder);
 
   Future<List<DisplayAgeEvent>> getEventList() async {
     var ageEventListFinder = find.byType(AgeEventList);

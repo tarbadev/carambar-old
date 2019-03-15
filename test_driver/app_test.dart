@@ -3,9 +3,19 @@ import 'package:test/test.dart';
 
 import 'tabs/character_tab.dart';
 import 'tabs/home_tab.dart';
+import 'tabs/settings_tab.dart';
 
 void main() {
   FlutterDriver driver;
+  HomeTab homeTab;
+  CharacterTab characterTab;
+  SettingsTab settingsTab;
+
+  setUp(() {
+    homeTab = HomeTab(driver);
+    characterTab = CharacterTab(driver);
+    settingsTab = SettingsTab(driver);
+  });
 
   setUpAll(() async {
     driver = await FlutterDriver.connect();
@@ -18,12 +28,6 @@ void main() {
   });
 
   group('Character Tab', () {
-    CharacterTab characterTab;
-
-    setUp(() {
-      characterTab = CharacterTab(driver);
-    });
-
     test('should display the generated character informations', () async {
       await driver.waitUntilNoTransientCallbacks();
 
@@ -38,14 +42,6 @@ void main() {
   });
 
   group('Home Tab', () {
-    HomeTab homeTab;
-    CharacterTab characterTab;
-
-    setUp(() {
-      homeTab = HomeTab(driver);
-      characterTab = CharacterTab(driver);
-    });
-
     test('should display an event with the generated character', () async {
       await driver.waitUntilNoTransientCallbacks();
 
@@ -53,21 +49,20 @@ void main() {
       var characterName = await characterTab.getCharacterName();
       var characterGender = await characterTab.getCharacterGender() == 'Male' ? 'boy' : 'girl';
       var characterOrigin = await characterTab.getCharacterOrigin();
-      var expectedEvent = """
-        You just started your life!
-        You're a baby $characterGender named $characterName from $characterOrigin
-      """.trim();
+      var expectedEvents = [
+        'You just started your life!',
+        'You\'re a baby $characterGender named $characterName from $characterOrigin'
+      ];
 
       await homeTab.goTo();
 
       var ageEventView = homeTab.ageEvent('0');
       expect(await ageEventView.isVisible, isTrue);
       expect(await ageEventView.age, 'Age 0');
-      expect(await ageEventView.events, [expectedEvent]);
+      expect(await ageEventView.events, expectedEvents);
     });
 
-    test('should display an age button that changes the age of the character',
-        () async {
+    test('should display an age button that changes the age of the character', () async {
       await driver.waitUntilNoTransientCallbacks();
 
       await characterTab.goTo();
@@ -81,9 +76,7 @@ void main() {
       expect(await characterTab.getCharacterAge(), "1");
     });
 
-    test(
-        'should change the age and age category of the character when tapping on the age button',
-        () async {
+    test('should change the age and age category of the character when tapping on the age button', () async {
       await driver.waitUntilNoTransientCallbacks();
 
       expect(await characterTab.getCharacterAge(), "1");
@@ -108,6 +101,22 @@ void main() {
 
       expect(await homeTab.ageEvent('3').isVisible, isTrue);
       expect(await homeTab.ageEvent('3').age, 'Age 3');
+    });
+  });
+
+  group('Settings Tab', () {
+    test('should display an end life button that regenerates the character', () async {
+      await driver.waitUntilNoTransientCallbacks();
+
+      await characterTab.goTo();
+
+      expect(await characterTab.getCharacterAge(), "3");
+
+      await settingsTab.goTo();
+      await settingsTab.endLife();
+      await characterTab.goTo();
+
+      expect(await characterTab.getCharacterAge(), "0");
     });
   });
 }

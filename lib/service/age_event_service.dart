@@ -25,4 +25,6 @@ class AgeEventService {
 
     await _ageEventRepository.save(events);
   }
+
+  Future<void> deleteAgeEvents() async => await _ageEventRepository.delete();
 }

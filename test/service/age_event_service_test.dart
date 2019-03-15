@@ -77,5 +77,11 @@ void main() {
         Factory.ageEvent(age: 1, events: [existingAgeEvents[1].events[0], expectedEvent]),
       ]));
     });
+
+    test('deleteAgeEvents calls the repository to delete the ageEvents', () async {
+      await ageEventService.deleteAgeEvents();
+
+      verify(Mocks.ageEventRepository.delete());
+    });
   });
 }

@@ -1,12 +1,9 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:carambar/domain/entity/character.dart';
 import 'package:carambar/repository/character_repository.dart';
-import 'package:carambar/repository/entity/character_entity.dart';
 import 'package:flutter/services.dart';
 import 'package:test_api/test_api.dart';
-import 'package:path_provider/path_provider.dart';
 
 import '../factory.dart';
 import '../helpers/storage/storage.dart';
@@ -63,6 +60,15 @@ void main() {
       Character returnedCharacter = await characterRepository.readCharacter();
 
       expect(returnedCharacter, isNull);
+    });
+
+    test('delete removes the file', () async {
+      final character = Factory.character();
+      await characterStorage.store(character);
+
+      await characterRepository.delete();
+
+      expect(await characterStorage.read(), isNull);
     });
   });
 }

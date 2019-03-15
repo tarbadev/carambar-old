@@ -27,4 +27,6 @@ abstract class InternalFileRepository<T> {
       return null;
     }
   }
+
+  Future<void> delete() async => await (await _file).delete();
 }

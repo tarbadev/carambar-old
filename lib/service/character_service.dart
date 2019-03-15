@@ -31,4 +31,6 @@ class CharacterService {
 
     return character;
   }
+
+  Future<void> deleteCharacter() async => await _characterRepository.delete();
 }
