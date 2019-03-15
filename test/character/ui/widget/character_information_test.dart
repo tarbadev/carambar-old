@@ -9,21 +9,17 @@ import '../../../helpers/view/character_tab_view.dart';
 void main() {
   setupWidgetTest();
 
-  testWidgets('home shows a the character informations',
-      (WidgetTester tester) async {
+  testWidgets('home shows a the character informations', (WidgetTester tester) async {
     var displayCharacter = Factory.displayCharacter();
-    var characterInformationView = CharacterTabView(tester);
+    var characterTabView = CharacterTabView(tester);
 
-    await tester.pumpWidget(buildTestableWidget(
-        CharacterInformation(displayCharacter: displayCharacter)));
+    await tester.pumpWidget(buildTestableWidget(CharacterInformation(displayCharacter: displayCharacter)));
 
-    expect(characterInformationView.getCharacterName(), displayCharacter.name);
-    expect(
-        characterInformationView.getCharacterGender(), displayCharacter.gender);
-    expect(
-        characterInformationView.getCharacterOrigin(), displayCharacter.origin);
-    expect(characterInformationView.getCharacterAge(), displayCharacter.age);
-    expect(characterInformationView.getCharacterAgeCategory(),
-        displayCharacter.ageCategory);
+    expect(characterTabView.getCharacterName(), displayCharacter.name);
+    expect(characterTabView.getCharacterGender(), displayCharacter.gender);
+    expect(characterTabView.getCharacterOrigin(), displayCharacter.origin);
+    expect(characterTabView.getCharacterAge(), displayCharacter.age);
+    expect(characterTabView.getCharacterAgeCategory(), displayCharacter.ageCategory);
+    expect(characterTabView.getCharacterSchool(), displayCharacter.school);
   });
 }

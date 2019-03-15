@@ -21,7 +21,7 @@ class CharacterInformation extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         displayCharacter.name,
-                        key: Key("characterName"),
+                        key: Key('characterName'),
                         textScaleFactor: 2,
                       ),
                       Expanded(
@@ -29,7 +29,7 @@ class CharacterInformation extends StatelessWidget {
                               alignment: FractionalOffset.bottomRight,
                               child: Text(
                                 displayCharacter.age,
-                                key: Key("characterAge"),
+                                key: Key('characterAge'),
                                 textScaleFactor: 1.5,
                               ))),
                     ],
@@ -39,21 +39,29 @@ class CharacterInformation extends StatelessWidget {
                       padding: EdgeInsets.only(right: 5),
                       child: Text(
                         displayCharacter.ageCategory,
-                        key: Key("characterAgeCategory"),
+                        key: Key('characterAgeCategory'),
                       ),
                     ),
                     Text(
                       displayCharacter.gender,
-                      key: Key("characterGender"),
+                      key: Key('characterGender'),
                     ),
                     Expanded(
                         child: Align(
                             alignment: FractionalOffset.bottomRight,
                             child: Text(
                               displayCharacter.origin,
-                              key: Key("characterOrigin"),
+                              key: Key('characterOrigin'),
                             )))
                   ]),
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        displayCharacter.school,
+                        key: Key('characterSchool'),
+                      )
+                    ],
+                  )
                 ])));
   }
 }

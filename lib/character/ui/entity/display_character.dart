@@ -10,8 +10,9 @@ class DisplayCharacter extends Equatable {
   final String origin;
   final String ageCategory;
   String get genderChild => gender == "Male" ? "Boy" : "Girl";
+  final String school;
 
-  DisplayCharacter(this.name, this.gender, this.age, this.origin, this.ageCategory): super([name, gender, age, origin, ageCategory]);
+  DisplayCharacter(this.name, this.gender, this.age, this.origin, this.ageCategory, this.school): super([name, gender, age, origin, ageCategory, school]);
 
 
   static DisplayCharacter fromCharacter(Character character) {
@@ -20,25 +21,21 @@ class DisplayCharacter extends Equatable {
         '${StringUtils.capitalize(character.gender)}',
         '${character.age}',
         _mapNationalityToString[character.origin],
-        _ageCategoryPresenter(character.ageCategory)
+      _mapAgeCategoryToString[character.ageCategory],
+      _mapSchoolToDisplaySchool[character.school],
     );
   }
 
-  static String _ageCategoryPresenter(AgeCategory ageCategory) {
-    switch (ageCategory) {
-      case AgeCategory.adult:
-        return 'Adult';
-        break;
-      case AgeCategory.teen:
-        return 'Teen';
-        break;
-      case AgeCategory.child:
-        return 'Child';
-        break;
-      default:
-        return 'Baby';
-    }
-  }
+  static final _mapAgeCategoryToString = {
+    AgeCategory.adult: "Adult",
+    AgeCategory.teen: "Teen",
+    AgeCategory.child: "Child",
+    AgeCategory.baby: "Baby",
+  };
+
+  static final _mapSchoolToDisplaySchool = {
+    School.None: 'None',
+  };
 
   static final _mapNationalityToString = {
     Nationality.australia: "Australia",

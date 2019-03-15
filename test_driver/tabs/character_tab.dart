@@ -8,6 +8,7 @@ class CharacterTab {
   final characterAgeTextFinder = find.byValueKey('characterAge');
   final characterAgeCategoryTextFinder = find.byValueKey('characterAgeCategory');
   final characterOriginTextFinder = find.byValueKey('characterOrigin');
+  final characterSchoolTextFinder = find.byValueKey('characterSchool');
 
   CharacterTab(this.driver);
 
@@ -29,6 +30,10 @@ class CharacterTab {
 
   Future<String> getCharacterAgeCategory() async {
     return await driver.getText(characterAgeCategoryTextFinder);
+  }
+
+  Future<String> getCharacterSchool() async {
+    return await driver.getText(characterSchoolTextFinder);
   }
 
   Future<void> goTo() async {

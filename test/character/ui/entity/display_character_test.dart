@@ -12,6 +12,7 @@ void main() {
         '2',
         'United States',
         'Baby',
+        'None',
       );
 
       expect(DisplayCharacter.fromCharacter(Factory.character(age: 2)), expectedDisplayCharacter);
@@ -22,6 +23,7 @@ void main() {
         '8',
         'United States',
         'Child',
+        'None',
       );
 
       expect(DisplayCharacter.fromCharacter(Factory.character(age: 8)), expectedDisplayCharacter);
@@ -32,6 +34,7 @@ void main() {
         '15',
         'United States',
         'Teen',
+        'None',
       );
 
       expect(DisplayCharacter.fromCharacter(Factory.character(age: 15)), expectedDisplayCharacter);
@@ -42,6 +45,7 @@ void main() {
         '42',
         'United States',
         'Adult',
+        'None',
       );
 
       expect(DisplayCharacter.fromCharacter(Factory.character(age: 42)), expectedDisplayCharacter);

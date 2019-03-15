@@ -35,9 +35,10 @@ void main() {
 
       expect(await characterTab.getCharacterName(), isNotEmpty);
       expect(await characterTab.getCharacterGender(), isNotEmpty);
-      expect(await characterTab.getCharacterAge(), "0");
-      expect(await characterTab.getCharacterAgeCategory(), "Baby");
+      expect(await characterTab.getCharacterAge(), '0');
+      expect(await characterTab.getCharacterAgeCategory(), 'Baby');
       expect(await characterTab.getCharacterOrigin(), isNotEmpty);
+      expect(await characterTab.getCharacterSchool(), 'None');
     });
   });
 
@@ -67,32 +68,32 @@ void main() {
 
       await characterTab.goTo();
 
-      expect(await characterTab.getCharacterAge(), "0");
+      expect(await characterTab.getCharacterAge(), '0');
 
       await homeTab.goTo();
       await homeTab.clickOnAgeButton();
       await characterTab.goTo();
 
-      expect(await characterTab.getCharacterAge(), "1");
+      expect(await characterTab.getCharacterAge(), '1');
     });
 
     test('should change the age and age category of the character when tapping on the age button', () async {
       await driver.waitUntilNoTransientCallbacks();
 
-      expect(await characterTab.getCharacterAge(), "1");
+      expect(await characterTab.getCharacterAge(), '1');
       await homeTab.goTo();
       await homeTab.clickOnAgeButton();
       await characterTab.goTo();
 
-      expect(await characterTab.getCharacterAge(), "2");
-      expect(await characterTab.getCharacterAgeCategory(), "Baby");
+      expect(await characterTab.getCharacterAge(), '2');
+      expect(await characterTab.getCharacterAgeCategory(), 'Baby');
 
       await homeTab.goTo();
       await homeTab.clickOnAgeButton();
       await characterTab.goTo();
 
-      expect(await characterTab.getCharacterAge(), "3");
-      expect(await characterTab.getCharacterAgeCategory(), "Child");
+      expect(await characterTab.getCharacterAge(), '3');
+      expect(await characterTab.getCharacterAgeCategory(), 'Child');
     });
 
     test('should add an event when tapping on the age button', () async {
@@ -102,6 +103,14 @@ void main() {
       expect(await homeTab.ageEvent('3').isVisible, isTrue);
       expect(await homeTab.ageEvent('3').age, 'Age 3');
     });
+
+//    test('should change school when aging', () async {
+//      await driver.waitUntilNoTransientCallbacks();
+//      await homeTab.goTo();
+//
+//      expect(await homeTab.ageEvent('3').isVisible, isTrue);
+//      expect(await homeTab.ageEvent('3').events, contains('You just started Kindergarten'));
+//    });
   });
 
   group('Settings Tab', () {
@@ -110,7 +119,7 @@ void main() {
 
       await characterTab.goTo();
 
-      expect(await characterTab.getCharacterAge(), "3");
+      expect(await characterTab.getCharacterAge(), '3');
 
       await settingsTab.goTo();
       await settingsTab.endLife();
@@ -118,7 +127,7 @@ void main() {
       expect(await homeTab.isVisible, isTrue);
       await characterTab.goTo();
 
-      expect(await characterTab.getCharacterAge(), "0");
+      expect(await characterTab.getCharacterAge(), '0');
     });
   });
 }

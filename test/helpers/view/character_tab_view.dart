@@ -24,4 +24,8 @@ class CharacterTabView extends BaseView {
   String getCharacterAgeCategory() {
     return getDataFromTextByKey("characterAgeCategory");
   }
+
+  String getCharacterSchool() {
+    return getDataFromTextByKey("characterSchool");
+  }
 }
