@@ -21,8 +21,8 @@ class _HomeTabState extends State<HomeTab> {
     super.initState();
 
     var container = kiwi.Container();
-    _characterPresenter = container.resolve("characterPresenter");
-    _ageEventPresenter = container.resolve("ageEventPresenter");
+    _characterPresenter = container.resolve<CharacterPresenter>();
+    _ageEventPresenter = container.resolve<AgeEventPresenter>();
   }
 
   void _onAgeButtonClick() async {

@@ -16,13 +16,10 @@ abstract class CoreApplicationInjector {
 
   @Register.factory(AgeEventRepository, resolvers: {String: 'ageEventsFileName'})
   @Register.factory(AgeEventService)
-  @Register.factory(AgeEventPresenter, name: 'ageEventPresenter')
+  @Register.factory(AgeEventPresenter)
   @Register.factory(CharacterRepository, resolvers: {String: 'characterFileName'})
-  @Register.factory(
-    CharacterService,
-    resolvers: {CharacterClient: 'characterClient'},
-  )
-  @Register.factory(CharacterPresenter, name: 'characterPresenter')
+  @Register.factory(CharacterService)
+  @Register.factory(CharacterPresenter)
   void configureAnnotations();
 }
 

@@ -10,7 +10,7 @@ List<Middleware<GlobalState>> createStoreMiddleware() => [
 
 Future _endLife(Store<GlobalState> store, EndLifeAction action, NextDispatcher next) async {
   var container = kiwi.Container();
-  CharacterPresenter _characterPresenter = container.resolve("characterPresenter");
+  CharacterPresenter _characterPresenter = container.resolve<CharacterPresenter>();
   await _characterPresenter.endLife();
 
   next(action);

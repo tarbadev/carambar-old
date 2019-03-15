@@ -11,10 +11,7 @@ class ApplicationInjector {
 
   void configureInstances() {
     final Container container = Container();
-    container.registerInstance(
-        CharacterClient(http.Client()),
-        name: 'characterClient'
-    );
+    container.registerInstance(CharacterClient(http.Client()));
     container.registerInstance('character.json', name: 'characterFileName');
     container.registerInstance('ageEvents.json', name: 'ageEventsFileName');
   }

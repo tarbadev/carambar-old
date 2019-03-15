@@ -19,7 +19,7 @@ class _CharacterTabState extends State<CharacterTab> {
     super.initState();
 
     var container = kiwi.Container();
-    _characterPresenter = container.resolve("characterPresenter");
+    _characterPresenter = container.resolve<CharacterPresenter>();
   }
 
   @override
