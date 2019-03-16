@@ -37,15 +37,19 @@ class SettingsTab extends StatelessWidget {
                         ])));
           }
 
-          return Column(
-            children: <Widget>[
-              MaterialButton(
-                key: Key('endLifeButton'),
-                child: Text('End Life'),
-                onPressed: viewModel.onEndLifeButtonTapped,
-              )
-            ],
-          );
+          return Container(
+              child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
+            Container(
+                width: double.infinity,
+                child: MaterialButton(
+                  elevation: 2,
+                  color: ThemeData.light().primaryColor,
+                  textTheme: ButtonTextTheme.primary,
+                  key: Key('endLifeButton'),
+                  child: Text('End Life'),
+                  onPressed: viewModel.onEndLifeButtonTapped,
+                ))
+          ]));
         },
       );
 }
