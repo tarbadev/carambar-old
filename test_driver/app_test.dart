@@ -1,9 +1,9 @@
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:test/test.dart';
 
-import 'tabs/character_tab.dart';
-import 'tabs/home_tab.dart';
-import 'tabs/settings_tab.dart';
+import 'tabs/character_tab_helper.dart';
+import 'tabs/home_tab_helper.dart';
+import 'tabs/settings_tab_helper.dart';
 
 void main() {
   FlutterDriver driver;
