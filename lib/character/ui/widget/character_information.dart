@@ -10,96 +10,97 @@ class CharacterInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     var index = 0;
 
-    return Card(
-        elevation: 2,
-        child: Padding(
-            padding: EdgeInsets.all(5),
-            child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.baseline,
-                    textBaseline: TextBaseline.alphabetic,
-                    children: <Widget>[
-                      Text(
-                        displayCharacter.name,
-                        key: Key('characterName'),
-                        style: Theme.of(context).textTheme.headline,
-                      ),
-                      Expanded(
-                          child: Align(
-                              alignment: FractionalOffset.bottomRight,
-                              child: Text(
-                                displayCharacter.age,
-                                key: Key('characterAge'),
-                                style: Theme.of(context).textTheme.title,
-                              ))),
-                    ],
-                  ),
-                  Row(children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.only(right: 5),
-                      child: Text(
-                        displayCharacter.ageCategory,
-                        key: Key('characterAgeCategory'),
-                      ),
-                    ),
+    return Padding(
+        padding: EdgeInsets.all(5),
+        child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(bottom: 5),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
+                  children: <Widget>[
                     Text(
-                      displayCharacter.gender,
-                      key: Key('characterGender'),
+                      displayCharacter.name,
+                      key: Key('characterName'),
+                      style: Theme.of(context).textTheme.headline,
                     ),
                     Expanded(
                         child: Align(
                             alignment: FractionalOffset.bottomRight,
                             child: Text(
-                              displayCharacter.origin,
-                              key: Key('characterOrigin'),
-                            )))
-                  ]),
-                  Divider(height: 8),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.baseline,
-                    textBaseline: TextBaseline.alphabetic,
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(right: 5),
-                        child: Text(
-                          'School',
-                          style: Theme.of(context).textTheme.subhead,
-                        ),
-                      ),
-                      Text(
-                        displayCharacter.school,
-                        key: Key('characterSchool'),
-                      )
-                    ],
+                              displayCharacter.age,
+                              key: Key('characterAge'),
+                              style: Theme.of(context).textTheme.title,
+                            ))),
+                  ],
+                ),
+              ),
+              Row(children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(right: 5),
+                  child: Text(
+                    displayCharacter.ageCategory,
+                    key: Key('characterAgeCategory'),
                   ),
-                  Divider(height: 8),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.baseline,
-                    textBaseline: TextBaseline.alphabetic,
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(right: 5),
+                ),
+                Text(
+                  displayCharacter.gender,
+                  key: Key('characterGender'),
+                ),
+                Expanded(
+                    child: Align(
+                        alignment: FractionalOffset.bottomRight,
                         child: Text(
-                          'Graduates',
-                          style: Theme.of(context).textTheme.subhead,
-                        ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        key: Key('characterGraduates'),
-                        children: displayCharacter.graduates
-                            .map((graduate) => Text(
-                                  graduate,
-                                  key: Key('Character__graduates__${index++}'),
-                                ))
-                            .toList(),
-                      ),
-                    ],
+                          displayCharacter.origin,
+                          key: Key('characterOrigin'),
+                        )))
+              ]),
+              Divider(height: 8),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                textBaseline: TextBaseline.alphabetic,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(right: 5),
+                    child: Text(
+                      'School',
+                      style: Theme.of(context).textTheme.subhead,
+                    ),
                   ),
-                ])));
+                  Text(
+                    displayCharacter.school,
+                    key: Key('characterSchool'),
+                  )
+                ],
+              ),
+              Divider(height: 8),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                textBaseline: TextBaseline.alphabetic,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(right: 5),
+                    child: Text(
+                      'Graduates',
+                      style: Theme.of(context).textTheme.subhead,
+                    ),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    key: Key('characterGraduates'),
+                    children: displayCharacter.graduates
+                        .map((graduate) => Text(
+                              graduate,
+                              key: Key('Character__graduates__${index++}'),
+                            ))
+                        .toList(),
+                  ),
+                ],
+              ),
+            ]));
   }
 }
