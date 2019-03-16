@@ -31,4 +31,13 @@ class CharacterService {
   }
 
   Future<void> deleteCharacter() async => await _characterRepository.delete();
+
+  Future<Character> addGraduate(Graduate graduate) async {
+    Character character = await _characterRepository.readCharacter();
+    character.graduates.add(graduate);
+
+    await _characterRepository.save(character);
+
+    return character;
+  }
 }

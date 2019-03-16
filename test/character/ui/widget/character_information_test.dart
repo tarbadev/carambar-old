@@ -21,5 +21,6 @@ void main() {
     expect(characterTabView.getCharacterAge(), displayCharacter.age);
     expect(characterTabView.getCharacterAgeCategory(), displayCharacter.ageCategory);
     expect(characterTabView.getCharacterSchool(), displayCharacter.school);
+    expect(characterTabView.getCharacterGraduates(), displayCharacter.graduates);
   });
 }

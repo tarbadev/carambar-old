@@ -1,3 +1,4 @@
+import 'package:carambar/character/domain/entity/character.dart';
 import 'package:carambar/character/ui/entity/display_character.dart';
 import 'package:test_api/test_api.dart';
 
@@ -13,9 +14,10 @@ void main() {
         'United States',
         'Baby',
         'None',
+        [],
       );
 
-      expect(DisplayCharacter.fromCharacter(Factory.character(age: 2)), expectedDisplayCharacter);
+      expect(DisplayCharacter.fromCharacter(Factory.character(age: 2, graduates: [])), expectedDisplayCharacter);
 
       expectedDisplayCharacter = DisplayCharacter(
         'John Doe',
@@ -24,9 +26,10 @@ void main() {
         'United States',
         'Child',
         'Kindergarten',
+          [],
       );
 
-      expect(DisplayCharacter.fromCharacter(Factory.character(age: 4)), expectedDisplayCharacter);
+      expect(DisplayCharacter.fromCharacter(Factory.character(age: 4, graduates: [])), expectedDisplayCharacter);
 
       expectedDisplayCharacter = DisplayCharacter(
         'John Doe',
@@ -35,9 +38,10 @@ void main() {
         'United States',
         'Child',
         'Primary School',
+        [],
       );
 
-      expect(DisplayCharacter.fromCharacter(Factory.character(age: 8)), expectedDisplayCharacter);
+      expect(DisplayCharacter.fromCharacter(Factory.character(age: 8, graduates: [])), expectedDisplayCharacter);
 
       expectedDisplayCharacter = DisplayCharacter(
         'John Doe',
@@ -46,9 +50,10 @@ void main() {
         'United States',
         'Teen',
         'Middle School',
+        [],
       );
 
-      expect(DisplayCharacter.fromCharacter(Factory.character(age: 12)), expectedDisplayCharacter);
+      expect(DisplayCharacter.fromCharacter(Factory.character(age: 12, graduates: [])), expectedDisplayCharacter);
 
       expectedDisplayCharacter = DisplayCharacter(
         'John Doe',
@@ -57,9 +62,10 @@ void main() {
         'United States',
         'Teen',
         'High School',
+        ['Middle School']
       );
 
-      expect(DisplayCharacter.fromCharacter(Factory.character(age: 15)), expectedDisplayCharacter);
+      expect(DisplayCharacter.fromCharacter(Factory.character(age: 15, graduates: [Graduate.MiddleSchool])), expectedDisplayCharacter);
 
       expectedDisplayCharacter = DisplayCharacter(
         'John Doe',
@@ -68,9 +74,10 @@ void main() {
         'United States',
         'Adult',
         'None',
+        []
       );
 
-      expect(DisplayCharacter.fromCharacter(Factory.character(age: 42)), expectedDisplayCharacter);
+      expect(DisplayCharacter.fromCharacter(Factory.character(age: 42, graduates: [])), expectedDisplayCharacter);
     });
   });
 }

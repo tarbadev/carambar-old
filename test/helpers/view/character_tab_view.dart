@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'base_view.dart';
@@ -27,5 +28,13 @@ class CharacterTabView extends BaseView {
 
   String getCharacterSchool() {
     return getDataFromTextByKey("characterSchool");
+  }
+
+  List<String> getCharacterGraduates() {
+    var graduatesFinder = find.byKey(Key('characterGraduates'));
+    expect(graduatesFinder, findsOneWidget);
+
+    var graduates = graduatesFinder.evaluate().single.widget as Column;
+    return graduates.children.map((text) => (text as Text).data).toList();
   }
 }

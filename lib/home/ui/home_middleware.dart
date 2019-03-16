@@ -1,5 +1,6 @@
 import 'package:carambar/application/ui/application_actions.dart';
 import 'package:carambar/application/ui/application_state.dart';
+import 'package:carambar/character/domain/entity/character.dart';
 import 'package:carambar/character/domain/service/character_service.dart';
 import 'package:carambar/character/ui/character_actions.dart';
 import 'package:carambar/character/ui/entity/display_character.dart';
@@ -40,6 +41,15 @@ Future incrementAge(Store<ApplicationState> store, IncrementAgeAction action, Ne
       event = 'You finished your studies';
     } else {
       event = 'You just started ${newDisplayCharacter.school}';
+    }
+
+    if (originalSchool == 'High School' || originalSchool == 'Middle School') {
+      var graduate = originalSchool == 'High School' ? Graduate.HighSchool : Graduate.MiddleSchool;
+      character = await _characterService.addGraduate(graduate);
+      newDisplayCharacter = DisplayCharacter.fromCharacter(character);
+
+      var graduatedEvent = 'You graduated from $originalSchool';
+      await _ageEventService.addEvent(character.age, event: graduatedEvent);
     }
   }
 

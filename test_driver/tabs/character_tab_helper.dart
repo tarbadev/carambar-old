@@ -36,6 +36,20 @@ class CharacterTab {
     return await driver.getText(characterSchoolTextFinder);
   }
 
+  Future<List<String>> getCharacterGraduates() async {
+    List<String> graduates = [];
+    try {
+      var index = 0;
+      do {
+        graduates.add(await driver.getText(
+            find.byValueKey('Character__graduates__${index++}'),
+            timeout: Duration(milliseconds: 500)));
+      } while (true);
+    } catch (_) {}
+
+    return graduates;
+  }
+
   Future<void> goTo() async {
     await driver.tap(characterTabFinder);
   }

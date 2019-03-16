@@ -8,6 +8,8 @@ class CharacterInformation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var index = 0;
+
     return Card(
         elevation: 2,
         child: Padding(
@@ -61,7 +63,20 @@ class CharacterInformation extends StatelessWidget {
                         key: Key('characterSchool'),
                       )
                     ],
-                  )
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Column(
+                        key: Key('characterGraduates'),
+                        children: displayCharacter.graduates
+                            .map((graduate) => Text(
+                                  graduate,
+                                  key: Key('Character__graduates__${index++}'),
+                                ))
+                            .toList(),
+                      ),
+                    ],
+                  ),
                 ])));
   }
 }

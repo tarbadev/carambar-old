@@ -1,6 +1,6 @@
+import 'package:carambar/application/ui/util/string_utils.dart';
 import 'package:carambar/character/domain/entity/character.dart';
 import 'package:carambar/character/domain/entity/nationality.dart';
-import 'package:carambar/application/ui/util/string_utils.dart';
 import 'package:equatable/equatable.dart';
 
 class DisplayCharacter extends Equatable {
@@ -9,20 +9,23 @@ class DisplayCharacter extends Equatable {
   final String age;
   final String origin;
   final String ageCategory;
+
   String get genderChild => gender == "Male" ? "Boy" : "Girl";
   final String school;
+  final List<String> graduates;
 
-  DisplayCharacter(this.name, this.gender, this.age, this.origin, this.ageCategory, this.school): super([name, gender, age, origin, ageCategory, school]);
-
+  DisplayCharacter(this.name, this.gender, this.age, this.origin, this.ageCategory, this.school, this.graduates)
+      : super([name, gender, age, origin, ageCategory, school, graduates]);
 
   static DisplayCharacter fromCharacter(Character character) {
     return DisplayCharacter(
-        '${StringUtils.capitalize(character.firstName)} ${StringUtils.capitalize(character.lastName)}',
-        '${StringUtils.capitalize(character.gender)}',
-        '${character.age}',
-        _mapNationalityToString[character.origin],
+      '${StringUtils.capitalize(character.firstName)} ${StringUtils.capitalize(character.lastName)}',
+      '${StringUtils.capitalize(character.gender)}',
+      '${character.age}',
+      _mapNationalityToString[character.origin],
       _mapAgeCategoryToString[character.ageCategory],
       _mapSchoolToDisplaySchool[character.school],
+      character.graduates.map((graduate) => _mapGraduateToDisplayGraduate[graduate]).toList(),
     );
   }
 
@@ -39,6 +42,11 @@ class DisplayCharacter extends Equatable {
     School.PrimarySchool: 'Primary School',
     School.MiddleSchool: 'Middle School',
     School.HighSchool: 'High School',
+  };
+
+  static final _mapGraduateToDisplayGraduate = {
+    Graduate.MiddleSchool: 'Middle School',
+    Graduate.HighSchool: 'High School',
   };
 
   static final _mapNationalityToString = {

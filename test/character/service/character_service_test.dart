@@ -1,3 +1,4 @@
+import 'package:carambar/character/domain/entity/character.dart';
 import 'package:carambar/character/domain/service/character_service.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test_api/test_api.dart';
@@ -48,6 +49,16 @@ void main() {
       await characterService.deleteCharacter();
 
       verify(Mocks.characterRepository.delete());
+    });
+
+    test('addGraduate calls the repository with the character updated with the graduates', () async {
+      final character = Factory.character(age: 18, graduates: [Graduate.MiddleSchool]);
+      final expectedCharacter = Factory.character(age: 18, graduates: [Graduate.MiddleSchool, Graduate.HighSchool]);
+
+      when(Mocks.characterRepository.readCharacter()).thenAnswer((_) async => character);
+
+      expect(await characterService.addGraduate(Graduate.HighSchool), expectedCharacter);
+      verify(Mocks.characterRepository.save(expectedCharacter));
     });
   });
 }

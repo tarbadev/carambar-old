@@ -32,7 +32,7 @@ void main() {
     });
 
     test('save saves character to file', () async {
-      final character = Factory.character();
+      final character = Factory.character(graduates: [Graduate.MiddleSchool]);
 
       await characterRepository.save(character);
 
@@ -41,7 +41,8 @@ void main() {
           '"lastName":"doe",' +
           '"gender":"male",' +
           '"origin":"Nationality.unitedStates",' +
-          '"age":18' +
+          '"age":18,' +
+          '"graduates":["Graduate.MiddleSchool"]' +
           '}';
 
       expect(await characterStorage.read(), expectedJsonString);

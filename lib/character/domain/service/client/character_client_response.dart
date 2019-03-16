@@ -96,6 +96,7 @@ class CharacterClientModel {
       lastName: name.last,
       gender: gender,
       origin: _mapOriginResponseToDomain[nat],
+      graduates: []
     );
   }
 }

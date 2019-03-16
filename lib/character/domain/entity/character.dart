@@ -3,12 +3,14 @@ import 'package:equatable/equatable.dart';
 
 enum AgeCategory { baby, child, teen, adult }
 enum School { None, Kindergarten, PrimarySchool, MiddleSchool, HighSchool }
+enum Graduate { MiddleSchool, HighSchool }
 
 class Character extends Equatable {
   final String firstName;
   final String lastName;
   final String gender;
   final Nationality origin;
+  final List<Graduate> graduates;
   int age;
 
   AgeCategory get ageCategory {
@@ -27,6 +29,6 @@ class Character extends Equatable {
     else return School.None;
   }
 
-  Character({this.firstName, this.lastName, this.gender, this.origin, this.age})
-      : super([firstName, lastName, gender, origin, age]);
+  Character({this.firstName, this.lastName, this.gender, this.origin, this.age, this.graduates})
+      : super([firstName, lastName, gender, origin, age, graduates]);
 }

@@ -6,13 +6,15 @@ import 'package:carambar/home/ui/entity/display_age_event.dart';
 import 'package:carambar/character/ui/entity/display_character.dart';
 
 class Factory {
-  static Character character({int age: 18}) {
+  static const List<Graduate> _factoryGraduates = [];
+  static Character character({int age: 18, List<Graduate> graduates: _factoryGraduates}) {
     return Character(
       firstName: "john",
       lastName: "doe",
       gender: "male",
       age: age,
       origin: Nationality.unitedStates,
+      graduates: graduates
     );
   }
 
@@ -24,6 +26,7 @@ class Factory {
       "United States",
       ageCategory,
       school,
+      [],
     );
   }
 
