@@ -11,10 +11,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
-void main() {
-  runApp(CarambarApp());
-}
-
 class CarambarApp extends StatelessWidget {
   final _store = Store<ApplicationState>(
     applicationReducer,
@@ -52,35 +48,35 @@ class _MainPage extends StatelessWidget {
     return StoreConnector<ApplicationState, _MainPageModel>(
       converter: (Store<ApplicationState> store) => _MainPageModel.create(store),
       builder: (BuildContext context, _MainPageModel viewModel) => SafeArea(
-            child: Scaffold(
-              body: Container(child: viewModel.getTab(), padding: EdgeInsets.all(10)),
-              bottomNavigationBar: BottomNavigationBar(
-                items: <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.home),
-                      title: Text(
-                        'Home',
-                        key: Key("bottomNavigationHome"),
-                      )),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.person),
-                      title: Text(
-                        'Character',
-                        key: Key("bottomNavigationCharacter"),
-                      )),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.settings),
-                      title: Text(
-                        'Settings',
-                        key: Key("bottomNavigationSettings"),
-                      )),
-                ],
-                currentIndex: viewModel.selectedTab,
-                fixedColor: Colors.lightBlue,
-                onTap: viewModel.onTabTapped,
-              ),
-            ),
+        child: Scaffold(
+          body: Container(child: viewModel.getTab(), padding: EdgeInsets.all(10)),
+          bottomNavigationBar: BottomNavigationBar(
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  title: Text(
+                    'Home',
+                    key: Key("bottomNavigationHome"),
+                  )),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  title: Text(
+                    'Character',
+                    key: Key("bottomNavigationCharacter"),
+                  )),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.settings),
+                  title: Text(
+                    'Settings',
+                    key: Key("bottomNavigationSettings"),
+                  )),
+            ],
+            currentIndex: viewModel.selectedTab,
+            fixedColor: Colors.lightBlue,
+            onTap: viewModel.onTabTapped,
           ),
+        ),
+      ),
     );
   }
 }
