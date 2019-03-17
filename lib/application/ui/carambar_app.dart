@@ -59,6 +59,7 @@ class _MainPage extends StatelessWidget {
                 child: viewModel.getTab(),
               ),
               bottomNavigationBar: BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
                 items: <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
                       icon: Icon(Icons.home),
