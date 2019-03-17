@@ -9,10 +9,12 @@ class CarambarAppView extends BaseView {
 
   Finder get _homeTabFinder => find.byKey(Key("bottomNavigationHome"));
   Finder get _characterTabFinder => find.byKey(Key("bottomNavigationCharacter"));
+  Finder get _workTabFinder => find.byKey(Key("bottomNavigationWork"));
   Finder get _settingsTabFinder => find.byKey(Key("bottomNavigationSettings"));
 
   Future<void> clickOnHomeTab() async => await tester.tap(_homeTabFinder);
   Future<void> clickOnCharacterTab() async => await tester.tap(_characterTabFinder);
+  Future<void> clickOnWorkTab() async => await tester.tap(_workTabFinder);
   Future<void> clickOnSettingsTab() async => await tester.tap(_settingsTabFinder);
 
   String getAvailableCash() {

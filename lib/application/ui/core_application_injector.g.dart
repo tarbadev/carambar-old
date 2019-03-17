@@ -16,5 +16,6 @@ class _$CoreApplicationInjector extends CoreApplicationInjector {
         (c) => CharacterRepository(c<String>('characterFileName')));
     container.registerFactory((c) =>
         CharacterService(c<CharacterRepository>(), c<CharacterClient>()));
+    container.registerFactory((c) => WorkService());
   }
 }

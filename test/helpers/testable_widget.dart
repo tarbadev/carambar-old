@@ -9,15 +9,17 @@ import 'mock_definition.dart';
 Widget buildTestableWidget(
   Widget widget, {
   List<DisplayAgeEvent> displayAgeEvents,
-  bool isEndLifeDialogVisible,
+  bool isEndLifeDialogVisible: false,
   DisplayCharacter displayCharacter,
-  double availableCash,
+  double availableCash: 4523.67,
+  List<String> availableJobs,
 }) {
   Mocks.setupMockStore(
       displayAgeEvents: displayAgeEvents,
       isEndLifeDialogVisible: isEndLifeDialogVisible,
       displayCharacter: displayCharacter,
       availableCash: availableCash,
+      availableJobs: availableJobs,
   );
 
   return MediaQuery(

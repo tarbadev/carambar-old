@@ -7,8 +7,10 @@ class ApplicationState {
   final List<DisplayAgeEvent> ageEvents;
   final bool isEndLifeDialogVisible;
   final double availableCash;
+  final List<String> availableJobs;
 
-  ApplicationState(this.currentTab, this.character, this.ageEvents, this.isEndLifeDialogVisible, this.availableCash);
+  ApplicationState(this.currentTab, this.character, this.ageEvents, this.isEndLifeDialogVisible, this.availableCash,
+      this.availableJobs);
 
-  factory ApplicationState.initial() => ApplicationState(0, null, [], false, 0);
+  factory ApplicationState.initial() => ApplicationState(0, null, [], false, 0, []);
 }

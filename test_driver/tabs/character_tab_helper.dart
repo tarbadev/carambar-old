@@ -2,7 +2,7 @@ import 'package:flutter_driver/flutter_driver.dart';
 
 import 'base_tab_helper.dart';
 
-class CharacterTab extends BaseTab {
+class CharacterTabHelper extends BaseTabHelper {
   final _characterTabFinder = find.byValueKey('bottomNavigationCharacter');
   final _characterNameTextFinder = find.byValueKey('characterName');
   final _characterGenderTextFinder = find.byValueKey('characterGender');
@@ -11,7 +11,7 @@ class CharacterTab extends BaseTab {
   final _characterOriginTextFinder = find.byValueKey('characterOrigin');
   final _characterSchoolTextFinder = find.byValueKey('characterSchool');
 
-  CharacterTab(driver) : super(driver);
+  CharacterTabHelper(driver) : super(driver);
 
   Future<String> getCharacterName() async {
     return await driver.getText(_characterNameTextFinder);

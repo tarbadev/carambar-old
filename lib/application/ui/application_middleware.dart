@@ -2,6 +2,7 @@ import 'package:carambar/application/ui/application_state.dart';
 import 'package:carambar/character/ui/character_middleware.dart';
 import 'package:carambar/home/ui/home_middleware.dart';
 import 'package:carambar/settings/ui/settings_middleware.dart';
+import 'package:carambar/work/ui/work_middleware.dart';
 import 'package:redux/redux.dart';
 
 List<Middleware<ApplicationState>> createApplicationMiddleware() {
@@ -10,6 +11,7 @@ List<Middleware<ApplicationState>> createApplicationMiddleware() {
   applicationMiddleware.addAll(createHomeMiddleware());
   applicationMiddleware.addAll(createCharacterMiddleware());
   applicationMiddleware.addAll(createSettingsMiddleware());
+  applicationMiddleware.addAll(createWorkMiddleware());
 
   return applicationMiddleware;
 }

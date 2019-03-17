@@ -3,6 +3,7 @@ import 'package:carambar/application/ui/application_state.dart';
 import 'package:carambar/character/ui/tab/character_tab.dart';
 import 'package:carambar/home/ui/tab/home_tab.dart';
 import 'package:carambar/settings/ui/tab/settings_tab.dart';
+import 'package:carambar/work/ui/tab/work_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -72,6 +73,12 @@ class _MainPage extends StatelessWidget {
                         key: Key("bottomNavigationCharacter"),
                       )),
                   BottomNavigationBarItem(
+                      icon: Icon(Icons.work),
+                      title: Text(
+                        'Jobs',
+                        key: Key("bottomNavigationWork"),
+                      )),
+                  BottomNavigationBarItem(
                       icon: Icon(Icons.settings),
                       title: Text(
                         'Settings',
@@ -96,6 +103,7 @@ class _MainPageModel {
   final tabs = [
     HomeTab(),
     CharacterTab(),
+    WorkTab(),
     SettingsTab(),
   ];
 

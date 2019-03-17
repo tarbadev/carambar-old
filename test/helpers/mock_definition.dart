@@ -6,6 +6,7 @@ import 'package:carambar/character/ui/entity/display_character.dart';
 import 'package:carambar/home/domain/service/age_event_service.dart';
 import 'package:carambar/home/repository/age_event_repository.dart';
 import 'package:carambar/home/ui/entity/display_age_event.dart';
+import 'package:carambar/work/domain/service/work_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 import 'package:redux/redux.dart';
@@ -18,6 +19,8 @@ class MockCharacterRepository extends Mock implements CharacterRepository {}
 
 class MockAgeEventService extends Mock implements AgeEventService {}
 class MockAgeEventRepository extends Mock implements AgeEventRepository {}
+
+class MockWorkService extends Mock implements WorkService {}
 
 class MockClient extends Mock implements http.Client {}
 
@@ -36,6 +39,8 @@ class Mocks {
   static final AgeEventService ageEventService = MockAgeEventService();
   static final AgeEventRepository ageEventRepository = MockAgeEventRepository();
 
+  static final WorkService workService = MockWorkService();
+
   static final http.Client client = MockClient();
 
   static final Store<ApplicationState> store = MockStore();
@@ -43,18 +48,18 @@ class Mocks {
   static final NextDispatcher next = (dynamic action) => mockNext.next(action);
   static final ApplicationState applicationState = MockApplicationState();
 
-  static setupMockStore({List<DisplayAgeEvent> displayAgeEvents, bool isEndLifeDialogVisible, DisplayCharacter displayCharacter, double availableCash}) {
+  static setupMockStore({
+    List<DisplayAgeEvent> displayAgeEvents,
+    bool isEndLifeDialogVisible: false,
+    DisplayCharacter displayCharacter,
+    double availableCash: 4523.67,
+    List<String> availableJobs,
+  }) {
     if (displayAgeEvents == null) {
       displayAgeEvents = [Factory.displayAgeEvent()];
     }
-    if (isEndLifeDialogVisible == null) {
-      isEndLifeDialogVisible = false;
-    }
     if (displayCharacter == null) {
       displayCharacter = Factory.displayCharacter();
-    }
-    if (availableCash == null) {
-      availableCash = 4523.67;
     }
 
     reset(store);
@@ -68,5 +73,6 @@ class Mocks {
     when(applicationState.ageEvents).thenReturn(displayAgeEvents);
     when(applicationState.isEndLifeDialogVisible).thenReturn(isEndLifeDialogVisible);
     when(applicationState.availableCash).thenReturn(availableCash);
+    when(applicationState.availableJobs).thenReturn(availableJobs);
   }
 }

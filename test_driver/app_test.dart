@@ -3,18 +3,21 @@ import 'package:test/test.dart';
 
 import 'tabs/character_tab_helper.dart';
 import 'tabs/home_tab_helper.dart';
+import 'tabs/work_tab_helper.dart';
 import 'tabs/settings_tab_helper.dart';
 
 void main() {
   FlutterDriver driver;
-  HomeTab homeTab;
-  CharacterTab characterTab;
-  SettingsTab settingsTab;
+  HomeTabHelper homeTab;
+  CharacterTabHelper characterTab;
+  WorkTabHelper workTab;
+  SettingsTabHelper settingsTab;
 
   setUp(() {
-    homeTab = HomeTab(driver);
-    characterTab = CharacterTab(driver);
-    settingsTab = SettingsTab(driver);
+    homeTab = HomeTabHelper(driver);
+    characterTab = CharacterTabHelper(driver);
+    workTab = WorkTabHelper(driver);
+    settingsTab = SettingsTabHelper(driver);
   });
 
   setUpAll(() async {
@@ -195,6 +198,17 @@ void main() {
     });
   });
 
+  group('Jobs Tab', () {
+    test('should display a list of tabs', () async {
+      await driver.waitUntilNoTransientCallbacks();
+
+      await workTab.goTo();
+
+      expect(await workTab.isAvailableJobsVisible, isTrue);
+      expect(await workTab.getAvailableJobs(), ['Teacher']);
+    });
+  });
+
   group('Settings Tab', () {
     test('should display an end life button that regenerates the character', () async {
       await driver.waitUntilNoTransientCallbacks();
@@ -206,7 +220,7 @@ void main() {
       await settingsTab.goTo();
       await settingsTab.endLife();
 
-      expect(await homeTab.isVisible, isTrue);
+      expect(await homeTab.ageEvent('18').isVisible, isFalse);
       await characterTab.goTo();
 
       expect(await characterTab.getCharacterAge(), '0');

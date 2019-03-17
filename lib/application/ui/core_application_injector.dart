@@ -3,9 +3,10 @@ import 'package:carambar/character/repository/character_repository.dart';
 import 'package:carambar/home/domain/service/age_event_service.dart';
 import 'package:carambar/character/domain/service/character_service.dart';
 import 'package:carambar/character/domain/service/client/character_client.dart';
+import 'package:carambar/work/domain/service/work_service.dart';
 import 'package:kiwi/kiwi.dart';
 
-part 'package:carambar/application/ui/core_application_injector.g.dart';
+part 'core_application_injector.g.dart';
 
 abstract class CoreApplicationInjector {
   void configure() {
@@ -16,6 +17,7 @@ abstract class CoreApplicationInjector {
   @Register.factory(AgeEventService)
   @Register.factory(CharacterRepository, resolvers: {String: 'characterFileName'})
   @Register.factory(CharacterService)
+  @Register.factory(WorkService)
   void configureAnnotations();
 }
 

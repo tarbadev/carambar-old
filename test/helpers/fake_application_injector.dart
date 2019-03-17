@@ -6,5 +6,6 @@ void setupDependencyInjectorForTest() {
   final Container container = Container();
   container.registerInstance(Mocks.ageEventService);
   container.registerInstance(Mocks.characterService);
+  container.registerInstance(Mocks.workService);
   container.registerInstance(Mocks.store);
 }

@@ -64,4 +64,8 @@ class Factory {
 
   static List<DisplayAgeEvent> ageEventsToDisplayAgeEvents(List<AgeEvent> ageEvents) =>
       ageEvents.map((ageEvent) => DisplayAgeEvent.fromAgeEvent(ageEvent)).toList();
+
+  static String job() {
+    return 'Teacher';
+  }
 }

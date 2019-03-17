@@ -27,8 +27,11 @@ void main() {
     await carambarAppView.clickOnCharacterTab();
     verify(Mocks.store.dispatch(SelectTabAction(1)));
 
-    await carambarAppView.clickOnSettingsTab();
+    await carambarAppView.clickOnWorkTab();
     verify(Mocks.store.dispatch(SelectTabAction(2)));
+
+    await carambarAppView.clickOnSettingsTab();
+    verify(Mocks.store.dispatch(SelectTabAction(3)));
   });
 
   testWidgets('Carambar App displays the amount of cash available', (WidgetTester tester) async {

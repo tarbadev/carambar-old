@@ -2,11 +2,11 @@ import 'package:flutter_driver/flutter_driver.dart';
 
 import 'base_tab_helper.dart';
 
-class HomeTab extends BaseTab {
+class HomeTabHelper extends BaseTabHelper {
   final _ageButtonFinder = find.byValueKey('ageButton');
   final _homeTabFinder = find.byValueKey('bottomNavigationHome');
 
-  HomeTab(driver) : super(driver);
+  HomeTabHelper(driver) : super(driver);
 
   Future<void> clickOnAgeButton() async {
     await driver.tap(_ageButtonFinder);
@@ -49,19 +49,5 @@ class AgeEventElement {
 
   AgeEventElement(this.driver, this.id);
 
-  Future<bool> get isVisible => widgetExists(driver, _ageEventItemFinder);
-}
-
-Future<bool> widgetExists(
-  FlutterDriver driver,
-  SerializableFinder finder, {
-  Duration timeout,
-}) async {
-  try {
-    await driver.waitFor(finder, timeout: timeout);
-
-    return true;
-  } catch (_) {
-    return false;
-  }
+  Future<bool> get isVisible => widgetExists(driver, _ageEventItemFinder, timeout: Duration(milliseconds: 500));
 }
