@@ -1,14 +1,14 @@
 import 'package:flutter_driver/flutter_driver.dart';
 
-import 'base_view_helper.dart';
+import 'base_view_driver.dart';
 
-class HomeTabHelper extends BaseViewHelper {
+class HomeTabHelper extends BaseViewDriver {
   final _ageButtonFinder = find.byValueKey('ageButton');
   final _homeTabFinder = find.byValueKey('bottomNavigationHome');
 
   HomeTabHelper(driver): super(driver);
 
-  Future<bool> get isVisible => widgetExists(_ageButtonFinder);
+  Future<bool> get isVisible => widgetExists('ageButton');
 
   Future<void> tapOnAgeButton() async {
     await driver.tap(_ageButtonFinder);
@@ -21,17 +21,13 @@ class HomeTabHelper extends BaseViewHelper {
   AgeEventElement ageEvent(String id) => AgeEventElement(driver, id);
 }
 
-class AgeEventElement extends BaseViewHelper {
+class AgeEventElement extends BaseViewDriver {
   final String id;
 
-  SerializableFinder get _ageEventItemFinder =>
-      find.byValueKey('AgeEventItem__$id');
+  AgeEventElement(driver, this.id): super(driver);
 
-  SerializableFinder get _ageFinder =>
-      find.byValueKey('AgeEventItem__${id}__age');
-
-  Future<String> get age async => await driver.getText(_ageFinder);
-
+  Future<bool> get isVisible => widgetExists('AgeEventItem__$id');
+  Future<String> get age async => await getTextByKey('AgeEventItem__${id}__age');
   Future<List<String>> get events async {
     List<String> events = [];
     try {
@@ -45,8 +41,4 @@ class AgeEventElement extends BaseViewHelper {
 
     return events;
   }
-
-  AgeEventElement(driver, this.id): super(driver);
-
-  Future<bool> get isVisible => widgetExists(_ageEventItemFinder, timeout: Duration(milliseconds: 500));
 }

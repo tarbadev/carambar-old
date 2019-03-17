@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'base_view.dart';
+import 'base_view_tester.dart';
 
-class CharacterTabView extends BaseView {
+class CharacterTabView extends BaseViewTester {
   CharacterTabView(WidgetTester tester) : super(tester);
 
-  String get name => getDataFromTextByKey("characterName");
-  String get gender => getDataFromTextByKey("characterGender");
-  String get origin => getDataFromTextByKey("characterOrigin");
-  String get age => getDataFromTextByKey("characterAge");
-  String get ageCategory => getDataFromTextByKey("characterAgeCategory");
-  String get school => getDataFromTextByKey("characterSchool");
+  String get name => getTextByKey("characterName");
+  String get gender => getTextByKey("characterGender");
+  String get origin => getTextByKey("characterOrigin");
+  String get age => getTextByKey("characterAge");
+  String get ageCategory => getTextByKey("characterAgeCategory");
+  String get school => getTextByKey("characterSchool");
   List<String> get graduates {
     var graduatesFinder = find.byKey(Key('characterGraduates'));
     expect(graduatesFinder, findsOneWidget);

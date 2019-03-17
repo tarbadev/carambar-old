@@ -34,6 +34,7 @@ class WorkTab extends StatelessWidget {
     return showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
+            key: Key('JobDialog'),
             title: Container(
               child: Text(
                 job.name,

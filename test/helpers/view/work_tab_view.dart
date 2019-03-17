@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'base_view.dart';
+import 'base_view_tester.dart';
 
-class WorkTabView extends BaseView {
+class WorkTabView extends BaseViewTester {
   WorkTabView(tester) : super(tester);
 
   Finder get _availableJobsFinder => find.byKey(Key("availableJobs"));
@@ -24,7 +24,7 @@ class WorkTabView extends BaseView {
 
     for(var i = 0; i < itemCount; i++) {
       try {
-        jobs.add(getDataFromTextByKey('Jobs__$i'));
+        jobs.add(getTextByKey('Jobs__$i'));
       } on StateError catch (_) {}
     }
 
@@ -34,11 +34,9 @@ class WorkTabView extends BaseView {
   Future<void> tapOnAvailableJob(String job) async => await tester.tap(find.widgetWithText(ListTile, job));
 }
 
-class JobDialogElement extends BaseView {
+class JobDialogElement extends BaseViewTester {
   Finder get _dialogFinder => find.byType(AlertDialog);
   Finder get _closeButtonFinder => find.byKey(Key('JobDialog__CloseButton'));
-  Finder get _jobTitleFinder => find.byKey(Key("JobDialog__JobTitle"));
-  Finder get _jobRequirementsFinder => find.byKey(Key("JobDialog__JobRequirements"));
 
   JobDialogElement(tester) : super(tester);
 
@@ -51,8 +49,8 @@ class JobDialogElement extends BaseView {
     }
   }
 
-  String get title => getDataFromTextByFinder(_jobTitleFinder);
-  String get requirements => getDataFromTextByFinder(_jobRequirementsFinder);
+  String get title => getTextByKey('JobDialog__JobTitle');
+  String get requirements => getTextByKey('JobDialog__JobRequirements');
 
   Future<void> close() async {
     await tester.tap(_closeButtonFinder);

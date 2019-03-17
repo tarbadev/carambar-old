@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_test/src/widget_tester.dart';
 
-import 'base_view.dart';
+import 'base_view_tester.dart';
 
-class CarambarAppView extends BaseView {
+class CarambarAppView extends BaseViewTester {
   CarambarAppView(WidgetTester tester) : super(tester);
 
   Finder get _homeTabFinder => find.byKey(Key("bottomNavigationHome"));
@@ -18,6 +18,6 @@ class CarambarAppView extends BaseView {
   Future<void> tapOnSettingsTab() async => await tester.tap(_settingsTabFinder);
 
   String getAvailableCash() {
-    return getDataFromTextByKey("availableCash");
+    return getTextByKey("availableCash");
   }
 }

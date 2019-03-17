@@ -1,31 +1,25 @@
 import 'package:flutter_driver/flutter_driver.dart';
 
-import 'base_view_helper.dart';
+import 'base_view_driver.dart';
 
-class CharacterTabHelper extends BaseViewHelper {
+class CharacterTabHelper extends BaseViewDriver {
   final _characterTabFinder = find.byValueKey('bottomNavigationCharacter');
-  final _characterNameTextFinder = find.byValueKey('characterName');
-  final _characterGenderTextFinder = find.byValueKey('characterGender');
-  final _characterAgeTextFinder = find.byValueKey('characterAge');
-  final _characterAgeCategoryTextFinder = find.byValueKey('characterAgeCategory');
-  final _characterOriginTextFinder = find.byValueKey('characterOrigin');
-  final _characterSchoolTextFinder = find.byValueKey('characterSchool');
 
   CharacterTabHelper(driver) : super(driver);
 
-  Future<String> get name async => await driver.getText(_characterNameTextFinder);
-  Future<String> get gender async => await driver.getText(_characterGenderTextFinder);
-  Future<String> get origin async => await driver.getText(_characterOriginTextFinder);
-  Future<String> get age async => await driver.getText(_characterAgeTextFinder);
-  Future<String> get ageCategory async => await driver.getText(_characterAgeCategoryTextFinder);
-  Future<String> get school async => await driver.getText(_characterSchoolTextFinder);
+  Future<String> get name async => await getTextByKey('characterName');
+  Future<String> get gender async => await getTextByKey('characterGender');
+  Future<String> get origin async => await getTextByKey('characterOrigin');
+  Future<String> get age async => await getTextByKey('characterAge');
+  Future<String> get ageCategory async => await getTextByKey('characterAgeCategory');
+  Future<String> get school async => await getTextByKey('characterSchool');
   Future<List<String>> get graduates async {
     List<String> graduates = [];
     try {
       var index = 0;
       do {
-        graduates.add(await driver.getText(
-            find.byValueKey('Character__graduates__${index++}'),
+        graduates.add(await getTextByKey(
+            'Character__graduates__${index++}',
             timeout: Duration(milliseconds: 500)));
       } while (true);
     } catch (_) {}

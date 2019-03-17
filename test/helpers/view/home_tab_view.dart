@@ -3,9 +3,9 @@ import 'package:carambar/home/ui/widget/age_event_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'base_view.dart';
+import 'base_view_tester.dart';
 
-class HomeTabView extends BaseView {
+class HomeTabView extends BaseViewTester {
   final WidgetTester tester;
 
   HomeTabView(this.tester) : super(tester);

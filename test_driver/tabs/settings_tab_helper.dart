@@ -1,8 +1,8 @@
 import 'package:flutter_driver/flutter_driver.dart';
 
-import 'base_view_helper.dart';
+import 'base_view_driver.dart';
 
-class SettingsTabHelper extends BaseViewHelper {
+class SettingsTabHelper extends BaseViewDriver {
   final _settingsTabFinder = find.byValueKey('bottomNavigationSettings');
   final _endLifeButton = find.byValueKey('endLifeButton');
   final _endLifeConfirmButton = find.byValueKey('endLifeConfirmButton');

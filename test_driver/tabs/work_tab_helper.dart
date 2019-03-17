@@ -1,10 +1,9 @@
 import 'package:flutter_driver/flutter_driver.dart';
 
-import 'base_view_helper.dart';
+import 'base_view_driver.dart';
 
-class WorkTabHelper extends BaseViewHelper {
+class WorkTabHelper extends BaseViewDriver {
   final _jobsTabFinder = find.byValueKey('bottomNavigationWork');
-  final _availableJobsFinder = find.byValueKey('availableJobs');
 
   WorkTabHelper(driver) : super(driver);
 
@@ -12,7 +11,7 @@ class WorkTabHelper extends BaseViewHelper {
     await driver.tap(_jobsTabFinder);
   }
 
-  Future<bool> get isAvailableJobsVisible async => await widgetExists(_availableJobsFinder);
+  Future<bool> get isAvailableJobsVisible async => await widgetExists('availableJobs');
   JobDialogElement get jobDialog => JobDialogElement(driver);
 
   Future<List<String>> get availableJobs async {
@@ -20,7 +19,7 @@ class WorkTabHelper extends BaseViewHelper {
     try {
       var index = 0;
       do {
-        jobs.add(await driver.getText(find.byValueKey('Jobs__${index++}'), timeout: Duration(milliseconds: 500)));
+        jobs.add(await getTextByKey('Jobs__${index++}', timeout: Duration(milliseconds: 500)));
       } while (true);
     } catch (_) {}
 
@@ -32,18 +31,15 @@ class WorkTabHelper extends BaseViewHelper {
   }
 }
 
-class JobDialogElement extends BaseViewHelper {
-  SerializableFinder get _dialogFinder => find.byType('AlertDialog');
+class JobDialogElement extends BaseViewDriver {
   SerializableFinder get _closeButtonFinder => find.byValueKey('JobDialog__CloseButton');
-  SerializableFinder get _jobTitleFinder => find.byValueKey("JobDialog__JobTitle");
-  SerializableFinder get _jobRequirementsFinder => find.byValueKey("JobDialog__JobRequirements");
 
   JobDialogElement(driver): super(driver);
 
-  Future<bool> get isVisible => widgetExists(_dialogFinder, timeout: Duration(milliseconds: 500));
+  Future<bool> get isVisible => widgetExists('JobDialog');
 
-  Future<String> get title async => await driver.getText(_jobTitleFinder);
-  Future<String> get requirements async => await driver.getText(_jobRequirementsFinder);
+  Future<String> get title async => getTextByKey('JobDialog__JobTitle');
+  Future<String> get requirements async => getTextByKey('JobDialog__JobRequirements');
 
   Future<void> close() async {
     await driver.tap(_closeButtonFinder);

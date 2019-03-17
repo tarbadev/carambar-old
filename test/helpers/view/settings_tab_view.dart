@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'base_view.dart';
+import 'base_view_tester.dart';
 
-class SettingsTabView extends BaseView {
+class SettingsTabView extends BaseViewTester {
   SettingsTabView(WidgetTester tester) : super(tester);
 
   EndLifeDialogElement get endLifeDialog => EndLifeDialogElement(tester);
