@@ -1,6 +1,7 @@
 import 'package:carambar/application/ui/application_state.dart';
 import 'package:carambar/character/ui/entity/display_character.dart';
 import 'package:carambar/home/ui/entity/display_age_event.dart';
+import 'package:carambar/work/ui/entity/display_job.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -8,13 +9,11 @@ import 'mock_definition.dart';
 
 Widget buildTestableWidget(
   Widget widget, {
-  List<DisplayAgeEvent> displayAgeEvents,
+  List<DisplayAgeEvent> displayAgeEvents: const [],
   bool isEndLifeDialogVisible: false,
   DisplayCharacter displayCharacter,
   double availableCash: 4523.67,
-  List<String> availableJobs: Mocks.defaultAvailableJobs,
-  String jobRequirements: 'High School completed successfully',
-  bool isJobRequirementsDialogVisible: false,
+  List<DisplayJob> availableJobs: const [],
 }) {
   Mocks.setupMockStore(
       displayAgeEvents: displayAgeEvents,
@@ -22,8 +21,6 @@ Widget buildTestableWidget(
       displayCharacter: displayCharacter,
       availableCash: availableCash,
       availableJobs: availableJobs,
-      jobRequirements: jobRequirements,
-      isJobRequirementsDialogVisible: isJobRequirementsDialogVisible,
   );
 
   return MediaQuery(

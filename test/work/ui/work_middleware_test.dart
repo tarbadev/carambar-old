@@ -17,29 +17,16 @@ void main() {
 
     test('on GetAvailableJobsAction loads the available jobs and dispatches and SetAvailableJobsAction', () async {
       var expectedJobs = [Factory.job()];
+      var expectedDisplayJobs = [Factory.displayJob()];
       var getAvailableJobsActions = GetAvailableJobsAction();
 
       when(Mocks.workService.getAvailableJobs()).thenReturn(expectedJobs);
 
       await getAvailableJobs(Mocks.store, getAvailableJobsActions, Mocks.next);
 
-      verify(Mocks.store.dispatch(SetAvailableJobsAction(expectedJobs)));
+      verify(Mocks.store.dispatch(SetAvailableJobsAction(expectedDisplayJobs)));
 
       verify(Mocks.mockNext.next(getAvailableJobsActions));
-    });
-
-    test('on SetJobRequirementsDialogVisibleAction loads the available jobs and dispatches and SetAvailableJobsAction', () async {
-      var jobRequirements = 'High school completed successfully';
-      var displayJobRequirementsDialogAction = DisplayJobRequirementsDialogAction(Factory.job());
-
-      when(Mocks.workService.getJobRequirements('Supervisor')).thenReturn(jobRequirements);
-
-      await displayJobRequirementsDialog(Mocks.store, displayJobRequirementsDialogAction, Mocks.next);
-
-      verify(Mocks.store.dispatch(SetJobRequirementsAction(jobRequirements)));
-      verify(Mocks.store.dispatch(SetJobRequirementsDialogVisibleAction(true)));
-
-      verify(Mocks.mockNext.next(displayJobRequirementsDialogAction));
     });
   });
 }

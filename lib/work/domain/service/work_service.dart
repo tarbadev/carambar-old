@@ -1,9 +1,12 @@
-class WorkService {
-  List<String> getAvailableJobs() {
-    return ['Supervisor'];
-  }
+import 'package:carambar/work/domain/entity/job.dart';
 
-  String getJobRequirements(String job) {
-    return 'High School completed successfully';
+class WorkService {
+  List<Job> getAvailableJobs() {
+    return [
+      Job(
+        name: 'Supervisor',
+        requirements: 'High School completed successfully',
+      ),
+    ];
   }
 }

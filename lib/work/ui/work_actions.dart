@@ -1,7 +1,8 @@
+import 'package:carambar/work/ui/entity/display_job.dart';
 import 'package:equatable/equatable.dart';
 
 class SetAvailableJobsAction extends Equatable {
-  final List<String> jobs;
+  final List<DisplayJob> jobs;
 
   SetAvailableJobsAction(this.jobs): super([jobs]);
 }
@@ -12,16 +13,4 @@ class DisplayJobRequirementsDialogAction extends Equatable {
   final String job;
 
   DisplayJobRequirementsDialogAction(this.job): super([job]);
-}
-
-class SetJobRequirementsAction extends Equatable {
-  final String jobRequirements;
-
-  SetJobRequirementsAction(this.jobRequirements): super([jobRequirements]);
-}
-
-class SetJobRequirementsDialogVisibleAction extends Equatable {
-  final bool visible;
-
-  SetJobRequirementsDialogVisibleAction(this.visible): super([visible]);
 }

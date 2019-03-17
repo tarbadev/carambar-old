@@ -1,5 +1,6 @@
 import 'package:carambar/character/ui/entity/display_character.dart';
 import 'package:carambar/home/ui/entity/display_age_event.dart';
+import 'package:carambar/work/ui/entity/display_job.dart';
 
 class ApplicationState {
   final int currentTab;
@@ -7,9 +8,7 @@ class ApplicationState {
   final List<DisplayAgeEvent> ageEvents;
   final bool isEndLifeDialogVisible;
   final double availableCash;
-  final List<String> availableJobs;
-  final String jobRequirements;
-  final bool isJobRequirementsDialogVisible;
+  final List<DisplayJob> availableJobs;
 
   ApplicationState(
     this.currentTab,
@@ -18,9 +17,7 @@ class ApplicationState {
     this.isEndLifeDialogVisible,
     this.availableCash,
     this.availableJobs,
-    this.jobRequirements,
-    this.isJobRequirementsDialogVisible,
   );
 
-  factory ApplicationState.initial() => ApplicationState(0, null, [], false, 0, [], '', false);
+  factory ApplicationState.initial() => ApplicationState(0, null, [], false, 0, []);
 }

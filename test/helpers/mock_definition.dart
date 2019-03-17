@@ -7,6 +7,7 @@ import 'package:carambar/home/domain/service/age_event_service.dart';
 import 'package:carambar/home/repository/age_event_repository.dart';
 import 'package:carambar/home/ui/entity/display_age_event.dart';
 import 'package:carambar/work/domain/service/work_service.dart';
+import 'package:carambar/work/ui/entity/display_job.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 import 'package:redux/redux.dart';
@@ -48,20 +49,13 @@ class Mocks {
   static final NextDispatcher next = (dynamic action) => mockNext.next(action);
   static final ApplicationState applicationState = MockApplicationState();
 
-
-  static const defaultAvailableJobs = ['Supervisor'];
   static setupMockStore({
-    List<DisplayAgeEvent> displayAgeEvents,
+    List<DisplayAgeEvent> displayAgeEvents = const [],
     bool isEndLifeDialogVisible: false,
     DisplayCharacter displayCharacter,
     double availableCash: 4523.67,
-    List<String> availableJobs: defaultAvailableJobs,
-    String jobRequirements: 'High School completed successfully',
-    bool isJobRequirementsDialogVisible: false,
+    List<DisplayJob> availableJobs: const [],
   }) {
-    if (displayAgeEvents == null) {
-      displayAgeEvents = [Factory.displayAgeEvent()];
-    }
     if (displayCharacter == null) {
       displayCharacter = Factory.displayCharacter();
     }
@@ -78,7 +72,5 @@ class Mocks {
     when(applicationState.isEndLifeDialogVisible).thenReturn(isEndLifeDialogVisible);
     when(applicationState.availableCash).thenReturn(availableCash);
     when(applicationState.availableJobs).thenReturn(availableJobs);
-    when(applicationState.jobRequirements).thenReturn(jobRequirements);
-    when(applicationState.isJobRequirementsDialogVisible).thenReturn(isJobRequirementsDialogVisible);
   }
 }

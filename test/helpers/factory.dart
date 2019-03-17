@@ -4,6 +4,8 @@ import 'package:carambar/character/domain/entity/nationality.dart';
 import 'package:carambar/character/domain/service/client/character_client_response.dart';
 import 'package:carambar/home/ui/entity/display_age_event.dart';
 import 'package:carambar/character/ui/entity/display_character.dart';
+import 'package:carambar/work/domain/entity/job.dart';
+import 'package:carambar/work/ui/entity/display_job.dart';
 
 class Factory {
   static const List<Graduate> _factoryGraduates = [];
@@ -65,7 +67,11 @@ class Factory {
   static List<DisplayAgeEvent> ageEventsToDisplayAgeEvents(List<AgeEvent> ageEvents) =>
       ageEvents.map((ageEvent) => DisplayAgeEvent.fromAgeEvent(ageEvent)).toList();
 
-  static String job() {
-    return 'Supervisor';
+  static Job job() {
+    return Job(name: 'Supervisor', requirements: 'High School completed successfully');
+  }
+
+  static DisplayJob displayJob({String name: 'Supervisor', String requirements: 'High School completed successfully'}) {
+    return DisplayJob(name: name, requirements: requirements);
   }
 }

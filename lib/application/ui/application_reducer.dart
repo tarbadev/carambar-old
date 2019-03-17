@@ -13,8 +13,6 @@ ApplicationState applicationReducer(ApplicationState state, action) => Applicati
       setEndLifeDialogVisibleReducer(state.isEndLifeDialogVisible, action),
       setAvailableCashReducer(state.availableCash, action),
       setAvailableJobsReducer(state.availableJobs, action),
-      setJobRequirementsReducer(state.jobRequirements, action),
-      setJobRequirementsDialogVisibleReducer(state.isJobRequirementsDialogVisible, action),
     );
 
 final Reducer<int> setCurrentTabReducer = combineReducers([

@@ -1,4 +1,5 @@
 import 'package:carambar/application/ui/application_state.dart';
+import 'package:carambar/work/ui/entity/display_job.dart';
 import 'package:carambar/work/ui/work_actions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -15,56 +16,53 @@ class WorkTab extends StatelessWidget {
           return Text('Loading...');
         }
 
-        if (viewModel.isJobRequirementsDialogVisible) {
-          SchedulerBinding.instance.addPostFrameCallback((_) => showDialog(
-              context: context,
-              builder: (BuildContext context) => AlertDialog(
-                    title: Text('Job Requirements'),
-                    content: Container(
-                      child: Text(
-                          viewModel.jobRequirements,
-                          key: Key('jobRequirements'),
-                      ),
-                    ),
-                    actions: <Widget>[
-                      FlatButton(
-                        child: Text("Close", key: Key('jobRequirementsCloseButton')),
-                        onPressed: () {
-                          viewModel.onCloseDialogTapped();
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  )));
-        }
-
         return ListView.builder(
             key: Key('availableJobs'),
             itemCount: viewModel.availableJobs.length,
-            itemBuilder: (BuildContext context, int index) => ListTile(
-                onTap: () => viewModel.onAvailableJobTapped(viewModel.availableJobs[index]),
+            itemBuilder: (BuildContext context, int index) {
+              var job = viewModel.availableJobs[index];
+
+              return ListTile(
+                onTap: () => displayJobRequirements(context, job),
                 title: Text(
-                  viewModel.availableJobs[index],
+                  job.name,
                   key: Key('Jobs__$index'),
-                )));
+                ));
+            });
       });
+
+  Future displayJobRequirements(BuildContext context, DisplayJob job) {
+    return showDialog(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+                  title: Text(job.name, key: Key('JobDialog_title'),),
+                  content: Container(
+                    child: Text(
+                        job.requirements,
+                        key: Key('jobRequirements'),
+                    ),
+                  ),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text("Close", key: Key('jobRequirementsCloseButton')),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                ));
+  }
 }
 
 class _WorkTabModel {
-  final List<String> availableJobs;
+  final List<DisplayJob> availableJobs;
   final Function() getAvailableJobs;
   final Function(String) onAvailableJobTapped;
-  final bool isJobRequirementsDialogVisible;
-  final String jobRequirements;
-  final Function() onCloseDialogTapped;
 
   _WorkTabModel(
     this.availableJobs,
     this.getAvailableJobs,
     this.onAvailableJobTapped,
-    this.isJobRequirementsDialogVisible,
-    this.jobRequirements,
-      this.onCloseDialogTapped,
   );
 
   factory _WorkTabModel.create(Store<ApplicationState> store) {
@@ -72,9 +70,6 @@ class _WorkTabModel {
       store.state.availableJobs,
       () => store.dispatch(GetAvailableJobsAction()),
       (String job) => store.dispatch(DisplayJobRequirementsDialogAction(job)),
-      store.state.isJobRequirementsDialogVisible,
-      store.state.jobRequirements,
-      () => store.dispatch(SetJobRequirementsDialogVisibleAction(false)),
     );
   }
 }
