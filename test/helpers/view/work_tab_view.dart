@@ -10,9 +10,6 @@ class WorkTabView extends BaseView {
   WorkTabView(this.tester) : super(tester);
 
   Finder get _availableJobsFinder => find.byKey(Key("availableJobs"));
-  Finder get _jobRequirementsFinder => find.byKey(Key("jobRequirements"));
-  Finder get _jobRequirementsCloseFinder => find.byKey(Key("jobRequirementsCloseButton"));
-
   bool get isVisible {
     try {
       tester.renderObject<RenderBox>(_availableJobsFinder);
@@ -21,17 +18,7 @@ class WorkTabView extends BaseView {
       return false;
     }
   }
-
-  bool get isJobRequirementsVisible {
-    try {
-      tester.renderObject<RenderBox>(_jobRequirementsFinder);
-      return true;
-    } catch (_) {
-      return false;
-    }
-  }
-
-  String get jobRequirements => getDataFromTextByFinder(_jobRequirementsFinder);
+  JobDialogElement get jobDialog => JobDialogElement(tester);
 
   List<String> getAvailableJobs() {
     var itemCount = (_availableJobsFinder.evaluate().single.widget as ListView).semanticChildCount;
@@ -47,6 +34,30 @@ class WorkTabView extends BaseView {
   }
 
   Future<void> tapOnAvailableJob(String job) async => await tester.tap(find.widgetWithText(ListTile, job));
+}
 
-  Future<void> tapOnCloseJobRequirementsDialog() async => await tester.tap(_jobRequirementsCloseFinder);
+class JobDialogElement extends BaseView {
+  Finder get _dialogFinder => find.byType(AlertDialog);
+  Finder get _closeButtonFinder => find.byKey(Key('JobDialog__CloseButton'));
+  Finder get _jobTitleFinder => find.byKey(Key("JobDialog__JobTitle"));
+  Finder get _jobRequirementsFinder => find.byKey(Key("JobDialog__JobRequirements"));
+
+  JobDialogElement(tester) : super(tester);
+
+  bool get isVisible {
+    try {
+      tester.renderObject<RenderBox>(_dialogFinder);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  String get title => getDataFromTextByFinder(_jobTitleFinder);
+  String get requirements => getDataFromTextByFinder(_jobRequirementsFinder);
+
+  Future<void> close() async {
+    await tester.tap(_closeButtonFinder);
+    await tester.pump();
+  }
 }

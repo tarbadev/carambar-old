@@ -2,7 +2,6 @@ import 'package:carambar/application/ui/application_state.dart';
 import 'package:carambar/work/ui/entity/display_job.dart';
 import 'package:carambar/work/ui/work_actions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
@@ -23,34 +22,40 @@ class WorkTab extends StatelessWidget {
               var job = viewModel.availableJobs[index];
 
               return ListTile(
-                onTap: () => displayJobRequirements(context, job),
-                title: Text(
-                  job.name,
-                  key: Key('Jobs__$index'),
-                ));
+                  onTap: () => displayJobRequirements(context, job),
+                  title: Text(
+                    job.name,
+                    key: Key('Jobs__$index'),
+                  ));
             });
       });
 
   Future displayJobRequirements(BuildContext context, DisplayJob job) {
     return showDialog(
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-                  title: Text(job.name, key: Key('JobDialog_title'),),
-                  content: Container(
-                    child: Text(
-                        job.requirements,
-                        key: Key('jobRequirements'),
-                    ),
-                  ),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text("Close", key: Key('jobRequirementsCloseButton')),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-                ));
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+            title: Container(
+              child: Text(
+                job.name,
+                key: Key('JobDialog__JobTitle'),
+              ),
+            ),
+            content: Container(
+              child: Text(
+                job.requirements,
+                key: Key('JobDialog__JobRequirements'),
+              ),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Close", key: Key('JobDialog__CloseButton')),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+    );
   }
 }
 

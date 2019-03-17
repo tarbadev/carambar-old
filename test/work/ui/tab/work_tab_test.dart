@@ -56,7 +56,8 @@ void main() {
     await workTabView.tapOnAvailableJob('Supervisor');
     await tester.pump();
 
-    expect(workTabView.isJobRequirementsVisible, isTrue);
-    expect(workTabView.jobRequirements, expectedJobRequirements);
+    expect(workTabView.jobDialog.isVisible, isTrue);
+    expect(workTabView.jobDialog.title, 'Supervisor');
+    expect(workTabView.jobDialog.requirements, expectedJobRequirements);
   });
 }

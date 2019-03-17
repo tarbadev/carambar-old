@@ -226,11 +226,12 @@ void main() {
 
       await workTab.tapOnAvailableJob('Supervisor');
 
-      expect(await workTab.isJobRequirementsVisible, isTrue);
-      expect(await workTab.jobRequirements, 'High School completed successfully');
+      expect(await workTab.jobDialog.isVisible, isTrue);
+      expect(await workTab.jobDialog.title, 'Supervisor');
+      expect(await workTab.jobDialog.requirements, 'High School completed successfully');
 
-      await workTab.closeJobRequirementsDialog();
-      expect(await workTab.isJobRequirementsVisible, isFalse);
+      await workTab.jobDialog.close();
+      expect(await workTab.jobDialog.isVisible, isFalse);
     });
   });
 
