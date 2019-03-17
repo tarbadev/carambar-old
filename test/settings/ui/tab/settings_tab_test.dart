@@ -19,7 +19,7 @@ void main() {
 
     expect(settingsTabView.endLifeDialog.isVisible, isFalse);
 
-    await settingsTabView.clickOnEndLifeButton();
+    await settingsTabView.tapOnEndLifeButton();
 
     verify(Mocks.store.dispatch(SetEndLifeDialogVisibleAction(true)));
   });

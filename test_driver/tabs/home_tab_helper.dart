@@ -8,7 +8,7 @@ class HomeTabHelper extends BaseViewHelper {
 
   HomeTabHelper(driver) : super(driver);
 
-  Future<void> clickOnAgeButton() async {
+  Future<void> tapOnAgeButton() async {
     await driver.tap(_ageButtonFinder);
   }
 

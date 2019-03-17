@@ -31,7 +31,7 @@ class WorkTabHelper extends BaseViewHelper {
     return jobs;
   }
 
-  Future<void> clickOnAvailableJob(String job) async {
+  Future<void> tapOnAvailableJob(String job) async {
     await driver.tap(find.text(job));
   }
 

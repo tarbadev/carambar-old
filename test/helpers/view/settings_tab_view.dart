@@ -10,7 +10,7 @@ class SettingsTabView extends BaseView {
 
   Finder get _endLifeButtonFinder => find.byKey(Key("endLifeButton"));
 
-  Future<void> clickOnEndLifeButton() async {
+  Future<void> tapOnEndLifeButton() async {
     await tester.tap(_endLifeButtonFinder);
     await tester.pump();
   }

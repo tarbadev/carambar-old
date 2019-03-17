@@ -89,7 +89,7 @@ void main() {
       expect(await characterTab.getCharacterAge(), '0');
 
       await homeTab.goTo();
-      await homeTab.clickOnAgeButton();
+      await homeTab.tapOnAgeButton();
       await characterTab.goTo();
 
       expect(await characterTab.getCharacterAge(), '1');
@@ -100,14 +100,14 @@ void main() {
 
       expect(await characterTab.getCharacterAge(), '1');
       await homeTab.goTo();
-      await homeTab.clickOnAgeButton();
+      await homeTab.tapOnAgeButton();
       await characterTab.goTo();
 
       expect(await characterTab.getCharacterAge(), '2');
       expect(await characterTab.getCharacterAgeCategory(), 'Baby');
 
       await homeTab.goTo();
-      await homeTab.clickOnAgeButton();
+      await homeTab.tapOnAgeButton();
       await characterTab.goTo();
 
       expect(await characterTab.getCharacterAge(), '3');
@@ -133,9 +133,9 @@ void main() {
       expect(await characterTab.getCharacterSchool(), 'Kindergarten');
 
       await homeTab.goTo();
-      await homeTab.clickOnAgeButton();
-      await homeTab.clickOnAgeButton();
-      await homeTab.clickOnAgeButton();
+      await homeTab.tapOnAgeButton();
+      await homeTab.tapOnAgeButton();
+      await homeTab.tapOnAgeButton();
 
       expect(await homeTab.ageEvent('6').isVisible, isTrue);
       expect(await homeTab.ageEvent('6').events, contains('You just started Primary School'));
@@ -144,11 +144,11 @@ void main() {
       expect(await characterTab.getCharacterSchool(), 'Primary School');
 
       await homeTab.goTo();
-      await homeTab.clickOnAgeButton();
-      await homeTab.clickOnAgeButton();
-      await homeTab.clickOnAgeButton();
-      await homeTab.clickOnAgeButton();
-      await homeTab.clickOnAgeButton();
+      await homeTab.tapOnAgeButton();
+      await homeTab.tapOnAgeButton();
+      await homeTab.tapOnAgeButton();
+      await homeTab.tapOnAgeButton();
+      await homeTab.tapOnAgeButton();
 
       expect(await homeTab.ageEvent('11').isVisible, isTrue);
       expect(await homeTab.ageEvent('11').events, contains('You just started Middle School'));
@@ -161,10 +161,10 @@ void main() {
       await driver.waitUntilNoTransientCallbacks();
       await homeTab.goTo();
 
-      await homeTab.clickOnAgeButton();
-      await homeTab.clickOnAgeButton();
-      await homeTab.clickOnAgeButton();
-      await homeTab.clickOnAgeButton();
+      await homeTab.tapOnAgeButton();
+      await homeTab.tapOnAgeButton();
+      await homeTab.tapOnAgeButton();
+      await homeTab.tapOnAgeButton();
 
       expect(await homeTab.ageEvent('15').isVisible, isTrue);
       expect(await homeTab.ageEvent('15').events, contains('You graduated from Middle School'));
@@ -184,9 +184,9 @@ void main() {
       expect(await characterTab.getCharacterSchool(), 'High School');
 
       await homeTab.goTo();
-      await homeTab.clickOnAgeButton();
-      await homeTab.clickOnAgeButton();
-      await homeTab.clickOnAgeButton();
+      await homeTab.tapOnAgeButton();
+      await homeTab.tapOnAgeButton();
+      await homeTab.tapOnAgeButton();
 
       expect(await homeTab.ageEvent('18').isVisible, isTrue);
       expect(await homeTab.ageEvent('18').events, contains('You graduated from High School'));
@@ -217,14 +217,14 @@ void main() {
       expect(await workTab.getAvailableJobs(), ['Supervisor']);
     });
 
-    test('should display the jobs requirements on available job click', () async {
+    test('should display the jobs requirements on available job tap', () async {
       await driver.waitUntilNoTransientCallbacks();
 
       await workTab.goTo();
 
       expect(await workTab.isAvailableJobsVisible, isTrue);
 
-      await workTab.clickOnAvailableJob('Supervisor');
+      await workTab.tapOnAvailableJob('Supervisor');
 
       expect(await workTab.isJobRequirementsVisible, isTrue);
       expect(await workTab.jobRequirements, 'High School completed successfully');

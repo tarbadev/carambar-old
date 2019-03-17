@@ -21,16 +21,16 @@ void main() {
     final carambarAppView = CarambarAppView(tester);
     await tester.pumpWidget(buildTestableWidget(CarambarApp()));
 
-    await carambarAppView.clickOnHomeTab();
+    await carambarAppView.tapOnHomeTab();
     verify(Mocks.store.dispatch(SelectTabAction(0)));
 
-    await carambarAppView.clickOnCharacterTab();
+    await carambarAppView.tapOnCharacterTab();
     verify(Mocks.store.dispatch(SelectTabAction(1)));
 
-    await carambarAppView.clickOnWorkTab();
+    await carambarAppView.tapOnWorkTab();
     verify(Mocks.store.dispatch(SelectTabAction(2)));
 
-    await carambarAppView.clickOnSettingsTab();
+    await carambarAppView.tapOnSettingsTab();
     verify(Mocks.store.dispatch(SelectTabAction(3)));
   });
 
