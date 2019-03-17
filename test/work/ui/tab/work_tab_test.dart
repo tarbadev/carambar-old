@@ -10,7 +10,7 @@ import '../../../helpers/view/work_tab_view.dart';
 void main() {
   testWidgets('Work Tab displays the available jobs', (WidgetTester tester) async {
     var workTabView = WorkTabView(tester);
-    var expectedJobs = ['Teacher'];
+    var expectedJobs = ['Supervisor'];
 
     await tester.pumpWidget(buildTestableWidget(WorkTab(), availableJobs: expectedJobs));
 
@@ -39,8 +39,44 @@ void main() {
   });
 
   testWidgets('Work Tab does not dispatch an GetAvailableJobsAction when availableJobs is not empty', (WidgetTester tester) async {
-    await tester.pumpWidget(buildTestableWidget(WorkTab(), availableJobs: ['Teacher']));
+    await tester.pumpWidget(buildTestableWidget(WorkTab(), availableJobs: ['Supervisor']));
 
     verifyNever(Mocks.store.dispatch(GetAvailableJobsAction()));
+  });
+
+  testWidgets('Work Tab dispatches a DisplayJobRequirementsDialogAction when an available job is tapped', (WidgetTester tester) async {
+    var workTabView = WorkTabView(tester);
+    var expectedJobs = ['Supervisor'];
+
+    await tester.pumpWidget(buildTestableWidget(WorkTab(), availableJobs: expectedJobs));
+
+    await workTabView.tapOnAvailableJob('Supervisor');
+
+    verify(Mocks.store.dispatch(DisplayJobRequirementsDialogAction('Supervisor')));
+  });
+
+  testWidgets('Work Tab displays the job requirements when isJobRequirementsDialogVisible is true', (WidgetTester tester) async {
+    var workTabView = WorkTabView(tester);
+    var expectedJobRequirements = 'Lots of job requirements';
+
+    await tester.pumpWidget(buildTestableWidget(WorkTab(), jobRequirements: expectedJobRequirements, isJobRequirementsDialogVisible: true));
+    await tester.pump();
+
+    expect(workTabView.isJobRequirementsVisible, isTrue);
+    expect(workTabView.jobRequirements, expectedJobRequirements);
+  });
+
+  testWidgets('Work Tab dispatches a SetJobRequirementsDialogVisibleAction on close dialog tap', (WidgetTester tester) async {
+    var workTabView = WorkTabView(tester);
+    var expectedJobRequirements = 'Lots of job requirements';
+
+    await tester.pumpWidget(buildTestableWidget(WorkTab(), jobRequirements: expectedJobRequirements, isJobRequirementsDialogVisible: true));
+    await tester.pump();
+
+    expect(workTabView.isJobRequirementsVisible, isTrue);
+
+    await workTabView.tapOnCloseJobRequirementsDialog();
+
+    verify(Mocks.store.dispatch(SetJobRequirementsDialogVisibleAction(false)));
   });
 }

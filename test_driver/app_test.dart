@@ -122,7 +122,7 @@ void main() {
       expect(await homeTab.ageEvent('3').age, 'Age 3');
     });
 
-    test('should change school when aging and add event and graduate after Middle School', () async {
+    test('should change school when aging and add event', () async {
       await driver.waitUntilNoTransientCallbacks();
       await homeTab.goTo();
 
@@ -157,7 +157,7 @@ void main() {
       expect(await characterTab.getCharacterSchool(), 'Middle School');
     });
 
-    test('should change school when aging and add event and graduate after High School', () async {
+    test('should change school when aging and add event and graduate after Middle School', () async {
       await driver.waitUntilNoTransientCallbacks();
       await homeTab.goTo();
 
@@ -190,11 +190,20 @@ void main() {
 
       expect(await homeTab.ageEvent('18').isVisible, isTrue);
       expect(await homeTab.ageEvent('18').events, contains('You graduated from High School'));
+
+      await characterTab.goTo();
+      expect(await characterTab.getCharacterGraduates(), ['Middle School', 'High School']);
+    });
+
+    test('should finish studies when aging to 18', () async {
+      await driver.waitUntilNoTransientCallbacks();
+      await homeTab.goTo();
+
+      expect(await homeTab.ageEvent('18').isVisible, isTrue);
       expect(await homeTab.ageEvent('18').events, contains('You finished your studies'));
 
       await characterTab.goTo();
       expect(await characterTab.getCharacterSchool(), 'None');
-      expect(await characterTab.getCharacterGraduates(), ['Middle School', 'High School']);
     });
   });
 
@@ -205,7 +214,23 @@ void main() {
       await workTab.goTo();
 
       expect(await workTab.isAvailableJobsVisible, isTrue);
-      expect(await workTab.getAvailableJobs(), ['Teacher']);
+      expect(await workTab.getAvailableJobs(), ['Supervisor']);
+    });
+
+    test('should display the jobs requirements on available job click', () async {
+      await driver.waitUntilNoTransientCallbacks();
+
+      await workTab.goTo();
+
+      expect(await workTab.isAvailableJobsVisible, isTrue);
+
+      await workTab.clickOnAvailableJob('Supervisor');
+
+      expect(await workTab.isJobRequirementsVisible, isTrue);
+      expect(await workTab.jobRequirements, 'High School completed successfully');
+
+      await workTab.closeJobRequirementsDialog();
+      expect(await workTab.isJobRequirementsVisible, isFalse);
     });
   });
 

@@ -14,4 +14,9 @@ class BaseView {
     Text text = tester.widget(textFinder);
     return text.data;
   }
+
+  String getDataFromTextByFinder(Finder finder) {
+    Text text = tester.widget(finder);
+    return text.data;
+  }
 }

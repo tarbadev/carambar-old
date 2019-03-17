@@ -8,9 +8,19 @@ class ApplicationState {
   final bool isEndLifeDialogVisible;
   final double availableCash;
   final List<String> availableJobs;
+  final String jobRequirements;
+  final bool isJobRequirementsDialogVisible;
 
-  ApplicationState(this.currentTab, this.character, this.ageEvents, this.isEndLifeDialogVisible, this.availableCash,
-      this.availableJobs);
+  ApplicationState(
+    this.currentTab,
+    this.character,
+    this.ageEvents,
+    this.isEndLifeDialogVisible,
+    this.availableCash,
+    this.availableJobs,
+    this.jobRequirements,
+    this.isJobRequirementsDialogVisible,
+  );
 
-  factory ApplicationState.initial() => ApplicationState(0, null, [], false, 0, []);
+  factory ApplicationState.initial() => ApplicationState(0, null, [], false, 0, [], '', false);
 }

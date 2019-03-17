@@ -12,7 +12,9 @@ Widget buildTestableWidget(
   bool isEndLifeDialogVisible: false,
   DisplayCharacter displayCharacter,
   double availableCash: 4523.67,
-  List<String> availableJobs,
+  List<String> availableJobs: Mocks.defaultAvailableJobs,
+  String jobRequirements: 'High School completed successfully',
+  bool isJobRequirementsDialogVisible: false,
 }) {
   Mocks.setupMockStore(
       displayAgeEvents: displayAgeEvents,
@@ -20,13 +22,15 @@ Widget buildTestableWidget(
       displayCharacter: displayCharacter,
       availableCash: availableCash,
       availableJobs: availableJobs,
+      jobRequirements: jobRequirements,
+      isJobRequirementsDialogVisible: isJobRequirementsDialogVisible,
   );
 
   return MediaQuery(
     data: MediaQueryData(),
     child: StoreProvider<ApplicationState>(
       store: Mocks.store,
-      child: MaterialApp(home: widget),
+      child: MaterialApp(home: Scaffold(body: widget)),
     ),
   );
 }

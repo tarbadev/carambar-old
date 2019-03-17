@@ -1,26 +1,25 @@
 import 'package:flutter_driver/flutter_driver.dart';
 
-class BaseTabHelper {
+class BaseViewHelper {
   final FlutterDriver driver;
   final _availableCashFinder = find.byValueKey('availableCash');
 
-  BaseTabHelper(this.driver);
-  
+  BaseViewHelper(this.driver);
+
   Future<String> getAvailableCash() async {
     return await driver.getText(_availableCashFinder);
   }
-}
 
-Future<bool> widgetExists(
-    FlutterDriver driver,
+  Future<bool> widgetExists(
     SerializableFinder finder, {
-      Duration timeout,
-    }) async {
-  try {
-    await driver.waitFor(finder, timeout: timeout);
+    Duration timeout,
+  }) async {
+    try {
+      await driver.waitFor(finder, timeout: timeout);
 
-    return true;
-  } catch (_) {
-    return false;
+      return true;
+    } catch (_) {
+      return false;
+    }
   }
 }

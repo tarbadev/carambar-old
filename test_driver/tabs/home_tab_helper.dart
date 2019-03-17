@@ -1,8 +1,8 @@
 import 'package:flutter_driver/flutter_driver.dart';
 
-import 'base_tab_helper.dart';
+import 'base_view_helper.dart';
 
-class HomeTabHelper extends BaseTabHelper {
+class HomeTabHelper extends BaseViewHelper {
   final _ageButtonFinder = find.byValueKey('ageButton');
   final _homeTabFinder = find.byValueKey('bottomNavigationHome');
 
@@ -18,11 +18,10 @@ class HomeTabHelper extends BaseTabHelper {
 
   AgeEventElement ageEvent(String id) => AgeEventElement(driver, id);
 
-  Future<bool> get isVisible => widgetExists(driver, _ageButtonFinder);
+  Future<bool> get isVisible => widgetExists(_ageButtonFinder);
 }
 
-class AgeEventElement {
-  final FlutterDriver driver;
+class AgeEventElement extends BaseViewHelper {
   final String id;
 
   SerializableFinder get _ageEventItemFinder =>
@@ -47,7 +46,7 @@ class AgeEventElement {
     return events;
   }
 
-  AgeEventElement(this.driver, this.id);
+  AgeEventElement(driver, this.id): super(driver);
 
-  Future<bool> get isVisible => widgetExists(driver, _ageEventItemFinder, timeout: Duration(milliseconds: 500));
+  Future<bool> get isVisible => widgetExists(_ageEventItemFinder, timeout: Duration(milliseconds: 500));
 }

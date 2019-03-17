@@ -16,7 +16,7 @@ void main() {
 
     await tester.pumpWidget(buildTestableWidget(HomeTab()));
 
-    await homeTabView.clickOnAgeButton();
+    await homeTabView.tapOnAgeButton();
 
     verify(Mocks.store.dispatch(IncrementAgeAction()));
   });

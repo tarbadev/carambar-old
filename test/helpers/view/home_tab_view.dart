@@ -21,7 +21,7 @@ class HomeTabView extends BaseView {
     }
   }
 
-  Future<void> clickOnAgeButton() async => await tester.tap(_ageButtonFinder);
+  Future<void> tapOnAgeButton() async => await tester.tap(_ageButtonFinder);
 
   Future<List<DisplayAgeEvent>> getEventList() async {
     var ageEventListFinder = find.byType(AgeEventList);

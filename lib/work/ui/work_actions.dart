@@ -7,3 +7,21 @@ class SetAvailableJobsAction extends Equatable {
 }
 
 class GetAvailableJobsAction extends Equatable {}
+
+class DisplayJobRequirementsDialogAction extends Equatable {
+  final String job;
+
+  DisplayJobRequirementsDialogAction(this.job): super([job]);
+}
+
+class SetJobRequirementsAction extends Equatable {
+  final String jobRequirements;
+
+  SetJobRequirementsAction(this.jobRequirements): super([jobRequirements]);
+}
+
+class SetJobRequirementsDialogVisibleAction extends Equatable {
+  final bool visible;
+
+  SetJobRequirementsDialogVisibleAction(this.visible): super([visible]);
+}

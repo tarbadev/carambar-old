@@ -48,12 +48,16 @@ class Mocks {
   static final NextDispatcher next = (dynamic action) => mockNext.next(action);
   static final ApplicationState applicationState = MockApplicationState();
 
+
+  static const defaultAvailableJobs = ['Supervisor'];
   static setupMockStore({
     List<DisplayAgeEvent> displayAgeEvents,
     bool isEndLifeDialogVisible: false,
     DisplayCharacter displayCharacter,
     double availableCash: 4523.67,
-    List<String> availableJobs,
+    List<String> availableJobs: defaultAvailableJobs,
+    String jobRequirements: 'High School completed successfully',
+    bool isJobRequirementsDialogVisible: false,
   }) {
     if (displayAgeEvents == null) {
       displayAgeEvents = [Factory.displayAgeEvent()];
@@ -74,5 +78,7 @@ class Mocks {
     when(applicationState.isEndLifeDialogVisible).thenReturn(isEndLifeDialogVisible);
     when(applicationState.availableCash).thenReturn(availableCash);
     when(applicationState.availableJobs).thenReturn(availableJobs);
+    when(applicationState.jobRequirements).thenReturn(jobRequirements);
+    when(applicationState.isJobRequirementsDialogVisible).thenReturn(isJobRequirementsDialogVisible);
   }
 }

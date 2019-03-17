@@ -1,8 +1,8 @@
 import 'package:flutter_driver/flutter_driver.dart';
 
-import 'base_tab_helper.dart';
+import 'base_view_helper.dart';
 
-class CharacterTabHelper extends BaseTabHelper {
+class CharacterTabHelper extends BaseViewHelper {
   final _characterTabFinder = find.byValueKey('bottomNavigationCharacter');
   final _characterNameTextFinder = find.byValueKey('characterName');
   final _characterGenderTextFinder = find.byValueKey('characterGender');

@@ -66,6 +66,6 @@ class Factory {
       ageEvents.map((ageEvent) => DisplayAgeEvent.fromAgeEvent(ageEvent)).toList();
 
   static String job() {
-    return 'Teacher';
+    return 'Supervisor';
   }
 }
