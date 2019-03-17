@@ -25,9 +25,9 @@ void main() {
 
         when(Mocks.characterService.getCharacter()).thenAnswer((_) async => character);
 
-        await initiateCharacter(Mocks.mockStore, initiateStateAction, Mocks.next);
+        await initiateCharacter(Mocks.store, initiateStateAction, Mocks.next);
 
-        verify(Mocks.mockStore.dispatch(SetCharacterAction(DisplayCharacter.fromCharacter(character))));
+        verify(Mocks.store.dispatch(SetCharacterAction(DisplayCharacter.fromCharacter(character))));
         verify(Mocks.mockNext.next(initiateStateAction));
         verifyNever(Mocks.characterService.generateCharacter());
       });
@@ -41,9 +41,9 @@ void main() {
         when(Mocks.characterService.generateCharacter()).thenAnswer((_) async => character);
         when(Mocks.ageEventService.addEvent(any, event: anyNamed('event'))).thenAnswer((_) async => ageEvents);
 
-        await initiateCharacter(Mocks.mockStore, initiateStateAction, Mocks.next);
+        await initiateCharacter(Mocks.store, initiateStateAction, Mocks.next);
 
-        verify(Mocks.mockStore.dispatch(SetCharacterAction(DisplayCharacter.fromCharacter(character))));
+        verify(Mocks.store.dispatch(SetCharacterAction(DisplayCharacter.fromCharacter(character))));
         verify(Mocks.mockNext.next(initiateStateAction));
       });
 
@@ -60,10 +60,10 @@ void main() {
         when(Mocks.characterService.generateCharacter()).thenAnswer((_) async => character);
         when(Mocks.ageEventService.addEvent(any, event: anyNamed('event'))).thenAnswer((_) async => ageEvents);
 
-        await initiateCharacter(Mocks.mockStore, initiateStateAction, Mocks.next);
+        await initiateCharacter(Mocks.store, initiateStateAction, Mocks.next);
 
         verify(Mocks.ageEventService.addEvent(0, event: expectedEvent));
-        verify(Mocks.mockStore.dispatch(SetAgeEventsAction(Factory.ageEventsToDisplayAgeEvents(ageEvents))));
+        verify(Mocks.store.dispatch(SetAgeEventsAction(Factory.ageEventsToDisplayAgeEvents(ageEvents))));
       });
     });
   });

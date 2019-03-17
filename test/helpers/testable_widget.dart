@@ -12,7 +12,7 @@ Widget buildTestableWidget(Widget widget, {List<DisplayAgeEvent> displayAgeEvent
   return MediaQuery(
     data: MediaQueryData(),
     child: StoreProvider<ApplicationState>(
-      store: Mocks.mockStore,
+      store: Mocks.store,
       child: MaterialApp(home: widget),
     ),
   );

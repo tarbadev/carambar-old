@@ -19,13 +19,13 @@ void main() {
         () async {
       var endLifeAction = EndLifeAction();
 
-      await endLife(Mocks.mockStore, endLifeAction, Mocks.next);
+      await endLife(Mocks.store, endLifeAction, Mocks.next);
 
       verify(Mocks.characterService.deleteCharacter());
       verify(Mocks.ageEventService.deleteAgeEvents());
 
-      verify(Mocks.mockStore.dispatch(InitiateStateAction()));
-      verify(Mocks.mockStore.dispatch(SelectHomeTabAction()));
+      verify(Mocks.store.dispatch(InitiateStateAction()));
+      verify(Mocks.store.dispatch(SelectHomeTabAction()));
 
       verify(Mocks.mockNext.next(endLifeAction));
     });

@@ -30,9 +30,9 @@ void main() {
         when(Mocks.characterService.incrementAge()).thenAnswer((_) async => character);
         when(Mocks.ageEventService.addEvent(any, event: anyNamed('event'))).thenAnswer((_) async => []);
 
-        await incrementAge(Mocks.mockStore, incrementAgeAction, Mocks.next);
+        await incrementAge(Mocks.store, incrementAgeAction, Mocks.next);
 
-        verify(Mocks.mockStore.dispatch(SetCharacterAction(DisplayCharacter.fromCharacter(character))));
+        verify(Mocks.store.dispatch(SetCharacterAction(DisplayCharacter.fromCharacter(character))));
         verify(Mocks.mockNext.next(incrementAgeAction));
       });
 
@@ -44,10 +44,10 @@ void main() {
         when(Mocks.characterService.incrementAge()).thenAnswer((_) async => character);
         when(Mocks.ageEventService.addEvent(any, event: anyNamed('event'))).thenAnswer((_) async => ageEvents);
 
-        await incrementAge(Mocks.mockStore, incrementAgeAction, Mocks.next);
+        await incrementAge(Mocks.store, incrementAgeAction, Mocks.next);
 
         verify(Mocks.ageEventService.addEvent(18, event: null));
-        verify(Mocks.mockStore.dispatch(SetAgeEventsAction(Factory.ageEventsToDisplayAgeEvents(ageEvents))));
+        verify(Mocks.store.dispatch(SetAgeEventsAction(Factory.ageEventsToDisplayAgeEvents(ageEvents))));
         verify(Mocks.mockNext.next(incrementAgeAction));
       });
 
@@ -59,11 +59,11 @@ void main() {
           Factory.ageEvent(age: 3, events: ['You just started Kindergarten'])
         ];
 
-        when(Mocks.mockApplicationState.character).thenReturn(originalDisplayCharacter);
+        when(Mocks.applicationState.character).thenReturn(originalDisplayCharacter);
         when(Mocks.characterService.incrementAge()).thenAnswer((_) async => character);
         when(Mocks.ageEventService.addEvent(any, event: anyNamed('event'))).thenAnswer((_) async => ageEvents);
 
-        await incrementAge(Mocks.mockStore, incrementAgeAction, Mocks.next);
+        await incrementAge(Mocks.store, incrementAgeAction, Mocks.next);
 
         verify(Mocks.ageEventService.addEvent(3, event: 'You just started Kindergarten'));
       });
@@ -76,12 +76,12 @@ void main() {
           Factory.ageEvent(age: 18, events: ['You finished your studies'])
         ];
 
-        when(Mocks.mockApplicationState.character).thenReturn(originalDisplayCharacter);
+        when(Mocks.applicationState.character).thenReturn(originalDisplayCharacter);
         when(Mocks.characterService.incrementAge()).thenAnswer((_) async => character);
         when(Mocks.characterService.addGraduate(any)).thenAnswer((_) async => character);
         when(Mocks.ageEventService.addEvent(any, event: anyNamed('event'))).thenAnswer((_) async => ageEvents);
 
-        await incrementAge(Mocks.mockStore, incrementAgeAction, Mocks.next);
+        await incrementAge(Mocks.store, incrementAgeAction, Mocks.next);
 
         verify(Mocks.ageEventService.addEvent(18, event: 'You finished your studies'));
       });
@@ -95,12 +95,12 @@ void main() {
         var expectedEvent = 'You graduated from High School';
         var ageEvents = [Factory.ageEvent(age: 18, events: [expectedEvent])];
 
-        when(Mocks.mockApplicationState.character).thenReturn(originalDisplayCharacter);
+        when(Mocks.applicationState.character).thenReturn(originalDisplayCharacter);
         when(Mocks.characterService.incrementAge()).thenAnswer((_) async => character);
         when(Mocks.characterService.addGraduate(any)).thenAnswer((_) async => characterWithGraduates);
         when(Mocks.ageEventService.addEvent(any, event: anyNamed('event'))).thenAnswer((_) async => ageEvents);
 
-        await incrementAge(Mocks.mockStore, incrementAgeAction, Mocks.next);
+        await incrementAge(Mocks.store, incrementAgeAction, Mocks.next);
 
         verify(Mocks.characterService.addGraduate(Graduate.HighSchool));
       });
@@ -113,12 +113,12 @@ void main() {
         var expectedEvent = 'You graduated from Middle School';
         var ageEvents = [Factory.ageEvent(age: 15, events: [expectedEvent])];
 
-        when(Mocks.mockApplicationState.character).thenReturn(originalDisplayCharacter);
+        when(Mocks.applicationState.character).thenReturn(originalDisplayCharacter);
         when(Mocks.characterService.incrementAge()).thenAnswer((_) async => character);
         when(Mocks.characterService.addGraduate(any)).thenAnswer((_) async => character);
         when(Mocks.ageEventService.addEvent(any, event: anyNamed('event'))).thenAnswer((_) async => ageEvents);
 
-        await incrementAge(Mocks.mockStore, incrementAgeAction, Mocks.next);
+        await incrementAge(Mocks.store, incrementAgeAction, Mocks.next);
 
         verify(Mocks.ageEventService.addEvent(15, event: expectedEvent));
       });
@@ -131,12 +131,12 @@ void main() {
         var expectedEvent = 'You graduated from High School';
         var ageEvents = [Factory.ageEvent(age: 18, events: [expectedEvent])];
 
-        when(Mocks.mockApplicationState.character).thenReturn(originalDisplayCharacter);
+        when(Mocks.applicationState.character).thenReturn(originalDisplayCharacter);
         when(Mocks.characterService.incrementAge()).thenAnswer((_) async => character);
         when(Mocks.characterService.addGraduate(any)).thenAnswer((_) async => character);
         when(Mocks.ageEventService.addEvent(any, event: anyNamed('event'))).thenAnswer((_) async => ageEvents);
 
-        await incrementAge(Mocks.mockStore, incrementAgeAction, Mocks.next);
+        await incrementAge(Mocks.store, incrementAgeAction, Mocks.next);
 
         verify(Mocks.ageEventService.addEvent(18, event: expectedEvent));
       });
@@ -148,9 +148,9 @@ void main() {
 
       when(Mocks.ageEventService.getAgeEvents()).thenAnswer((_) async => ageEvents);
 
-      await initiateAgeEvents(Mocks.mockStore, initiateStateAction, Mocks.next);
+      await initiateAgeEvents(Mocks.store, initiateStateAction, Mocks.next);
 
-      verify(Mocks.mockStore.dispatch(SetAgeEventsAction(Factory.ageEventsToDisplayAgeEvents(ageEvents))));
+      verify(Mocks.store.dispatch(SetAgeEventsAction(Factory.ageEventsToDisplayAgeEvents(ageEvents))));
       verify(Mocks.mockNext.next(initiateStateAction));
     });
   });

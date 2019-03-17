@@ -38,10 +38,10 @@ class Mocks {
 
   static final http.Client client = MockClient();
 
-  static final Store<ApplicationState> mockStore = MockStore();
+  static final Store<ApplicationState> store = MockStore();
   static final MockNext mockNext = MockNext();
   static final NextDispatcher next = (dynamic action) => mockNext.next(action);
-  static final ApplicationState mockApplicationState = MockApplicationState();
+  static final ApplicationState applicationState = MockApplicationState();
 
   static setupMockStore({List<DisplayAgeEvent> displayAgeEvents, bool isEndLifeDialogVisible, DisplayCharacter displayCharacter}) {
     if (displayAgeEvents == null) {
@@ -53,14 +53,15 @@ class Mocks {
     if (displayCharacter == null) {
       displayCharacter = Factory.displayCharacter();
     }
-    reset(mockStore);
-    reset(mockApplicationState);
+    reset(store);
+    reset(applicationState);
     reset(mockNext);
 
-    when(mockStore.state).thenReturn(mockApplicationState);
-    when(mockStore.onChange).thenAnswer((_) => Stream.empty());
-    when(mockApplicationState.character).thenReturn(displayCharacter);
-    when(mockApplicationState.ageEvents).thenReturn(displayAgeEvents);
-    when(mockApplicationState.isEndLifeDialogVisible).thenReturn(isEndLifeDialogVisible);
+    when(store.state).thenReturn(applicationState);
+    when(store.onChange).thenAnswer((_) => Stream.empty());
+    when(applicationState.currentTab).thenReturn(0);
+    when(applicationState.character).thenReturn(displayCharacter);
+    when(applicationState.ageEvents).thenReturn(displayAgeEvents);
+    when(applicationState.isEndLifeDialogVisible).thenReturn(isEndLifeDialogVisible);
   }
 }

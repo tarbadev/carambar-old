@@ -18,7 +18,7 @@ void main() {
 
     await homeTabView.clickOnAgeButton();
 
-    verify(Mocks.mockStore.dispatch(IncrementAgeAction()));
+    verify(Mocks.store.dispatch(IncrementAgeAction()));
   });
 
   testWidgets('Home Tab shows a list of events from the EventService', (WidgetTester tester) async {

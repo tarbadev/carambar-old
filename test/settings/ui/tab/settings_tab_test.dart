@@ -21,7 +21,7 @@ void main() {
 
     await settingsTabView.clickOnEndLifeButton();
 
-    verify(Mocks.mockStore.dispatch(SetEndLifeDialogVisibleAction(true)));
+    verify(Mocks.store.dispatch(SetEndLifeDialogVisibleAction(true)));
   });
 
   testWidgets('Settings Tab dispatches an EndLifeAction when confirm button is pressed',
@@ -33,7 +33,7 @@ void main() {
     expect(settingsTabView.endLifeDialog.isVisible, isTrue);
     await settingsTabView.endLifeDialog.confirmEndLife();
 
-    verify(Mocks.mockStore.dispatch(EndLifeAction()));
+    verify(Mocks.store.dispatch(EndLifeAction()));
   });
 
   testWidgets('Settings Tab dispatches an SetEndLifeDialogVisibleAction when confirm button is pressed',
@@ -45,7 +45,7 @@ void main() {
     expect(settingsTabView.endLifeDialog.isVisible, isTrue);
     await settingsTabView.endLifeDialog.confirmEndLife();
 
-    verify(Mocks.mockStore.dispatch(SetEndLifeDialogVisibleAction(false)));
+    verify(Mocks.store.dispatch(SetEndLifeDialogVisibleAction(false)));
   });
 
   testWidgets('Settings Tab dispatches an SetEndLifeDialogVisibleAction when cancel button is pressed',
@@ -57,6 +57,6 @@ void main() {
     expect(settingsTabView.endLifeDialog.isVisible, isTrue);
     await settingsTabView.endLifeDialog.cancelEndLife();
 
-    verify(Mocks.mockStore.dispatch(SetEndLifeDialogVisibleAction(false)));
+    verify(Mocks.store.dispatch(SetEndLifeDialogVisibleAction(false)));
   });
 }
