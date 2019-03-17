@@ -51,12 +51,12 @@ void main() {
 
       await characterTab.goTo();
 
-      expect(await characterTab.getCharacterName(), isNotEmpty);
-      expect(await characterTab.getCharacterGender(), isNotEmpty);
-      expect(await characterTab.getCharacterAge(), '0');
-      expect(await characterTab.getCharacterAgeCategory(), 'Baby');
-      expect(await characterTab.getCharacterOrigin(), isNotEmpty);
-      expect(await characterTab.getCharacterSchool(), 'None');
+      expect(await characterTab.name, isNotEmpty);
+      expect(await characterTab.gender, isNotEmpty);
+      expect(await characterTab.age, '0');
+      expect(await characterTab.ageCategory, 'Baby');
+      expect(await characterTab.origin, isNotEmpty);
+      expect(await characterTab.school, 'None');
     });
   });
 
@@ -65,9 +65,9 @@ void main() {
       await driver.waitUntilNoTransientCallbacks();
 
       await characterTab.goTo();
-      var characterName = await characterTab.getCharacterName();
-      var characterGender = await characterTab.getCharacterGender() == 'Male' ? 'boy' : 'girl';
-      var characterOrigin = await characterTab.getCharacterOrigin();
+      var characterName = await characterTab.name;
+      var characterGender = await characterTab.gender == 'Male' ? 'boy' : 'girl';
+      var characterOrigin = await characterTab.origin;
       var expectedEvents = [
         'You just started your life!',
         'You\'re a baby $characterGender named $characterName from $characterOrigin'
@@ -86,32 +86,32 @@ void main() {
 
       await characterTab.goTo();
 
-      expect(await characterTab.getCharacterAge(), '0');
+      expect(await characterTab.age, '0');
 
       await homeTab.goTo();
       await homeTab.tapOnAgeButton();
       await characterTab.goTo();
 
-      expect(await characterTab.getCharacterAge(), '1');
+      expect(await characterTab.age, '1');
     });
 
     test('should change the age and age category of the character when tapping on the age button', () async {
       await driver.waitUntilNoTransientCallbacks();
 
-      expect(await characterTab.getCharacterAge(), '1');
+      expect(await characterTab.age, '1');
       await homeTab.goTo();
       await homeTab.tapOnAgeButton();
       await characterTab.goTo();
 
-      expect(await characterTab.getCharacterAge(), '2');
-      expect(await characterTab.getCharacterAgeCategory(), 'Baby');
+      expect(await characterTab.age, '2');
+      expect(await characterTab.ageCategory, 'Baby');
 
       await homeTab.goTo();
       await homeTab.tapOnAgeButton();
       await characterTab.goTo();
 
-      expect(await characterTab.getCharacterAge(), '3');
-      expect(await characterTab.getCharacterAgeCategory(), 'Child');
+      expect(await characterTab.age, '3');
+      expect(await characterTab.ageCategory, 'Child');
     });
 
     test('should add an event when tapping on the age button', () async {
@@ -130,7 +130,7 @@ void main() {
       expect(await homeTab.ageEvent('3').events, contains('You just started Kindergarten'));
 
       await characterTab.goTo();
-      expect(await characterTab.getCharacterSchool(), 'Kindergarten');
+      expect(await characterTab.school, 'Kindergarten');
 
       await homeTab.goTo();
       await homeTab.tapOnAgeButton();
@@ -141,7 +141,7 @@ void main() {
       expect(await homeTab.ageEvent('6').events, contains('You just started Primary School'));
 
       await characterTab.goTo();
-      expect(await characterTab.getCharacterSchool(), 'Primary School');
+      expect(await characterTab.school, 'Primary School');
 
       await homeTab.goTo();
       await homeTab.tapOnAgeButton();
@@ -154,7 +154,7 @@ void main() {
       expect(await homeTab.ageEvent('11').events, contains('You just started Middle School'));
 
       await characterTab.goTo();
-      expect(await characterTab.getCharacterSchool(), 'Middle School');
+      expect(await characterTab.school, 'Middle School');
     });
 
     test('should change school when aging and add event and graduate after Middle School', () async {
@@ -170,7 +170,7 @@ void main() {
       expect(await homeTab.ageEvent('15').events, contains('You graduated from Middle School'));
 
       await characterTab.goTo();
-      expect(await characterTab.getCharacterGraduates(), ['Middle School']);
+      expect(await characterTab.graduates, ['Middle School']);
     });
 
     test('should change school when aging and add event and graduate after High School', () async {
@@ -181,7 +181,7 @@ void main() {
       expect(await homeTab.ageEvent('15').events, contains('You just started High School'));
 
       await characterTab.goTo();
-      expect(await characterTab.getCharacterSchool(), 'High School');
+      expect(await characterTab.school, 'High School');
 
       await homeTab.goTo();
       await homeTab.tapOnAgeButton();
@@ -192,7 +192,7 @@ void main() {
       expect(await homeTab.ageEvent('18').events, contains('You graduated from High School'));
 
       await characterTab.goTo();
-      expect(await characterTab.getCharacterGraduates(), ['Middle School', 'High School']);
+      expect(await characterTab.graduates, ['Middle School', 'High School']);
     });
 
     test('should finish studies when aging to 18', () async {
@@ -203,7 +203,7 @@ void main() {
       expect(await homeTab.ageEvent('18').events, contains('You finished your studies'));
 
       await characterTab.goTo();
-      expect(await characterTab.getCharacterSchool(), 'None');
+      expect(await characterTab.school, 'None');
     });
   });
 
@@ -214,7 +214,7 @@ void main() {
       await workTab.goTo();
 
       expect(await workTab.isAvailableJobsVisible, isTrue);
-      expect(await workTab.getAvailableJobs(), ['Supervisor']);
+      expect(await workTab.availableJobs, ['Supervisor']);
     });
 
     test('should display the jobs requirements on available job tap', () async {
@@ -241,7 +241,7 @@ void main() {
 
       await characterTab.goTo();
 
-      expect(await characterTab.getCharacterAge(), isNot('0'));
+      expect(await characterTab.age, isNot('0'));
 
       await settingsTab.goTo();
       await settingsTab.endLife();
@@ -249,7 +249,7 @@ void main() {
       expect(await homeTab.ageEvent('18').isVisible, isFalse);
       await characterTab.goTo();
 
-      expect(await characterTab.getCharacterAge(), '0');
+      expect(await characterTab.age, '0');
     });
   });
 }

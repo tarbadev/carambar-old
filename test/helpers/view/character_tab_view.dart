@@ -6,31 +6,13 @@ import 'base_view.dart';
 class CharacterTabView extends BaseView {
   CharacterTabView(WidgetTester tester) : super(tester);
 
-  String getCharacterName() {
-    return getDataFromTextByKey("characterName");
-  }
-
-  String getCharacterGender() {
-    return getDataFromTextByKey("characterGender");
-  }
-
-  String getCharacterOrigin() {
-    return getDataFromTextByKey("characterOrigin");
-  }
-
-  String getCharacterAge() {
-    return getDataFromTextByKey("characterAge");
-  }
-
-  String getCharacterAgeCategory() {
-    return getDataFromTextByKey("characterAgeCategory");
-  }
-
-  String getCharacterSchool() {
-    return getDataFromTextByKey("characterSchool");
-  }
-
-  List<String> getCharacterGraduates() {
+  String get name => getDataFromTextByKey("characterName");
+  String get gender => getDataFromTextByKey("characterGender");
+  String get origin => getDataFromTextByKey("characterOrigin");
+  String get age => getDataFromTextByKey("characterAge");
+  String get ageCategory => getDataFromTextByKey("characterAgeCategory");
+  String get school => getDataFromTextByKey("characterSchool");
+  List<String> get graduates {
     var graduatesFinder = find.byKey(Key('characterGraduates'));
     expect(graduatesFinder, findsOneWidget);
 

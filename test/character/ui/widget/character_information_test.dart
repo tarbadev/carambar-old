@@ -15,12 +15,12 @@ void main() {
 
     await tester.pumpWidget(buildTestableWidget(CharacterInformation(displayCharacter: displayCharacter)));
 
-    expect(characterTabView.getCharacterName(), displayCharacter.name);
-    expect(characterTabView.getCharacterGender(), displayCharacter.gender);
-    expect(characterTabView.getCharacterOrigin(), displayCharacter.origin);
-    expect(characterTabView.getCharacterAge(), displayCharacter.age);
-    expect(characterTabView.getCharacterAgeCategory(), displayCharacter.ageCategory);
-    expect(characterTabView.getCharacterSchool(), displayCharacter.school);
-    expect(characterTabView.getCharacterGraduates(), displayCharacter.graduates);
+    expect(characterTabView.name, displayCharacter.name);
+    expect(characterTabView.gender, displayCharacter.gender);
+    expect(characterTabView.origin, displayCharacter.origin);
+    expect(characterTabView.age, displayCharacter.age);
+    expect(characterTabView.ageCategory, displayCharacter.ageCategory);
+    expect(characterTabView.school, displayCharacter.school);
+    expect(characterTabView.graduates, displayCharacter.graduates);
   });
 }

@@ -5,9 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'base_view.dart';
 
 class WorkTabView extends BaseView {
-  final WidgetTester tester;
-
-  WorkTabView(this.tester) : super(tester);
+  WorkTabView(tester) : super(tester);
 
   Finder get _availableJobsFinder => find.byKey(Key("availableJobs"));
   bool get isVisible {
@@ -20,7 +18,7 @@ class WorkTabView extends BaseView {
   }
   JobDialogElement get jobDialog => JobDialogElement(tester);
 
-  List<String> getAvailableJobs() {
+  List<String> get availableJobs {
     var itemCount = (_availableJobsFinder.evaluate().single.widget as ListView).semanticChildCount;
     List<String> jobs = [];
 

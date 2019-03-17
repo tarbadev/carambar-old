@@ -16,7 +16,7 @@ void main() {
     await tester.pumpWidget(buildTestableWidget(WorkTab(), availableJobs: [expectedJob]));
 
     expect(workTabView.isVisible, isTrue);
-    expect(workTabView.getAvailableJobs(), [expectedJob.name]);
+    expect(workTabView.availableJobs, [expectedJob.name]);
   });
 
   testWidgets('Work Tab does not display the available jobs when availableJobs is null', (WidgetTester tester) async {

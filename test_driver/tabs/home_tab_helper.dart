@@ -6,7 +6,9 @@ class HomeTabHelper extends BaseViewHelper {
   final _ageButtonFinder = find.byValueKey('ageButton');
   final _homeTabFinder = find.byValueKey('bottomNavigationHome');
 
-  HomeTabHelper(driver) : super(driver);
+  HomeTabHelper(driver): super(driver);
+
+  Future<bool> get isVisible => widgetExists(_ageButtonFinder);
 
   Future<void> tapOnAgeButton() async {
     await driver.tap(_ageButtonFinder);
@@ -17,8 +19,6 @@ class HomeTabHelper extends BaseViewHelper {
   }
 
   AgeEventElement ageEvent(String id) => AgeEventElement(driver, id);
-
-  Future<bool> get isVisible => widgetExists(_ageButtonFinder);
 }
 
 class AgeEventElement extends BaseViewHelper {

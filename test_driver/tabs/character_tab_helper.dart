@@ -13,31 +13,13 @@ class CharacterTabHelper extends BaseViewHelper {
 
   CharacterTabHelper(driver) : super(driver);
 
-  Future<String> getCharacterName() async {
-    return await driver.getText(_characterNameTextFinder);
-  }
-
-  Future<String> getCharacterGender() async {
-    return await driver.getText(_characterGenderTextFinder);
-  }
-
-  Future<String> getCharacterOrigin() async {
-    return await driver.getText(_characterOriginTextFinder);
-  }
-
-  Future<String> getCharacterAge() async {
-    return await driver.getText(_characterAgeTextFinder);
-  }
-
-  Future<String> getCharacterAgeCategory() async {
-    return await driver.getText(_characterAgeCategoryTextFinder);
-  }
-
-  Future<String> getCharacterSchool() async {
-    return await driver.getText(_characterSchoolTextFinder);
-  }
-
-  Future<List<String>> getCharacterGraduates() async {
+  Future<String> get name async => await driver.getText(_characterNameTextFinder);
+  Future<String> get gender async => await driver.getText(_characterGenderTextFinder);
+  Future<String> get origin async => await driver.getText(_characterOriginTextFinder);
+  Future<String> get age async => await driver.getText(_characterAgeTextFinder);
+  Future<String> get ageCategory async => await driver.getText(_characterAgeCategoryTextFinder);
+  Future<String> get school async => await driver.getText(_characterSchoolTextFinder);
+  Future<List<String>> get graduates async {
     List<String> graduates = [];
     try {
       var index = 0;

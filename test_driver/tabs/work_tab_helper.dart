@@ -15,7 +15,7 @@ class WorkTabHelper extends BaseViewHelper {
   Future<bool> get isAvailableJobsVisible async => await widgetExists(_availableJobsFinder);
   JobDialogElement get jobDialog => JobDialogElement(driver);
 
-  Future<List<String>> getAvailableJobs() async {
+  Future<List<String>> get availableJobs async {
     List<String> jobs = [];
     try {
       var index = 0;
