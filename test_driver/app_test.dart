@@ -27,6 +27,21 @@ void main() {
     }
   });
 
+  group('All Tabs', () {
+    test('should display the cash available', () async {
+      await driver.waitUntilNoTransientCallbacks();
+
+      await homeTab.goTo();
+      expect(await homeTab.getAvailableCash(), '\$0.00');
+
+      await characterTab.goTo();
+      expect(await characterTab.getAvailableCash(), '\$0.00');
+
+      await settingsTab.goTo();
+      expect(await settingsTab.getAvailableCash(), '\$0.00');
+    });
+  });
+
   group('Character Tab', () {
     test('should display the generated character informations', () async {
       await driver.waitUntilNoTransientCallbacks();

@@ -1,19 +1,20 @@
 import 'package:flutter_driver/flutter_driver.dart';
 
-class SettingsTab {
-  final FlutterDriver _driver;
+import 'base_tab_helper.dart';
+
+class SettingsTab extends BaseTab {
   final _settingsTabFinder = find.byValueKey('bottomNavigationSettings');
   final _endLifeButton = find.byValueKey('endLifeButton');
   final _endLifeConfirmButton = find.byValueKey('endLifeConfirmButton');
 
-  SettingsTab(this._driver);
+  SettingsTab(driver) : super(driver);
 
   Future<void> endLife() async {
-    await _driver.tap(_endLifeButton);
-    await _driver.tap(_endLifeConfirmButton);
+    await driver.tap(_endLifeButton);
+    await driver.tap(_endLifeConfirmButton);
   }
 
   Future<void> goTo() async {
-    await _driver.tap(_settingsTabFinder);
+    await driver.tap(_settingsTabFinder);
   }
 }

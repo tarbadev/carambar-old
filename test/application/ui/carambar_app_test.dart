@@ -30,4 +30,11 @@ void main() {
     await carambarAppView.clickOnSettingsTab();
     verify(Mocks.store.dispatch(SelectTabAction(2)));
   });
+
+  testWidgets('Carambar App displays the amount of cash available', (WidgetTester tester) async {
+    final carambarAppView = CarambarAppView(tester);
+    await tester.pumpWidget(buildTestableWidget(CarambarApp(), availableCash: 4350.45));
+
+    expect(carambarAppView.getAvailableCash(), '\$4,350.45');
+  });
 }

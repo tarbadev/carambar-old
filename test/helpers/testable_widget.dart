@@ -6,8 +6,19 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 import 'mock_definition.dart';
 
-Widget buildTestableWidget(Widget widget, {List<DisplayAgeEvent> displayAgeEvents, bool isEndLifeDialogVisible, DisplayCharacter displayCharacter}) {
-  Mocks.setupMockStore(displayAgeEvents: displayAgeEvents, isEndLifeDialogVisible: isEndLifeDialogVisible, displayCharacter: displayCharacter);
+Widget buildTestableWidget(
+  Widget widget, {
+  List<DisplayAgeEvent> displayAgeEvents,
+  bool isEndLifeDialogVisible,
+  DisplayCharacter displayCharacter,
+  double availableCash,
+}) {
+  Mocks.setupMockStore(
+      displayAgeEvents: displayAgeEvents,
+      isEndLifeDialogVisible: isEndLifeDialogVisible,
+      displayCharacter: displayCharacter,
+      availableCash: availableCash,
+  );
 
   return MediaQuery(
     data: MediaQueryData(),

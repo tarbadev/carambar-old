@@ -11,3 +11,9 @@ class SelectHomeTabAction extends SelectTabAction {
 }
 
 class InitiateStateAction extends Equatable {}
+
+class SetAvailableCash {
+  final double cash;
+
+  SetAvailableCash(this.cash);
+}

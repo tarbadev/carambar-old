@@ -1,23 +1,24 @@
 import 'package:flutter_driver/flutter_driver.dart';
 
-class HomeTab {
-  final FlutterDriver driver;
-  final ageButtonFinder = find.byValueKey('ageButton');
-  final homeTabFinder = find.byValueKey('bottomNavigationHome');
+import 'base_tab_helper.dart';
 
-  HomeTab(this.driver);
+class HomeTab extends BaseTab {
+  final _ageButtonFinder = find.byValueKey('ageButton');
+  final _homeTabFinder = find.byValueKey('bottomNavigationHome');
+
+  HomeTab(driver) : super(driver);
 
   Future<void> clickOnAgeButton() async {
-    await driver.tap(ageButtonFinder);
+    await driver.tap(_ageButtonFinder);
   }
 
   Future<void> goTo() async {
-    await driver.tap(homeTabFinder);
+    await driver.tap(_homeTabFinder);
   }
 
   AgeEventElement ageEvent(String id) => AgeEventElement(driver, id);
 
-  Future<bool> get isVisible => widgetExists(driver, ageButtonFinder);
+  Future<bool> get isVisible => widgetExists(driver, _ageButtonFinder);
 }
 
 class AgeEventElement {

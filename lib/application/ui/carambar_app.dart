@@ -6,6 +6,7 @@ import 'package:carambar/settings/ui/tab/settings_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:intl/intl.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 import 'package:redux/redux.dart';
 
@@ -43,7 +44,19 @@ class _MainPage extends StatelessWidget {
       converter: (Store<ApplicationState> store) => _MainPageModel.create(store),
       builder: (BuildContext context, _MainPageModel viewModel) => SafeArea(
             child: Scaffold(
-              body: Container(child: viewModel.getTab(), padding: EdgeInsets.all(10)),
+              appBar: AppBar(
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                Text(
+                  viewModel.availableCash,
+                  key: Key('availableCash'),
+                )
+              ])),
+              body: Container(
+                padding: EdgeInsets.all(10),
+                child: viewModel.getTab(),
+              ),
               bottomNavigationBar: BottomNavigationBar(
                 items: <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
@@ -76,8 +89,9 @@ class _MainPage extends StatelessWidget {
 }
 
 class _MainPageModel {
-  final selectedTab;
+  final int selectedTab;
   final Function(int) onTabTapped;
+  final String availableCash;
 
   final tabs = [
     HomeTab(),
@@ -85,11 +99,12 @@ class _MainPageModel {
     SettingsTab(),
   ];
 
-  _MainPageModel(this.selectedTab, this.onTabTapped);
+  _MainPageModel(this.selectedTab, this.onTabTapped, this.availableCash);
 
   Widget getTab() => tabs.elementAt(selectedTab);
 
   factory _MainPageModel.create(Store<ApplicationState> store) {
-    return _MainPageModel(store.state.currentTab, (int index) => store.dispatch(SelectTabAction(index)));
+    return _MainPageModel(store.state.currentTab, (int index) => store.dispatch(SelectTabAction(index)),
+        NumberFormat.simpleCurrency().format(store.state.availableCash));
   }
 }

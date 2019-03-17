@@ -14,4 +14,8 @@ class CarambarAppView extends BaseView {
   Future<void> clickOnHomeTab() async => await tester.tap(_homeTabFinder);
   Future<void> clickOnCharacterTab() async => await tester.tap(_characterTabFinder);
   Future<void> clickOnSettingsTab() async => await tester.tap(_settingsTabFinder);
+
+  String getAvailableCash() {
+    return getDataFromTextByKey("availableCash");
+  }
 }

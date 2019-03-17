@@ -43,7 +43,7 @@ class Mocks {
   static final NextDispatcher next = (dynamic action) => mockNext.next(action);
   static final ApplicationState applicationState = MockApplicationState();
 
-  static setupMockStore({List<DisplayAgeEvent> displayAgeEvents, bool isEndLifeDialogVisible, DisplayCharacter displayCharacter}) {
+  static setupMockStore({List<DisplayAgeEvent> displayAgeEvents, bool isEndLifeDialogVisible, DisplayCharacter displayCharacter, double availableCash}) {
     if (displayAgeEvents == null) {
       displayAgeEvents = [Factory.displayAgeEvent()];
     }
@@ -53,6 +53,10 @@ class Mocks {
     if (displayCharacter == null) {
       displayCharacter = Factory.displayCharacter();
     }
+    if (availableCash == null) {
+      availableCash = 4523.67;
+    }
+
     reset(store);
     reset(applicationState);
     reset(mockNext);
@@ -63,5 +67,6 @@ class Mocks {
     when(applicationState.character).thenReturn(displayCharacter);
     when(applicationState.ageEvents).thenReturn(displayAgeEvents);
     when(applicationState.isEndLifeDialogVisible).thenReturn(isEndLifeDialogVisible);
+    when(applicationState.availableCash).thenReturn(availableCash);
   }
 }
