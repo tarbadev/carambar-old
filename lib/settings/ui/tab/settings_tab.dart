@@ -46,7 +46,7 @@ class SettingsTab extends StatelessWidget {
                   elevation: 2,
                   color: ThemeData.light().primaryColor,
                   textTheme: ButtonTextTheme.primary,
-                  key: Key('endLifeButton'),
+                  key: Key('Settings__EndLifeButton'),
                   child: Text('End Life'),
                   onPressed: viewModel.onEndLifeButtonTapped,
                 ))

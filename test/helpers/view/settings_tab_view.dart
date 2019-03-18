@@ -8,7 +8,7 @@ class SettingsTabView extends BaseViewTester {
   EndLifeDialogElement get endLifeDialog => EndLifeDialogElement(tester);
 
   Future<void> tapOnEndLifeButton() async {
-    await tapOnButtonByKey('endLifeButton');
+    await tapOnButtonByKey('Settings__EndLifeButton');
   }
 }
 

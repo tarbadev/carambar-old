@@ -3,14 +3,14 @@ import 'base_view_driver.dart';
 class HomeTabHelper extends BaseViewDriver {
   HomeTabHelper(driver) : super(driver);
 
-  Future<bool> get isVisible => widgetExists('ageButton');
+  Future<bool> get isVisible => widgetExists('Home__AgeButton');
 
   Future<void> tapOnAgeButton() async {
-    await tapOnButtonByKey('ageButton');
+    await tapOnButtonByKey('Home__AgeButton');
   }
 
   Future<void> goTo() async {
-    await tapOnButtonByKey('bottomNavigationHome');
+    await tapOnButtonByKey('Home__BottomNavigationHome');
   }
 
   AgeEventElement ageEvent(String id) => AgeEventElement(driver, id);

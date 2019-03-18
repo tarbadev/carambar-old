@@ -4,10 +4,10 @@ class WorkTabHelper extends BaseViewDriver {
   WorkTabHelper(driver) : super(driver);
 
   Future<void> goTo() async {
-    await tapOnButtonByKey('bottomNavigationWork');
+    await tapOnButtonByKey('Home__BottomNavigationWork');
   }
 
-  Future<bool> get isAvailableJobsVisible async => await widgetExists('availableJobs');
+  Future<bool> get isAvailableJobsVisible async => await widgetExists('Work__AvailableJobs');
   JobDialogElement get jobDialog => JobDialogElement(driver);
 
   Future<List<String>> get availableJobs async {
@@ -15,7 +15,7 @@ class WorkTabHelper extends BaseViewDriver {
     try {
       var index = 0;
       do {
-        jobs.add(await getTextByKey('Jobs__${index++}', timeout: Duration(milliseconds: 500)));
+        jobs.add(await getTextByKey('Work__Jobs__${index++}', timeout: Duration(milliseconds: 500)));
       } while (true);
     } catch (_) {}
 

@@ -16,7 +16,7 @@ class WorkTab extends StatelessWidget {
         }
 
         return ListView.builder(
-            key: Key('availableJobs'),
+            key: Key('Work__AvailableJobs'),
             itemCount: viewModel.availableJobs.length,
             itemBuilder: (BuildContext context, int index) {
               var job = viewModel.availableJobs[index];
@@ -25,7 +25,7 @@ class WorkTab extends StatelessWidget {
                   onTap: () => displayJobRequirements(context, job),
                   title: Text(
                     job.name,
-                    key: Key('Jobs__$index'),
+                    key: Key('Work__Jobs__$index'),
                   ));
             });
       });

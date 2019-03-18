@@ -25,7 +25,7 @@ class CharacterInformation extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       displayCharacter.name,
-                      key: Key('characterName'),
+                      key: Key('Character__Name'),
                       style: Theme.of(context).textTheme.headline,
                     ),
                     Expanded(
@@ -33,7 +33,7 @@ class CharacterInformation extends StatelessWidget {
                             alignment: FractionalOffset.bottomRight,
                             child: Text(
                               displayCharacter.age,
-                              key: Key('characterAge'),
+                              key: Key('Character__Age'),
                               style: Theme.of(context).textTheme.title,
                             ))),
                   ],
@@ -44,19 +44,19 @@ class CharacterInformation extends StatelessWidget {
                   padding: EdgeInsets.only(right: 5),
                   child: Text(
                     displayCharacter.ageCategory,
-                    key: Key('characterAgeCategory'),
+                    key: Key('Character__AgeCategory'),
                   ),
                 ),
                 Text(
                   displayCharacter.gender,
-                  key: Key('characterGender'),
+                  key: Key('Character__Gender'),
                 ),
                 Expanded(
                     child: Align(
                         alignment: FractionalOffset.bottomRight,
                         child: Text(
                           displayCharacter.origin,
-                          key: Key('characterOrigin'),
+                          key: Key('Character__Origin'),
                         )))
               ]),
               Divider(height: 8),
@@ -73,7 +73,7 @@ class CharacterInformation extends StatelessWidget {
                   ),
                   Text(
                     displayCharacter.school,
-                    key: Key('characterSchool'),
+                    key: Key('Character__School'),
                   )
                 ],
               ),
@@ -91,7 +91,7 @@ class CharacterInformation extends StatelessWidget {
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    key: Key('characterGraduates'),
+                    key: Key('Character__Graduates'),
                     children: displayCharacter.graduates
                         .map((graduate) => Text(
                               graduate,

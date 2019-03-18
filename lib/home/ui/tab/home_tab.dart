@@ -18,7 +18,7 @@ class HomeTab extends StatelessWidget {
                 ? AgeEventList(displayAgeEvents: viewModel.ageEvents)
                 : Text('Loading...'),
             bottomNavigationBar: MaterialButton(
-              key: Key('ageButton'),
+              key: Key('Home__AgeButton'),
               color: Colors.lightBlue,
               onPressed: viewModel.onAgeButtonTapped,
               child: Text(

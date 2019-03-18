@@ -9,9 +9,9 @@ class HomeTabView extends BaseViewTester {
 
   HomeTabView(this.tester) : super(tester);
 
-  bool get isVisible => widgetExists('ageButton');
+  bool get isVisible => widgetExists('Home__AgeButton');
 
-  Future<void> tapOnAgeButton() async => await tapOnButtonByKey('ageButton');
+  Future<void> tapOnAgeButton() async => await tapOnButtonByKey('Home__AgeButton');
 
   Future<List<DisplayAgeEvent>> getEventList() async {
     var ageEventListFinder = find.byType(AgeEventList);

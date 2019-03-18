@@ -7,8 +7,8 @@ import 'base_view_tester.dart';
 class WorkTabView extends BaseViewTester {
   WorkTabView(tester) : super(tester);
 
-  bool get isVisible => widgetExists('availableJobs');
-  Finder get _availableJobsFinder => find.byKey(Key('availableJobs'));
+  bool get isVisible => widgetExists('Work__AvailableJobs');
+  Finder get _availableJobsFinder => find.byKey(Key('Work__AvailableJobs'));
   JobDialogElement get jobDialog => JobDialogElement(tester);
 
   List<String> get availableJobs {
@@ -17,14 +17,14 @@ class WorkTabView extends BaseViewTester {
 
     for(var i = 0; i < itemCount; i++) {
       try {
-        jobs.add(getTextByKey('Jobs__$i'));
+        jobs.add(getTextByKey('Work__Jobs__$i'));
       } on StateError catch (_) {}
     }
 
     return jobs;
   }
 
-  Future<void> tapOnAvailableJob(String job) async => await tester.tap(find.widgetWithText(ListTile, job));
+  Future<void> tapOnAvailableJob(String job) async => await tapOnButtonByWidgetAndText(ListTile, job);
 }
 
 class JobDialogElement extends BaseViewTester {

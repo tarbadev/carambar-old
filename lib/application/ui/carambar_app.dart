@@ -65,25 +65,25 @@ class _MainPage extends StatelessWidget {
                       icon: Icon(Icons.home),
                       title: Text(
                         'Home',
-                        key: Key('bottomNavigationHome'),
+                        key: Key('Home__BottomNavigationHome'),
                       )),
                   BottomNavigationBarItem(
                       icon: Icon(Icons.person),
                       title: Text(
                         'Character',
-                        key: Key('bottomNavigationCharacter'),
+                        key: Key('Home__BottomNavigationCharacter'),
                       )),
                   BottomNavigationBarItem(
                       icon: Icon(Icons.work),
                       title: Text(
                         'Jobs',
-                        key: Key('bottomNavigationWork'),
+                        key: Key('Home__BottomNavigationWork'),
                       )),
                   BottomNavigationBarItem(
                       icon: Icon(Icons.settings),
                       title: Text(
                         'Settings',
-                        key: Key('bottomNavigationSettings'),
+                        key: Key('Home__BottomNavigationSettings'),
                       )),
                 ],
                 currentIndex: viewModel.selectedTab,
