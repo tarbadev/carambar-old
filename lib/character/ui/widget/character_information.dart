@@ -6,6 +6,18 @@ class CharacterInformation extends StatelessWidget {
 
   CharacterInformation({Key key, @required this.displayCharacter}) : super(key: key);
 
+  factory CharacterInformation.forDesignTime() {
+    return CharacterInformation(displayCharacter: DisplayCharacter(
+      'John Doe',
+      'Male',
+      '46',
+      'United States',
+      'Adult',
+      'None',
+      [],
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     var index = 0;

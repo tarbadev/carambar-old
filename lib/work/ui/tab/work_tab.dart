@@ -22,7 +22,7 @@ class WorkTab extends StatelessWidget {
               var job = viewModel.availableJobs[index];
 
               return ListTile(
-                  onTap: () => displayJobRequirements(context, job),
+                  onTap: () => _displayJobRequirements(context, job),
                   title: Text(
                     job.name,
                     key: Key('Work__Jobs__$index'),
@@ -30,21 +30,41 @@ class WorkTab extends StatelessWidget {
             });
       });
 
-  Future displayJobRequirements(BuildContext context, DisplayJob job) {
-    return showDialog(
+  void _displayJobRequirements(BuildContext context, DisplayJob job) {
+    showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
             key: Key('JobDialog'),
+            titlePadding: EdgeInsets.all(0),
+//            contentPadding: EdgeInsets.all(0),
             title: Container(
+              color: Theme.of(context).primaryColor,
+              padding: EdgeInsets.symmetric(vertical: 24, horizontal: 20),
               child: Text(
                 job.name,
                 key: Key('JobDialog__JobTitle'),
+                style: TextStyle(color: Colors.white),
               ),
             ),
             content: Container(
-              child: Text(
-                job.requirements,
-                key: Key('JobDialog__JobRequirements'),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(right: 5),
+                    child: Text(
+                      'Requirements',
+                      style: Theme.of(context).textTheme.subhead,
+                    ),
+                  ),
+                  Divider(height: 8),
+                  Text(
+                    job.requirements,
+                    key: Key('JobDialog__JobRequirements'),
+                    style: Theme.of(context).textTheme.body1,
+                  ),
+                ],
               ),
             ),
             actions: <Widget>[
