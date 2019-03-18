@@ -21,7 +21,7 @@ void main() {
     });
   });
 
-  group("CharacterRepository", () {
+  group('CharacterRepository', () {
     CharacterRepository characterRepository;
     CharacterStorage characterStorage;
 

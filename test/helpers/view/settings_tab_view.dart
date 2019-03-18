@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'base_view_tester.dart';
@@ -8,40 +7,16 @@ class SettingsTabView extends BaseViewTester {
 
   EndLifeDialogElement get endLifeDialog => EndLifeDialogElement(tester);
 
-  Finder get _endLifeButtonFinder => find.byKey(Key("endLifeButton"));
-
   Future<void> tapOnEndLifeButton() async {
-    await tester.tap(_endLifeButtonFinder);
-    await tester.pump();
+    await tapOnButtonByKey('endLifeButton');
   }
 }
 
-class EndLifeDialogElement {
-  final WidgetTester _tester;
+class EndLifeDialogElement extends BaseViewTester {
+  EndLifeDialogElement(tester): super(tester);
 
-  EndLifeDialogElement(this._tester);
+  bool get isVisible => widgetExists('EndLifeDialog');
 
-  Finder get _dialogFinder => find.byType(AlertDialog);
-
-  Finder get _confirmButtonFinder => find.byKey(Key('endLifeConfirmButton'));
-  Finder get _cancelButtonFinder => find.byKey(Key('endLifeCancelButton'));
-
-  bool get isVisible {
-    try {
-      _tester.renderObject<RenderBox>(_dialogFinder);
-      return true;
-    } catch (_) {
-      return false;
-    }
-  }
-
-  Future<void> confirmEndLife() async {
-    await _tester.tap(_confirmButtonFinder);
-    await _tester.pump();
-  }
-
-  Future<void> cancelEndLife() async {
-    await _tester.tap(_cancelButtonFinder);
-    await _tester.pump();
-  }
+  Future<void> confirmEndLife() async => await tapOnButtonByKey('EndLifeDialog__ConfirmButton');
+  Future<void> cancelEndLife() async => await tapOnButtonByKey('EndLifeDialog__CancelButton');
 }

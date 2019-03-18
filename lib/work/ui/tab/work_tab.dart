@@ -49,7 +49,7 @@ class WorkTab extends StatelessWidget {
             ),
             actions: <Widget>[
               FlatButton(
-                child: Text("Close", key: Key('JobDialog__CloseButton')),
+                child: Text('Close', key: Key('JobDialog__CloseButton')),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

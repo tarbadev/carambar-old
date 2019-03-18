@@ -1,10 +1,6 @@
-import 'package:flutter_driver/flutter_driver.dart';
-
 import 'base_view_driver.dart';
 
 class CharacterTabHelper extends BaseViewDriver {
-  final _characterTabFinder = find.byValueKey('bottomNavigationCharacter');
-
   CharacterTabHelper(driver) : super(driver);
 
   Future<String> get name async => await getTextByKey('characterName');
@@ -28,6 +24,6 @@ class CharacterTabHelper extends BaseViewDriver {
   }
 
   Future<void> goTo() async {
-    await driver.tap(_characterTabFinder);
+    await tapOnButtonByKey('bottomNavigationCharacter');
   }
 }

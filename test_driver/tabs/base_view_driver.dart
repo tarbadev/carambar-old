@@ -23,4 +23,12 @@ class BaseViewDriver {
   Future<String> getTextByKey(String key, {Duration timeout}) async {
     return driver.getText(find.byValueKey(key), timeout: timeout);
   }
+
+  Future<void> tapOnButtonByKey(String key) async {
+    return driver.tap(find.byValueKey(key));
+  }
+
+  Future<void> tapOnButtonByText(String text) async {
+    return driver.tap(find.text(text));
+  }
 }

@@ -7,15 +7,8 @@ import 'base_view_tester.dart';
 class WorkTabView extends BaseViewTester {
   WorkTabView(tester) : super(tester);
 
-  Finder get _availableJobsFinder => find.byKey(Key("availableJobs"));
-  bool get isVisible {
-    try {
-      tester.renderObject<RenderBox>(_availableJobsFinder);
-      return true;
-    } catch (_) {
-      return false;
-    }
-  }
+  bool get isVisible => widgetExists('availableJobs');
+  Finder get _availableJobsFinder => find.byKey(Key('availableJobs'));
   JobDialogElement get jobDialog => JobDialogElement(tester);
 
   List<String> get availableJobs {
@@ -35,25 +28,11 @@ class WorkTabView extends BaseViewTester {
 }
 
 class JobDialogElement extends BaseViewTester {
-  Finder get _dialogFinder => find.byType(AlertDialog);
-  Finder get _closeButtonFinder => find.byKey(Key('JobDialog__CloseButton'));
-
   JobDialogElement(tester) : super(tester);
 
-  bool get isVisible {
-    try {
-      tester.renderObject<RenderBox>(_dialogFinder);
-      return true;
-    } catch (_) {
-      return false;
-    }
-  }
-
+  bool get isVisible => widgetExists('JobDialog');
   String get title => getTextByKey('JobDialog__JobTitle');
   String get requirements => getTextByKey('JobDialog__JobRequirements');
 
-  Future<void> close() async {
-    await tester.tap(_closeButtonFinder);
-    await tester.pump();
-  }
+  Future<void> close() async => await tapOnButtonByKey('JobDialog__CloseButton');
 }

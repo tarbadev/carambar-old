@@ -10,7 +10,7 @@ import '../../helpers/mock_definition.dart';
 void main() {
   setupDependencyInjectorForTest();
 
-  group("Work Middleware", () {
+  group('Work Middleware', () {
     setUp(() {
       Mocks.setupMockStore();
     });

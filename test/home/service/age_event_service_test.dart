@@ -7,7 +7,7 @@ import '../../helpers/factory.dart';
 import '../../helpers/mock_definition.dart';
 
 void main() {
-  group("AgeEventService", () {
+  group('AgeEventService', () {
     List<AgeEvent> existingAgeEvents;
     AgeEventService ageEventService;
 
@@ -17,7 +17,7 @@ void main() {
 
       existingAgeEvents = [
         Factory.ageEvent(age: 0, events: []),
-        Factory.ageEvent(age: 1, events: ["An existing event"])
+        Factory.ageEvent(age: 1, events: ['An existing event'])
       ];
     });
 
@@ -54,7 +54,7 @@ void main() {
     });
 
     test('addEvent adds an event to the current list with an event message', () async {
-      var event = "Some Event";
+      var event = 'Some Event';
       var ageEvents = [
         Factory.ageEvent(age: 0, events: [event])
       ];
@@ -69,7 +69,7 @@ void main() {
 
     test('addEvent adds an event to the current list of events for this age',
         () async {
-      var expectedEvent = "Some event";
+      var expectedEvent = 'Some event';
       var ageEvents = [
         Factory.ageEvent(age: 0, events: []),
         Factory.ageEvent(age: 1, events: [existingAgeEvents[1].events[0], expectedEvent]),

@@ -14,7 +14,7 @@ import '../../helpers/mock_definition.dart';
 void main() {
   setupDependencyInjectorForTest();
 
-  group("Home Middleware", () {
+  group('Home Middleware', () {
     setUp(() {
       reset(Mocks.characterService);
       reset(Mocks.ageEventService);

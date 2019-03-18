@@ -15,7 +15,7 @@ class CharacterTab extends StatelessWidget {
       builder: (BuildContext context, _CharacterTabModel viewModel) => Container(
           child: viewModel.displayCharacter != null
               ? CharacterInformation(displayCharacter: viewModel.displayCharacter)
-              : Text("Loading...")),
+              : Text('Loading...')),
     );
   }
 }

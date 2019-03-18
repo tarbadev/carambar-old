@@ -10,7 +10,7 @@ void main() {
     await Storage.setupStorage();
   });
 
-  group("AgeEventRepository", () {
+  group('AgeEventRepository', () {
     AgeEventRepository ageEventRepository;
     AgeEventStorage ageEventStorage;
 

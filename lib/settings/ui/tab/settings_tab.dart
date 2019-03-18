@@ -16,19 +16,20 @@ class SettingsTab extends StatelessWidget {
             SchedulerBinding.instance.addPostFrameCallback((_) => showDialog(
                 context: context,
                 builder: (BuildContext context) => AlertDialog(
-                        title: Text("End Life ?"),
+                        key: Key('EndLifeDialog'),
+                        title: Text('End Life ?'),
                         content: Text(
-                            "Are you sure you want to end the life of your character?\nA new character will be generated"),
+                            'Are you sure you want to end the life of your character?\nA new character will be generated'),
                         actions: <Widget>[
                           FlatButton(
-                            child: Text("Nevermind...", key: Key('endLifeCancelButton')),
+                            child: Text('Nevermind...', key: Key('EndLifeDialog__CancelButton')),
                             onPressed: () {
                               viewModel.onEndLifeCancelTapped();
                               Navigator.of(context).pop();
                             },
                           ),
                           FlatButton(
-                            child: Text("I'm done with it!", key: Key('endLifeConfirmButton')),
+                            child: Text('I\'m done with it!', key: Key('EndLifeDialog__ConfirmButton')),
                             onPressed: () {
                               viewModel.onEndLifeConfirmTapped();
                               Navigator.of(context).pop();

@@ -16,13 +16,13 @@ class HomeTab extends StatelessWidget {
       builder: (BuildContext context, _HomeTabModel viewModel) => Scaffold(
             body: viewModel.ageEvents.isNotEmpty
                 ? AgeEventList(displayAgeEvents: viewModel.ageEvents)
-                : Text("Loading..."),
+                : Text('Loading...'),
             bottomNavigationBar: MaterialButton(
-              key: Key("ageButton"),
+              key: Key('ageButton'),
               color: Colors.lightBlue,
               onPressed: viewModel.onAgeButtonTapped,
               child: Text(
-                "Age",
+                'Age',
                 style: TextStyle(color: Colors.white),
               ),
             ),

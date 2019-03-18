@@ -11,9 +11,9 @@ class Factory {
   static const List<Graduate> _factoryGraduates = [];
   static Character character({int age: 18, List<Graduate> graduates: _factoryGraduates}) {
     return Character(
-      firstName: "john",
-      lastName: "doe",
-      gender: "male",
+      firstName: 'john',
+      lastName: 'doe',
+      gender: 'male',
       age: age,
       origin: Nationality.unitedStates,
       graduates: graduates
@@ -22,10 +22,10 @@ class Factory {
 
   static DisplayCharacter displayCharacter({age: '18', ageCategory: 'Adult', school: 'None'}) {
     return DisplayCharacter(
-      "John Doe",
-      "Male",
+      'John Doe',
+      'Male',
       age,
-      "United States",
+      'United States',
       ageCategory,
       school,
       [],
@@ -34,18 +34,18 @@ class Factory {
 
   static CharacterClientModel characterClientModel() {
     return CharacterClientModel(
-      gender: "male",
+      gender: 'male',
       name: Name(
-        title: "mr",
-        first: "john",
-        last: "doe",
+        title: 'mr',
+        first: 'john',
+        last: 'doe',
       ),
-      email: "imogen.johnson@example.com",
-      nat: "US",
+      email: 'imogen.johnson@example.com',
+      nat: 'US',
       picture: Picture(
-        large: "https://randomuser.me/api/portraits/women/29.jpg",
-        medium: "https://randomuser.me/api/portraits/med/women/29.jpg",
-        thumbnail: "https://randomuser.me/api/portraits/thumb/women/29.jpg",
+        large: 'https://randomuser.me/api/portraits/women/29.jpg',
+        medium: 'https://randomuser.me/api/portraits/med/women/29.jpg',
+        thumbnail: 'https://randomuser.me/api/portraits/thumb/women/29.jpg',
       ),
     );
   }
@@ -59,7 +59,7 @@ class Factory {
 
   static DisplayAgeEvent displayAgeEvent(
       {int id: 0,
-      String age: "Age 0",
+      String age: 'Age 0',
       List<String> events: _factoryEventList}) {
     return DisplayAgeEvent(id, age, events);
   }

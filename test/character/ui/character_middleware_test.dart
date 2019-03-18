@@ -13,12 +13,12 @@ import '../../helpers/mock_definition.dart';
 void main() {
   setupDependencyInjectorForTest();
 
-  group("Character Middleware", () {
+  group('Character Middleware', () {
     setUp(() {
       Mocks.setupMockStore();
     });
 
-    group("initiateCharacter", () {
+    group('initiateCharacter', () {
       test('retrieves the existing character and stores it in the state', () async {
         var initiateStateAction = InitiateStateAction();
         var character = Factory.character();

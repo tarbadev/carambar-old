@@ -7,7 +7,7 @@ import '../../helpers/factory.dart';
 import '../../helpers/mock_definition.dart';
 
 void main() {
-  group("CharacterService", () {
+  group('CharacterService', () {
     CharacterService characterService;
 
     setUp(() {

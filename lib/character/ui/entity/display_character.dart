@@ -10,7 +10,7 @@ class DisplayCharacter extends Equatable {
   final String origin;
   final String ageCategory;
 
-  String get genderChild => gender == "Male" ? "Boy" : "Girl";
+  String get genderChild => gender == 'Male' ? 'Boy' : 'Girl';
   final String school;
   final List<String> graduates;
 
@@ -30,10 +30,10 @@ class DisplayCharacter extends Equatable {
   }
 
   static final _mapAgeCategoryToString = {
-    AgeCategory.adult: "Adult",
-    AgeCategory.teen: "Teen",
-    AgeCategory.child: "Child",
-    AgeCategory.baby: "Baby",
+    AgeCategory.adult: 'Adult',
+    AgeCategory.teen: 'Teen',
+    AgeCategory.child: 'Child',
+    AgeCategory.baby: 'Baby',
   };
 
   static final _mapSchoolToDisplaySchool = {
@@ -50,22 +50,22 @@ class DisplayCharacter extends Equatable {
   };
 
   static final _mapNationalityToString = {
-    Nationality.australia: "Australia",
-    Nationality.brazil: "Brazil",
-    Nationality.canada: "Canada",
-    Nationality.switzerland: "Switzerland",
-    Nationality.germany: "Germany",
-    Nationality.denmark: "Denmark",
-    Nationality.spain: "Spain",
-    Nationality.finland: "Finland",
-    Nationality.france: "France",
-    Nationality.unitedKingdom: "United Kingdom",
-    Nationality.ireland: "Ireland",
-    Nationality.iran: "Iran",
-    Nationality.norway: "Norway",
-    Nationality.netherlands: "Netherlands",
-    Nationality.newZealand: "New Zealand",
-    Nationality.turkey: "Turkey",
-    Nationality.unitedStates: "United States",
+    Nationality.australia: 'Australia',
+    Nationality.brazil: 'Brazil',
+    Nationality.canada: 'Canada',
+    Nationality.switzerland: 'Switzerland',
+    Nationality.germany: 'Germany',
+    Nationality.denmark: 'Denmark',
+    Nationality.spain: 'Spain',
+    Nationality.finland: 'Finland',
+    Nationality.france: 'France',
+    Nationality.unitedKingdom: 'United Kingdom',
+    Nationality.ireland: 'Ireland',
+    Nationality.iran: 'Iran',
+    Nationality.norway: 'Norway',
+    Nationality.netherlands: 'Netherlands',
+    Nationality.newZealand: 'New Zealand',
+    Nationality.turkey: 'Turkey',
+    Nationality.unitedStates: 'United States',
   };
 }

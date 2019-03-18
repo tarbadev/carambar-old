@@ -23,11 +23,11 @@ class CharacterClientResponse {
   factory CharacterClientResponse.fromJson(Map<String, dynamic> json) =>
       new CharacterClientResponse(
         results: new List<CharacterClientModel>.from(
-            json["results"].map((x) => CharacterClientModel.fromJson(x))),
+            json['results'].map((x) => CharacterClientModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "results": new List<dynamic>.from(results.map((x) => x.toJson())),
+        'results': new List<dynamic>.from(results.map((x) => x.toJson())),
       };
 
   List<Character> toCharacterList() {
@@ -40,23 +40,23 @@ class CharacterClientResponse {
 
 class CharacterClientModel {
   final _mapOriginResponseToDomain = {
-    "AU": Nationality.australia,
-    "BR": Nationality.brazil,
-    "CA": Nationality.canada,
-    "CH": Nationality.switzerland,
-    "DE": Nationality.germany,
-    "DK": Nationality.denmark,
-    "ES": Nationality.spain,
-    "FI": Nationality.finland,
-    "FR": Nationality.france,
-    "GB": Nationality.unitedKingdom,
-    "IE": Nationality.ireland,
-    "IR": Nationality.iran,
-    "NO": Nationality.norway,
-    "NL": Nationality.netherlands,
-    "NZ": Nationality.newZealand,
-    "TR": Nationality.turkey,
-    "US": Nationality.unitedStates,
+    'AU': Nationality.australia,
+    'BR': Nationality.brazil,
+    'CA': Nationality.canada,
+    'CH': Nationality.switzerland,
+    'DE': Nationality.germany,
+    'DK': Nationality.denmark,
+    'ES': Nationality.spain,
+    'FI': Nationality.finland,
+    'FR': Nationality.france,
+    'GB': Nationality.unitedKingdom,
+    'IE': Nationality.ireland,
+    'IR': Nationality.iran,
+    'NO': Nationality.norway,
+    'NL': Nationality.netherlands,
+    'NZ': Nationality.newZealand,
+    'TR': Nationality.turkey,
+    'US': Nationality.unitedStates,
   };
 
   String gender;
@@ -75,19 +75,19 @@ class CharacterClientModel {
 
   factory CharacterClientModel.fromJson(Map<String, dynamic> json) =>
       new CharacterClientModel(
-        gender: json["gender"],
-        name: Name.fromJson(json["name"]),
-        email: json["email"],
-        picture: Picture.fromJson(json["picture"]),
-        nat: json["nat"],
+        gender: json['gender'],
+        name: Name.fromJson(json['name']),
+        email: json['email'],
+        picture: Picture.fromJson(json['picture']),
+        nat: json['nat'],
       );
 
   Map<String, dynamic> toJson() => {
-        "gender": gender,
-        "name": name.toJson(),
-        "email": email,
-        "picture": picture.toJson(),
-        "nat": nat,
+        'gender': gender,
+        'name': name.toJson(),
+        'email': email,
+        'picture': picture.toJson(),
+        'nat': nat,
       };
 
   Character toCharacter() {
@@ -113,15 +113,15 @@ class Name {
   });
 
   factory Name.fromJson(Map<String, dynamic> json) => new Name(
-        title: json["title"],
-        first: json["first"],
-        last: json["last"],
+        title: json['title'],
+        first: json['first'],
+        last: json['last'],
       );
 
   Map<String, dynamic> toJson() => {
-        "title": title,
-        "first": first,
-        "last": last,
+        'title': title,
+        'first': first,
+        'last': last,
       };
 }
 
@@ -137,14 +137,14 @@ class Picture {
   });
 
   factory Picture.fromJson(Map<String, dynamic> json) => new Picture(
-        large: json["large"],
-        medium: json["medium"],
-        thumbnail: json["thumbnail"],
+        large: json['large'],
+        medium: json['medium'],
+        thumbnail: json['thumbnail'],
       );
 
   Map<String, dynamic> toJson() => {
-        "large": large,
-        "medium": medium,
-        "thumbnail": thumbnail,
+        'large': large,
+        'medium': medium,
+        'thumbnail': thumbnail,
       };
 }

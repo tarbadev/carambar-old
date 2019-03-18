@@ -5,7 +5,7 @@ import 'package:test_api/test_api.dart';
 import '../../../helpers/factory.dart';
 
 void main() {
-  group("DisplayCharacter", () {
+  group('DisplayCharacter', () {
     test('fromCharacter generates DisplayCharacter', () {
       var expectedDisplayCharacter = DisplayCharacter(
         'John Doe',

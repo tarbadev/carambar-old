@@ -23,8 +23,8 @@ void main() {
 
   testWidgets('Home Tab shows a list of events from the EventService', (WidgetTester tester) async {
     List<DisplayAgeEvent> expectedDisplayAgeEvents = [
-      Factory.displayAgeEvent(id: 0, age: "Age 0"),
-      Factory.displayAgeEvent(id: 1, age: "Age 1")
+      Factory.displayAgeEvent(id: 0, age: 'Age 0'),
+      Factory.displayAgeEvent(id: 1, age: 'Age 1')
     ];
 
     await tester.pumpWidget(buildTestableWidget(HomeTab(), displayAgeEvents: expectedDisplayAgeEvents));

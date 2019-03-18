@@ -6,12 +6,12 @@ import 'base_view_tester.dart';
 class CharacterTabView extends BaseViewTester {
   CharacterTabView(WidgetTester tester) : super(tester);
 
-  String get name => getTextByKey("characterName");
-  String get gender => getTextByKey("characterGender");
-  String get origin => getTextByKey("characterOrigin");
-  String get age => getTextByKey("characterAge");
-  String get ageCategory => getTextByKey("characterAgeCategory");
-  String get school => getTextByKey("characterSchool");
+  String get name => getTextByKey('characterName');
+  String get gender => getTextByKey('characterGender');
+  String get origin => getTextByKey('characterOrigin');
+  String get age => getTextByKey('characterAge');
+  String get ageCategory => getTextByKey('characterAgeCategory');
+  String get school => getTextByKey('characterSchool');
   List<String> get graduates {
     var graduatesFinder = find.byKey(Key('characterGraduates'));
     expect(graduatesFinder, findsOneWidget);

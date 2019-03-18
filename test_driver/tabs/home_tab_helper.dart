@@ -1,21 +1,16 @@
-import 'package:flutter_driver/flutter_driver.dart';
-
 import 'base_view_driver.dart';
 
 class HomeTabHelper extends BaseViewDriver {
-  final _ageButtonFinder = find.byValueKey('ageButton');
-  final _homeTabFinder = find.byValueKey('bottomNavigationHome');
-
-  HomeTabHelper(driver): super(driver);
+  HomeTabHelper(driver) : super(driver);
 
   Future<bool> get isVisible => widgetExists('ageButton');
 
   Future<void> tapOnAgeButton() async {
-    await driver.tap(_ageButtonFinder);
+    await tapOnButtonByKey('ageButton');
   }
 
   Future<void> goTo() async {
-    await driver.tap(_homeTabFinder);
+    await tapOnButtonByKey('bottomNavigationHome');
   }
 
   AgeEventElement ageEvent(String id) => AgeEventElement(driver, id);
@@ -24,18 +19,18 @@ class HomeTabHelper extends BaseViewDriver {
 class AgeEventElement extends BaseViewDriver {
   final String id;
 
-  AgeEventElement(driver, this.id): super(driver);
+  AgeEventElement(driver, this.id) : super(driver);
 
   Future<bool> get isVisible => widgetExists('AgeEventItem__$id');
+
   Future<String> get age async => await getTextByKey('AgeEventItem__${id}__age');
+
   Future<List<String>> get events async {
     List<String> events = [];
     try {
       var index = 0;
       do {
-        events.add(await driver.getText(
-            find.byValueKey('AgeEventItem__${id}__events__${index++}'),
-            timeout: Duration(milliseconds: 500)));
+        events.add(await getTextByKey('AgeEventItem__${id}__events__${index++}', timeout: Duration(milliseconds: 500)));
       } while (true);
     } catch (_) {}
 
