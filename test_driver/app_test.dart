@@ -181,7 +181,7 @@ void main() {
       await workTab.goTo();
 
       expect(await workTab.isAvailableJobsVisible, isTrue);
-      expect(await workTab.availableJobs, ['Supervisor', 'Teacher', 'Counselor', 'Associate Director']);
+      expect(await workTab.availableJobs, ['Supervisor', 'Teacher', 'Counselor', 'Associate Director', 'Director']);
     });
 
     test('should display the jobs requirements on available job tap', () async {
@@ -424,6 +424,44 @@ void main() {
       expect(await characterTab.job, 'Associate Director');
       expect(await characterTab.salary, '\$35,000/year');
     });
+
+    test('should display an event when applying successfully for a Director job', () async {
+      await driver.waitUntilNoTransientCallbacks();
+      await homeTab.goTo();
+
+      await homeTab.tapOnAgeButton();
+      await homeTab.tapOnAgeButton();
+      await homeTab.tapOnAgeButton();
+      await homeTab.tapOnAgeButton();
+      await homeTab.tapOnAgeButton();
+
+      await characterTab.goTo();
+
+      expect(await characterTab.jobHistory(0).name, 'Associate Director');
+      expect(await characterTab.jobHistory(0).experience, '5 years');
+
+      await workTab.goTo();
+      expect(await workTab.isAvailableJobsVisible, isTrue);
+
+      await workTab.tapOnAvailableJob('Director');
+
+      expect(await workTab.jobDialog.isVisible, isTrue);
+      expect(await workTab.jobDialog.title, 'Director');
+      expect(await workTab.jobDialog.salary, '\$50,000/year');
+      expect(await workTab.jobDialog.requirements, ['\u2022 Associate Director for 5+ years']);
+
+      await workTab.jobDialog.apply();
+      expect(await workTab.jobDialog.isVisible, isFalse);
+
+      expect(await homeTab.isVisible, isTrue);
+      expect(await homeTab.ageEvent('36').isVisible, isTrue);
+      expect(await homeTab.ageEvent('36').events, contains('You\'re now a Director'));
+
+      await characterTab.goTo();
+
+      expect(await characterTab.job, 'Director');
+      expect(await characterTab.salary, '\$50,000/year');
+    });
   });
 
   group('Settings Tab', () {
@@ -437,7 +475,7 @@ void main() {
       await settingsTab.goTo();
       await settingsTab.endLife();
 
-      expect(await homeTab.ageEvent('31').isVisible, isFalse);
+      expect(await homeTab.ageEvent('36').isVisible, isFalse);
       await characterTab.goTo();
 
       expect(await characterTab.age, '0');

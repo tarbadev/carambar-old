@@ -88,6 +88,11 @@ class CharacterService {
             return false;
           }
           break;
+        case Requirement.AssociateDirector5Years:
+          if (!verifyJobHistoryRequirement(character, 'Associate Director', 5)) {
+            return false;
+          }
+          break;
         default:
           return false;
       }

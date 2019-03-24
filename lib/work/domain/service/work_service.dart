@@ -27,6 +27,12 @@ class WorkService {
         salary: 35000,
         requirements: [Requirement.Counselor5Years],
       ),
+      Job(
+        id: 5,
+        name: 'Director',
+        salary: 50000,
+        requirements: [Requirement.AssociateDirector5Years],
+      ),
     ];
   }
 

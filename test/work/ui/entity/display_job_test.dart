@@ -55,6 +55,18 @@ void main() {
       expect(DisplayJob.fromJob(Factory.job(requirements: [Requirement.Counselor5Years])), expectedDisplayJob);
     });
 
+    test('fromJob generates DisplayJob with AssociateDirector5Years requirement', () {
+      var job = Factory.job();
+      var expectedDisplayJob = DisplayJob(
+        job.id,
+        job.name,
+        ['\u2022 Associate Director for 5+ years'],
+        '${NumberFormat.simpleCurrency(decimalDigits: 0).format(job.salary)}/year',
+      );
+
+      expect(DisplayJob.fromJob(Factory.job(requirements: [Requirement.AssociateDirector5Years])), expectedDisplayJob);
+    });
+
     test('fromJob returns null if job is null', () {
       var expectedDisplayJob = DisplayJob(
         0,

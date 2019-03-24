@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-enum Requirement { HighSchool, Supervisor3Years, Teacher5Years, Counselor5Years }
+enum Requirement { HighSchool, Supervisor3Years, Teacher5Years, Counselor5Years, AssociateDirector5Years }
 
 class Job extends Equatable {
   final int id;
