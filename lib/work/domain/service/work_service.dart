@@ -9,6 +9,12 @@ class WorkService {
         salary: 15000,
         requirements: [Requirement.HighSchool],
       ),
+      Job(
+        id: 2,
+        name: 'Teacher',
+        salary: 20000,
+        requirements: [Requirement.Supervisor3Years],
+      ),
     ];
   }
 

@@ -67,8 +67,21 @@ class CharacterService {
     Character character = await _characterRepository.readCharacter();
 
     for (final requirement in job.requirements) {
-      if (requirement == Requirement.HighSchool && !character.graduates.contains(Graduate.HighSchool)) {
-        return false;
+      switch (requirement) {
+        case Requirement.HighSchool:
+          if (!character.graduates.contains(Graduate.HighSchool)) {
+            return false;
+          }
+          break;
+        case Requirement.Supervisor3Years:
+          var jobExperience = character.jobHistory
+              .firstWhere((jobExperience) => jobExperience.name == 'Supervisor', orElse: () => null);
+          if (jobExperience == null || jobExperience.experience < 3) {
+            return false;
+          }
+          break;
+        default:
+          return false;
       }
     }
 

@@ -175,13 +175,13 @@ void main() {
   });
 
   group('Work Tab', () {
-    test('should display a list of tabs', () async {
+    test('should display a list of jobs', () async {
       await driver.waitUntilNoTransientCallbacks();
 
       await workTab.goTo();
 
       expect(await workTab.isAvailableJobsVisible, isTrue);
-      expect(await workTab.availableJobs, ['Supervisor']);
+      expect(await workTab.availableJobs, ['Supervisor', 'Teacher']);
     });
 
     test('should display the jobs requirements on available job tap', () async {
@@ -311,6 +311,33 @@ void main() {
 
       expect(await characterTab.jobHistory(0).name, 'Supervisor');
       expect(await characterTab.jobHistory(0).experience, '2 years');
+    });
+  });
+
+  group('Work Tab', () {
+    test('should display an event when applying successfully for a Teacher job', () async {
+      await driver.waitUntilNoTransientCallbacks();
+      await homeTab.goTo();
+
+      await homeTab.tapOnAgeButton();
+
+      await characterTab.goTo();
+
+      expect(await characterTab.jobHistory(0).name, 'Supervisor');
+      expect(await characterTab.jobHistory(0).experience, '3 years');
+
+      await workTab.goTo();
+      expect(await workTab.isAvailableJobsVisible, isTrue);
+
+      await workTab.tapOnAvailableJob('Teacher');
+
+      expect(await workTab.jobDialog.isVisible, isTrue);
+      await workTab.jobDialog.apply();
+      expect(await workTab.jobDialog.isVisible, isFalse);
+
+      expect(await homeTab.isVisible, isTrue);
+      expect(await homeTab.ageEvent('21').isVisible, isTrue);
+      expect(await homeTab.ageEvent('21').events, contains('You\'re now a Teacher'));
     });
   });
 
