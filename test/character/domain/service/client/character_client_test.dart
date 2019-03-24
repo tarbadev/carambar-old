@@ -5,8 +5,9 @@ import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 import 'package:test_api/test_api.dart';
 
-import '../../../helpers/factory.dart';
-import '../../../helpers/mock_definition.dart';
+import '../../../../helpers/factory.dart';
+import '../../../../helpers/mock_definition.dart';
+
 
 void main() {
   group('CharacterClient', () {

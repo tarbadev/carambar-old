@@ -22,7 +22,7 @@ class WorkTab extends StatelessWidget {
               var job = viewModel.availableJobs[index];
 
               return ListTile(
-                  onTap: () => _displayJobRequirements(context, job),
+                  onTap: () => _displayJobRequirements(context, job, viewModel.onApplyJobButtonTapped),
                   title: Text(
                     job.name,
                     key: Key('Work__Jobs__$index'),
@@ -30,7 +30,7 @@ class WorkTab extends StatelessWidget {
             });
       });
 
-  void _displayJobRequirements(BuildContext context, DisplayJob job) {
+  void _displayJobRequirements(BuildContext context, DisplayJob displayJob, Function(int) onApplyTapped) {
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -40,7 +40,7 @@ class WorkTab extends StatelessWidget {
               color: Theme.of(context).primaryColor,
               padding: EdgeInsets.symmetric(vertical: 24, horizontal: 20),
               child: Text(
-                job.name,
+                displayJob.name,
                 key: Key('JobDialog__JobTitle'),
                 style: TextStyle(color: Colors.white),
               ),
@@ -55,7 +55,7 @@ class WorkTab extends StatelessWidget {
                     style: Theme.of(context).textTheme.subhead,
                   ),
                   Text(
-                    job.requirements,
+                    displayJob.requirements,
                     key: Key('JobDialog__JobRequirements'),
                     style: Theme.of(context).textTheme.body1,
                   ),
@@ -72,7 +72,7 @@ class WorkTab extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        job.salary,
+                        displayJob.salary,
                         key: Key('JobDialog__JobSalary'),
                         style: Theme.of(context).textTheme.body1,
                       ),
@@ -84,7 +84,16 @@ class WorkTab extends StatelessWidget {
             actions: <Widget>[
               FlatButton(
                 child: Text('Close', key: Key('JobDialog__CloseButton')),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              MaterialButton(
+                elevation: 2,
+                color: ThemeData.light().primaryColor,
+                textTheme: ButtonTextTheme.primary,
+                key: Key('JobDialog__ApplyButton'),
+                child: Text('Apply'),
                 onPressed: () {
+                  onApplyTapped(displayJob.id);
                   Navigator.of(context).pop();
                 },
               ),
@@ -98,11 +107,13 @@ class _WorkTabModel {
   final List<DisplayJob> availableJobs;
   final Function() getAvailableJobs;
   final Function(String) onAvailableJobTapped;
+  final Function(int) onApplyJobButtonTapped;
 
   _WorkTabModel(
     this.availableJobs,
     this.getAvailableJobs,
     this.onAvailableJobTapped,
+    this.onApplyJobButtonTapped,
   );
 
   factory _WorkTabModel.create(Store<ApplicationState> store) {
@@ -110,6 +121,7 @@ class _WorkTabModel {
       store.state.availableJobs,
       () => store.dispatch(GetAvailableJobsAction()),
       (String job) => store.dispatch(DisplayJobRequirementsDialogAction(job)),
+      (int jobId) => store.dispatch(ApplyJobAction(jobId)),
     );
   }
 }

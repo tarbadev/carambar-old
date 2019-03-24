@@ -14,3 +14,9 @@ class DisplayJobRequirementsDialogAction extends Equatable {
 
   DisplayJobRequirementsDialogAction(this.job): super([job]);
 }
+
+class ApplyJobAction extends Equatable {
+  final int jobId;
+
+  ApplyJobAction(this.jobId): super([jobId]);
+}

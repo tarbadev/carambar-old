@@ -11,6 +11,7 @@ import 'package:kiwi/kiwi.dart' as kiwi;
 
 List<Middleware<ApplicationState>> createCharacterMiddleware() => [
   TypedMiddleware<ApplicationState, InitiateStateAction>(initiateCharacter),
+  TypedMiddleware<ApplicationState, SetCharacterJobAction>(setCharacterJob),
 ];
 
 Future initiateCharacter(Store<ApplicationState> store, InitiateStateAction action, NextDispatcher next) async {
@@ -36,6 +37,23 @@ Future initiateCharacter(Store<ApplicationState> store, InitiateStateAction acti
   }
 
   store.dispatch(SetCharacterAction(DisplayCharacter.fromCharacter(character)));
+
+  next(action);
+}
+
+Future setCharacterJob(Store<ApplicationState> store, SetCharacterJobAction action, NextDispatcher next) async {
+  var container = kiwi.Container();
+  CharacterService _characterService = container.resolve<CharacterService>();
+  AgeEventService _ageEventService = container.resolve<AgeEventService>();
+
+  var character = await _characterService.setJob(action.job);
+  var displayCharacter = DisplayCharacter.fromCharacter(character);
+  var event = 'You\'re now a ${displayCharacter.job.name}';
+
+  var ageEvents = await _ageEventService.addEvent(character.age, event: event);
+
+  store.dispatch(SetCharacterAction(displayCharacter));
+  store.dispatch(SetAgeEventsAction(ageEvents.map((ageEvent) => DisplayAgeEvent.fromAgeEvent(ageEvent)).toList()));
 
   next(action);
 }

@@ -3,15 +3,23 @@ import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 
 class DisplayJob extends Equatable {
+  final int id;
   final String name;
   final String salary;
   final String requirements;
 
-  DisplayJob({this.name, this.requirements, this.salary}) : super([name, requirements, salary]);
+  DisplayJob(this.id, this.name, this.requirements, this.salary) : super([id, name, requirements, salary]);
 
-  factory DisplayJob.fromJob(Job job) => DisplayJob(
-        name: job.name,
-        salary: '${NumberFormat.simpleCurrency(decimalDigits: 0).format(job.salary)}/year',
-        requirements: '\u2022 ${job.requirements}',
+  factory DisplayJob.fromJob(Job job) {
+    if (job == null) {
+      return null;
+    }
+
+    return DisplayJob(
+        job.id,
+        job.name,
+        '\u2022 ${job.requirements}',
+        '${NumberFormat.simpleCurrency(decimalDigits: 0).format(job.salary)}/year',
       );
+  }
 }

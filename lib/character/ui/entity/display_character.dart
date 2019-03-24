@@ -1,6 +1,7 @@
 import 'package:carambar/application/ui/util/string_utils.dart';
 import 'package:carambar/character/domain/entity/character.dart';
 import 'package:carambar/character/domain/entity/nationality.dart';
+import 'package:carambar/work/ui/entity/display_job.dart';
 import 'package:equatable/equatable.dart';
 
 class DisplayCharacter extends Equatable {
@@ -9,13 +10,14 @@ class DisplayCharacter extends Equatable {
   final String age;
   final String origin;
   final String ageCategory;
+  final DisplayJob job;
 
   String get genderChild => gender == 'Male' ? 'Boy' : 'Girl';
   final String school;
   final List<String> graduates;
 
-  DisplayCharacter(this.name, this.gender, this.age, this.origin, this.ageCategory, this.school, this.graduates)
-      : super([name, gender, age, origin, ageCategory, school, graduates]);
+  DisplayCharacter(this.name, this.gender, this.age, this.origin, this.ageCategory, this.school, this.graduates, this.job)
+      : super([name, gender, age, origin, ageCategory, school, graduates, job]);
 
   static DisplayCharacter fromCharacter(Character character) {
     return DisplayCharacter(
@@ -26,6 +28,7 @@ class DisplayCharacter extends Equatable {
       _mapAgeCategoryToString[character.ageCategory],
       _mapSchoolToDisplaySchool[character.school],
       character.graduates.map((graduate) => _mapGraduateToDisplayGraduate[graduate]).toList(),
+      DisplayJob.fromJob(character.job)
     );
   }
 

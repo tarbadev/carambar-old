@@ -52,9 +52,12 @@ void main() {
         var character = Factory.character(age: 0);
         var displayCharacter = DisplayCharacter.fromCharacter(character);
         var line1 = 'You just started your life!';
-        var line2 = 'You\'re a baby ${displayCharacter.genderChild.toLowerCase()} named ${displayCharacter.name} from ${displayCharacter.origin}';
+        var line2 =
+            'You\'re a baby ${displayCharacter.genderChild.toLowerCase()} named ${displayCharacter.name} from ${displayCharacter.origin}';
         var expectedEvent = '$line1\n$line2';
-        var ageEvents = [Factory.ageEvent(age: 0, events: [expectedEvent])];
+        var ageEvents = [
+          Factory.ageEvent(age: 0, events: [expectedEvent])
+        ];
 
         when(Mocks.characterService.getCharacter()).thenAnswer((_) async => null);
         when(Mocks.characterService.generateCharacter()).thenAnswer((_) async => character);
@@ -65,6 +68,39 @@ void main() {
         verify(Mocks.ageEventService.addEvent(0, event: expectedEvent));
         verify(Mocks.store.dispatch(SetAgeEventsAction(Factory.ageEventsToDisplayAgeEvents(ageEvents))));
       });
+    });
+
+    test('setCharacterJob calls the character service to set the current job and sets the state', () async {
+      var job = Factory.job();
+      var expectedCharacter = Factory.character(job: job);
+      var expectedDisplayCharacter = Factory.displayCharacter(job: Factory.displayJob());
+      var setCharacterJobAction = SetCharacterJobAction(job);
+
+      when(Mocks.characterService.setJob(any)).thenAnswer((_) async => expectedCharacter);
+
+      await setCharacterJob(Mocks.store, setCharacterJobAction, Mocks.next);
+
+      verify(Mocks.store.dispatch(SetCharacterAction(expectedDisplayCharacter)));
+      verify(Mocks.characterService.setJob(job));
+      verify(Mocks.mockNext.next(setCharacterJobAction));
+    });
+
+    test('setCharacterJob adds an event with the started job', () async {
+      var job = Factory.job();
+      var expectedCharacter = Factory.character(job: job);
+      var setCharacterJobAction = SetCharacterJobAction(job);
+      var ageEvents = [
+        Factory.ageEvent(age: 34, events: ['You\'re now a Supervisor'])
+      ];
+
+      when(Mocks.characterService.setJob(any)).thenAnswer((_) async => expectedCharacter);
+      when(Mocks.ageEventService.addEvent(any, event: anyNamed('event'))).thenAnswer((_) async => ageEvents);
+
+      await setCharacterJob(Mocks.store, setCharacterJobAction, Mocks.next);
+
+      verify(Mocks.store.dispatch(SetAgeEventsAction(Factory.ageEventsToDisplayAgeEvents(ageEvents))));
+      verify(Mocks.characterService.setJob(job));
+      verify(Mocks.mockNext.next(setCharacterJobAction));
     });
   });
 }

@@ -234,6 +234,24 @@ void main() {
       await workTab.jobDialog.close();
       expect(await workTab.jobDialog.isVisible, isFalse);
     });
+
+    test('should display an even when applying for a job', () async {
+      await driver.waitUntilNoTransientCallbacks();
+
+      await workTab.goTo();
+
+      expect(await workTab.isAvailableJobsVisible, isTrue);
+
+      await workTab.tapOnAvailableJob('Supervisor');
+
+      expect(await workTab.jobDialog.isVisible, isTrue);
+      await workTab.jobDialog.apply();
+      expect(await workTab.jobDialog.isVisible, isFalse);
+
+      expect(await homeTab.isVisible, isTrue);
+      expect(await homeTab.ageEvent('18').isVisible, isTrue);
+      expect(await homeTab.ageEvent('18').events, contains('You\'re now a Supervisor'));
+    });
   });
 
   group('Settings Tab', () {

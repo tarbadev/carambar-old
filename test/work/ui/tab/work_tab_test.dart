@@ -62,4 +62,23 @@ void main() {
     expect(workTabView.jobDialog.salary, '\$15,000/year');
     expect(workTabView.jobDialog.requirements, expectedJobRequirements);
   });
+
+  testWidgets('Work Tab dispatches an ApplyJobAction on apply button click', (WidgetTester tester) async {
+    var workTabView = WorkTabView(tester);
+    var jobId = 1;
+    var expectedJobs = [
+      Factory.displayJob(name: 'Supervisor', id: jobId)
+    ];
+
+    await tester.pumpWidget(buildTestableWidget(WorkTab(), availableJobs: expectedJobs));
+    await workTabView.tapOnAvailableJob('Supervisor');
+    await tester.pump();
+
+    expect(workTabView.jobDialog.isVisible, isTrue);
+    await workTabView.jobDialog.apply();
+    await tester.pump();
+    expect(workTabView.jobDialog.isVisible, isFalse);
+
+    verify(Mocks.store.dispatch(ApplyJobAction(jobId)));
+  });
 }

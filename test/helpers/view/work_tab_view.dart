@@ -36,4 +36,5 @@ class JobDialogElement extends BaseViewTester {
   String get requirements => getTextByKey('JobDialog__JobRequirements');
 
   Future<void> close() async => await tapOnButtonByKey('JobDialog__CloseButton');
+  Future<void> apply() async => await tapOnButtonByKey('JobDialog__ApplyButton');
 }

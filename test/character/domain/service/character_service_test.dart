@@ -3,8 +3,8 @@ import 'package:carambar/character/domain/service/character_service.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test_api/test_api.dart';
 
-import '../../helpers/factory.dart';
-import '../../helpers/mock_definition.dart';
+import '../../../helpers/factory.dart';
+import '../../../helpers/mock_definition.dart';
 
 void main() {
   group('CharacterService', () {
@@ -58,6 +58,18 @@ void main() {
       when(Mocks.characterRepository.readCharacter()).thenAnswer((_) async => character);
 
       expect(await characterService.addGraduate(Graduate.HighSchool), expectedCharacter);
+      verify(Mocks.characterRepository.save(expectedCharacter));
+    });
+
+    test('setJob calls the repository with the character updated with the job', () async {
+      final job = Factory.job();
+      final character = Factory.character(job: null);
+      final expectedCharacter = Factory.character(job: job);
+
+      when(Mocks.characterRepository.readCharacter()).thenAnswer((_) async => character);
+
+      expect(await characterService.setJob(job), expectedCharacter);
+
       verify(Mocks.characterRepository.save(expectedCharacter));
     });
   });

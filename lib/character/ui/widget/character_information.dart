@@ -15,6 +15,7 @@ class CharacterInformation extends StatelessWidget {
       'Adult',
       'None',
       [],
+      null,
     ));
   }
 
