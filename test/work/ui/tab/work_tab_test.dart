@@ -46,11 +46,12 @@ void main() {
     verifyNever(Mocks.store.dispatch(GetAvailableJobsAction()));
   });
 
-  testWidgets('Work Tab dispatches a DisplayJobRequirementsDialogAction when an available job is tapped',
-      (WidgetTester tester) async {
+  testWidgets('Work Tab displays job dialog with job informations', (WidgetTester tester) async {
     var workTabView = WorkTabView(tester);
     var expectedJobRequirements = 'Lots of job requirements';
-    var expectedJobs = [Factory.displayJob(name: 'Supervisor', requirements: expectedJobRequirements)];
+    var expectedJobs = [
+      Factory.displayJob(name: 'Supervisor', salary: '\$15,000/year', requirements: expectedJobRequirements)
+    ];
 
     await tester.pumpWidget(buildTestableWidget(WorkTab(), availableJobs: expectedJobs));
     await workTabView.tapOnAvailableJob('Supervisor');
@@ -58,6 +59,7 @@ void main() {
 
     expect(workTabView.jobDialog.isVisible, isTrue);
     expect(workTabView.jobDialog.title, 'Supervisor');
+    expect(workTabView.jobDialog.salary, '\$15,000/year');
     expect(workTabView.jobDialog.requirements, expectedJobRequirements);
   });
 }

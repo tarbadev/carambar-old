@@ -68,10 +68,10 @@ class Factory {
       ageEvents.map((ageEvent) => DisplayAgeEvent.fromAgeEvent(ageEvent)).toList();
 
   static Job job() {
-    return Job(name: 'Supervisor', requirements: 'High School completed successfully');
+    return Job(name: 'Supervisor', salary: 15000, requirements: 'High School completed successfully');
   }
 
-  static DisplayJob displayJob({String name: 'Supervisor', String requirements: 'High School completed successfully'}) {
-    return DisplayJob(name: name, requirements: requirements);
+  static DisplayJob displayJob({String name: 'Supervisor', String requirements: '\u2022 High School completed successfully', String salary: '\$15,000/year'}) {
+    return DisplayJob(name: name, requirements: requirements, salary: salary);
   }
 }

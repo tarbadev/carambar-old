@@ -33,6 +33,7 @@ class JobDialogElement extends BaseViewDriver {
   Future<bool> get isVisible => widgetExists('JobDialog');
 
   Future<String> get title async => getTextByKey('JobDialog__JobTitle');
+  Future<String> get salary async => getTextByKey('JobDialog__JobSalary');
   Future<String> get requirements async => getTextByKey('JobDialog__JobRequirements');
 
   Future<void> close() async {

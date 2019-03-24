@@ -5,6 +5,7 @@ class WorkService {
     return [
       Job(
         name: 'Supervisor',
+        salary: 15000,
         requirements: 'High School completed successfully',
       ),
     ];

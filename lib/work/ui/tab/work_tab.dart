@@ -36,7 +36,6 @@ class WorkTab extends StatelessWidget {
       builder: (BuildContext context) => AlertDialog(
             key: Key('JobDialog'),
             titlePadding: EdgeInsets.all(0),
-//            contentPadding: EdgeInsets.all(0),
             title: Container(
               color: Theme.of(context).primaryColor,
               padding: EdgeInsets.symmetric(vertical: 24, horizontal: 20),
@@ -51,18 +50,33 @@ class WorkTab extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(right: 5),
-                    child: Text(
-                      'Requirements',
-                      style: Theme.of(context).textTheme.subhead,
-                    ),
+                  Text(
+                    'Requirements',
+                    style: Theme.of(context).textTheme.subhead,
                   ),
-                  Divider(height: 8),
                   Text(
                     job.requirements,
                     key: Key('JobDialog__JobRequirements'),
                     style: Theme.of(context).textTheme.body1,
+                  ),
+                  Divider(height: 10),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(right: 5),
+                        child: Text(
+                          'Salary',
+                          style: Theme.of(context).textTheme.subhead,
+                        ),
+                      ),
+                      Text(
+                        job.salary,
+                        key: Key('JobDialog__JobSalary'),
+                        style: Theme.of(context).textTheme.body1,
+                      ),
+                    ],
                   ),
                 ],
               ),

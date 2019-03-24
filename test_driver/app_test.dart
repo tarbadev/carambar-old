@@ -207,7 +207,7 @@ void main() {
     });
   });
 
-  group('Jobs Tab', () {
+  group('Work Tab', () {
     test('should display a list of tabs', () async {
       await driver.waitUntilNoTransientCallbacks();
 
@@ -228,7 +228,8 @@ void main() {
 
       expect(await workTab.jobDialog.isVisible, isTrue);
       expect(await workTab.jobDialog.title, 'Supervisor');
-      expect(await workTab.jobDialog.requirements, 'High School completed successfully');
+      expect(await workTab.jobDialog.salary, '\$15,000/year');
+      expect(await workTab.jobDialog.requirements, '\u2022 High School completed successfully');
 
       await workTab.jobDialog.close();
       expect(await workTab.jobDialog.isVisible, isFalse);
