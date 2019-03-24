@@ -22,14 +22,19 @@ class SettingsTab extends StatelessWidget {
                             'Are you sure you want to end the life of your character?\nA new character will be generated'),
                         actions: <Widget>[
                           FlatButton(
-                            child: Text('Nevermind...', key: Key('EndLifeDialog__CancelButton')),
+                            key: Key('EndLifeDialog__CancelButton'),
+                            child: Text('Nevermind...'),
                             onPressed: () {
                               viewModel.onEndLifeCancelTapped();
                               Navigator.of(context).pop();
                             },
                           ),
-                          FlatButton(
-                            child: Text('I\'m done with it!', key: Key('EndLifeDialog__ConfirmButton')),
+                          MaterialButton(
+                            elevation: 2,
+                            color: ThemeData.light().primaryColor,
+                            textTheme: ButtonTextTheme.primary,
+                            key: Key('EndLifeDialog__ConfirmButton'),
+                            child: Text('I\'m done with it!'),
                             onPressed: () {
                               viewModel.onEndLifeConfirmTapped();
                               Navigator.of(context).pop();
