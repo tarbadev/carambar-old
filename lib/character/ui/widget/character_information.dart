@@ -7,7 +7,8 @@ class CharacterInformation extends StatelessWidget {
   CharacterInformation({Key key, @required this.displayCharacter}) : super(key: key);
 
   factory CharacterInformation.forDesignTime() {
-    return CharacterInformation(displayCharacter: DisplayCharacter(
+    return CharacterInformation(
+        displayCharacter: DisplayCharacter(
       'John Doe',
       'Male',
       '46',
@@ -111,6 +112,33 @@ class CharacterInformation extends StatelessWidget {
                               key: Key('Character__graduates__${index++}'),
                             ))
                         .toList(),
+                  ),
+                ],
+              ),
+              Divider(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'Current job',
+                    style: Theme.of(context).textTheme.subhead,
+                  ),
+                  Text(
+                    'Salary',
+                    style: Theme.of(context).textTheme.subhead,
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    displayCharacter.job.name,
+                    key: Key('Character__Job'),
+                  ),
+                  Text(
+                    displayCharacter.job.salary,
+                    key: Key('Character__Salary'),
                   ),
                 ],
               ),

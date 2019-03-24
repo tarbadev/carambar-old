@@ -254,6 +254,17 @@ void main() {
     });
   });
 
+  group('Character Tab', () {
+    test('should display the current job and salary', () async {
+      await driver.waitUntilNoTransientCallbacks();
+
+      await characterTab.goTo();
+
+      expect(await characterTab.job, 'Supervisor');
+      expect(await characterTab.salary, '\$15,000/year');
+    });
+  });
+
   group('Settings Tab', () {
     test('should display an end life button that regenerates the character', () async {
       await driver.waitUntilNoTransientCallbacks();

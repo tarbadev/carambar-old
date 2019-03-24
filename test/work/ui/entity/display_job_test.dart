@@ -19,7 +19,14 @@ void main() {
     });
 
     test('fromJob returns null if job is null', () {
-      expect(DisplayJob.fromJob(null), isNull);
+      var expectedDisplayJob = DisplayJob(
+        0,
+        'Not employed',
+        '',
+        '${NumberFormat.simpleCurrency(decimalDigits: 0).format(0)}/year',
+      );
+
+      expect(DisplayJob.fromJob(null), expectedDisplayJob);
     });
   });
 }

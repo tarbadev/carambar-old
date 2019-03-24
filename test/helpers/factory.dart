@@ -7,7 +7,7 @@ import 'package:carambar/home/ui/entity/display_age_event.dart';
 import 'package:carambar/work/domain/entity/job.dart';
 import 'package:carambar/work/ui/entity/display_job.dart';
 
-class Factory {
+abstract class Factory {
   static const List<Graduate> _factoryGraduates = [];
 
   static Character character({int age: 18, List<Graduate> graduates: _factoryGraduates, Job job}) {

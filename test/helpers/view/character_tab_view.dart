@@ -19,4 +19,6 @@ class CharacterTabView extends BaseViewTester {
     var graduates = graduatesFinder.evaluate().single.widget as Column;
     return graduates.children.map((text) => (text as Text).data).toList();
   }
+  String get job => getTextByKey('Character__Job');
+  String get salary => getTextByKey('Character__Salary');
 }

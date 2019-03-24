@@ -22,6 +22,8 @@ class CharacterTabHelper extends BaseViewDriver {
 
     return graduates;
   }
+  Future<String> get job async => await getTextByKey('Character__Job');
+  Future<String> get salary async => await getTextByKey('Character__Salary');
 
   Future<void> goTo() async {
     await tapOnButtonByKey('Home__BottomNavigationCharacter');

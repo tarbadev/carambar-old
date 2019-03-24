@@ -12,7 +12,12 @@ class DisplayJob extends Equatable {
 
   factory DisplayJob.fromJob(Job job) {
     if (job == null) {
-      return null;
+      return DisplayJob(
+        0,
+        'Not employed',
+        '',
+        '${NumberFormat.simpleCurrency(decimalDigits: 0).format(0)}/year',
+      );
     }
 
     return DisplayJob(
