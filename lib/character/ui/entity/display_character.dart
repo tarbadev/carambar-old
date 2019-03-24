@@ -40,7 +40,7 @@ class DisplayCharacter extends Equatable {
       _mapSchoolToDisplaySchool[character.school],
       character.graduates.map((graduate) => _mapGraduateToDisplayGraduate[graduate]).toList(),
       DisplayJob.fromJob(character.job),
-      character.jobHistory.map((jobExperience) => DisplayJobExperience.fromJobExperience(jobExperience)).toList(),
+      character.jobHistory.map((jobExperience) => DisplayJobExperience.fromJobExperience(jobExperience)).toList().reversed.toList(),
     );
   }
 

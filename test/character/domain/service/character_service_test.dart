@@ -74,40 +74,60 @@ void main() {
       verify(Mocks.characterRepository.save(expectedCharacter));
     });
 
-    test('areRequirementsMet returns true when all requirements are met for HighSchool requirement', () async {
-      final job = Factory.job(requirements: [Requirement.HighSchool]);
-      final character = Factory.character(graduates: [Graduate.HighSchool]);
+    group('areRequirementsMet', () {
+      test('returns true when all requirements are met for HighSchool requirement', () async {
+        final job = Factory.job(requirements: [Requirement.HighSchool]);
+        final character = Factory.character(graduates: [Graduate.HighSchool]);
 
-      when(Mocks.characterRepository.readCharacter()).thenAnswer((_) async => character);
+        when(Mocks.characterRepository.readCharacter()).thenAnswer((_) async => character);
 
-      expect(await characterService.areRequirementsMet(job), isTrue);
-    });
+        expect(await characterService.areRequirementsMet(job), isTrue);
+      });
 
-    test('areRequirementsMet returns true when all requirements are met for Supervisor3Years requirement', () async {
-      final job = Factory.job(requirements: [Requirement.Supervisor3Years]);
-      final character = Factory.character(jobHistory: [Factory.jobExperience(name: 'Supervisor', experience: 3)]);
+      test('returns true when all requirements are met for Supervisor3Years requirement', () async {
+        final job = Factory.job(requirements: [Requirement.Supervisor3Years]);
+        final character = Factory.character(jobHistory: [Factory.jobExperience(name: 'Supervisor', experience: 3)]);
 
-      when(Mocks.characterRepository.readCharacter()).thenAnswer((_) async => character);
+        when(Mocks.characterRepository.readCharacter()).thenAnswer((_) async => character);
 
-      expect(await characterService.areRequirementsMet(job), isTrue);
-    });
+        expect(await characterService.areRequirementsMet(job), isTrue);
+      });
 
-    test('areRequirementsMet returns false when all requirements are not met', () async {
-      final job = Factory.job(requirements: [Requirement.HighSchool]);
-      final character = Factory.character(graduates: []);
+      test('returns true when all requirements are met for Teacher5Years requirement', () async {
+        final job = Factory.job(requirements: [Requirement.Teacher5Years]);
+        final character = Factory.character(jobHistory: [Factory.jobExperience(name: 'Teacher', experience: 5)]);
 
-      when(Mocks.characterRepository.readCharacter()).thenAnswer((_) async => character);
+        when(Mocks.characterRepository.readCharacter()).thenAnswer((_) async => character);
 
-      expect(await characterService.areRequirementsMet(job), isFalse);
-    });
+        expect(await characterService.areRequirementsMet(job), isTrue);
+      });
 
-    test('areRequirementsMet returns false when all requirements are not met', () async {
-      final job = Factory.job(requirements: [Requirement.Supervisor3Years]);
-      final character = Factory.character(jobHistory: []);
+      test('returns false when all requirements are not met for HighSchool requirement', () async {
+        final job = Factory.job(requirements: [Requirement.HighSchool]);
+        final character = Factory.character(graduates: []);
 
-      when(Mocks.characterRepository.readCharacter()).thenAnswer((_) async => character);
+        when(Mocks.characterRepository.readCharacter()).thenAnswer((_) async => character);
 
-      expect(await characterService.areRequirementsMet(job), isFalse);
+        expect(await characterService.areRequirementsMet(job), isFalse);
+      });
+
+      test('returns false when all requirements are not met for Supervisor3Years requirement', () async {
+        final job = Factory.job(requirements: [Requirement.Supervisor3Years]);
+        final character = Factory.character(jobHistory: []);
+
+        when(Mocks.characterRepository.readCharacter()).thenAnswer((_) async => character);
+
+        expect(await characterService.areRequirementsMet(job), isFalse);
+      });
+
+      test('returns false when all requirements are not met for Teacher5Years requirement', () async {
+        final job = Factory.job(requirements: [Requirement.Teacher5Years]);
+        final character = Factory.character(jobHistory: []);
+
+        when(Mocks.characterRepository.readCharacter()).thenAnswer((_) async => character);
+
+        expect(await characterService.areRequirementsMet(job), isFalse);
+      });
     });
 
     test('incrementJobExperience returns false when all requirements are not met', () async {

@@ -11,7 +11,10 @@ void main() {
     test('fromCharacter generates DisplayCharacter', () {
       var job = Factory.job();
       var displayJob = DisplayJob.fromJob(job);
-      var displayJobHistory = [DisplayJobExperience.fromJobExperience(Factory.jobExperience())];
+      var displayJobHistory = [
+        DisplayJobExperience.fromJobExperience(Factory.jobExperience(name: 'Supervisor')),
+        DisplayJobExperience.fromJobExperience(Factory.jobExperience(name: 'Teacher')),
+      ];
       var expectedDisplayCharacter = DisplayCharacter(
         'John Doe',
         'Male',
@@ -25,8 +28,11 @@ void main() {
       );
 
       expect(
-          DisplayCharacter.fromCharacter(
-              Factory.character(age: 2, graduates: [], job: job, jobHistory: [Factory.jobExperience()])),
+          DisplayCharacter.fromCharacter(Factory.character(
+              age: 2,
+              graduates: [],
+              job: job,
+              jobHistory: [Factory.jobExperience(name: 'Teacher'), Factory.jobExperience(name: 'Supervisor')])),
           expectedDisplayCharacter);
 
       expectedDisplayCharacter = DisplayCharacter(

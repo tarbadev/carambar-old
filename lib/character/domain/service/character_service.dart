@@ -80,6 +80,13 @@ class CharacterService {
             return false;
           }
           break;
+        case Requirement.Teacher5Years:
+          var jobExperience = character.jobHistory
+              .firstWhere((jobExperience) => jobExperience.name == 'Teacher', orElse: () => null);
+          if (jobExperience == null || jobExperience.experience < 5) {
+            return false;
+          }
+          break;
         default:
           return false;
       }
