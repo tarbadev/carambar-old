@@ -15,7 +15,8 @@ class WorkTab extends StatelessWidget {
           return Text('Loading...');
         }
 
-        return ListView.builder(
+        return ListView.separated(
+            separatorBuilder: (context, index) => Divider(color: Colors.grey, height: 2),
             key: Key('Work__AvailableJobs'),
             itemCount: viewModel.availableJobs.length,
             itemBuilder: (BuildContext context, int index) {
