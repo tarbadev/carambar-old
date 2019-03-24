@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-class AgeEventView {
+import 'base_view_tester.dart';
+
+class AgeEventView extends BaseViewTester {
   final int id;
-  final WidgetTester tester;
 
-  Finder get _ageFinder => find.byKey(Key('AgeEventItem__${id}__age'));
-  Finder get _eventsFinder => find.byKey(Key('AgeEventItem__${id}__events'));
-
-  String get age => (tester.widget(_ageFinder) as Text).data;
-  List<String> get events => (tester.widget(_eventsFinder) as Column)
+  String get age => getTextByKey('JobDialog__JobTitle');
+  List<String> get events => (tester.widget(find.byKey(Key('AgeEventItem__${id}__events'))) as Column)
       .children
       .map((eventPadding) => ((eventPadding as Padding).child as Text).data)
       .toList();
 
-  AgeEventView(this.id, this.tester);
+  AgeEventView(this.id, tester) : super(tester);
 }

@@ -48,7 +48,7 @@ void main() {
 
   testWidgets('Work Tab displays job dialog with job informations', (WidgetTester tester) async {
     var workTabView = WorkTabView(tester);
-    var expectedJobRequirements = 'Lots of job requirements';
+    var expectedJobRequirements = ['Lots of job requirements'];
     var expectedJobs = [
       Factory.displayJob(name: 'Supervisor', salary: '\$15,000/year', requirements: expectedJobRequirements)
     ];

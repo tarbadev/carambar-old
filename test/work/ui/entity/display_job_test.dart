@@ -11,7 +11,7 @@ void main() {
       var expectedDisplayJob = DisplayJob(
         job.id,
         job.name,
-        '\u2022 ${job.requirements}',
+        ['\u2022 High School completed successfully'],
         '${NumberFormat.simpleCurrency(decimalDigits: 0).format(job.salary)}/year',
       );
 
@@ -22,7 +22,7 @@ void main() {
       var expectedDisplayJob = DisplayJob(
         0,
         'Not employed',
-        '',
+        [''],
         '${NumberFormat.simpleCurrency(decimalDigits: 0).format(0)}/year',
       );
 

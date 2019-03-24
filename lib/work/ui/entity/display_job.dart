@@ -6,7 +6,7 @@ class DisplayJob extends Equatable {
   final int id;
   final String name;
   final String salary;
-  final String requirements;
+  final List<String> requirements;
 
   DisplayJob(this.id, this.name, this.requirements, this.salary) : super([id, name, requirements, salary]);
 
@@ -15,16 +15,20 @@ class DisplayJob extends Equatable {
       return DisplayJob(
         0,
         'Not employed',
-        '',
+        [''],
         '${NumberFormat.simpleCurrency(decimalDigits: 0).format(0)}/year',
       );
     }
 
     return DisplayJob(
-        job.id,
-        job.name,
-        '\u2022 ${job.requirements}',
-        '${NumberFormat.simpleCurrency(decimalDigits: 0).format(job.salary)}/year',
-      );
+      job.id,
+      job.name,
+      job.requirements.map((requirement) => '\u2022 ${_requirementToDisplayRequirement[requirement]}').toList(),
+      '${NumberFormat.simpleCurrency(decimalDigits: 0).format(job.salary)}/year',
+    );
   }
+
+  static Map<Requirement, String> _requirementToDisplayRequirement = {
+    Requirement.HighSchool: 'High School completed successfully',
+  };
 }

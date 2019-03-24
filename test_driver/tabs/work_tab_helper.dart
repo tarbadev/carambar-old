@@ -34,7 +34,17 @@ class JobDialogElement extends BaseViewDriver {
 
   Future<String> get title async => getTextByKey('JobDialog__JobTitle');
   Future<String> get salary async => getTextByKey('JobDialog__JobSalary');
-  Future<String> get requirements async => getTextByKey('JobDialog__JobRequirements');
+  Future<List<String>> get requirements async {
+    List<String> requirements = [];
+    try {
+      var index = 0;
+      do {
+        requirements.add(await getTextByKey('JobDialog__JobRequirements__${index++}', timeout: Duration(milliseconds: 500)));
+      } while (true);
+    } catch (_) {}
+
+    return requirements;
+  }
 
   Future<void> close() async {
     await tapOnButtonByKey('JobDialog__CloseButton');

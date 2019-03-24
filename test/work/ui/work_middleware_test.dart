@@ -31,29 +31,32 @@ void main() {
       verify(Mocks.mockNext.next(getAvailableJobsActions));
     });
 
-    test('on ApplyJobAction sets the job by calling the character service', () async {
-      var jobId = 23;
-      var expectedJob = Factory.job(id: jobId);
-      var applyJobAction = ApplyJobAction(jobId);
+    group('on ApplyJobAction', () {
+      test('sets the job by calling the character service', () async {
+        var jobId = 23;
 
-      when(Mocks.workService.getJob(any)).thenReturn(expectedJob);
+        var expectedJob = Factory.job(id: jobId);
+        var applyJobAction = ApplyJobAction(jobId);
 
-      await applyForJob(Mocks.store, applyJobAction, Mocks.next);
+        when(Mocks.workService.getJob(any)).thenReturn(expectedJob);
 
-      verify(Mocks.store.dispatch(SetCharacterJobAction(expectedJob)));
-      verify(Mocks.workService.getJob(jobId));
-      verify(Mocks.mockNext.next(applyJobAction));
-    });
+        await applyForJob(Mocks.store, applyJobAction, Mocks.next);
 
-    test('on ApplyJobAction dispatch SelectHomeTabAction', () async {
-      var applyJobAction = ApplyJobAction(1);
+        verify(Mocks.store.dispatch(SetCharacterJobAction(expectedJob)));
+        verify(Mocks.workService.getJob(jobId));
+        verify(Mocks.mockNext.next(applyJobAction));
+      });
 
-      when(Mocks.workService.getJob(any)).thenReturn(Factory.job());
+      test('dispatch SelectHomeTabAction', () async {
+        var applyJobAction = ApplyJobAction(1);
 
-      await applyForJob(Mocks.store, applyJobAction, Mocks.next);
+        when(Mocks.workService.getJob(any)).thenReturn(Factory.job());
 
-      verify(Mocks.store.dispatch(SelectHomeTabAction()));
-      verify(Mocks.mockNext.next(applyJobAction));
+        await applyForJob(Mocks.store, applyJobAction, Mocks.next);
+
+        verify(Mocks.store.dispatch(SelectHomeTabAction()));
+        verify(Mocks.mockNext.next(applyJobAction));
+      });
     });
   });
 }

@@ -31,6 +31,15 @@ class WorkTab extends StatelessWidget {
       });
 
   void _displayJobRequirements(BuildContext context, DisplayJob displayJob, Function(int) onApplyTapped) {
+    var index = 0;
+    var requirements = displayJob.requirements
+        .map((requirement) => Text(
+              requirement,
+              key: Key('JobDialog__JobRequirements__${index++}'),
+              style: Theme.of(context).textTheme.body1,
+            ))
+        .toList();
+
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -54,10 +63,9 @@ class WorkTab extends StatelessWidget {
                     'Requirements',
                     style: Theme.of(context).textTheme.subhead,
                   ),
-                  Text(
-                    displayJob.requirements,
+                  Column(
                     key: Key('JobDialog__JobRequirements'),
-                    style: Theme.of(context).textTheme.body1,
+                    children: requirements,
                   ),
                   Divider(height: 10),
                   Row(

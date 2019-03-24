@@ -7,7 +7,7 @@ class WorkService {
         id: 1,
         name: 'Supervisor',
         salary: 15000,
-        requirements: 'High School completed successfully',
+        requirements: [Requirement.HighSchool],
       ),
     ];
   }

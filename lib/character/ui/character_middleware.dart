@@ -6,13 +6,13 @@ import 'package:carambar/character/ui/entity/display_character.dart';
 import 'package:carambar/home/domain/service/age_event_service.dart';
 import 'package:carambar/home/ui/entity/display_age_event.dart';
 import 'package:carambar/home/ui/home_actions.dart';
-import 'package:redux/redux.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
+import 'package:redux/redux.dart';
 
 List<Middleware<ApplicationState>> createCharacterMiddleware() => [
-  TypedMiddleware<ApplicationState, InitiateStateAction>(initiateCharacter),
-  TypedMiddleware<ApplicationState, SetCharacterJobAction>(setCharacterJob),
-];
+      TypedMiddleware<ApplicationState, InitiateStateAction>(initiateCharacter),
+      TypedMiddleware<ApplicationState, SetCharacterJobAction>(setCharacterJob),
+    ];
 
 Future initiateCharacter(Store<ApplicationState> store, InitiateStateAction action, NextDispatcher next) async {
   var container = kiwi.Container();
@@ -46,13 +46,20 @@ Future setCharacterJob(Store<ApplicationState> store, SetCharacterJobAction acti
   CharacterService _characterService = container.resolve<CharacterService>();
   AgeEventService _ageEventService = container.resolve<AgeEventService>();
 
-  var character = await _characterService.setJob(action.job);
-  var displayCharacter = DisplayCharacter.fromCharacter(character);
-  var event = 'You\'re now a ${displayCharacter.job.name}';
+  var character;
+  var event;
+  if (await _characterService.areRequirementsMet(action.job)) {
+    character = await _characterService.setJob(action.job);
+    var displayCharacter = DisplayCharacter.fromCharacter(character);
+    event = 'You\'re now a ${displayCharacter.job.name}';
+
+    store.dispatch(SetCharacterAction(displayCharacter));
+  } else {
+    character = await _characterService.getCharacter();
+    event = 'You failed to apply for this new job because you don\'t meet all the requirements';
+  }
 
   var ageEvents = await _ageEventService.addEvent(character.age, event: event);
-
-  store.dispatch(SetCharacterAction(displayCharacter));
   store.dispatch(SetAgeEventsAction(ageEvents.map((ageEvent) => DisplayAgeEvent.fromAgeEvent(ageEvent)).toList()));
 
   next(action);

@@ -33,7 +33,10 @@ class JobDialogElement extends BaseViewTester {
   bool get isVisible => widgetExists('JobDialog');
   String get title => getTextByKey('JobDialog__JobTitle');
   String get salary => getTextByKey('JobDialog__JobSalary');
-  String get requirements => getTextByKey('JobDialog__JobRequirements');
+  List<String> get requirements => (tester.widget(find.byKey(Key('JobDialog__JobRequirements'))) as Column)
+      .children
+      .map((eventText) => (eventText as Text).data)
+      .toList();
 
   Future<void> close() async => await tapOnButtonByKey('JobDialog__CloseButton');
   Future<void> apply() async => await tapOnButtonByKey('JobDialog__ApplyButton');

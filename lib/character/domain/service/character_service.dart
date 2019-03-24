@@ -58,4 +58,16 @@ class CharacterService {
 
     return character;
   }
+
+  Future<bool> areRequirementsMet(Job job) async {
+    Character character = await _characterRepository.readCharacter();
+
+    for(final requirement in job.requirements){
+      if (requirement == Requirement.HighSchool && !character.graduates.contains(Graduate.HighSchool)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
 }

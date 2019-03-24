@@ -66,13 +66,15 @@ abstract class Factory {
   static List<DisplayAgeEvent> ageEventsToDisplayAgeEvents(List<AgeEvent> ageEvents) =>
       ageEvents.map((ageEvent) => DisplayAgeEvent.fromAgeEvent(ageEvent)).toList();
 
-  static Job job({int id: 1}) {
-    return Job(id: id, name: 'Supervisor', salary: 15000, requirements: 'High School completed successfully');
+  static const List<Requirement> _factoryRequirements = [Requirement.HighSchool];
+  static Job job({int id: 1, List<Requirement> requirements: _factoryRequirements}) {
+    return Job(id: id, name: 'Supervisor', salary: 15000, requirements: requirements);
   }
 
+  static const List<String> _factoryDisplayRequirements = ['\u2022 High School completed successfully'];
   static DisplayJob displayJob(
       {String name: 'Supervisor',
-      String requirements: '\u2022 High School completed successfully',
+      List<String> requirements: _factoryDisplayRequirements,
       String salary: '\$15,000/year',
       int id: 1}) {
     return DisplayJob(id, name, requirements, salary);

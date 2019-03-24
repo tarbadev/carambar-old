@@ -3,8 +3,8 @@ import 'package:test/test.dart';
 
 import 'tabs/character_tab_helper.dart';
 import 'tabs/home_tab_helper.dart';
-import 'tabs/work_tab_helper.dart';
 import 'tabs/settings_tab_helper.dart';
+import 'tabs/work_tab_helper.dart';
 
 void main() {
   FlutterDriver driver;
@@ -172,7 +172,57 @@ void main() {
       await characterTab.goTo();
       expect(await characterTab.graduates, ['Middle School']);
     });
+  });
 
+  group('Work Tab', () {
+    test('should display a list of tabs', () async {
+      await driver.waitUntilNoTransientCallbacks();
+
+      await workTab.goTo();
+
+      expect(await workTab.isAvailableJobsVisible, isTrue);
+      expect(await workTab.availableJobs, ['Supervisor']);
+    });
+
+    test('should display the jobs requirements on available job tap', () async {
+      await driver.waitUntilNoTransientCallbacks();
+
+      await workTab.goTo();
+
+      expect(await workTab.isAvailableJobsVisible, isTrue);
+
+      await workTab.tapOnAvailableJob('Supervisor');
+
+      expect(await workTab.jobDialog.isVisible, isTrue);
+      expect(await workTab.jobDialog.title, 'Supervisor');
+      expect(await workTab.jobDialog.salary, '\$15,000/year');
+      expect(await workTab.jobDialog.requirements, ['\u2022 High School completed successfully']);
+
+      await workTab.jobDialog.close();
+      expect(await workTab.jobDialog.isVisible, isFalse);
+    });
+
+    test('should display an event when failed to apply for a job', () async {
+      await driver.waitUntilNoTransientCallbacks();
+
+      await workTab.goTo();
+
+      expect(await workTab.isAvailableJobsVisible, isTrue);
+
+      await workTab.tapOnAvailableJob('Supervisor');
+
+      expect(await workTab.jobDialog.isVisible, isTrue);
+      await workTab.jobDialog.apply();
+      expect(await workTab.jobDialog.isVisible, isFalse);
+
+      expect(await homeTab.isVisible, isTrue);
+      expect(await homeTab.ageEvent('15').isVisible, isTrue);
+      expect(await homeTab.ageEvent('15').events,
+          contains('You failed to apply for this new job because you don\'t meet all the requirements'));
+    });
+  });
+
+  group('Home Tab', () {
     test('should change school when aging and add event and graduate after High School', () async {
       await driver.waitUntilNoTransientCallbacks();
       await homeTab.goTo();
@@ -208,34 +258,7 @@ void main() {
   });
 
   group('Work Tab', () {
-    test('should display a list of tabs', () async {
-      await driver.waitUntilNoTransientCallbacks();
-
-      await workTab.goTo();
-
-      expect(await workTab.isAvailableJobsVisible, isTrue);
-      expect(await workTab.availableJobs, ['Supervisor']);
-    });
-
-    test('should display the jobs requirements on available job tap', () async {
-      await driver.waitUntilNoTransientCallbacks();
-
-      await workTab.goTo();
-
-      expect(await workTab.isAvailableJobsVisible, isTrue);
-
-      await workTab.tapOnAvailableJob('Supervisor');
-
-      expect(await workTab.jobDialog.isVisible, isTrue);
-      expect(await workTab.jobDialog.title, 'Supervisor');
-      expect(await workTab.jobDialog.salary, '\$15,000/year');
-      expect(await workTab.jobDialog.requirements, '\u2022 High School completed successfully');
-
-      await workTab.jobDialog.close();
-      expect(await workTab.jobDialog.isVisible, isFalse);
-    });
-
-    test('should display an even when applying for a job', () async {
+    test('should display an event when applying successfully for a job', () async {
       await driver.waitUntilNoTransientCallbacks();
 
       await workTab.goTo();

@@ -1,5 +1,6 @@
 import 'package:carambar/character/domain/entity/character.dart';
 import 'package:carambar/character/domain/service/character_service.dart';
+import 'package:carambar/work/domain/entity/job.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test_api/test_api.dart';
 
@@ -71,6 +72,24 @@ void main() {
       expect(await characterService.setJob(job), expectedCharacter);
 
       verify(Mocks.characterRepository.save(expectedCharacter));
+    });
+
+    test('areRequirementsMet returns true when all requirements are met', () async {
+      final job = Factory.job(requirements: [Requirement.HighSchool]);
+      final character = Factory.character(graduates: [Graduate.HighSchool]);
+
+      when(Mocks.characterRepository.readCharacter()).thenAnswer((_) async => character);
+
+      expect(await characterService.areRequirementsMet(job), isTrue);
+    });
+
+    test('areRequirementsMet returns false when all requirements are not met', () async {
+      final job = Factory.job(requirements: [Requirement.HighSchool]);
+      final character = Factory.character(graduates: []);
+
+      when(Mocks.characterRepository.readCharacter()).thenAnswer((_) async => character);
+
+      expect(await characterService.areRequirementsMet(job), isFalse);
     });
   });
 }
