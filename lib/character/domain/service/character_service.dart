@@ -74,22 +74,33 @@ class CharacterService {
           }
           break;
         case Requirement.Supervisor3Years:
-          var jobExperience = character.jobHistory
-              .firstWhere((jobExperience) => jobExperience.name == 'Supervisor', orElse: () => null);
-          if (jobExperience == null || jobExperience.experience < 3) {
+          if (!verifyJobHistoryRequirement(character, 'Supervisor', 3)) {
             return false;
           }
           break;
         case Requirement.Teacher5Years:
-          var jobExperience = character.jobHistory
-              .firstWhere((jobExperience) => jobExperience.name == 'Teacher', orElse: () => null);
-          if (jobExperience == null || jobExperience.experience < 5) {
+          if (!verifyJobHistoryRequirement(character, 'Teacher', 5)) {
+            return false;
+          }
+          break;
+        case Requirement.Counselor5Years:
+          if (!verifyJobHistoryRequirement(character, 'Counselor', 5)) {
             return false;
           }
           break;
         default:
           return false;
       }
+    }
+
+    return true;
+  }
+
+  bool verifyJobHistoryRequirement(Character character, String jobName, int experience) {
+    var jobExperience =
+        character.jobHistory.firstWhere((jobExperience) => jobExperience.name == jobName, orElse: () => null);
+    if (jobExperience == null || jobExperience.experience < experience) {
+      return false;
     }
 
     return true;

@@ -30,5 +30,8 @@ class DisplayJob extends Equatable {
 
   static Map<Requirement, String> _requirementToDisplayRequirement = {
     Requirement.HighSchool: 'High School completed successfully',
+    Requirement.Supervisor3Years: 'Supervisor for 3+ years',
+    Requirement.Teacher5Years: 'Teacher for 5+ years',
+    Requirement.Counselor5Years: 'Counselor for 5+ years',
   };
 }
