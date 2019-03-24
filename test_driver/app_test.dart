@@ -288,6 +288,21 @@ void main() {
     });
   });
 
+  group('Home Tab', () {
+    test('should update the balance when aging', () async {
+      await driver.waitUntilNoTransientCallbacks();
+      await homeTab.goTo();
+
+      await homeTab.tapOnAgeButton();
+      expect(await homeTab.getAvailableCash(), '\$15,000.00');
+      expect(await homeTab.ageEvent('19').isVisible, isTrue);
+
+      await homeTab.tapOnAgeButton();
+      expect(await homeTab.getAvailableCash(), '\$30,000.00');
+      expect(await homeTab.ageEvent('20').isVisible, isTrue);
+    });
+  });
+
   group('Settings Tab', () {
     test('should display an end life button that regenerates the character', () async {
       await driver.waitUntilNoTransientCallbacks();
@@ -299,7 +314,7 @@ void main() {
       await settingsTab.goTo();
       await settingsTab.endLife();
 
-      expect(await homeTab.ageEvent('18').isVisible, isFalse);
+      expect(await homeTab.ageEvent('20').isVisible, isFalse);
       await characterTab.goTo();
 
       expect(await characterTab.age, '0');

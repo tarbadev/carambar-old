@@ -32,7 +32,7 @@ void main() {
     });
 
     test('save saves character to file', () async {
-      final character = Factory.character(graduates: [Graduate.MiddleSchool]);
+      final character = Factory.character(graduates: [Graduate.MiddleSchool], job: Factory.job());
 
       await characterRepository.save(character);
 
@@ -42,14 +42,47 @@ void main() {
           '"gender":"male",' +
           '"origin":"Nationality.unitedStates",' +
           '"age":18,' +
-          '"graduates":["Graduate.MiddleSchool"]' +
+          '"graduates":["Graduate.MiddleSchool"],' +
+          '"job":{' +
+            '"id":1,' +
+            '"name":"Supervisor",' +
+            '"salary":15000.0,' +
+            '"requirements":["Requirement.HighSchool"]' +
+            '}' +
+          '}';
+
+      expect(await characterStorage.read(), expectedJsonString);
+    });
+
+    test('save saves character to file when job is null', () async {
+      final character = Factory.character(graduates: [Graduate.MiddleSchool], job: null);
+
+      await characterRepository.save(character);
+
+      final expectedJsonString = '{' +
+          '"firstName":"john",' +
+          '"lastName":"doe",' +
+          '"gender":"male",' +
+          '"origin":"Nationality.unitedStates",' +
+          '"age":18,' +
+          '"graduates":["Graduate.MiddleSchool"],' +
+          '"job":null'
           '}';
 
       expect(await characterStorage.read(), expectedJsonString);
     });
 
     test('readCharacter reads character from file', () async {
-      final character = Factory.character();
+      final character = Factory.character(job: Factory.job());
+      await characterStorage.store(character);
+
+      Character returnedCharacter = await characterRepository.readCharacter();
+
+      expect(returnedCharacter, character);
+    });
+
+    test('readCharacter reads character from file when job is null', () async {
+      final character = Factory.character(job: null);
       await characterStorage.store(character);
 
       Character returnedCharacter = await characterRepository.readCharacter();

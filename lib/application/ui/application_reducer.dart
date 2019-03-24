@@ -11,7 +11,7 @@ ApplicationState applicationReducer(ApplicationState state, action) => Applicati
       setCharacterReducer(state.character, action),
       setAgeEventsReducer(state.ageEvents, action),
       setEndLifeDialogVisibleReducer(state.isEndLifeDialogVisible, action),
-      setAvailableCashReducer(state.availableCash, action),
+      addAvailableCashReducer(state.availableCash, action),
       setAvailableJobsReducer(state.availableJobs, action),
     );
 
@@ -21,8 +21,8 @@ final Reducer<int> setCurrentTabReducer = combineReducers([
 
 int _selectTab(int currentTab, SelectTabAction action) => action.index;
 
-final Reducer<double> setAvailableCashReducer = combineReducers([
-  TypedReducer<double, SetAvailableCash>(_setAvailableCash),
+final Reducer<double> addAvailableCashReducer = combineReducers([
+  TypedReducer<double, AddAvailableCashAction>(addAvailableCash),
 ]);
 
-double _setAvailableCash(double currentCash, SetAvailableCash action) => action.cash;
+double addAvailableCash(double currentCash, AddAvailableCashAction action) => currentCash + action.cash;

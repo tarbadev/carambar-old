@@ -140,6 +140,36 @@ void main() {
 
         verify(Mocks.ageEventService.addEvent(18, event: expectedEvent));
       });
+
+      test('dispatches a SetAvailableCashAction when having a job', () async {
+        var incrementAgeAction = IncrementAgeAction();
+        var originalDisplayCharacter = Factory.displayCharacter(age: '21', school: 'None');
+        var character = Factory.character(age: 21, job: Factory.job());
+
+        when(Mocks.applicationState.character).thenReturn(originalDisplayCharacter);
+        when(Mocks.characterService.incrementAge()).thenAnswer((_) async => character);
+        when(Mocks.characterService.addGraduate(any)).thenAnswer((_) async => character);
+        when(Mocks.ageEventService.addEvent(any, event: anyNamed('event'))).thenAnswer((_) async => []);
+
+        await incrementAge(Mocks.store, incrementAgeAction, Mocks.next);
+
+        verify(Mocks.store.dispatch(AddAvailableCashAction(15000)));
+      });
+
+      test('does not dispatch a SetAvailableCashAction when not having a job', () async {
+        var incrementAgeAction = IncrementAgeAction();
+        var originalDisplayCharacter = Factory.displayCharacter(age: '21', school: 'None');
+        var character = Factory.character(age: 21, job: null);
+
+        when(Mocks.applicationState.character).thenReturn(originalDisplayCharacter);
+        when(Mocks.characterService.incrementAge()).thenAnswer((_) async => character);
+        when(Mocks.characterService.addGraduate(any)).thenAnswer((_) async => character);
+        when(Mocks.ageEventService.addEvent(any, event: anyNamed('event'))).thenAnswer((_) async => []);
+
+        await incrementAge(Mocks.store, incrementAgeAction, Mocks.next);
+
+        verifyNever(Mocks.store.dispatch(AddAvailableCashAction(15000)));
+      });
     });
 
     test('initiateAgeEvents retrieves the ageEvents and stores them in the state', () async {

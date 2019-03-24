@@ -12,8 +12,8 @@ class SelectHomeTabAction extends SelectTabAction {
 
 class InitiateStateAction extends Equatable {}
 
-class SetAvailableCash {
+class AddAvailableCashAction extends Equatable {
   final double cash;
 
-  SetAvailableCash(this.cash);
+  AddAvailableCashAction(this.cash): super([cash]);
 }
