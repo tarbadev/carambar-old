@@ -1,5 +1,9 @@
 import 'package:carambar/work/domain/entity/job.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'job_entity.g.dart';
+
+@JsonSerializable(nullable: false)
 class JobEntity {
   final int id;
   final String name;
@@ -8,31 +12,14 @@ class JobEntity {
 
   JobEntity({this.id, this.name, this.salary, this.requirements});
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'salary': salary,
-        'requirements': requirements,
-      };
+  factory JobEntity.fromJson(Map<String, dynamic> json) => _$JobEntityFromJson(json);
+  Map<String, dynamic> toJson() => _$JobEntityToJson(this);
 
   JobEntity.fromJob(Job job)
       : id = job.id,
         name = job.name,
         salary = job.salary,
         requirements = job.requirements.map((requirement) => requirement.toString()).toList();
-
-  static fromJson(Map<String, dynamic> jsonData) {
-    if (jsonData == null) {
-      return null;
-    }
-
-    return JobEntity(
-      id: jsonData['id'],
-      name: jsonData['name'],
-      salary: jsonData['salary'],
-      requirements: List.from(jsonData['requirements']),
-    );
-  }
 
   Job toJob() => Job(
         id: id,

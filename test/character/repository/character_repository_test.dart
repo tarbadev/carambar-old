@@ -12,8 +12,7 @@ void main() {
   setUpAll(() async {
     final directory = await Directory.systemTemp.createTemp();
 
-    const MethodChannel('plugins.flutter.io/path_provider')
-        .setMockMethodCallHandler((MethodCall methodCall) async {
+    const MethodChannel('plugins.flutter.io/path_provider').setMockMethodCallHandler((MethodCall methodCall) async {
       if (methodCall.method == 'getApplicationDocumentsDirectory') {
         return directory.path;
       }
@@ -32,7 +31,12 @@ void main() {
     });
 
     test('save saves character to file', () async {
-      final character = Factory.character(graduates: [Graduate.MiddleSchool], job: Factory.job());
+      var jobHistory = [
+        Factory.jobExperience(name: 'Supervisor', experience: 4),
+        Factory.jobExperience(name: 'Teacher', experience: 3),
+      ];
+      final character =
+          Factory.character(graduates: [Graduate.MiddleSchool], job: Factory.job(), jobHistory: jobHistory);
 
       await characterRepository.save(character);
 
@@ -44,18 +48,25 @@ void main() {
           '"age":18,' +
           '"graduates":["Graduate.MiddleSchool"],' +
           '"job":{' +
-            '"id":1,' +
-            '"name":"Supervisor",' +
-            '"salary":15000.0,' +
-            '"requirements":["Requirement.HighSchool"]' +
-            '}' +
+          '"id":1,' +
+          '"name":"Supervisor",' +
+          '"salary":15000.0,' +
+          '"requirements":["Requirement.HighSchool"]' +
+          '},' +
+          '"jobHistory":[{' +
+          '"name":"Supervisor",' +
+          '"experience":4' +
+          '},{' +
+          '"name":"Teacher",' +
+          '"experience":3' +
+          '}]' +
           '}';
 
       expect(await characterStorage.read(), expectedJsonString);
     });
 
     test('save saves character to file when job is null', () async {
-      final character = Factory.character(graduates: [Graduate.MiddleSchool], job: null);
+      final character = Factory.character(graduates: [Graduate.MiddleSchool], job: null, jobHistory: []);
 
       await characterRepository.save(character);
 
@@ -66,14 +77,15 @@ void main() {
           '"origin":"Nationality.unitedStates",' +
           '"age":18,' +
           '"graduates":["Graduate.MiddleSchool"],' +
-          '"job":null'
+          '"job":null,'
+          '"jobHistory":[]'
           '}';
 
       expect(await characterStorage.read(), expectedJsonString);
     });
 
     test('readCharacter reads character from file', () async {
-      final character = Factory.character(job: Factory.job());
+      final character = Factory.character(job: Factory.job(), jobHistory: [Factory.jobExperience()]);
       await characterStorage.store(character);
 
       Character returnedCharacter = await characterRepository.readCharacter();
@@ -82,7 +94,7 @@ void main() {
     });
 
     test('readCharacter reads character from file when job is null', () async {
-      final character = Factory.character(job: null);
+      final character = Factory.character(job: null, jobHistory: []);
       await characterStorage.store(character);
 
       Character returnedCharacter = await characterRepository.readCharacter();

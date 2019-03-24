@@ -54,6 +54,9 @@ Future incrementAge(Store<ApplicationState> store, IncrementAgeAction action, Ne
   }
 
   if (character.job != null) {
+    character = await _characterService.incrementJobExperience();
+    newDisplayCharacter = DisplayCharacter.fromCharacter(character);
+
     store.dispatch(AddAvailableCashAction(character.job.salary));
   }
 

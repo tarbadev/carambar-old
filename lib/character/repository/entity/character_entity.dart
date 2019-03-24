@@ -2,8 +2,13 @@ import 'dart:convert';
 
 import 'package:carambar/character/domain/entity/character.dart';
 import 'package:carambar/character/domain/entity/nationality.dart';
+import 'package:carambar/character/repository/entity/job_experience_entity.dart';
 import 'package:carambar/work/repository/entity/job_entity.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'character_entity.g.dart';
+
+@JsonSerializable(nullable: true)
 class CharacterEntity {
   final String firstName;
   final String lastName;
@@ -12,18 +17,25 @@ class CharacterEntity {
   final int age;
   final List<String> graduates;
   final JobEntity job;
+  final List<JobExperienceEntity> jobHistory;
 
-  CharacterEntity({this.firstName, this.lastName, this.gender, this.origin, this.age, this.graduates, this.job});
+  CharacterEntity({
+    this.firstName,
+    this.lastName,
+    this.gender,
+    this.origin,
+    this.age,
+    this.graduates,
+    this.job,
+    this.jobHistory,
+  });
 
-  Map<String, dynamic> toJson() => {
-        'firstName': firstName,
-        'lastName': lastName,
-        'gender': gender,
-        'origin': origin,
-        'age': age,
-        'graduates': graduates,
-        'job': job?.toJson()
-      };
+  factory CharacterEntity.fromJson(String characterEntityJson) {
+    final jsonData = json.decode(characterEntityJson);
+    return _$CharacterEntityFromJson(jsonData);
+  }
+
+  Map<String, dynamic> toJson() => _$CharacterEntityToJson(this);
 
   CharacterEntity.fromCharacter(Character character)
       : firstName = character.firstName,
@@ -32,20 +44,10 @@ class CharacterEntity {
         origin = character.origin.toString(),
         age = character.age,
         graduates = character.graduates.map((graduate) => graduate.toString()).toList(),
-        job = character.job != null ? JobEntity.fromJob(character.job) : null;
-
-  static fromJson(String characterEntityJson) {
-    final jsonData = json.decode(characterEntityJson);
-    return CharacterEntity(
-      firstName: jsonData['firstName'],
-      lastName: jsonData['lastName'],
-      gender: jsonData['gender'],
-      origin: jsonData['origin'],
-      age: jsonData['age'],
-      graduates: List.from(jsonData['graduates']),
-      job: JobEntity.fromJson(jsonData['job'])
-    );
-  }
+        job = character.job != null ? JobEntity.fromJob(character.job) : null,
+        jobHistory = character.jobHistory != null
+            ? character.jobHistory.map((jobExperience) => JobExperienceEntity.fromJobExperience(jobExperience)).toList()
+            : null;
 
   Character toCharacter() {
     return Character(
@@ -55,7 +57,8 @@ class CharacterEntity {
       gender: gender,
       origin: Nationality.values.firstWhere((e) => e.toString() == origin),
       graduates: graduates.map((graduate) => Graduate.values.firstWhere((e) => e.toString() == graduate)).toList(),
-      job: job?.toJob()
+      job: job?.toJob(),
+      jobHistory: jobHistory != null ? jobHistory.map((jobExperience) => jobExperience.toJobExperience()).toList() : [],
     );
   }
 }

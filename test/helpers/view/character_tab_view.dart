@@ -21,4 +21,15 @@ class CharacterTabView extends BaseViewTester {
   }
   String get job => getTextByKey('Character__Job');
   String get salary => getTextByKey('Character__Salary');
+  JobHistoryElement jobHistory(int index) => JobHistoryElement(tester, index);
+}
+
+class JobHistoryElement extends BaseViewTester {
+  final int index;
+
+  JobHistoryElement(tester, this.index): super(tester);
+
+  bool get isVisible => widgetExists('JobHistoryItem__$index');
+  String get name => getTextByKey('JobHistoryItem__${index}__name');
+  String get experience => getTextByKey('JobHistoryItem__${index}__experience');
 }

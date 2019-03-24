@@ -1,7 +1,9 @@
 import 'package:carambar/character/domain/entity/character.dart';
+import 'package:carambar/character/domain/entity/job_experience.dart';
 import 'package:carambar/character/domain/entity/nationality.dart';
 import 'package:carambar/character/domain/service/client/character_client_response.dart';
 import 'package:carambar/character/ui/entity/display_character.dart';
+import 'package:carambar/character/ui/entity/display_job_experience.dart';
 import 'package:carambar/home/domain/entity/age_event.dart';
 import 'package:carambar/home/ui/entity/display_age_event.dart';
 import 'package:carambar/work/domain/entity/job.dart';
@@ -10,7 +12,8 @@ import 'package:carambar/work/ui/entity/display_job.dart';
 abstract class Factory {
   static const List<Graduate> _factoryGraduates = [];
 
-  static Character character({int age: 18, List<Graduate> graduates: _factoryGraduates, Job job}) {
+  static Character character(
+      {int age: 18, List<Graduate> graduates: _factoryGraduates, Job job, List<JobExperience> jobHistory: const []}) {
     return Character(
       firstName: 'john',
       lastName: 'doe',
@@ -19,10 +22,17 @@ abstract class Factory {
       origin: Nationality.unitedStates,
       graduates: graduates,
       job: job,
+      jobHistory: jobHistory,
     );
   }
 
-  static DisplayCharacter displayCharacter({age: '18', ageCategory: 'Adult', school: 'None', DisplayJob job}) {
+  static DisplayCharacter displayCharacter({
+    age: '18',
+    ageCategory: 'Adult',
+    school: 'None',
+    DisplayJob job,
+    List<DisplayJobExperience> jobHistory: const [],
+  }) {
     return DisplayCharacter(
       'John Doe',
       'Male',
@@ -32,6 +42,7 @@ abstract class Factory {
       school,
       [],
       job,
+      jobHistory,
     );
   }
 
@@ -67,16 +78,26 @@ abstract class Factory {
       ageEvents.map((ageEvent) => DisplayAgeEvent.fromAgeEvent(ageEvent)).toList();
 
   static const List<Requirement> _factoryRequirements = [Requirement.HighSchool];
+
   static Job job({int id: 1, List<Requirement> requirements: _factoryRequirements}) {
     return Job(id: id, name: 'Supervisor', salary: 15000, requirements: requirements);
   }
 
   static const List<String> _factoryDisplayRequirements = ['\u2022 High School completed successfully'];
+
   static DisplayJob displayJob(
       {String name: 'Supervisor',
       List<String> requirements: _factoryDisplayRequirements,
       String salary: '\$15,000/year',
       int id: 1}) {
     return DisplayJob(id, name, requirements, salary);
+  }
+
+  static JobExperience jobExperience({String name: 'Supervisor', int experience: 2}) {
+    return JobExperience(name: name, experience: experience);
+  }
+
+  static DisplayJobExperience displayJobExperience({String name: 'Supervisor', String experience: '2 years'}) {
+    return DisplayJobExperience(name: name, experience: experience);
   }
 }

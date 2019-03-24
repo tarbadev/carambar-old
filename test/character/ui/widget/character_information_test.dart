@@ -10,7 +10,8 @@ void main() {
   setupDependencyInjectorForTest();
 
   testWidgets('home shows a the character informations', (WidgetTester tester) async {
-    var displayCharacter = Factory.displayCharacter(job: Factory.displayJob());
+    var displayJobHistory = [Factory.displayJobExperience(name: 'Supervisor', experience: '2 years')];
+    var displayCharacter = Factory.displayCharacter(job: Factory.displayJob(), jobHistory: displayJobHistory);
     var characterTabView = CharacterTabView(tester);
 
     await tester.pumpWidget(buildTestableWidget(CharacterInformation(displayCharacter: displayCharacter)));
@@ -24,5 +25,7 @@ void main() {
     expect(characterTabView.graduates, displayCharacter.graduates);
     expect(characterTabView.job, displayCharacter.job.name);
     expect(characterTabView.salary, displayCharacter.job.salary);
+    expect(characterTabView.jobHistory(0).name, displayJobHistory[0].name);
+    expect(characterTabView.jobHistory(0).experience, displayJobHistory[0].experience);
   });
 }

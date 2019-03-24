@@ -25,7 +25,19 @@ class CharacterTabHelper extends BaseViewDriver {
   Future<String> get job async => await getTextByKey('Character__Job');
   Future<String> get salary async => await getTextByKey('Character__Salary');
 
+  JobHistoryElement jobHistory(int index) => JobHistoryElement(driver, index);
+
   Future<void> goTo() async {
     await tapOnButtonByKey('Home__BottomNavigationCharacter');
   }
+}
+
+class JobHistoryElement extends BaseViewDriver {
+  final int index;
+
+  JobHistoryElement(driver, this.index): super(driver);
+
+  Future<bool> get isVisible => widgetExists('JobHistoryItem__$index');
+  Future<String> get name async => await getTextByKey('JobHistoryItem__${index}__name');
+  Future<String> get experience async => await getTextByKey('JobHistoryItem__${index}__experience');
 }

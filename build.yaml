@@ -2,3 +2,4 @@ targets:
   $default:
     builders:
       kiwi:
+      json_serializable:

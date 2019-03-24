@@ -17,12 +17,24 @@ class CharacterInformation extends StatelessWidget {
       'None',
       [],
       null,
+      [],
     ));
   }
 
   @override
   Widget build(BuildContext context) {
     var index = 0;
+    var jobHistory = displayCharacter.jobHistory.map((jobExperience) {
+      var baseKey = 'JobHistoryItem__${index++}';
+      return Row(
+        key: Key(baseKey),
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(jobExperience.name, key: Key('${baseKey}__name')),
+          Text(jobExperience.experience, key: Key('${baseKey}__experience')),
+        ],
+      );
+    }).toList();
 
     return Padding(
         padding: EdgeInsets.all(5),
@@ -141,6 +153,14 @@ class CharacterInformation extends StatelessWidget {
                     key: Key('Character__Salary'),
                   ),
                 ],
+              ),
+              Divider(height: 8),
+              Text(
+                'Job history',
+                style: Theme.of(context).textTheme.subhead,
+              ),
+              Column(
+                children: jobHistory,
               ),
             ]));
   }

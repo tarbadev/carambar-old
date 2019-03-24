@@ -303,6 +303,17 @@ void main() {
     });
   });
 
+  group('Character Tab', () {
+    test('should display the job history', () async {
+      await driver.waitUntilNoTransientCallbacks();
+
+      await characterTab.goTo();
+
+      expect(await characterTab.jobHistory(0).name, 'Supervisor');
+      expect(await characterTab.jobHistory(0).experience, '2 years');
+    });
+  });
+
   group('Settings Tab', () {
     test('should display an end life button that regenerates the character', () async {
       await driver.waitUntilNoTransientCallbacks();

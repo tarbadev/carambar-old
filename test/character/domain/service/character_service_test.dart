@@ -62,10 +62,10 @@ void main() {
       verify(Mocks.characterRepository.save(expectedCharacter));
     });
 
-    test('setJob calls the repository with the character updated with the job', () async {
+    test('setJob calls the repository with the character updated with the job and new jobHistory', () async {
       final job = Factory.job();
-      final character = Factory.character(job: null);
-      final expectedCharacter = Factory.character(job: job);
+      final character = Factory.character(job: null, jobHistory: []);
+      final expectedCharacter = Factory.character(job: job, jobHistory: [Factory.jobExperience(experience: 0)]);
 
       when(Mocks.characterRepository.readCharacter()).thenAnswer((_) async => character);
 
@@ -90,6 +90,15 @@ void main() {
       when(Mocks.characterRepository.readCharacter()).thenAnswer((_) async => character);
 
       expect(await characterService.areRequirementsMet(job), isFalse);
+    });
+
+    test('incrementJobExperience returns false when all requirements are not met', () async {
+      final character = Factory.character(jobHistory: [Factory.jobExperience(experience: 4)]);
+      final expectedCharacter = Factory.character(jobHistory: [Factory.jobExperience(experience: 5)]);
+
+      when(Mocks.characterRepository.readCharacter()).thenAnswer((_) async => character);
+
+      expect(await characterService.incrementJobExperience(), expectedCharacter);
     });
   });
 }
