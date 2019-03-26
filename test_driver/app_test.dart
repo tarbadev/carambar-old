@@ -335,6 +335,7 @@ void main() {
       expect(await workTab.jobDialog.title, 'Teacher');
       expect(await workTab.jobDialog.salary, '\$20,000/year');
       expect(await workTab.jobDialog.requirements, ['\u2022 Supervisor for 3+ years']);
+      expect(await workTab.jobDialog.personalityTraits, ['\u2022 Patient', '\u2022 Benevolent']);
 
       await workTab.jobDialog.apply();
       expect(await workTab.jobDialog.isVisible, isFalse);

@@ -74,6 +74,7 @@ class WorkTab extends StatelessWidget {
                     style: Theme.of(context).textTheme.subhead,
                   ),
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     key: Key('JobDialog__JobRequirements'),
                     children: requirements,
                   ),
@@ -83,6 +84,7 @@ class WorkTab extends StatelessWidget {
                     style: Theme.of(context).textTheme.subhead,
                   ),
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     key: Key('JobDialog__JobPersonalityTraits'),
                     children: personalityTraits,
                   ),

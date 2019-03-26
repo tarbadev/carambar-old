@@ -14,6 +14,7 @@ class WorkService {
         name: 'Teacher',
         salary: 20000,
         requirements: [Requirement.Supervisor3Years],
+        personalityTraits: [PersonalityTrait.Patient, PersonalityTrait.Benevolent],
       ),
       Job(
         id: 3,

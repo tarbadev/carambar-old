@@ -30,10 +30,10 @@ void main() {
         job.name,
         ['\u2022 Supervisor for 3+ years'],
         '${NumberFormat.simpleCurrency(decimalDigits: 0).format(job.salary)}/year',
-        ['\u2022 Charismatic'],
+        ['\u2022 Patient'],
       );
 
-      expect(DisplayJob.fromJob(Factory.job(requirements: [Requirement.Supervisor3Years])), expectedDisplayJob);
+      expect(DisplayJob.fromJob(Factory.job(requirements: [Requirement.Supervisor3Years], personalityTraits: [PersonalityTrait.Patient])), expectedDisplayJob);
     });
 
     test('fromJob generates DisplayJob with Teacher5Years requirement', () {
@@ -43,10 +43,10 @@ void main() {
         job.name,
         ['\u2022 Teacher for 5+ years'],
         '${NumberFormat.simpleCurrency(decimalDigits: 0).format(job.salary)}/year',
-        ['\u2022 Charismatic'],
+        ['\u2022 Benevolent'],
       );
 
-      expect(DisplayJob.fromJob(Factory.job(requirements: [Requirement.Teacher5Years])), expectedDisplayJob);
+      expect(DisplayJob.fromJob(Factory.job(requirements: [Requirement.Teacher5Years], personalityTraits: [PersonalityTrait.Benevolent])), expectedDisplayJob);
     });
 
     test('fromJob generates DisplayJob with Counselor5Years requirement', () {

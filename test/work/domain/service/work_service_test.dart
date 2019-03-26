@@ -12,7 +12,7 @@ void main() {
     });
 
     test('getJob returns the job', () async {
-      final expectedWork = Factory.job(id: 1, personalityTraits: null);
+      final expectedWork = Factory.job(id: 1, personalityTraits: []);
 
       expect(workService.getJob(1), expectedWork);
     });

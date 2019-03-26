@@ -31,5 +31,7 @@ class DisplayJob extends Equatable {
 
   static Map<PersonalityTrait, String> _personalityTraitToDisplayPersonalityTrait = {
     PersonalityTrait.Charismatic: 'Charismatic',
+    PersonalityTrait.Patient: 'Patient',
+    PersonalityTrait.Benevolent: 'Benevolent',
   };
 }
