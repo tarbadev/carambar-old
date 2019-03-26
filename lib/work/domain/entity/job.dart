@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-enum Requirement { HighSchool, Supervisor3Years, Teacher5Years, Counselor5Years, AssociateDirector5Years }
+enum Requirement { HighSchool, Supervisor3Years, SubTeacher1Year, Teacher5Years, Counselor5Years, AssociateDirector5Years }
 enum PersonalityTrait { Charismatic, Patient, Benevolent }
 
 class Job extends Equatable {

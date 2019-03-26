@@ -358,8 +358,8 @@ void main() {
 
       await characterTab.goTo();
 
-      expect(await characterTab.jobHistory(1).name, 'Supervisor');
-      expect(await characterTab.jobHistory(1).experience, '3 years');
+      expect(await characterTab.jobHistory(0).name, 'Substitute Teacher');
+      expect(await characterTab.jobHistory(0).experience, '1 years');
 
       await workTab.goTo();
       expect(await workTab.isAvailableJobsVisible, isTrue);
@@ -369,7 +369,7 @@ void main() {
       expect(await workTab.jobDialog.isVisible, isTrue);
       expect(await workTab.jobDialog.title, 'Teacher');
       expect(await workTab.jobDialog.salary, '\$20,000/year');
-      expect(await workTab.jobDialog.requirements, ['\u2022 Supervisor for 3+ years']);
+      expect(await workTab.jobDialog.requirements, ['\u2022 Substitute Teacher for 1+ years']);
       expect(await workTab.jobDialog.personalityTraits, ['\u2022 Patient', '\u2022 Benevolent']);
 
       await workTab.jobDialog.apply();

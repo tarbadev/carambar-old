@@ -36,6 +36,19 @@ void main() {
       expect(DisplayJob.fromJob(Factory.job(requirements: [Requirement.Supervisor3Years], personalityTraits: [PersonalityTrait.Patient])), expectedDisplayJob);
     });
 
+    test('fromJob generates DisplayJob with SubTeacher1Year requirement', () {
+      var job = Factory.job();
+      var expectedDisplayJob = DisplayJob(
+        job.id,
+        job.name,
+        ['\u2022 Substitute Teacher for 1+ years'],
+        '${NumberFormat.simpleCurrency(decimalDigits: 0).format(job.salary)}/year',
+        ['\u2022 Benevolent'],
+      );
+
+      expect(DisplayJob.fromJob(Factory.job(requirements: [Requirement.SubTeacher1Year], personalityTraits: [PersonalityTrait.Benevolent])), expectedDisplayJob);
+    });
+
     test('fromJob generates DisplayJob with Teacher5Years requirement', () {
       var job = Factory.job();
       var expectedDisplayJob = DisplayJob(

@@ -79,6 +79,11 @@ class CharacterService {
             return false;
           }
           break;
+        case Requirement.SubTeacher1Year:
+          if (!verifyJobHistoryRequirement(character, 'Substitute Teacher', 1)) {
+            return false;
+          }
+          break;
         case Requirement.Teacher5Years:
           if (!verifyJobHistoryRequirement(character, 'Teacher', 5)) {
             return false;
