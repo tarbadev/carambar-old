@@ -26,6 +26,7 @@ class WorkService {
         name: 'Associate Director',
         salary: 35000,
         requirements: [Requirement.Counselor5Years],
+        personalityTraits: [PersonalityTrait.Charismatic],
       ),
       Job(
         id: 5,
