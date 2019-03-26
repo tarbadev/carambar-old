@@ -23,11 +23,16 @@ class WorkTab extends StatelessWidget {
               var job = viewModel.availableJobs[index];
 
               return ListTile(
-                  onTap: () => _displayJobRequirements(context, job, viewModel.onApplyJobButtonTapped),
-                  title: Text(
-                    job.name,
-                    key: Key('Work__Jobs__$index'),
-                  ));
+                onTap: () => _displayJobRequirements(context, job, viewModel.onApplyJobButtonTapped),
+                title: Text(
+                  job.name,
+                  key: Key('Work__Jobs__$index'),
+                ),
+                trailing: Text(
+                  job.salary,
+                  style: Theme.of(context).textTheme.caption,
+                ),
+              );
             });
       });
 
@@ -43,12 +48,12 @@ class WorkTab extends StatelessWidget {
 
     index = 0;
     var personalityTraits = displayJob.personalityTraits
-    .map((personalityTrait) => Text(
-      personalityTrait,
-      key: Key('JobDialog__JobPersonalityTraits__${index++}'),
-      style: Theme.of(context).textTheme.body1,
-    ))
-    .toList();
+        .map((personalityTrait) => Text(
+              personalityTrait,
+              key: Key('JobDialog__JobPersonalityTraits__${index++}'),
+              style: Theme.of(context).textTheme.body1,
+            ))
+        .toList();
 
     showDialog(
       context: context,
