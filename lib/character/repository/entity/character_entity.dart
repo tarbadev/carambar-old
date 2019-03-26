@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:carambar/character/domain/entity/character.dart';
 import 'package:carambar/character/domain/entity/nationality.dart';
+import 'package:carambar/character/repository/entity/current_job_entity.dart';
 import 'package:carambar/character/repository/entity/job_experience_entity.dart';
-import 'package:carambar/work/repository/entity/job_entity.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'character_entity.g.dart';
@@ -16,7 +16,7 @@ class CharacterEntity {
   final String origin;
   final int age;
   final List<String> graduates;
-  final JobEntity job;
+  final CurrentJobEntity currentJob;
   final List<JobExperienceEntity> jobHistory;
 
   CharacterEntity({
@@ -26,7 +26,7 @@ class CharacterEntity {
     this.origin,
     this.age,
     this.graduates,
-    this.job,
+    this.currentJob,
     this.jobHistory,
   });
 
@@ -44,7 +44,7 @@ class CharacterEntity {
         origin = character.origin.toString(),
         age = character.age,
         graduates = character.graduates.map((graduate) => graduate.toString()).toList(),
-        job = character.job != null ? JobEntity.fromJob(character.job) : null,
+        currentJob = character.currentJob != null ? CurrentJobEntity.fromCurrentJob(character.currentJob) : null,
         jobHistory = character.jobHistory != null
             ? character.jobHistory.map((jobExperience) => JobExperienceEntity.fromJobExperience(jobExperience)).toList()
             : null;
@@ -57,7 +57,7 @@ class CharacterEntity {
       gender: gender,
       origin: Nationality.values.firstWhere((e) => e.toString() == origin),
       graduates: graduates.map((graduate) => Graduate.values.firstWhere((e) => e.toString() == graduate)).toList(),
-      job: job?.toJob(),
+      currentJob: currentJob?.toCurrentJob(),
       jobHistory: jobHistory != null ? jobHistory.map((jobExperience) => jobExperience.toJobExperience()).toList() : [],
     );
   }

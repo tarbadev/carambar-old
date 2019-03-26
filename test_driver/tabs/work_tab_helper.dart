@@ -45,6 +45,17 @@ class JobDialogElement extends BaseViewDriver {
 
     return requirements;
   }
+  Future<List<String>> get personalityTraits async {
+    List<String> personalityTraits = [];
+    try {
+      var index = 0;
+      do {
+        personalityTraits.add(await getTextByKey('JobDialog__JobPersonalityTraits__${index++}', timeout: Duration(milliseconds: 500)));
+      } while (true);
+    } catch (_) {}
+
+    return personalityTraits;
+  }
 
   Future<void> close() async {
     await tapOnButtonByKey('JobDialog__CloseButton');

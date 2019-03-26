@@ -11,7 +11,7 @@ void main() {
 
   testWidgets('home shows a the character informations', (WidgetTester tester) async {
     var displayJobHistory = [Factory.displayJobExperience(name: 'Supervisor', experience: '2 years')];
-    var displayCharacter = Factory.displayCharacter(job: Factory.displayJob(), jobHistory: displayJobHistory);
+    var displayCharacter = Factory.displayCharacter(currentJob: Factory.displayCurrentJob(), jobHistory: displayJobHistory);
     var characterTabView = CharacterTabView(tester);
 
     await tester.pumpWidget(buildTestableWidget(CharacterInformation(displayCharacter: displayCharacter)));
@@ -23,8 +23,8 @@ void main() {
     expect(characterTabView.ageCategory, displayCharacter.ageCategory);
     expect(characterTabView.school, displayCharacter.school);
     expect(characterTabView.graduates, displayCharacter.graduates);
-    expect(characterTabView.job, displayCharacter.job.name);
-    expect(characterTabView.salary, displayCharacter.job.salary);
+    expect(characterTabView.job, displayCharacter.currentJob.name);
+    expect(characterTabView.salary, displayCharacter.currentJob.salary);
     expect(characterTabView.jobHistory(0).name, displayJobHistory[0].name);
     expect(characterTabView.jobHistory(0).experience, displayJobHistory[0].experience);
   });

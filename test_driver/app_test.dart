@@ -449,6 +449,7 @@ void main() {
       expect(await workTab.jobDialog.title, 'Director');
       expect(await workTab.jobDialog.salary, '\$50,000/year');
       expect(await workTab.jobDialog.requirements, ['\u2022 Associate Director for 5+ years']);
+      expect(await workTab.jobDialog.personalityTraits, ['\u2022 Charismatic']);
 
       await workTab.jobDialog.apply();
       expect(await workTab.jobDialog.isVisible, isFalse);

@@ -41,6 +41,15 @@ class WorkTab extends StatelessWidget {
             ))
         .toList();
 
+    index = 0;
+    var personalityTraits = displayJob.personalityTraits
+    .map((personalityTrait) => Text(
+      personalityTrait,
+      key: Key('JobDialog__JobPersonalityTraits__${index++}'),
+      style: Theme.of(context).textTheme.body1,
+    ))
+    .toList();
+
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -67,6 +76,15 @@ class WorkTab extends StatelessWidget {
                   Column(
                     key: Key('JobDialog__JobRequirements'),
                     children: requirements,
+                  ),
+                  Divider(height: 10),
+                  Text(
+                    'Personality traits',
+                    style: Theme.of(context).textTheme.subhead,
+                  ),
+                  Column(
+                    key: Key('JobDialog__JobPersonalityTraits'),
+                    children: personalityTraits,
                   ),
                   Divider(height: 10),
                   Row(

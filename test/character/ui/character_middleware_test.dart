@@ -74,8 +74,9 @@ void main() {
     group('setCharacterJob', () {
       test('calls the character service to set the current job and sets the state', () async {
         var job = Factory.job();
-        var expectedCharacter = Factory.character(job: job);
-        var expectedDisplayCharacter = Factory.displayCharacter(job: Factory.displayJob());
+        var currentJob = Factory.currentJob();
+        var expectedCharacter = Factory.character(currentJob: currentJob);
+        var expectedDisplayCharacter = Factory.displayCharacter(currentJob: Factory.displayCurrentJob());
         var setCharacterJobAction = SetCharacterJobAction(job);
 
         when(Mocks.characterService.areRequirementsMet(any)).thenAnswer((_) async => true);
@@ -91,7 +92,8 @@ void main() {
 
       test('adds an event with the started job', () async {
         var job = Factory.job();
-        var expectedCharacter = Factory.character(job: job);
+        var currentJob = Factory.currentJob();
+        var expectedCharacter = Factory.character(currentJob: currentJob);
         var setCharacterJobAction = SetCharacterJobAction(job);
         var ageEvents = [
           Factory.ageEvent(age: 34, events: ['You\'re now a Supervisor'])
@@ -113,8 +115,7 @@ void main() {
         var setCharacterJobAction = SetCharacterJobAction(job);
         var event = 'You failed to apply for this new job because you don\'t meet all the requirements';
         var ageEvents = [
-          Factory.ageEvent(
-              age: 34, events: [event])
+          Factory.ageEvent(age: 34, events: [event])
         ];
 
         when(Mocks.characterService.areRequirementsMet(any)).thenAnswer((_) async => false);

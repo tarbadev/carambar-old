@@ -32,6 +32,7 @@ class WorkService {
         name: 'Director',
         salary: 50000,
         requirements: [Requirement.AssociateDirector5Years],
+        personalityTraits: [PersonalityTrait.Charismatic],
       ),
     ];
   }

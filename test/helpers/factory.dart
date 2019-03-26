@@ -1,8 +1,10 @@
 import 'package:carambar/character/domain/entity/character.dart';
+import 'package:carambar/character/domain/entity/current_job.dart';
 import 'package:carambar/character/domain/entity/job_experience.dart';
 import 'package:carambar/character/domain/entity/nationality.dart';
 import 'package:carambar/character/domain/service/client/character_client_response.dart';
 import 'package:carambar/character/ui/entity/display_character.dart';
+import 'package:carambar/character/ui/entity/display_current_job.dart';
 import 'package:carambar/character/ui/entity/display_job_experience.dart';
 import 'package:carambar/home/domain/entity/age_event.dart';
 import 'package:carambar/home/ui/entity/display_age_event.dart';
@@ -13,7 +15,10 @@ abstract class Factory {
   static const List<Graduate> _factoryGraduates = [];
 
   static Character character(
-      {int age: 18, List<Graduate> graduates: _factoryGraduates, Job job, List<JobExperience> jobHistory: const []}) {
+      {int age: 18,
+      List<Graduate> graduates: _factoryGraduates,
+      CurrentJob currentJob,
+      List<JobExperience> jobHistory: const []}) {
     return Character(
       firstName: 'john',
       lastName: 'doe',
@@ -21,7 +26,7 @@ abstract class Factory {
       age: age,
       origin: Nationality.unitedStates,
       graduates: graduates,
-      job: job,
+      currentJob: currentJob,
       jobHistory: jobHistory,
     );
   }
@@ -30,7 +35,7 @@ abstract class Factory {
     age: '18',
     ageCategory: 'Adult',
     school: 'None',
-    DisplayJob job,
+    DisplayCurrentJob currentJob,
     List<DisplayJobExperience> jobHistory: const [],
   }) {
     return DisplayCharacter(
@@ -41,7 +46,7 @@ abstract class Factory {
       ageCategory,
       school,
       [],
-      job,
+      currentJob,
       jobHistory,
     );
   }
@@ -78,19 +83,28 @@ abstract class Factory {
       ageEvents.map((ageEvent) => DisplayAgeEvent.fromAgeEvent(ageEvent)).toList();
 
   static const List<Requirement> _factoryRequirements = [Requirement.HighSchool];
+  static const List<PersonalityTrait> _factoryPersonalityTraits = [PersonalityTrait.Charismatic];
 
-  static Job job({int id: 1, List<Requirement> requirements: _factoryRequirements}) {
-    return Job(id: id, name: 'Supervisor', salary: 15000, requirements: requirements);
+  static Job job({
+    int id: 1,
+    List<Requirement> requirements: _factoryRequirements,
+    List<PersonalityTrait> personalityTraits: _factoryPersonalityTraits,
+  }) {
+    return Job(
+        id: id, name: 'Supervisor', salary: 15000, requirements: requirements, personalityTraits: personalityTraits);
   }
 
   static const List<String> _factoryDisplayRequirements = ['\u2022 High School completed successfully'];
+  static const List<String> _factoryDisplayPersonalityTraits = ['\u2022 Charismatic'];
 
-  static DisplayJob displayJob(
-      {String name: 'Supervisor',
-      List<String> requirements: _factoryDisplayRequirements,
-      String salary: '\$15,000/year',
-      int id: 1}) {
-    return DisplayJob(id, name, requirements, salary);
+  static DisplayJob displayJob({
+    String name: 'Supervisor',
+    List<String> requirements: _factoryDisplayRequirements,
+    String salary: '\$15,000/year',
+    int id: 1,
+    List<String> personalityTraits: _factoryDisplayPersonalityTraits,
+  }) {
+    return DisplayJob(id, name, requirements, salary, personalityTraits);
   }
 
   static JobExperience jobExperience({String name: 'Supervisor', int experience: 2}) {
@@ -100,4 +114,21 @@ abstract class Factory {
   static DisplayJobExperience displayJobExperience({String name: 'Supervisor', String experience: '2 years'}) {
     return DisplayJobExperience(name: name, experience: experience);
   }
+
+  static CurrentJob currentJob({
+    int id: 1,
+    String name: 'Supervisor',
+    double salary: 15000,
+  }) =>
+      CurrentJob(
+        id: id,
+        name: name,
+        salary: salary,
+      );
+
+  static DisplayCurrentJob displayCurrentJob() => DisplayCurrentJob(
+        1,
+        'Supervisor',
+        '\$15,000/year',
+      );
 }

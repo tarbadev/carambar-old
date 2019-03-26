@@ -7,24 +7,17 @@ class DisplayJob extends Equatable {
   final String name;
   final String salary;
   final List<String> requirements;
+  final List<String> personalityTraits;
 
-  DisplayJob(this.id, this.name, this.requirements, this.salary) : super([id, name, requirements, salary]);
+  DisplayJob(this.id, this.name, this.requirements, this.salary, this.personalityTraits) : super([id, name, requirements, salary, personalityTraits]);
 
   factory DisplayJob.fromJob(Job job) {
-    if (job == null) {
-      return DisplayJob(
-        0,
-        'Not employed',
-        [''],
-        '${NumberFormat.simpleCurrency(decimalDigits: 0).format(0)}/year',
-      );
-    }
-
     return DisplayJob(
       job.id,
       job.name,
       job.requirements.map((requirement) => '\u2022 ${_requirementToDisplayRequirement[requirement]}').toList(),
       '${NumberFormat.simpleCurrency(decimalDigits: 0).format(job.salary)}/year',
+        job.personalityTraits.map((personalityTrait) => '\u2022 ${_personalityTraitToDisplayPersonalityTrait[personalityTrait]}').toList(),
     );
   }
 
@@ -34,5 +27,9 @@ class DisplayJob extends Equatable {
     Requirement.Teacher5Years: 'Teacher for 5+ years',
     Requirement.Counselor5Years: 'Counselor for 5+ years',
     Requirement.AssociateDirector5Years: 'Associate Director for 5+ years',
+  };
+
+  static Map<PersonalityTrait, String> _personalityTraitToDisplayPersonalityTrait = {
+    PersonalityTrait.Charismatic: 'Charismatic',
   };
 }

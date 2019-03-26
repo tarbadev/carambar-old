@@ -49,8 +49,14 @@ void main() {
   testWidgets('Work Tab displays job dialog with job informations', (WidgetTester tester) async {
     var workTabView = WorkTabView(tester);
     var expectedJobRequirements = ['Lots of job requirements'];
+    var expectedPersonalityTraits = ['A few personality traits'];
     var expectedJobs = [
-      Factory.displayJob(name: 'Supervisor', salary: '\$15,000/year', requirements: expectedJobRequirements)
+      Factory.displayJob(
+        name: 'Supervisor',
+        salary: '\$15,000/year',
+        requirements: expectedJobRequirements,
+        personalityTraits: expectedPersonalityTraits,
+      )
     ];
 
     await tester.pumpWidget(buildTestableWidget(WorkTab(), availableJobs: expectedJobs));
@@ -61,14 +67,13 @@ void main() {
     expect(workTabView.jobDialog.title, 'Supervisor');
     expect(workTabView.jobDialog.salary, '\$15,000/year');
     expect(workTabView.jobDialog.requirements, expectedJobRequirements);
+    expect(workTabView.jobDialog.personalityTraits, expectedPersonalityTraits);
   });
 
   testWidgets('Work Tab dispatches an ApplyJobAction on apply button click', (WidgetTester tester) async {
     var workTabView = WorkTabView(tester);
     var jobId = 1;
-    var expectedJobs = [
-      Factory.displayJob(name: 'Supervisor', id: jobId)
-    ];
+    var expectedJobs = [Factory.displayJob(name: 'Supervisor', id: jobId)];
 
     await tester.pumpWidget(buildTestableWidget(WorkTab(), availableJobs: expectedJobs));
     await workTabView.tapOnAvailableJob('Supervisor');

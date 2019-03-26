@@ -1,4 +1,5 @@
 import 'package:carambar/character/domain/entity/character.dart';
+import 'package:carambar/character/domain/entity/current_job.dart';
 import 'package:carambar/character/domain/entity/job_experience.dart';
 import 'package:carambar/character/domain/service/client/character_client.dart';
 import 'package:carambar/character/repository/character_repository.dart';
@@ -54,7 +55,7 @@ class CharacterService {
       origin: character.origin,
       gender: character.gender,
       graduates: character.graduates,
-      job: job,
+      currentJob: CurrentJob.fromJob(job),
       jobHistory: character.jobHistory,
     );
 

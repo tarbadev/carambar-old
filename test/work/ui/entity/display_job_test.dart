@@ -14,9 +14,13 @@ void main() {
         job.name,
         ['\u2022 High School completed successfully'],
         '${NumberFormat.simpleCurrency(decimalDigits: 0).format(job.salary)}/year',
+        ['\u2022 Charismatic'],
       );
 
-      expect(DisplayJob.fromJob(Factory.job(requirements: [Requirement.HighSchool])), expectedDisplayJob);
+      expect(
+          DisplayJob.fromJob(
+              Factory.job(requirements: [Requirement.HighSchool], personalityTraits: [PersonalityTrait.Charismatic])),
+          expectedDisplayJob);
     });
 
     test('fromJob generates DisplayJob with Supervisor3Years requirement', () {
@@ -26,6 +30,7 @@ void main() {
         job.name,
         ['\u2022 Supervisor for 3+ years'],
         '${NumberFormat.simpleCurrency(decimalDigits: 0).format(job.salary)}/year',
+        ['\u2022 Charismatic'],
       );
 
       expect(DisplayJob.fromJob(Factory.job(requirements: [Requirement.Supervisor3Years])), expectedDisplayJob);
@@ -38,6 +43,7 @@ void main() {
         job.name,
         ['\u2022 Teacher for 5+ years'],
         '${NumberFormat.simpleCurrency(decimalDigits: 0).format(job.salary)}/year',
+        ['\u2022 Charismatic'],
       );
 
       expect(DisplayJob.fromJob(Factory.job(requirements: [Requirement.Teacher5Years])), expectedDisplayJob);
@@ -50,6 +56,7 @@ void main() {
         job.name,
         ['\u2022 Counselor for 5+ years'],
         '${NumberFormat.simpleCurrency(decimalDigits: 0).format(job.salary)}/year',
+        ['\u2022 Charismatic'],
       );
 
       expect(DisplayJob.fromJob(Factory.job(requirements: [Requirement.Counselor5Years])), expectedDisplayJob);
@@ -62,20 +69,10 @@ void main() {
         job.name,
         ['\u2022 Associate Director for 5+ years'],
         '${NumberFormat.simpleCurrency(decimalDigits: 0).format(job.salary)}/year',
+        ['\u2022 Charismatic'],
       );
 
       expect(DisplayJob.fromJob(Factory.job(requirements: [Requirement.AssociateDirector5Years])), expectedDisplayJob);
-    });
-
-    test('fromJob returns null if job is null', () {
-      var expectedDisplayJob = DisplayJob(
-        0,
-        'Not employed',
-        [''],
-        '${NumberFormat.simpleCurrency(decimalDigits: 0).format(0)}/year',
-      );
-
-      expect(DisplayJob.fromJob(null), expectedDisplayJob);
     });
   });
 }

@@ -14,9 +14,10 @@ CharacterEntity _$CharacterEntityFromJson(Map<String, dynamic> json) {
       origin: json['origin'] as String,
       age: json['age'] as int,
       graduates: (json['graduates'] as List)?.map((e) => e as String)?.toList(),
-      job: json['job'] == null
+      currentJob: json['currentJob'] == null
           ? null
-          : JobEntity.fromJson(json['job'] as Map<String, dynamic>),
+          : CurrentJobEntity.fromJson(
+              json['currentJob'] as Map<String, dynamic>),
       jobHistory: (json['jobHistory'] as List)
           ?.map((e) => e == null
               ? null
@@ -32,6 +33,6 @@ Map<String, dynamic> _$CharacterEntityToJson(CharacterEntity instance) =>
       'origin': instance.origin,
       'age': instance.age,
       'graduates': instance.graduates,
-      'job': instance.job,
+      'currentJob': instance.currentJob,
       'jobHistory': instance.jobHistory
     };

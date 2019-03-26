@@ -51,7 +51,7 @@ Future setCharacterJob(Store<ApplicationState> store, SetCharacterJobAction acti
   if (await _characterService.areRequirementsMet(action.job)) {
     character = await _characterService.setJob(action.job);
     var displayCharacter = DisplayCharacter.fromCharacter(character);
-    event = 'You\'re now a ${displayCharacter.job.name}';
+    event = 'You\'re now a ${displayCharacter.currentJob.name}';
 
     store.dispatch(SetCharacterAction(displayCharacter));
   } else {

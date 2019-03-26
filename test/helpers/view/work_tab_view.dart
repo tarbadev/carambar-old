@@ -35,7 +35,11 @@ class JobDialogElement extends BaseViewTester {
   String get salary => getTextByKey('JobDialog__JobSalary');
   List<String> get requirements => (tester.widget(find.byKey(Key('JobDialog__JobRequirements'))) as Column)
       .children
-      .map((eventText) => (eventText as Text).data)
+      .map((requirementText) => (requirementText as Text).data)
+      .toList();
+  List<String> get personalityTraits => (tester.widget(find.byKey(Key('JobDialog__JobPersonalityTraits'))) as Column)
+      .children
+      .map((personalityTraitText) => (personalityTraitText as Text).data)
       .toList();
 
   Future<void> close() async => await tapOnButtonByKey('JobDialog__CloseButton');

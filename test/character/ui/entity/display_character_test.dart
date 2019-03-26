@@ -1,7 +1,7 @@
 import 'package:carambar/character/domain/entity/character.dart';
 import 'package:carambar/character/ui/entity/display_character.dart';
+import 'package:carambar/character/ui/entity/display_current_job.dart';
 import 'package:carambar/character/ui/entity/display_job_experience.dart';
-import 'package:carambar/work/ui/entity/display_job.dart';
 import 'package:test_api/test_api.dart';
 
 import '../../../helpers/factory.dart';
@@ -9,8 +9,8 @@ import '../../../helpers/factory.dart';
 void main() {
   group('DisplayCharacter', () {
     test('fromCharacter generates DisplayCharacter', () {
-      var job = Factory.job();
-      var displayJob = DisplayJob.fromJob(job);
+      var currentJob = Factory.currentJob();
+      var displayCurrentJob = DisplayCurrentJob.fromCurrentJob(currentJob);
       var displayJobHistory = [
         DisplayJobExperience.fromJobExperience(Factory.jobExperience(name: 'Supervisor')),
         DisplayJobExperience.fromJobExperience(Factory.jobExperience(name: 'Teacher')),
@@ -23,7 +23,7 @@ void main() {
         'Baby',
         'None',
         [],
-        displayJob,
+        displayCurrentJob,
         displayJobHistory,
       );
 
@@ -31,7 +31,7 @@ void main() {
           DisplayCharacter.fromCharacter(Factory.character(
               age: 2,
               graduates: [],
-              job: job,
+              currentJob: currentJob,
               jobHistory: [Factory.jobExperience(name: 'Teacher'), Factory.jobExperience(name: 'Supervisor')])),
           expectedDisplayCharacter);
 
@@ -43,12 +43,12 @@ void main() {
         'Child',
         'Kindergarten',
         [],
-        displayJob,
+        displayCurrentJob,
         [],
       );
 
-      expect(
-          DisplayCharacter.fromCharacter(Factory.character(age: 4, graduates: [], job: job)), expectedDisplayCharacter);
+      expect(DisplayCharacter.fromCharacter(Factory.character(age: 4, graduates: [], currentJob: currentJob)),
+          expectedDisplayCharacter);
 
       expectedDisplayCharacter = DisplayCharacter(
         'John Doe',
@@ -58,12 +58,12 @@ void main() {
         'Child',
         'Primary School',
         [],
-        displayJob,
+        displayCurrentJob,
         [],
       );
 
-      expect(
-          DisplayCharacter.fromCharacter(Factory.character(age: 8, graduates: [], job: job)), expectedDisplayCharacter);
+      expect(DisplayCharacter.fromCharacter(Factory.character(age: 8, graduates: [], currentJob: currentJob)),
+          expectedDisplayCharacter);
 
       expectedDisplayCharacter = DisplayCharacter(
         'John Doe',
@@ -73,11 +73,11 @@ void main() {
         'Teen',
         'Middle School',
         [],
-        displayJob,
+        displayCurrentJob,
         [],
       );
 
-      expect(DisplayCharacter.fromCharacter(Factory.character(age: 12, graduates: [], job: job)),
+      expect(DisplayCharacter.fromCharacter(Factory.character(age: 12, graduates: [], currentJob: currentJob)),
           expectedDisplayCharacter);
 
       expectedDisplayCharacter = DisplayCharacter(
@@ -88,11 +88,13 @@ void main() {
         'Teen',
         'High School',
         ['Middle School'],
-        displayJob,
+        displayCurrentJob,
         [],
       );
 
-      expect(DisplayCharacter.fromCharacter(Factory.character(age: 15, graduates: [Graduate.MiddleSchool], job: job)),
+      expect(
+          DisplayCharacter.fromCharacter(
+              Factory.character(age: 15, graduates: [Graduate.MiddleSchool], currentJob: currentJob)),
           expectedDisplayCharacter);
 
       expectedDisplayCharacter = DisplayCharacter(
@@ -103,11 +105,11 @@ void main() {
         'Adult',
         'None',
         [],
-        displayJob,
+        displayCurrentJob,
         [],
       );
 
-      expect(DisplayCharacter.fromCharacter(Factory.character(age: 42, graduates: [], job: job)),
+      expect(DisplayCharacter.fromCharacter(Factory.character(age: 42, graduates: [], currentJob: currentJob)),
           expectedDisplayCharacter);
     });
   });

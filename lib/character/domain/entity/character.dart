@@ -1,6 +1,6 @@
+import 'package:carambar/character/domain/entity/current_job.dart';
 import 'package:carambar/character/domain/entity/job_experience.dart';
 import 'package:carambar/character/domain/entity/nationality.dart';
-import 'package:carambar/work/domain/entity/job.dart';
 import 'package:equatable/equatable.dart';
 
 enum AgeCategory { baby, child, teen, adult }
@@ -14,7 +14,7 @@ class Character extends Equatable {
   final Nationality origin;
   final List<Graduate> graduates;
   int age;
-  Job job;
+  CurrentJob currentJob;
   List<JobExperience> jobHistory;
 
   AgeCategory get ageCategory {
@@ -43,7 +43,14 @@ class Character extends Equatable {
       return School.None;
   }
 
-  Character(
-      {this.firstName, this.lastName, this.gender, this.origin, this.age, this.graduates, this.job, this.jobHistory})
-      : super([firstName, lastName, gender, origin, age, graduates, job, jobHistory]);
+  Character({
+    this.firstName,
+    this.lastName,
+    this.gender,
+    this.origin,
+    this.age,
+    this.graduates,
+    this.currentJob,
+    this.jobHistory,
+  }) : super([firstName, lastName, gender, origin, age, graduates, currentJob, jobHistory]);
 }

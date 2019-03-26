@@ -35,8 +35,8 @@ void main() {
         Factory.jobExperience(name: 'Supervisor', experience: 4),
         Factory.jobExperience(name: 'Teacher', experience: 3),
       ];
-      final character =
-          Factory.character(graduates: [Graduate.MiddleSchool], job: Factory.job(), jobHistory: jobHistory);
+      final character = Factory.character(
+          graduates: [Graduate.MiddleSchool], currentJob: Factory.currentJob(), jobHistory: jobHistory);
 
       await characterRepository.save(character);
 
@@ -47,11 +47,10 @@ void main() {
           '"origin":"Nationality.unitedStates",' +
           '"age":18,' +
           '"graduates":["Graduate.MiddleSchool"],' +
-          '"job":{' +
+          '"currentJob":{' +
           '"id":1,' +
           '"name":"Supervisor",' +
-          '"salary":15000.0,' +
-          '"requirements":["Requirement.HighSchool"]' +
+          '"salary":15000.0' +
           '},' +
           '"jobHistory":[{' +
           '"name":"Supervisor",' +
@@ -66,7 +65,7 @@ void main() {
     });
 
     test('save saves character to file when job is null', () async {
-      final character = Factory.character(graduates: [Graduate.MiddleSchool], job: null, jobHistory: []);
+      final character = Factory.character(graduates: [Graduate.MiddleSchool], currentJob: null, jobHistory: []);
 
       await characterRepository.save(character);
 
@@ -77,7 +76,7 @@ void main() {
           '"origin":"Nationality.unitedStates",' +
           '"age":18,' +
           '"graduates":["Graduate.MiddleSchool"],' +
-          '"job":null,'
+          '"currentJob":null,'
           '"jobHistory":[]'
           '}';
 
@@ -85,7 +84,7 @@ void main() {
     });
 
     test('readCharacter reads character from file', () async {
-      final character = Factory.character(job: Factory.job(), jobHistory: [Factory.jobExperience()]);
+      final character = Factory.character(currentJob: Factory.currentJob(), jobHistory: [Factory.jobExperience()]);
       await characterStorage.store(character);
 
       Character returnedCharacter = await characterRepository.readCharacter();
@@ -94,7 +93,7 @@ void main() {
     });
 
     test('readCharacter reads character from file when job is null', () async {
-      final character = Factory.character(job: null, jobHistory: []);
+      final character = Factory.character(currentJob: null, jobHistory: []);
       await characterStorage.store(character);
 
       Character returnedCharacter = await characterRepository.readCharacter();

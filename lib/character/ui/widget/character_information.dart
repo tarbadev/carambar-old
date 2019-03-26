@@ -145,11 +145,11 @@ class CharacterInformation extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    displayCharacter.job.name,
+                    displayCharacter.currentJob.name,
                     key: Key('Character__Job'),
                   ),
                   Text(
-                    displayCharacter.job.salary,
+                    displayCharacter.currentJob.salary,
                     key: Key('Character__Salary'),
                   ),
                 ],

@@ -93,7 +93,9 @@ void main() {
         var characterWithGraduates = Factory.character(age: 18, graduates: [Graduate.HighSchool]);
 
         var expectedEvent = 'You graduated from High School';
-        var ageEvents = [Factory.ageEvent(age: 18, events: [expectedEvent])];
+        var ageEvents = [
+          Factory.ageEvent(age: 18, events: [expectedEvent])
+        ];
 
         when(Mocks.applicationState.character).thenReturn(originalDisplayCharacter);
         when(Mocks.characterService.incrementAge()).thenAnswer((_) async => character);
@@ -111,7 +113,9 @@ void main() {
         var character = Factory.character(age: 15);
 
         var expectedEvent = 'You graduated from Middle School';
-        var ageEvents = [Factory.ageEvent(age: 15, events: [expectedEvent])];
+        var ageEvents = [
+          Factory.ageEvent(age: 15, events: [expectedEvent])
+        ];
 
         when(Mocks.applicationState.character).thenReturn(originalDisplayCharacter);
         when(Mocks.characterService.incrementAge()).thenAnswer((_) async => character);
@@ -129,7 +133,9 @@ void main() {
         var character = Factory.character(age: 18);
 
         var expectedEvent = 'You graduated from High School';
-        var ageEvents = [Factory.ageEvent(age: 18, events: [expectedEvent])];
+        var ageEvents = [
+          Factory.ageEvent(age: 18, events: [expectedEvent])
+        ];
 
         when(Mocks.applicationState.character).thenReturn(originalDisplayCharacter);
         when(Mocks.characterService.incrementAge()).thenAnswer((_) async => character);
@@ -144,7 +150,7 @@ void main() {
       test('dispatches a AddAvailableCashAction when having a job', () async {
         var incrementAgeAction = IncrementAgeAction();
         var originalDisplayCharacter = Factory.displayCharacter(age: '21', school: 'None');
-        var character = Factory.character(age: 21, job: Factory.job());
+        var character = Factory.character(age: 21, currentJob: Factory.currentJob());
 
         when(Mocks.applicationState.character).thenReturn(originalDisplayCharacter);
         when(Mocks.characterService.incrementAge()).thenAnswer((_) async => character);
@@ -160,7 +166,7 @@ void main() {
       test('does not dispatch a AddAvailableCashAction when not having a job', () async {
         var incrementAgeAction = IncrementAgeAction();
         var originalDisplayCharacter = Factory.displayCharacter(age: '21', school: 'None');
-        var character = Factory.character(age: 21, job: null);
+        var character = Factory.character(age: 21, currentJob: null);
 
         when(Mocks.applicationState.character).thenReturn(originalDisplayCharacter);
         when(Mocks.characterService.incrementAge()).thenAnswer((_) async => character);
@@ -174,8 +180,9 @@ void main() {
 
       test('calls the service to increment the job experience and dispatches a SetCharacterAction', () async {
         var incrementAgeAction = IncrementAgeAction();
-        var displayCharacter = Factory.displayCharacter(job: Factory.displayJob(), jobHistory: [Factory.displayJobExperience()]);
-        var character = Factory.character(job: Factory.job(), jobHistory: [Factory.jobExperience()]);
+        var displayCharacter = Factory.displayCharacter(
+            currentJob: Factory.displayCurrentJob(), jobHistory: [Factory.displayJobExperience()]);
+        var character = Factory.character(currentJob: Factory.currentJob(), jobHistory: [Factory.jobExperience()]);
 
         when(Mocks.characterService.incrementAge()).thenAnswer((_) async => character);
         when(Mocks.ageEventService.addEvent(any, event: anyNamed('event'))).thenAnswer((_) async => []);

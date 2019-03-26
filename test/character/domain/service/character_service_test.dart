@@ -64,8 +64,9 @@ void main() {
 
     test('setJob calls the repository with the character updated with the job and new jobHistory', () async {
       final job = Factory.job();
-      final character = Factory.character(job: null, jobHistory: []);
-      final expectedCharacter = Factory.character(job: job, jobHistory: [Factory.jobExperience(experience: 0)]);
+      final currentJob = Factory.currentJob();
+      final character = Factory.character(currentJob: null, jobHistory: []);
+      final expectedCharacter = Factory.character(currentJob: currentJob, jobHistory: [Factory.jobExperience(experience: 0)]);
 
       when(Mocks.characterRepository.readCharacter()).thenAnswer((_) async => character);
 
