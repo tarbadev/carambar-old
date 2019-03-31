@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -e
+set -x
 
 pip install six
 brew update
