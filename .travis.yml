@@ -53,6 +53,7 @@ matrix:
 #    - export GRADLE_HOME=$PWD/gradle-4.10.2
 #    - export PATH=$GRADLE_HOME/bin:$PATH
     - git clone --branch v1.2.1 --depth 1 https://github.com/flutter/flutter.git
+    - ./flutter/bin/flutter doctor
     script:
     - ./flutter/bin/flutter -v build apk
 
@@ -63,6 +64,9 @@ matrix:
     before_script:
     - pip install six
     - brew update
+    - brew install --HEAD usbmuxd
+    - brew unlink usbmuxd
+    - brew link usbmuxd
     - brew install --HEAD libimobiledevice
     - brew install ideviceinstaller ios-deploy
     - git clone --branch v1.2.1 --depth 1 https://github.com/flutter/flutter.git
