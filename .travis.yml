@@ -64,6 +64,9 @@ matrix:
     script: ./flutter/bin/flutter -v build apk --debug
   - stage: integration-tests
     <<: *android-env
+    before_script:
+    - ./ci/android/setupEnvironmemt.sh
+    - ./ci/setupFlutter.sh
     script: ./flutter/bin/flutter drive --target=test_driver/app.dart --debug
 
   - stage: package
