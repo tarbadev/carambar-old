@@ -7,7 +7,7 @@ android-env: &android-env
   os: linux
   language: android
   licenses:
-  - 'android-sdk-license-.+'
+  - android-sdk-license-.+
   android:
     components:
     - tools
@@ -25,8 +25,9 @@ android-env: &android-env
       - libstdc++6
       - fonts-droid
   before_script:
-  - ./ci/setupFlutter.sh
-  - git clone --depth 1 https://github.com/fsaintjacques/semver-tool /tmp/semver &> /dev/null
+  - "./ci/setupFlutter.sh"
+  - git clone --depth 1 https://github.com/fsaintjacques/semver-tool /tmp/semver &>
+    /dev/null
   - LAST_VERSION=$(git show version:latest.txt)
   - VERSION=$(/tmp/semver/src/semver bump build $TRAVIS_BUILD_NUMBER $LAST_VERSION)
 
@@ -35,9 +36,10 @@ ios-env: &ios-env
   language: generic
   osx_image: xcode10.1
   before_script:
-  - ./ci/ios/setupEnvironment.sh
-  - ./ci/setupFlutter.sh
-  - git clone --depth 1 https://github.com/fsaintjacques/semver-tool /tmp/semver &> /dev/null
+  - "./ci/ios/setupEnvironment.sh"
+  - "./ci/setupFlutter.sh"
+  - git clone --depth 1 https://github.com/fsaintjacques/semver-tool /tmp/semver &>
+    /dev/null
   - LAST_VERSION=$(git show version:latest.txt)
   - VERSION=$(/tmp/semver/src/semver bump build $TRAVIS_BUILD_NUMBER $LAST_VERSION)
 
@@ -45,8 +47,8 @@ matrix:
   fast_finish: true
 
   allow_failures:
-  - stage: package
   - stage: integration tests
+  - stage: package debug
 
   include:
   - stage: test
@@ -61,18 +63,18 @@ matrix:
         - libstdc++6
         - fonts-droid
     before_script:
-    - ./ci/setupFlutter.sh
+    - "./ci/setupFlutter.sh"
     - ls -la ~
     script:
-    - ./flutter/bin/flutter test ./test
+    - "./flutter/bin/flutter test ./test"
     - ls -la ~
 
   - stage: integration tests
     <<: *android-env
     before_script:
-    - ./ci/android/startEmulator.sh
-    - ./ci/setupFlutter.sh
-    script: ./flutter/bin/flutter drive --target=test_driver/app.dart --debug
+    - "./ci/android/startEmulator.sh"
+    - "./ci/setupFlutter.sh"
+    script: "./flutter/bin/flutter drive --target=test_driver/app.dart --debug"
   - stage: package debug
     <<: *android-env
     script: ./flutter/bin/flutter build apk --debug --build-name=$VERSION
@@ -86,6 +88,15 @@ matrix:
 
 cache:
   directories:
-  - $HOME/.pub-cache
-#- build/app/outputs/apk/debug/app-debug.apk
-#- build/ios/iphoneos/Runner.app
+  - "$HOME/.pub-cache"
+
+deploy:
+  provider: releases
+  api_key:
+    secure: mf+M+I+tS+s0RCmeqIsW67Y125hLBtIOhoTqp5ydG9fC6fdGvkHam9q63kpLL47GDHR+HEHJQiEvn3y7p3cwI/0SW1+F3/2+awuHFcTuMgpsdPFcvfdPONiAb4BRLuiS7tUbY/f1fLQK7eNNApZ5vatE/QbIjkWAGh1qxHqq6jXL0j+unIIZhNXFy4cJOkR6lUVGMmoyJz0l5Ow05qADS08uOEqCM2YG5mlKYUc+Nw5ddrs0vVV0SVUxxDGikkMjhWpcLhruDKVeRm2z+dDCntZZ18js2wq4WdlebvqhOL55QkQsVaRYR9YNLEqbfaDFoGAUMJtCExPecf2iGV2PrzK0cty32MnhwE69kiyKZ06GZ/5IYkRXX3oFW1PhjDITLEAGktZSyAfRJY8eYtuAyMeALlFv/AnkGwCraA6fx3xnqgy3FGhyDmkOVKAh2DBiDanE3zJkwdbiDi5czUqKggcsXG8/kid7/6ILD8ucMjOb8lW0O3DjUTUVCuDSiFV5DMLirFmEA81t1oJS/m4htmOeV4o5k2dj5PHsW/v1iZBPjCDtvD7gjr6XRhLzh2wtavxkEw1KFtFvzvrHziYSRzXpJhsgh1toHs6r7VGHQdvOQCL7VIcU6qsvMBYloYlkHPWlP7XBiB8obe+wCkm0rdIV0d71KqVUIfMKKlWE3ag=
+  file:
+  - build/app/outputs/apk/debug/app-debug.apk
+  - build/ios/iphoneos/Runner.app
+  draft: true
+  on:
+    repo: tarbadev/carambar
