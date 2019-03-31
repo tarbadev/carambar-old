@@ -1,27 +1,28 @@
 stages:
-#- test
+- test
 - package
-- integration tests
+- integration-tests
 
 matrix:
   include:
-#  - stage: test
-#    os: linux
-#    language: generic
-#    sudo: false
-#    addons:
-#      apt:
-#        sources:
-#        - ubuntu-toolchain-r-test
-#        packages:
-#        - libstdc++6
-#        - fonts-droid
-#    before_script:
-#    - ./ci/setupFlutter.sh
-#    script:
-#    - ./flutter/bin/flutter test ./test
+  - stage: test
+    os: linux
+    language: generic
+    sudo: false
+    addons:
+      apt:
+        sources:
+        - ubuntu-toolchain-r-test
+        packages:
+        - libstdc++6
+        - fonts-droid
+    before_script:
+    - ./ci/setupFlutter.sh
+    script:
+    - ./flutter/bin/flutter test ./test
 
-  - os: linux
+  - &android-env
+    os: linux
     language: android
     licenses:
     - 'android-sdk-preview-license-.+'
@@ -49,25 +50,28 @@ matrix:
         - fonts-droid
     before_script:
     - ./ci/setupFlutter.sh
-    jobs:
-      include:
-        - stage: package
-          script: ./flutter/bin/flutter -v build apk --debug
-        - stage: integration tests
-          script: ./flutter/bin/flutter drive --target=test_driver/app.dart --debug
 
-  - os: osx
+  - stage: package
+    <<: *android-env
+    script: ./flutter/bin/flutter -v build apk --debug
+  - stage: integration-tests
+    <<: *android-env
+    script: ./flutter/bin/flutter drive --target=test_driver/app.dart --debug
+
+  - &ios-env
+    os: osx
     language: generic
     osx_image: xcode10.1
     before_script:
     - ./ci/ios/setupEnvironment.sh
     - ./ci/setupFlutter.sh
-    jobs:
-      include:
-      - stage: package
-        script: ./flutter/bin/flutter -v build ios --no-codesign --debug
-      - stage: integration tests
-        script: ./flutter/bin/flutter drive --target=test_driver/app.dart --debug
+
+  - stage: package
+    <<: *ios-env
+    script: ./flutter/bin/flutter -v build ios --no-codesign --debug
+  - stage: integration-tests
+    <<: *ios-env
+    script: ./flutter/bin/flutter drive --target=test_driver/app.dart --debug
 
 cache:
   directories:
