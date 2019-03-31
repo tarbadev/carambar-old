@@ -65,7 +65,7 @@ matrix:
 
   - stage: package
     <<: *android-env
-    script: ./flutter/bin/flutter -v build apk --debug
+    script: ./flutter/bin/flutter build apk --debug
   - stage: integration tests
     <<: *android-env
     before_script:
@@ -75,7 +75,7 @@ matrix:
 
   - stage: package
     <<: *ios-env
-    script: ./flutter/bin/flutter -v build ios --no-codesign --debug
+    script: ./flutter/bin/flutter build ios --no-codesign --debug
   - stage: integration tests
     <<: *ios-env
     script: ./flutter/bin/flutter drive --target=test_driver/app.dart --debug
