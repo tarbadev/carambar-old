@@ -42,6 +42,7 @@ ios-env: &ios-env
   - ./ci/setupFlutter.sh
 
 matrix:
+  fast_finish: true
   include:
   - stage: test
     os: linux
