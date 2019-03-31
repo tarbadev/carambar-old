@@ -49,11 +49,12 @@ matrix:
         - fonts-droid
     before_script:
     - ./ci/setupFlutter.sh
-    include:
-      - stage: package
-        script: ./flutter/bin/flutter -v build apk --debug
-      - stage: integration tests
-        script: ./flutter/bin/flutter drive --target=test_driver/app.dart --debug
+    jobs:
+      include:
+        - stage: package
+          script: ./flutter/bin/flutter -v build apk --debug
+        - stage: integration tests
+          script: ./flutter/bin/flutter drive --target=test_driver/app.dart --debug
 
   - os: osx
     language: generic
@@ -61,11 +62,12 @@ matrix:
     before_script:
     - ./ci/ios/setupEnvironment.sh
     - ./ci/setupFlutter.sh
-    include:
-    - stage: package
-      script: ./flutter/bin/flutter -v build ios --no-codesign --debug
-    - stage: integration tests
-      script: ./flutter/bin/flutter drive --target=test_driver/app.dart --debug
+    jobs:
+      include:
+      - stage: package
+        script: ./flutter/bin/flutter -v build ios --no-codesign --debug
+      - stage: integration tests
+        script: ./flutter/bin/flutter drive --target=test_driver/app.dart --debug
 
 cache:
   directories:
