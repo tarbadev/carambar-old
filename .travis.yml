@@ -1,7 +1,7 @@
 stages:
 - test
 - package
-- integration-tests
+- integration tests
 
 android-env: &android-env
   os: linux
@@ -43,6 +43,9 @@ ios-env: &ios-env
 
 matrix:
   fast_finish: true
+  allow_failures:
+  - stage: package
+  - stage: integration tests
   include:
   - stage: test
     os: linux
@@ -63,7 +66,7 @@ matrix:
   - stage: package
     <<: *android-env
     script: ./flutter/bin/flutter -v build apk --debug
-  - stage: integration-tests
+  - stage: integration tests
     <<: *android-env
     before_script:
     - ./ci/android/setupEnvironmemt.sh
@@ -73,7 +76,7 @@ matrix:
   - stage: package
     <<: *ios-env
     script: ./flutter/bin/flutter -v build ios --no-codesign --debug
-  - stage: integration-tests
+  - stage: integration tests
     <<: *ios-env
     script: ./flutter/bin/flutter drive --target=test_driver/app.dart --debug
 
