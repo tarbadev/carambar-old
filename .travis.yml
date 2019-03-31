@@ -69,7 +69,7 @@ matrix:
   - stage: integration tests
     <<: *android-env
     before_script:
-    - ./ci/android/setupEnvironmemt.sh
+    - ./ci/android/startEmulator.sh
     - ./ci/setupFlutter.sh
     script: ./flutter/bin/flutter drive --target=test_driver/app.dart --debug
 
