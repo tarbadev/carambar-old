@@ -1,7 +1,7 @@
 stages:
 - test
-- package
 - integration tests
+- package debug
 
 android-env: &android-env
   os: linux
@@ -26,6 +26,9 @@ android-env: &android-env
       - fonts-droid
   before_script:
   - ./ci/setupFlutter.sh
+  - git clone --depth 1 https://github.com/fsaintjacques/semver-tool /tmp/semver &> /dev/null
+  - LAST_VERSION=$(git show version:latest.txt)
+  - VERSION=$(/tmp/semver/src/semver bump build $TRAVIS_BUILD_NUMBER $LAST_VERSION)
 
 ios-env: &ios-env
   os: osx
@@ -34,12 +37,17 @@ ios-env: &ios-env
   before_script:
   - ./ci/ios/setupEnvironment.sh
   - ./ci/setupFlutter.sh
+  - git clone --depth 1 https://github.com/fsaintjacques/semver-tool /tmp/semver &> /dev/null
+  - LAST_VERSION=$(git show version:latest.txt)
+  - VERSION=$(/tmp/semver/src/semver bump build $TRAVIS_BUILD_NUMBER $LAST_VERSION)
 
 matrix:
   fast_finish: true
+
   allow_failures:
   - stage: package
   - stage: integration tests
+
   include:
   - stage: test
     os: linux
@@ -54,26 +62,30 @@ matrix:
         - fonts-droid
     before_script:
     - ./ci/setupFlutter.sh
+    - ls -la ~
     script:
     - ./flutter/bin/flutter test ./test
+    - ls -la ~
 
-  - stage: package
-    <<: *android-env
-    script: ./flutter/bin/flutter build apk --debug
   - stage: integration tests
     <<: *android-env
     before_script:
     - ./ci/android/startEmulator.sh
     - ./ci/setupFlutter.sh
     script: ./flutter/bin/flutter drive --target=test_driver/app.dart --debug
+  - stage: package debug
+    <<: *android-env
+    script: ./flutter/bin/flutter build apk --debug --build-name=$VERSION
 
-  - stage: package
-    <<: *ios-env
-    script: ./flutter/bin/flutter build ios --no-codesign --debug
   - stage: integration tests
     <<: *ios-env
     script: ./flutter/bin/flutter drive --target=test_driver/app.dart --debug
+  - stage: package debug
+    <<: *ios-env
+    script: ./flutter/bin/flutter build ios --no-codesign --debug --build-name=$VERSION
 
 cache:
   directories:
   - $HOME/.pub-cache
+#- build/app/outputs/apk/debug/app-debug.apk
+#- build/ios/iphoneos/Runner.app
