@@ -30,12 +30,6 @@ android-env: &android-env
   - git clone --depth 1 https://github.com/fsaintjacques/semver-tool /tmp/semver &> /dev/null
   - LAST_VERSION=$(git show version:latest.txt)
   - VERSION=$(/tmp/semver/src/semver bump build $TRAVIS_BUILD_NUMBER $LAST_VERSION)
-  - ls -la /usr/local/android-sdk/
-  - ls -la /usr/local/android-sdk/emulator
-  - ls -la /usr/local/android-sdk/platform-tools
-  - ls -la /usr/local/android-sdk/tools
-  - ls -la /usr/local/android-sdk/tools/bin
-  - env
 
 ios-env: &ios-env
   os: osx
@@ -77,6 +71,13 @@ matrix:
   - stage: integration tests
     <<: *android-env
     before_script:
+    - ls -la /usr/local/android-sdk/
+    - ls -la /usr/local/android-sdk/emulator
+    - ls -la /usr/local/android-sdk/platform-tools
+    - ls -la /usr/local/android-sdk/tools
+    - ls -la /usr/local/android-sdk/tools/bin
+    - env
+    - /usr/local/android-sdk/tools/bin/sdkmanager --list
     - "./ci/android/startEmulator.sh"
     - "./ci/setupFlutter.sh"
     script: "./flutter/bin/flutter drive --target=test_driver/app.dart --debug"
