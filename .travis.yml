@@ -70,8 +70,10 @@ matrix:
     before_script:
     - sdkmanager --list
 #    - echo y | sdkmanager --update
-    - sdkmanager tools
-    - ls -la $ANDROID_HOME
+#    - echo y | sdkmanager tools
+#    - ls -la $ANDROID_HOME
+#    - ls -la $ANDROID_HOME/emulator
+#    - ls -la $ANDROID_HOME/tools/bin
     - export ANDROID_SDK_ROOT=$ANDROID_HOME
     - export PATH=$ANDROID_HOME/emulator:$PATH
     - "./ci/android/startEmulator.sh"
