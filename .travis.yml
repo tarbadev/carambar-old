@@ -27,8 +27,7 @@ android-env: &android-env
       - fonts-droid
   before_script:
   - "./ci/setupFlutter.sh"
-  - git clone --depth 1 https://github.com/fsaintjacques/semver-tool /tmp/semver &>
-    /dev/null
+  - git clone --depth 1 https://github.com/fsaintjacques/semver-tool /tmp/semver &> /dev/null
   - LAST_VERSION=$(git show version:latest.txt)
   - VERSION=$(/tmp/semver/src/semver bump build $TRAVIS_BUILD_NUMBER $LAST_VERSION)
   - ls -la /usr/local/android-sdk/
@@ -45,8 +44,7 @@ ios-env: &ios-env
   before_script:
   - "./ci/ios/setupEnvironment.sh"
   - "./ci/setupFlutter.sh"
-  - git clone --depth 1 https://github.com/fsaintjacques/semver-tool /tmp/semver &>
-    /dev/null
+  - git clone --depth 1 https://github.com/fsaintjacques/semver-tool /tmp/semver &> /dev/null
   - LAST_VERSION=$(git show version:latest.txt)
   - VERSION=$(/tmp/semver/src/semver bump build $TRAVIS_BUILD_NUMBER $LAST_VERSION)
 
