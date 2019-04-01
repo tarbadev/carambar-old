@@ -26,17 +26,17 @@ android-env: &android-env
       - fonts-droid
   before_script:
   - "./ci/setupFlutter.sh"
-  - "./ci/setupBuildVersion.sh"
+  - "./ci/exportBuildVersion.sh"
 
 ios-env: &ios-env
   os: osx
   language: generic
   osx_image: xcode10.1
   before_script:
-  - git config --global http.sslVerify false
+#  - git config --global http.sslVerify false
   - "./ci/ios/setupEnvironment.sh"
   - "./ci/setupFlutter.sh"
-  - "./ci/setupBuildVersion.sh"
+  - "./ci/exportBuildVersion.sh"
 
 matrix:
   fast_finish: true
@@ -64,11 +64,10 @@ matrix:
   - stage: integration tests
     <<: *android-env
     before_script:
-    - "./ci/android/startEmulator.sh"
+    - android list targets
+#    - "./ci/android/startEmulator.sh"
     - "./ci/setupFlutter.sh"
-    - brew install tree
     script:
-    - ./flutter/bin/flutter build apk --debug --build-name=$VERSION
     - ./flutter/bin/flutter drive --target=test_driver/app.dart --debug
   - stage: package debug
     <<: *android-env
