@@ -1,4 +1,4 @@
-# Carambar [![Codemagic build status](https://api.codemagic.io/apps/5c8453508441ea77dc8ddc6a/5c8453508441ea77dc8ddc69/status_badge.svg)](https://codemagic.io/apps/5c8453508441ea77dc8ddc6a/5c8453508441ea77dc8ddc69/latest_build)
+# Carambar [![Build Status](https://travis-ci.org/tarbadev/carambar.svg?branch=master)](https://travis-ci.org/tarbadev/carambar)
 
 A life simulation game
 
