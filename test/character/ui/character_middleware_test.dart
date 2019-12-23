@@ -5,7 +5,7 @@ import 'package:carambar/character/ui/entity/display_character.dart';
 import 'package:carambar/home/ui/home_actions.dart';
 import 'package:carambar/work/domain/entity/job.dart';
 import 'package:mockito/mockito.dart';
-import 'package:test_api/test_api.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import '../../helpers/factory.dart';
 import '../../helpers/fake_application_injector.dart';

@@ -2,7 +2,7 @@ import 'package:carambar/application/ui/application_actions.dart';
 import 'package:carambar/settings/ui/settings_actions.dart';
 import 'package:carambar/settings/ui/settings_middleware.dart';
 import 'package:mockito/mockito.dart';
-import 'package:test_api/test_api.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import '../../helpers/fake_application_injector.dart';
 import '../../helpers/mock_definition.dart';

@@ -1,7 +1,7 @@
 import 'package:carambar/work/domain/entity/job.dart';
 import 'package:carambar/work/ui/entity/display_job.dart';
 import 'package:intl/intl.dart';
-import 'package:test_api/test_api.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import '../../../helpers/factory.dart';
 

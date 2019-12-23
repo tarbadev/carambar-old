@@ -1,6 +1,6 @@
 import 'package:carambar/application/ui/application_actions.dart';
 import 'package:carambar/application/ui/application_reducer.dart';
-import 'package:test_api/test_api.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Application Reducer', () {

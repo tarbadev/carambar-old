@@ -2,7 +2,7 @@ import 'package:carambar/character/domain/entity/character.dart';
 import 'package:carambar/character/ui/entity/display_character.dart';
 import 'package:carambar/character/ui/entity/display_current_job.dart';
 import 'package:carambar/character/ui/entity/display_job_experience.dart';
-import 'package:test_api/test_api.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import '../../../helpers/factory.dart';
 

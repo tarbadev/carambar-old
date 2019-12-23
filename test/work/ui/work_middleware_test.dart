@@ -3,7 +3,7 @@ import 'package:carambar/character/ui/character_actions.dart';
 import 'package:carambar/work/ui/work_actions.dart';
 import 'package:carambar/work/ui/work_middleware.dart';
 import 'package:mockito/mockito.dart';
-import 'package:test_api/test_api.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import '../../helpers/factory.dart';
 import '../../helpers/fake_application_injector.dart';

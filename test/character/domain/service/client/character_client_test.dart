@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:carambar/character/domain/service/client/character_client.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
-import 'package:test_api/test_api.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import '../../../../helpers/factory.dart';
 import '../../../../helpers/mock_definition.dart';

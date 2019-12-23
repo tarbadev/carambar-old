@@ -1,6 +1,6 @@
 import 'package:carambar/character/ui/entity/display_current_job.dart';
 import 'package:intl/intl.dart';
-import 'package:test_api/test_api.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('DisplayCurrentJob', () {

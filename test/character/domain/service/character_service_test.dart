@@ -2,7 +2,7 @@ import 'package:carambar/character/domain/entity/character.dart';
 import 'package:carambar/character/domain/service/character_service.dart';
 import 'package:carambar/work/domain/entity/job.dart';
 import 'package:mockito/mockito.dart';
-import 'package:test_api/test_api.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import '../../../helpers/factory.dart';
 import '../../../helpers/mock_definition.dart';
