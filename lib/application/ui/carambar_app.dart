@@ -42,56 +42,57 @@ class _MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<ApplicationState, _MainPageModel>(
-      converter: (Store<ApplicationState> store) => _MainPageModel.create(store),
+      converter: (Store<ApplicationState> store) =>
+          _MainPageModel.create(store),
       builder: (BuildContext context, _MainPageModel viewModel) => SafeArea(
-            child: Scaffold(
-              appBar: AppBar(
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
+        child: Scaffold(
+          appBar: AppBar(
+              title: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
                 Text(
                   viewModel.availableCash,
                   key: Key('availableCash'),
                 )
               ])),
-              body: Container(
-                padding: EdgeInsets.all(10),
-                child: viewModel.getTab(),
-              ),
-              bottomNavigationBar: BottomNavigationBar(
-                type: BottomNavigationBarType.fixed,
-                items: <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.home),
-                      title: Text(
-                        'Home',
-                        key: Key('Home__BottomNavigationHome'),
-                      )),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.person),
-                      title: Text(
-                        'Character',
-                        key: Key('Home__BottomNavigationCharacter'),
-                      )),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.work),
-                      title: Text(
-                        'Jobs',
-                        key: Key('Home__BottomNavigationWork'),
-                      )),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.settings),
-                      title: Text(
-                        'Settings',
-                        key: Key('Home__BottomNavigationSettings'),
-                      )),
-                ],
-                currentIndex: viewModel.selectedTab,
-                fixedColor: Colors.lightBlue,
-                onTap: viewModel.onTabTapped,
-              ),
-            ),
+          body: Container(
+            padding: EdgeInsets.all(10),
+            child: viewModel.getTab(),
           ),
+          bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  title: Text(
+                    'Home',
+                    key: Key('Home__BottomNavigationHome'),
+                  )),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  title: Text(
+                    'Character',
+                    key: Key('Home__BottomNavigationCharacter'),
+                  )),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.work),
+                  title: Text(
+                    'Jobs',
+                    key: Key('Home__BottomNavigationWork'),
+                  )),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.settings),
+                  title: Text(
+                    'Settings',
+                    key: Key('Home__BottomNavigationSettings'),
+                  )),
+            ],
+            currentIndex: viewModel.selectedTab,
+            fixedColor: Colors.lightBlue,
+            onTap: viewModel.onTabTapped,
+          ),
+        ),
+      ),
     );
   }
 }
@@ -113,7 +114,10 @@ class _MainPageModel {
   Widget getTab() => tabs.elementAt(selectedTab);
 
   factory _MainPageModel.create(Store<ApplicationState> store) {
-    return _MainPageModel(store.state.currentTab, (int index) => store.dispatch(SelectTabAction(index)),
-        NumberFormat.simpleCurrency().format(store.state.availableCash));
+    return _MainPageModel(
+        store.state.currentTab,
+        (int index) => store.dispatch(SelectTabAction(index)),
+        NumberFormat.simpleCurrency().format(store.state.availableCash)
+    );
   }
 }

@@ -26,3 +26,12 @@ class AddAvailableCashAction extends Equatable {
   @override
   List<Object> get props => [cash];
 }
+
+class SetAvailableCashAction extends Equatable {
+  final double cash;
+
+  SetAvailableCashAction(this.cash);
+
+  @override
+  List<Object> get props => [cash];
+}
