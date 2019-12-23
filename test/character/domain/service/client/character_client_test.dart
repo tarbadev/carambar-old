@@ -18,8 +18,15 @@ void main() {
     });
 
     test('getCharacter generates a new character and saves it', () async {
-      final file = new File('test_resources/characterServiceResponse.json');
-      final characterResponse = await file.readAsString();
+      var filePath = 'test_resources/characterServiceResponse.json';
+      var characterResponse;
+
+      try {
+        characterResponse = await File(filePath).readAsString();
+      } catch (e) {
+        characterResponse = await File("../" + filePath).readAsString();
+      }
+
       final expectedCharacter = Factory.character(age: 0, graduates: []);
 
       when(Mocks.client.get('https://randomuser.me/api/'))

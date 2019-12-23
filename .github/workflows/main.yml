@@ -1,0 +1,51 @@
+name: Carambar CI
+on: push
+jobs:
+  build-debug:
+    name: Build - Debug
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '1.12.13+hotfix.5'
+      - name: "Flutter Analyze"
+        run: flutter analyze
+      - name: "Build - Android - Debug"
+        run: flutter build apk --debug
+      - name: "Build - iOS - Debug"
+        run: flutter build ios --debug --no-codesign
+
+  test:
+    name: Unit Tests
+    needs: build-debug
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '1.12.13+hotfix.5'
+      - run: flutter test
+
+  integration-test-debug:
+    name: Integration Tests - Debug
+    needs: test
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '1.12.13+hotfix.5'
+      - name: "Run Flutter Driver tests on Android"
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 28
+          target: google_apis
+          arch: x86_64
+          script: flutter drive --target=test_driver/app.dart --debug --no-keep-app-running
+      - name: "List all simulators"
+        run: "xcrun instruments -s"
+      - name: "Start Simulator iPhone 11 Pro Max (13.1)"
+        run: xcrun simctl boot "7C0BC9A5-C77D-4A47-94D5-AB6756B00F99"
+      - name: "Run Flutter Driver tests on iOS"
+        run: flutter drive --target=test_driver/app.dart --debug --no-keep-app-running
