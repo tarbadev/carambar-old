@@ -1,5 +1,5 @@
 import 'package:carambar/character/domain/entity/character.dart';
-import 'package:test_core/test_core.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import '../../../helpers/factory.dart';
 
@@ -16,6 +16,11 @@ void main() {
       expect(Factory.character(age: 17).ageCategory, AgeCategory.teen);
 
       expect(Factory.character(age: 18).ageCategory, AgeCategory.adult);
+    });
+
+    test('grow() adds 1 year to the current Character', () {
+      expect(Factory.character(age: 0).grow(), Factory.character(age: 1));
+      expect(Factory.character(age: 8).grow(), Factory.character(age: 9));
     });
   });
 }

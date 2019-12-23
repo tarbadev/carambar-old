@@ -17,16 +17,15 @@ class CharacterService {
 
   Future<Character> incrementAge() async {
     Character character = await _characterRepository.readCharacter();
-    character.age++;
+    var newCharacter = character.grow();
 
-    await _characterRepository.save(character);
+    await _characterRepository.save(newCharacter);
 
-    return character;
+    return newCharacter;
   }
 
   Future<Character> generateCharacter() async {
     var character = await _characterClient.generateCharacter();
-    character.age = 0;
 
     await _characterRepository.save(character);
 

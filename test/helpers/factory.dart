@@ -71,19 +71,30 @@ abstract class Factory {
 
   static const List<String> _factoryEventList = ['Some event'];
 
-  static AgeEvent ageEvent({int age: 0, List<String> events: _factoryEventList}) {
+  static AgeEvent ageEvent(
+      {int age: 0, List<String> events: _factoryEventList}) {
     return AgeEvent(age: age, events: events);
   }
 
-  static DisplayAgeEvent displayAgeEvent({int id: 0, String age: 'Age 0', List<String> events: _factoryEventList}) {
+  static DisplayAgeEvent displayAgeEvent(
+      {int id: 0,
+      String age: 'Age 0',
+      List<String> events: _factoryEventList}) {
     return DisplayAgeEvent(id, age, events);
   }
 
-  static List<DisplayAgeEvent> ageEventsToDisplayAgeEvents(List<AgeEvent> ageEvents) =>
-      ageEvents.map((ageEvent) => DisplayAgeEvent.fromAgeEvent(ageEvent)).toList();
+  static List<DisplayAgeEvent> ageEventsToDisplayAgeEvents(
+          List<AgeEvent> ageEvents) =>
+      ageEvents
+          .map((ageEvent) => DisplayAgeEvent.fromAgeEvent(ageEvent))
+          .toList();
 
-  static const List<Requirement> _factoryRequirements = [Requirement.HighSchool];
-  static const List<PersonalityTrait> _factoryPersonalityTraits = [PersonalityTrait.Charismatic];
+  static const List<Requirement> _factoryRequirements = [
+    Requirement.HighSchool
+  ];
+  static const List<PersonalityTrait> _factoryPersonalityTraits = [
+    PersonalityTrait.Charismatic
+  ];
 
   static Job job({
     int id: 1,
@@ -91,11 +102,19 @@ abstract class Factory {
     List<PersonalityTrait> personalityTraits: _factoryPersonalityTraits,
   }) {
     return Job(
-        id: id, name: 'Supervisor', salary: 15000, requirements: requirements, personalityTraits: personalityTraits);
+        id: id,
+        name: 'Supervisor',
+        salary: 15000,
+        requirements: requirements,
+        personalityTraits: personalityTraits);
   }
 
-  static const List<String> _factoryDisplayRequirements = ['\u2022 High School completed successfully'];
-  static const List<String> _factoryDisplayPersonalityTraits = ['\u2022 Charismatic'];
+  static const List<String> _factoryDisplayRequirements = [
+    '\u2022 High School completed successfully'
+  ];
+  static const List<String> _factoryDisplayPersonalityTraits = [
+    '\u2022 Charismatic'
+  ];
 
   static DisplayJob displayJob({
     String name: 'Supervisor',
@@ -107,11 +126,13 @@ abstract class Factory {
     return DisplayJob(id, name, requirements, salary, personalityTraits);
   }
 
-  static JobExperience jobExperience({String name: 'Supervisor', int experience: 2}) {
+  static JobExperience jobExperience(
+      {String name: 'Supervisor', int experience: 2}) {
     return JobExperience(name: name, experience: experience);
   }
 
-  static DisplayJobExperience displayJobExperience({String name: 'Supervisor', String experience: '2 years'}) {
+  static DisplayJobExperience displayJobExperience(
+      {String name: 'Supervisor', String experience: '2 years'}) {
     return DisplayJobExperience(name: name, experience: experience);
   }
 
@@ -126,9 +147,14 @@ abstract class Factory {
         salary: salary,
       );
 
-  static DisplayCurrentJob displayCurrentJob() => DisplayCurrentJob(
-        1,
-        'Supervisor',
-        '\$15,000/year',
+  static DisplayCurrentJob displayCurrentJob({
+    int id: 1,
+    String name: 'Supervisor',
+    String salary: '\$15,000/year',
+  }) =>
+      DisplayCurrentJob(
+        id,
+        name,
+        salary,
       );
 }

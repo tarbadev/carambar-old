@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class JobExperience extends Equatable {
   final String name;
-  int experience;
+  final int experience;
 
   JobExperience({this.name, this.experience});
 

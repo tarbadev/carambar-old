@@ -15,7 +15,7 @@ class WorkTabHelper extends BaseViewDriver {
     try {
       var index = 0;
       do {
-        jobs.add(await getTextByKey('Work__Jobs__${index++}', timeout: Duration(milliseconds: 500)));
+        jobs.add(await getTextByKey('Work__Jobs__title__${index++}', timeout: Duration(milliseconds: 500)));
       } while (true);
     } catch (_) {}
 

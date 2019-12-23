@@ -9,12 +9,13 @@ import '../../helpers/factory.dart';
 import '../../helpers/storage/storage.dart';
 
 void main() {
-  setUpAll(() async {
-    TestWidgetsFlutterBinding.ensureInitialized();
+  TestWidgetsFlutterBinding.ensureInitialized();
 
+  setUpAll(() async {
     final directory = await Directory.systemTemp.createTemp();
 
-    const MethodChannel('plugins.flutter.io/path_provider').setMockMethodCallHandler((MethodCall methodCall) async {
+    const MethodChannel('plugins.flutter.io/path_provider')
+        .setMockMethodCallHandler((MethodCall methodCall) async {
       if (methodCall.method == 'getApplicationDocumentsDirectory') {
         return directory.path;
       }
@@ -38,7 +39,9 @@ void main() {
         Factory.jobExperience(name: 'Teacher', experience: 3),
       ];
       final character = Factory.character(
-          graduates: [Graduate.MiddleSchool], currentJob: Factory.currentJob(), jobHistory: jobHistory);
+          graduates: [Graduate.MiddleSchool],
+          currentJob: Factory.currentJob(),
+          jobHistory: jobHistory);
 
       await characterRepository.save(character);
 
@@ -67,7 +70,8 @@ void main() {
     });
 
     test('save saves character to file when job is null', () async {
-      final character = Factory.character(graduates: [Graduate.MiddleSchool], currentJob: null, jobHistory: []);
+      final character = Factory.character(
+          graduates: [Graduate.MiddleSchool], currentJob: null, jobHistory: []);
 
       await characterRepository.save(character);
 
@@ -79,14 +83,16 @@ void main() {
           '"age":18,' +
           '"graduates":["Graduate.MiddleSchool"],' +
           '"currentJob":null,'
-          '"jobHistory":[]'
-          '}';
+              '"jobHistory":[]'
+              '}';
 
       expect(await characterStorage.read(), expectedJsonString);
     });
 
     test('readCharacter reads character from file', () async {
-      final character = Factory.character(currentJob: Factory.currentJob(), jobHistory: [Factory.jobExperience()]);
+      final character = Factory.character(
+          currentJob: Factory.currentJob(),
+          jobHistory: [Factory.jobExperience()]);
       await characterStorage.store(character);
 
       Character returnedCharacter = await characterRepository.readCharacter();
