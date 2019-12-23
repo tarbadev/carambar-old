@@ -52,5 +52,8 @@ class Character extends Equatable {
     this.graduates,
     this.currentJob,
     this.jobHistory,
-  }) : super([firstName, lastName, gender, origin, age, graduates, currentJob, jobHistory]);
+  });
+
+  @override
+  List<Object> get props => [firstName, lastName, gender, origin, age, graduates, currentJob, jobHistory];
 }

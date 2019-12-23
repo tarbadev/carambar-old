@@ -10,6 +10,8 @@ class Job extends Equatable {
   final List<Requirement> requirements;
   final List<PersonalityTrait> personalityTraits;
 
-  Job({this.id, this.name, this.requirements, this.salary, this.personalityTraits: const []})
-      : super([id, name, requirements, salary, personalityTraits]);
+  Job({this.id, this.name, this.requirements, this.salary, this.personalityTraits: const []});
+
+  @override
+  List<Object> get props => [id, name, requirements, salary, personalityTraits];
 }

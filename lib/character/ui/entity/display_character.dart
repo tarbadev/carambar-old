@@ -28,7 +28,10 @@ class DisplayCharacter extends Equatable {
     this.graduates,
     this.currentJob,
     this.jobHistory,
-  ) : super([name, gender, age, origin, ageCategory, school, graduates, currentJob, jobHistory]);
+  );
+
+  @override
+  List<Object> get props => [name, gender, age, origin, ageCategory, school, graduates, currentJob, jobHistory];
 
   static DisplayCharacter fromCharacter(Character character) {
     return DisplayCharacter(

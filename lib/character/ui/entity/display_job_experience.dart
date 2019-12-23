@@ -5,7 +5,7 @@ class DisplayJobExperience extends Equatable {
   final String name;
   final String experience;
 
-  DisplayJobExperience({this.name, this.experience}): super([name, experience]);
+  DisplayJobExperience({this.name, this.experience});
 
   static DisplayJobExperience fromJobExperience(JobExperience jobExperience) {
     return DisplayJobExperience(
@@ -13,4 +13,7 @@ class DisplayJobExperience extends Equatable {
       experience: '${jobExperience.experience} years',
     );
   }
+
+  @override
+  List<Object> get props => [name, experience];
 }

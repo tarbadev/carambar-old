@@ -4,7 +4,14 @@ import 'package:equatable/equatable.dart';
 class SetAgeEventsAction extends Equatable {
   final List<DisplayAgeEvent> displayAgeEvents;
 
-  SetAgeEventsAction(this.displayAgeEvents): super([displayAgeEvents]);
+  SetAgeEventsAction(this.displayAgeEvents);
+
+  @override
+  List<Object> get props => [displayAgeEvents];
 }
 
-class IncrementAgeAction extends Equatable {}
+class IncrementAgeAction extends Equatable {
+
+  @override
+  List<Object> get props => [];
+}

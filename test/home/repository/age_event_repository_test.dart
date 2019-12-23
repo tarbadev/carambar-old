@@ -1,12 +1,14 @@
 import 'package:carambar/home/domain/entity/age_event.dart';
 import 'package:carambar/home/repository/age_event_repository.dart';
-import 'package:test_api/test_api.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import '../../helpers/factory.dart';
 import '../../helpers/storage/storage.dart';
 
 void main() {
   setUpAll(() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
     await Storage.setupStorage();
   });
 

@@ -10,7 +10,7 @@ class CurrentJobEntity extends Equatable {
   final String name;
   final double salary;
 
-  CurrentJobEntity(this.id, this.name, this.salary): super([id, name, salary]);
+  CurrentJobEntity(this.id, this.name, this.salary);
 
   factory CurrentJobEntity.fromCurrentJob(CurrentJob currentJob) =>
       CurrentJobEntity(currentJob.id, currentJob.name, currentJob.salary);
@@ -23,4 +23,7 @@ class CurrentJobEntity extends Equatable {
 
   factory CurrentJobEntity.fromJson(Map<String, dynamic> jsonData) => _$CurrentJobEntityFromJson(jsonData);
   Map<String, dynamic> toJson() => _$CurrentJobEntityToJson(this);
+
+  @override
+  List<Object> get props => [id, name, salary];
 }

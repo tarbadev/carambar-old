@@ -9,7 +9,7 @@ class JobExperienceEntity extends Equatable {
   final String name;
   final int experience;
 
-  JobExperienceEntity(this.name, this.experience) : super([name, experience]);
+  JobExperienceEntity(this.name, this.experience);
 
   factory JobExperienceEntity.fromJson(Map<String, dynamic> json) => _$JobExperienceEntityFromJson(json);
 
@@ -19,4 +19,7 @@ class JobExperienceEntity extends Equatable {
       JobExperienceEntity(jobExperience.name, jobExperience.experience);
 
   JobExperience toJobExperience() => JobExperience(name: name, experience: experience);
+
+  @override
+  List<Object> get props => [name, experience];
 }

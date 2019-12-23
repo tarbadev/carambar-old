@@ -57,9 +57,8 @@ matrix:
         packages:
         - libstdc++6
         - fonts-droid
-    #    before_script: "./ci/setupFlutter.sh"
-    #    script: "./flutter/bin/flutter test ./test"
-    script: skip
+    before_script: "./ci/setupFlutter.sh"
+    script: "./flutter/bin/flutter test ./test"
 
   - stage: integration tests
     <<: *android-env

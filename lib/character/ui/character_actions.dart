@@ -5,11 +5,17 @@ import 'package:equatable/equatable.dart';
 class SetCharacterAction extends Equatable {
   final DisplayCharacter displayCharacter;
 
-  SetCharacterAction(this.displayCharacter): super([displayCharacter]);
+  SetCharacterAction(this.displayCharacter);
+
+  @override
+  List<Object> get props => [displayCharacter];
 }
 
 class SetCharacterJobAction extends Equatable {
   final Job job;
 
-  SetCharacterJobAction(this.job): super([job]);
+  SetCharacterJobAction(this.job);
+
+  @override
+  List<Object> get props => [job];
 }

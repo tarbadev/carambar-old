@@ -3,13 +3,15 @@ import 'dart:io';
 import 'package:carambar/character/domain/entity/character.dart';
 import 'package:carambar/character/repository/character_repository.dart';
 import 'package:flutter/services.dart';
-import 'package:test_api/test_api.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import '../../helpers/factory.dart';
 import '../../helpers/storage/storage.dart';
 
 void main() {
   setUpAll(() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
     final directory = await Directory.systemTemp.createTemp();
 
     const MethodChannel('plugins.flutter.io/path_provider').setMockMethodCallHandler((MethodCall methodCall) async {

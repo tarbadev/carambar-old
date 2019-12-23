@@ -9,7 +9,7 @@ class DisplayJob extends Equatable {
   final List<String> requirements;
   final List<String> personalityTraits;
 
-  DisplayJob(this.id, this.name, this.requirements, this.salary, this.personalityTraits) : super([id, name, requirements, salary, personalityTraits]);
+  DisplayJob(this.id, this.name, this.requirements, this.salary, this.personalityTraits);
 
   factory DisplayJob.fromJob(Job job) {
     return DisplayJob(
@@ -35,4 +35,7 @@ class DisplayJob extends Equatable {
     PersonalityTrait.Patient: 'Patient',
     PersonalityTrait.Benevolent: 'Benevolent',
   };
+
+  @override
+  List<Object> get props => [id, name, requirements, salary, personalityTraits];
 }

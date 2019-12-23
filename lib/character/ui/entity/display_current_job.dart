@@ -7,7 +7,7 @@ class DisplayCurrentJob extends Equatable {
   final String name;
   final String salary;
 
-  DisplayCurrentJob(this.id, this.name, this.salary) : super([id, name, salary]);
+  DisplayCurrentJob(this.id, this.name, this.salary);
 
   factory DisplayCurrentJob.fromCurrentJob(CurrentJob currentJob) {
     if (currentJob == null) {
@@ -24,4 +24,7 @@ class DisplayCurrentJob extends Equatable {
       '${NumberFormat.simpleCurrency(decimalDigits: 0).format(currentJob.salary)}/year',
     );
   }
+
+  @override
+  List<Object> get props => [id, name, salary];
 }
