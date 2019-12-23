@@ -19,7 +19,8 @@ void main() {
     expect(workTabView.availableJobs, [expectedJob.name]);
   });
 
-  testWidgets('Work Tab does not display the available jobs when availableJobs is null', (WidgetTester tester) async {
+  testWidgets('Work Tab does not display the available jobs when availableJobs is null',
+      (WidgetTester tester) async {
     var workTabView = WorkTabView(tester);
 
     await tester.pumpWidget(buildTestableWidget(WorkTab(), availableJobs: null));
@@ -27,19 +28,22 @@ void main() {
     expect(workTabView.isVisible, isFalse);
   });
 
-  testWidgets('Work Tab dispatches an GetAvailableJobsAction when availableJobs is empty', (WidgetTester tester) async {
+  testWidgets('Work Tab dispatches an GetAvailableJobsAction when availableJobs is empty',
+      (WidgetTester tester) async {
     await tester.pumpWidget(buildTestableWidget(WorkTab(), availableJobs: []));
 
     verify(Mocks.store.dispatch(GetAvailableJobsAction()));
   });
 
-  testWidgets('Work Tab dispatches an GetAvailableJobsAction when availableJobs is null', (WidgetTester tester) async {
+  testWidgets('Work Tab dispatches an GetAvailableJobsAction when availableJobs is null',
+      (WidgetTester tester) async {
     await tester.pumpWidget(buildTestableWidget(WorkTab(), availableJobs: null));
 
     verify(Mocks.store.dispatch(GetAvailableJobsAction()));
   });
 
-  testWidgets('Work Tab does not dispatch an GetAvailableJobsAction when availableJobs is not empty',
+  testWidgets(
+      'Work Tab does not dispatch an GetAvailableJobsAction when availableJobs is not empty',
       (WidgetTester tester) async {
     await tester.pumpWidget(buildTestableWidget(WorkTab(), availableJobs: [Factory.displayJob()]));
 
@@ -70,7 +74,32 @@ void main() {
     expect(workTabView.jobDialog.personalityTraits, expectedPersonalityTraits);
   });
 
-  testWidgets('Work Tab dispatches an ApplyJobAction on apply button click', (WidgetTester tester) async {
+  testWidgets('Work Tab not displays job dialog when current job is the same',
+      (WidgetTester tester) async {
+    var workTabView = WorkTabView(tester);
+    var expectedJobRequirements = ['Lots of job requirements'];
+    var expectedPersonalityTraits = ['A few personality traits'];
+    var expectedJobs = [
+      Factory.displayJob(
+          name: 'Supervisor',
+          salary: '\$15,000/year',
+          requirements: expectedJobRequirements,
+          personalityTraits: expectedPersonalityTraits,
+          id: 1)
+    ];
+    var currentJob = Factory.displayCurrentJob(name: 'Supervisor', salary: '\$15,000/year', id: 1);
+    var character = Factory.displayCharacter(currentJob: currentJob);
+
+    await tester.pumpWidget(
+        buildTestableWidget(WorkTab(), availableJobs: expectedJobs, displayCharacter: character));
+    await workTabView.tapOnAvailableJob('Supervisor');
+    await tester.pump();
+
+    expect(workTabView.jobDialog.isVisible, isFalse);
+  });
+
+  testWidgets('Work Tab dispatches an ApplyJobAction on apply button click',
+      (WidgetTester tester) async {
     var workTabView = WorkTabView(tester);
     var jobId = 1;
     var expectedJobs = [Factory.displayJob(name: 'Supervisor', id: jobId)];

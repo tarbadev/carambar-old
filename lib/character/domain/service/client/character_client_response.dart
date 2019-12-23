@@ -99,6 +99,7 @@ class CharacterClientModel {
       graduates: [],
       currentJob: null,
       jobHistory: [],
+      age: 0
     );
   }
 }

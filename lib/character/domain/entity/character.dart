@@ -13,9 +13,9 @@ class Character extends Equatable {
   final String gender;
   final Nationality origin;
   final List<Graduate> graduates;
-  int age;
-  CurrentJob currentJob;
-  List<JobExperience> jobHistory;
+  final int age;
+  final CurrentJob currentJob;
+  final List<JobExperience> jobHistory;
 
   AgeCategory get ageCategory {
     if (age >= 18)
@@ -55,5 +55,26 @@ class Character extends Equatable {
   });
 
   @override
-  List<Object> get props => [firstName, lastName, gender, origin, age, graduates, currentJob, jobHistory];
+  List<Object> get props => [
+        firstName,
+        lastName,
+        gender,
+        origin,
+        age,
+        graduates,
+        currentJob,
+        jobHistory
+      ];
+
+  Character grow() {
+    return Character(
+        firstName: this.firstName,
+        lastName: this.lastName,
+        gender: this.gender,
+        origin: this.origin,
+        age: this.age + 1,
+        graduates: this.graduates,
+        currentJob: this.currentJob,
+        jobHistory: this.jobHistory);
+  }
 }

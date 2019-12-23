@@ -37,13 +37,13 @@ void main() {
 
     test('incrementAge gets the character, increments age and saves it', () async {
       final character = Factory.character(age: 0);
+      final expectedCharacter = Factory.character(age: 1);
 
       when(Mocks.characterRepository.readCharacter()).thenAnswer((_) async => character);
 
-      character.age = 1;
+      expect(await characterService.incrementAge(), expectedCharacter);
 
-      expect(await characterService.incrementAge(), character);
-      verify(Mocks.characterRepository.save(character));
+      verify(Mocks.characterRepository.save(expectedCharacter));
     });
 
     test('deleteCharacter calls the repository to delete the character', () async {

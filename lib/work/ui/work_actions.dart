@@ -16,15 +16,6 @@ class GetAvailableJobsAction extends Equatable {
   List<Object> get props => [];
 }
 
-class DisplayJobRequirementsDialogAction extends Equatable {
-  final String job;
-
-  DisplayJobRequirementsDialogAction(this.job);
-
-  @override
-  List<Object> get props => [job];
-}
-
 class ApplyJobAction extends Equatable {
   final int jobId;
 

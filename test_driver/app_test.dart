@@ -310,6 +310,19 @@ void main() {
         expect(await homeTab.ageEvent('18').events,
             contains('You\'re now a Supervisor'));
       });
+
+      test('should not display popup when trying to apply for same job',
+          () async {
+        await driver.waitUntilNoTransientCallbacks();
+
+        await workTab.goTo();
+
+        expect(await workTab.isAvailableJobsVisible, isTrue);
+
+        await workTab.tapOnAvailableJob('Supervisor');
+
+        expect(await workTab.jobDialog.isVisible, isFalse);
+      });
     });
 
     group('Character Tab', () {

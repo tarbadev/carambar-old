@@ -16,11 +16,11 @@ Widget buildTestableWidget(
   List<DisplayJob> availableJobs: const [],
 }) {
   Mocks.setupMockStore(
-      displayAgeEvents: displayAgeEvents,
-      isEndLifeDialogVisible: isEndLifeDialogVisible,
-      displayCharacter: displayCharacter,
-      availableCash: availableCash,
-      availableJobs: availableJobs,
+    displayAgeEvents: displayAgeEvents,
+    isEndLifeDialogVisible: isEndLifeDialogVisible,
+    displayCharacter: displayCharacter,
+    availableCash: availableCash,
+    availableJobs: availableJobs,
   );
 
   return MediaQuery(

@@ -1,3 +1,4 @@
+import 'package:carambar/work/ui/widget/job_list_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -17,14 +18,14 @@ class WorkTabView extends BaseViewTester {
 
     for(var i = 0; i < itemCount; i++) {
       try {
-        jobs.add(getTextByKey('Work__Jobs__$i'));
+        jobs.add(getTextByKey('Work__Jobs__title__$i'));
       } on StateError catch (_) {}
     }
 
     return jobs;
   }
 
-  Future<void> tapOnAvailableJob(String job) async => await tapOnButtonByWidgetAndText(ListTile, job);
+  Future<void> tapOnAvailableJob(String job) async => await tapOnButtonByWidgetAndText(JobListItem, job);
 }
 
 class JobDialogElement extends BaseViewTester {
