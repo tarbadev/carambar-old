@@ -147,6 +147,7 @@ void main() {
         await homeTab.tapOnAgeButton();
         await homeTab.tapOnAgeButton();
 
+        await driver.waitUntilNoTransientCallbacks();
         expect(await homeTab.ageEvent('6').isVisible, isTrue);
         expect(await homeTab.ageEvent('6').events,
             contains('You just started Primary School'));
@@ -161,6 +162,7 @@ void main() {
         await homeTab.tapOnAgeButton();
         await homeTab.tapOnAgeButton();
 
+        await driver.waitUntilNoTransientCallbacks();
         expect(await homeTab.ageEvent('11').isVisible, isTrue);
         expect(await homeTab.ageEvent('11').events,
             contains('You just started Middle School'));
