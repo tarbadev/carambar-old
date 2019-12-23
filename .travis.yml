@@ -1,104 +1,207 @@
 stages:
-  - test
-  - integration tests
-  - package debug
+#  - test
+  - Integration Testing
+#  - package debug
 
-android-env: &android-env
-  os: linux
-  language: android
-  licenses:
-    - android-sdk-license-.+
-  android:
-    components:
-      - tools
-      - platform-tools
-      - build-tools-28.0.3
-      - android-28
-      - sys-img-armeabi-v7a-google_apis-25
-  jdk: oraclejdk8
-  sudo: false
-  addons:
-    apt:
-      sources:
-        - ubuntu-toolchain-r-test
-      packages:
-        - libstdc++6
-        - fonts-droid
-  before_script:
-    - "./ci/setupFlutter.sh"
-    - "./ci/exportBuildVersion.sh"
+#android-env: &android-env
+#  os: linux
+#  language: android
+#  licenses:
+#    - android-sdk-license-.+
+#  android:
+#    components:
+#      - tools
+#      - platform-tools
+#      - build-tools-28.0.3
+#      - android-28
+#      - sys-img-armeabi-v7a-google_apis-25
+#  jdk: oraclejdk8
+#  sudo: false
+#  addons:
+#    apt:
+#      sources:
+#        - ubuntu-toolchain-r-test
+#      packages:
+#        - lib32stdc++6
+#        - libstdc++6
+#        - curl
+#  before_script:
+#    - "./ci/setupFlutter.sh"
+#    - "./ci/exportBuildVersion.sh"
 
 ios-env: &ios-env
   os: osx
   language: generic
-  osx_image: xcode10.1
+  osx_image: xcode10.2
   before_script:
     - git config --global http.sslVerify false
     - "./ci/ios/setupEnvironment.sh"
-    - "./ci/setupFlutter.sh"
+#    - "./ci/setupFlutter.sh"
     - "./ci/exportBuildVersion.sh"
 
 matrix:
   fast_finish: true
 
-  allow_failures:
-    - stage: integration tests
-    - stage: package debug
-
   include:
-    - stage: test
-      os: linux
-      language: generic
-      sudo: false
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - lib32stdc++6
-            - libstdc++6
-            - curl
-      before_script: "./ci/setupFlutter.sh"
-      script: "./flutter/bin/flutter test ./test"
+#    - stage: test
+#      os: linux
+#      language: generic
+#      sudo: false
+#      addons:
+#        apt:
+#          sources:
+#            - ubuntu-toolchain-r-test
+#          packages:
+#            - lib32stdc++6
+#            - libstdc++6
+#            - curl
+#      before_script: "./ci/setupFlutter.sh"
+#      script: skip
+    #      script: "./flutter/bin/flutter test ./test"
 
-    - stage: integration tests
-      <<: *android-env
-      before_script:
-        - android list targets
-        - "./ci/setupFlutter.sh"
-        #    - "./ci/android/startEmulator.sh"
-        - echo no | android create avd --force -n test -t android-25 --abi google_apis/armeabi-v7a
-        - ./flutter/bin/flutter emulators
-        - ./flutter/bin/flutter emulators --launch test
-        - "./ci/exportBuildVersion.sh"
-      script: ./flutter/bin/flutter drive --target=test_driver/app.dart --debug
-    - stage: package debug
-      <<: *android-env
-      script: ./flutter/bin/flutter build apk --debug --build-name=$VERSION
-      deploy:
-        skip_cleanup: true
-        provider: releases
-        api_key:
-          secure: mf+M+I+tS+s0RCmeqIsW67Y125hLBtIOhoTqp5ydG9fC6fdGvkHam9q63kpLL47GDHR+HEHJQiEvn3y7p3cwI/0SW1+F3/2+awuHFcTuMgpsdPFcvfdPONiAb4BRLuiS7tUbY/f1fLQK7eNNApZ5vatE/QbIjkWAGh1qxHqq6jXL0j+unIIZhNXFy4cJOkR6lUVGMmoyJz0l5Ow05qADS08uOEqCM2YG5mlKYUc+Nw5ddrs0vVV0SVUxxDGikkMjhWpcLhruDKVeRm2z+dDCntZZ18js2wq4WdlebvqhOL55QkQsVaRYR9YNLEqbfaDFoGAUMJtCExPecf2iGV2PrzK0cty32MnhwE69kiyKZ06GZ/5IYkRXX3oFW1PhjDITLEAGktZSyAfRJY8eYtuAyMeALlFv/AnkGwCraA6fx3xnqgy3FGhyDmkOVKAh2DBiDanE3zJkwdbiDi5czUqKggcsXG8/kid7/6ILD8ucMjOb8lW0O3DjUTUVCuDSiFV5DMLirFmEA81t1oJS/m4htmOeV4o5k2dj5PHsW/v1iZBPjCDtvD7gjr6XRhLzh2wtavxkEw1KFtFvzvrHziYSRzXpJhsgh1toHs6r7VGHQdvOQCL7VIcU6qsvMBYloYlkHPWlP7XBiB8obe+wCkm0rdIV0d71KqVUIfMKKlWE3ag=
-        file: build/app/outputs/apk/debug/app-debug.apk
-        draft: true
+    - stage: Integration Testing
+      os: osx
+      osx_image: xcode10.2
+      env: running driver on emulator
+      # Run integration tests on android
+      before_install:
+        - export HOMEBREW_NO_AUTO_UPDATE=1
+        - java --version
+        - brew cask uninstall java
+        - brew tap homebrew/cask-versions
+        - brew cask install adoptopenjdk8
+        # Install the Android SDK Dependency.
+        - export ANDROID_HOME=$PWD/android-sdk
+        - wget -q https://dl.google.com/android/repository/sdk-tools-darwin-4333796.zip -O android-sdk-tools.zip
+        - unzip -q android-sdk-tools.zip -d ${ANDROID_HOME}
+        - rm android-sdk-tools.zip
+        - PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
+        # Silence warning.
+        - mkdir -p ~/.android
+        - touch ~/.android/repositories.cfg
+        # Accept licenses before installing components, no need to echo y for each component
+        - yes | sdkmanager --licenses
+        - sdkmanager --list
+        # Platform tools
+        - sdkmanager "emulator" "tools" "platform-tools" > /dev/null
+#        - sdkmanager "extras;intel;Hardware_Accelerated_Execution_Manager" > /dev/null
+#        - sudo $ANDROID_HOME/extras/intel/Hardware_Accelerated_Execution_Manager/silent_install.sh
+#        - sudo kextload –b com.intel.kext.intelhaxm
+        # install older packages (for emulator)
+        - EMULATOR_API_LEVEL=23
+        - sdkmanager "build-tools;28.0.3" "platforms;android-${EMULATOR_API_LEVEL}" > /dev/null
 
-    - stage: integration tests
-      <<: *ios-env
-      script: ./flutter/bin/flutter drive --target=test_driver/app.dart --debug
-    - stage: package debug
-      <<: *ios-env
-      script: ./flutter/bin/flutter build ios --no-codesign --debug --build-name=$VERSION
-      before_deploy:
-        - zip -r build/ios/iphoneos/Runner.zip build/ios/iphoneos/Runner.app
-      deploy:
-        skip_cleanup: true
-        provider: releases
-        api_key:
-          secure: mf+M+I+tS+s0RCmeqIsW67Y125hLBtIOhoTqp5ydG9fC6fdGvkHam9q63kpLL47GDHR+HEHJQiEvn3y7p3cwI/0SW1+F3/2+awuHFcTuMgpsdPFcvfdPONiAb4BRLuiS7tUbY/f1fLQK7eNNApZ5vatE/QbIjkWAGh1qxHqq6jXL0j+unIIZhNXFy4cJOkR6lUVGMmoyJz0l5Ow05qADS08uOEqCM2YG5mlKYUc+Nw5ddrs0vVV0SVUxxDGikkMjhWpcLhruDKVeRm2z+dDCntZZ18js2wq4WdlebvqhOL55QkQsVaRYR9YNLEqbfaDFoGAUMJtCExPecf2iGV2PrzK0cty32MnhwE69kiyKZ06GZ/5IYkRXX3oFW1PhjDITLEAGktZSyAfRJY8eYtuAyMeALlFv/AnkGwCraA6fx3xnqgy3FGhyDmkOVKAh2DBiDanE3zJkwdbiDi5czUqKggcsXG8/kid7/6ILD8ucMjOb8lW0O3DjUTUVCuDSiFV5DMLirFmEA81t1oJS/m4htmOeV4o5k2dj5PHsW/v1iZBPjCDtvD7gjr6XRhLzh2wtavxkEw1KFtFvzvrHziYSRzXpJhsgh1toHs6r7VGHQdvOQCL7VIcU6qsvMBYloYlkHPWlP7XBiB8obe+wCkm0rdIV0d71KqVUIfMKKlWE3ag=
-        file: build/ios/iphoneos/Runner.zip
-        draft: true
+        # Create and start emulator.
+        - ANDROID_ABI="google_apis;armeabi-v7a"
+        - sdkmanager "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI" > /dev/null
+        - sdkmanager --list
+        - adb devices
+        - echo no | avdmanager create avd --force -n test -k "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI"
+        - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader &
 
-#cache:
-#  directories:
-#  - "./flutter/.pub-cache"
+        # install pre-compiled flutter
+        - ./ci/setupFlutter.sh
+
+        # Wait for emulator to finish startup.
+#        - ./script/android-wait-for-emulator.sh
+#        - adb shell input keyevent 82
+        - export PATH="$PATH":"$HOME/.pub-cache/bin"
+        - export PATH=$PWD/flutter/bin:$PWD/flutter/bin/cache/dart-sdk/bin:$PATH
+        - flutter devices
+      script: flutter drive --target=test_driver/app.dart --debug
+#    - stage: Integration Testing
+#      os: osx
+#      osx_image: xcode10.2
+#      env: running driver on simulator
+#      # Run integration tests on ios
+#      before_install:
+#        - open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app
+#        - export HOMEBREW_NO_AUTO_UPDATE=1
+#        - brew install libimobiledevice
+#        - brew install ideviceinstaller
+#        - brew install ios-deploy
+#        - brew install cocoapods || echo 'ignore exit(1)'
+#        - brew link --overwrite cocoapods
+#
+#        # install pre-compiled flutter
+#        - ./ci/setupFlutter.sh
+#        - export PATH="$PATH":"$HOME/.pub-cache/bin"
+#        - export PATH=$PWD/flutter/bin:$PWD/flutter/bin/cache/dart-sdk/bin:$PATH
+#      script: travis_retry flutter drive --target=test_driver/app.dart --debug
+
+#    - stage: integration tests
+#      <<: *ios-env
+#      sudo: true
+#      dist: trusty
+#      language: generic
+#      os: linux
+#      before_install:
+#        - sudo apt-get install -y --no-install-recommends lib32stdc++6 libstdc++6 > /dev/null
+#        # Install the Android SDK Dependency.
+#        - export ANDROID_HOME=/opt/android-sdk-linux
+#        - cd /opt
+#        - wget -q https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip -O android-sdk-tools.zip
+#        - unzip -q android-sdk-tools.zip -d ${ANDROID_HOME}
+#        - rm android-sdk-tools.zip
+#        - cd -
+#        - PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
+#        # Silence warning.
+#        - mkdir -p ~/.android
+#        - touch ~/.android/repositories.cfg
+#        # Accept licenses before installing components, no need to echo y for each component
+#        - yes | sdkmanager --licenses
+#        # Platform tools
+#        - sdkmanager "emulator" "tools" "platform-tools" > /dev/null
+#        - sdkmanager --list
+#        # install older packages (for emulator)
+#        - sdkmanager "build-tools;28.0.3" "platforms;android-25" > /dev/null
+#
+#        # Create and start emulator.
+#        - EMULATOR_API_LEVEL=25
+#        - ANDROID_ABI="google_apis;armeabi-v7a"
+#        - sdkmanager "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI" > /dev/null
+#        - sdkmanager --list
+#        - echo no | avdmanager create avd --force -n test -k "system-images;android-$EMULATOR_API_LEVEL;$ANDROID_ABI"
+#        - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader &
+#
+#        # install pre-compiled flutter
+#        - FLUTTER_CHANNEL=stable
+#        - FLUTTER_VERSION=1.12.13+hotfix.5-${FLUTTER_CHANNEL}
+#        - wget --quiet --output-document=flutter.tar.xz https://storage.googleapis.com/flutter_infra/releases/${FLUTTER_CHANNEL}/linux/flutter_linux_v${FLUTTER_VERSION}.tar.xz
+#        - tar xf flutter.tar.xz > /dev/null
+#        - rm flutter.tar.xz
+#        - export PATH="$PATH":"$HOME/.pub-cache/bin"
+#        - export PATH=$PWD/flutter/bin:$PWD/flutter/bin/cache/dart-sdk/bin:$PATH
+#        - flutter doctor -v
+#
+#        # Wait for emulator to finish startup.
+#        - ./script/android-wait-for-emulator.sh
+#        - adb shell input keyevent 82
+#        - flutter devices
+#      script: travis_retry flutter drive --target=test_driver/app.dart --debug
+#    - stage: package debug
+#      <<: *android-env
+#      script: ./flutter/bin/flutter build apk --debug --build-name=$VERSION
+#      deploy:
+#        skip_cleanup: true
+#        provider: releases
+#        api_key:
+#          secure: mf+M+I+tS+s0RCmeqIsW67Y125hLBtIOhoTqp5ydG9fC6fdGvkHam9q63kpLL47GDHR+HEHJQiEvn3y7p3cwI/0SW1+F3/2+awuHFcTuMgpsdPFcvfdPONiAb4BRLuiS7tUbY/f1fLQK7eNNApZ5vatE/QbIjkWAGh1qxHqq6jXL0j+unIIZhNXFy4cJOkR6lUVGMmoyJz0l5Ow05qADS08uOEqCM2YG5mlKYUc+Nw5ddrs0vVV0SVUxxDGikkMjhWpcLhruDKVeRm2z+dDCntZZ18js2wq4WdlebvqhOL55QkQsVaRYR9YNLEqbfaDFoGAUMJtCExPecf2iGV2PrzK0cty32MnhwE69kiyKZ06GZ/5IYkRXX3oFW1PhjDITLEAGktZSyAfRJY8eYtuAyMeALlFv/AnkGwCraA6fx3xnqgy3FGhyDmkOVKAh2DBiDanE3zJkwdbiDi5czUqKggcsXG8/kid7/6ILD8ucMjOb8lW0O3DjUTUVCuDSiFV5DMLirFmEA81t1oJS/m4htmOeV4o5k2dj5PHsW/v1iZBPjCDtvD7gjr6XRhLzh2wtavxkEw1KFtFvzvrHziYSRzXpJhsgh1toHs6r7VGHQdvOQCL7VIcU6qsvMBYloYlkHPWlP7XBiB8obe+wCkm0rdIV0d71KqVUIfMKKlWE3ag=
+#        file: build/app/outputs/apk/debug/app-debug.apk
+#        draft: true
+#
+#    - stage: integration tests
+#      <<: *ios-env
+#      script: ./flutter/bin/flutter drive --target=test_driver/app.dart --debug
+#    - stage: package debug
+#      <<: *ios-env
+#      script: ./flutter/bin/flutter build ios --no-codesign --debug --build-name=$VERSION
+#      before_deploy:
+#        - zip -r build/ios/iphoneos/Runner.zip build/ios/iphoneos/Runner.app
+#      deploy:
+#        skip_cleanup: true
+#        provider: releases
+#        api_key:
+#          secure: mf+M+I+tS+s0RCmeqIsW67Y125hLBtIOhoTqp5ydG9fC6fdGvkHam9q63kpLL47GDHR+HEHJQiEvn3y7p3cwI/0SW1+F3/2+awuHFcTuMgpsdPFcvfdPONiAb4BRLuiS7tUbY/f1fLQK7eNNApZ5vatE/QbIjkWAGh1qxHqq6jXL0j+unIIZhNXFy4cJOkR6lUVGMmoyJz0l5Ow05qADS08uOEqCM2YG5mlKYUc+Nw5ddrs0vVV0SVUxxDGikkMjhWpcLhruDKVeRm2z+dDCntZZ18js2wq4WdlebvqhOL55QkQsVaRYR9YNLEqbfaDFoGAUMJtCExPecf2iGV2PrzK0cty32MnhwE69kiyKZ06GZ/5IYkRXX3oFW1PhjDITLEAGktZSyAfRJY8eYtuAyMeALlFv/AnkGwCraA6fx3xnqgy3FGhyDmkOVKAh2DBiDanE3zJkwdbiDi5czUqKggcsXG8/kid7/6ILD8ucMjOb8lW0O3DjUTUVCuDSiFV5DMLirFmEA81t1oJS/m4htmOeV4o5k2dj5PHsW/v1iZBPjCDtvD7gjr6XRhLzh2wtavxkEw1KFtFvzvrHziYSRzXpJhsgh1toHs6r7VGHQdvOQCL7VIcU6qsvMBYloYlkHPWlP7XBiB8obe+wCkm0rdIV0d71KqVUIfMKKlWE3ag=
+#        file: build/ios/iphoneos/Runner.zip
+#        draft: true
