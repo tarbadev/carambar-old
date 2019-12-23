@@ -30,508 +30,572 @@ void main() {
     }
   });
 
-  group('All Tabs', () {
-    test('should display the cash available', () async {
-      await driver.waitUntilNoTransientCallbacks();
+  group('Init -', () {
+    group('All Tabs', () {
+      test('should display the cash available', () async {
+        await driver.waitUntilNoTransientCallbacks();
 
-      await homeTab.goTo();
-      expect(await homeTab.getAvailableCash(), '\$0.00');
+        await homeTab.goTo();
+        expect(await homeTab.getAvailableCash(), '\$0.00');
 
-      await characterTab.goTo();
-      expect(await characterTab.getAvailableCash(), '\$0.00');
+        await characterTab.goTo();
+        expect(await characterTab.getAvailableCash(), '\$0.00');
 
-      await settingsTab.goTo();
-      expect(await settingsTab.getAvailableCash(), '\$0.00');
+        await settingsTab.goTo();
+        expect(await settingsTab.getAvailableCash(), '\$0.00');
+      });
+    });
+
+    group('Character Tab', () {
+      test('should display the generated character informations', () async {
+        await driver.waitUntilNoTransientCallbacks();
+
+        await characterTab.goTo();
+
+        expect(await characterTab.name, isNotEmpty);
+        expect(await characterTab.gender, isNotEmpty);
+        expect(await characterTab.age, '0');
+        expect(await characterTab.ageCategory, 'Baby');
+        expect(await characterTab.origin, isNotEmpty);
+        expect(await characterTab.school, 'None');
+      });
+    });
+
+    group('Home Tab', () {
+      test('should display an event with the generated character', () async {
+        await driver.waitUntilNoTransientCallbacks();
+
+        await characterTab.goTo();
+        var characterName = await characterTab.name;
+        var characterGender =
+            await characterTab.gender == 'Male' ? 'boy' : 'girl';
+        var characterOrigin = await characterTab.origin;
+        var expectedEvents = [
+          'You just started your life!',
+          'You\'re a baby $characterGender named $characterName from $characterOrigin'
+        ];
+
+        await homeTab.goTo();
+
+        var ageEventView = homeTab.ageEvent('0');
+        expect(await ageEventView.isVisible, isTrue);
+        expect(await ageEventView.age, 'Age 0');
+        expect(await ageEventView.events, expectedEvents);
+      });
     });
   });
 
-  group('Character Tab', () {
-    test('should display the generated character informations', () async {
-      await driver.waitUntilNoTransientCallbacks();
+  group('Childhood -', () {
+    group('Home Tab', () {
+      test('should display an age button that changes the age of the character',
+          () async {
+        await driver.waitUntilNoTransientCallbacks();
 
-      await characterTab.goTo();
+        await characterTab.goTo();
 
-      expect(await characterTab.name, isNotEmpty);
-      expect(await characterTab.gender, isNotEmpty);
-      expect(await characterTab.age, '0');
-      expect(await characterTab.ageCategory, 'Baby');
-      expect(await characterTab.origin, isNotEmpty);
-      expect(await characterTab.school, 'None');
+        expect(await characterTab.age, '0');
+
+        await homeTab.goTo();
+        await homeTab.tapOnAgeButton();
+        await characterTab.goTo();
+
+        expect(await characterTab.age, '1');
+      });
+
+      test(
+          'should change the age and age category of the character when tapping on the age button',
+          () async {
+        await driver.waitUntilNoTransientCallbacks();
+
+        expect(await characterTab.age, '1');
+        await homeTab.goTo();
+        await homeTab.tapOnAgeButton();
+        await characterTab.goTo();
+
+        expect(await characterTab.age, '2');
+        expect(await characterTab.ageCategory, 'Baby');
+
+        await homeTab.goTo();
+        await homeTab.tapOnAgeButton();
+        await characterTab.goTo();
+
+        expect(await characterTab.age, '3');
+        expect(await characterTab.ageCategory, 'Child');
+      });
+
+      test('should add an event when tapping on the age button', () async {
+        await driver.waitUntilNoTransientCallbacks();
+        await homeTab.goTo();
+
+        expect(await homeTab.ageEvent('3').isVisible, isTrue);
+        expect(await homeTab.ageEvent('3').age, 'Age 3');
+      });
+
+      test('should change school when aging and add event', () async {
+        await driver.waitUntilNoTransientCallbacks();
+        await homeTab.goTo();
+
+        expect(await homeTab.ageEvent('3').isVisible, isTrue);
+        expect(await homeTab.ageEvent('3').events,
+            contains('You just started Kindergarten'));
+
+        await characterTab.goTo();
+        expect(await characterTab.school, 'Kindergarten');
+
+        await homeTab.goTo();
+        await homeTab.tapOnAgeButton();
+        await homeTab.tapOnAgeButton();
+        await homeTab.tapOnAgeButton();
+
+        expect(await homeTab.ageEvent('6').isVisible, isTrue);
+        expect(await homeTab.ageEvent('6').events,
+            contains('You just started Primary School'));
+
+        await characterTab.goTo();
+        expect(await characterTab.school, 'Primary School');
+
+        await homeTab.goTo();
+        await homeTab.tapOnAgeButton();
+        await homeTab.tapOnAgeButton();
+        await homeTab.tapOnAgeButton();
+        await homeTab.tapOnAgeButton();
+        await homeTab.tapOnAgeButton();
+
+        expect(await homeTab.ageEvent('11').isVisible, isTrue);
+        expect(await homeTab.ageEvent('11').events,
+            contains('You just started Middle School'));
+
+        await characterTab.goTo();
+        expect(await characterTab.school, 'Middle School');
+      });
+
+      test(
+          'should change school when aging and add event and graduate after Middle School',
+          () async {
+        await driver.waitUntilNoTransientCallbacks();
+        await homeTab.goTo();
+
+        await homeTab.tapOnAgeButton();
+        await homeTab.tapOnAgeButton();
+        await homeTab.tapOnAgeButton();
+        await homeTab.tapOnAgeButton();
+
+        expect(await homeTab.ageEvent('15').isVisible, isTrue);
+        expect(await homeTab.ageEvent('15').events,
+            contains('You graduated from Middle School'));
+
+        await characterTab.goTo();
+        expect(await characterTab.graduates, ['Middle School']);
+      });
+    });
+
+    group('Work Tab', () {
+      test('should display a list of jobs', () async {
+        await driver.waitUntilNoTransientCallbacks();
+
+        await workTab.goTo();
+
+        expect(await workTab.isAvailableJobsVisible, isTrue);
+        expect(await workTab.availableJobs, [
+          'Supervisor',
+          'Substitute Teacher',
+          'Teacher',
+          'Counselor',
+          'Associate Director',
+          'Director'
+        ]);
+      });
+
+      test('should display the jobs requirements on available job tap',
+          () async {
+        await driver.waitUntilNoTransientCallbacks();
+
+        await workTab.goTo();
+
+        expect(await workTab.isAvailableJobsVisible, isTrue);
+
+        await workTab.tapOnAvailableJob('Supervisor');
+
+        expect(await workTab.jobDialog.isVisible, isTrue);
+        expect(await workTab.jobDialog.title, 'Supervisor');
+        expect(await workTab.jobDialog.salary, '\$15,000/year');
+        expect(await workTab.jobDialog.requirements,
+            ['\u2022 High School completed successfully']);
+
+        await workTab.jobDialog.close();
+        expect(await workTab.jobDialog.isVisible, isFalse);
+      });
+
+      test('should display an event when failed to apply for a job', () async {
+        await driver.waitUntilNoTransientCallbacks();
+
+        await workTab.goTo();
+
+        expect(await workTab.isAvailableJobsVisible, isTrue);
+
+        await workTab.tapOnAvailableJob('Supervisor');
+
+        expect(await workTab.jobDialog.isVisible, isTrue);
+        await workTab.jobDialog.apply();
+        expect(await workTab.jobDialog.isVisible, isFalse);
+
+        expect(await homeTab.isVisible, isTrue);
+        expect(await homeTab.ageEvent('15').isVisible, isTrue);
+        expect(
+            await homeTab.ageEvent('15').events,
+            contains(
+                'You failed to apply for this new job because you don\'t meet all the requirements'));
+      });
+    });
+
+    group('Home Tab', () {
+      test(
+          'should change school when aging and add event and graduate after High School',
+          () async {
+        await driver.waitUntilNoTransientCallbacks();
+        await homeTab.goTo();
+
+        expect(await homeTab.ageEvent('15').isVisible, isTrue);
+        expect(await homeTab.ageEvent('15').events,
+            contains('You just started High School'));
+
+        await characterTab.goTo();
+        expect(await characterTab.school, 'High School');
+
+        await homeTab.goTo();
+        await homeTab.tapOnAgeButton();
+        await homeTab.tapOnAgeButton();
+        await homeTab.tapOnAgeButton();
+
+        expect(await homeTab.ageEvent('18').isVisible, isTrue);
+        expect(await homeTab.ageEvent('18').events,
+            contains('You graduated from High School'));
+
+        await characterTab.goTo();
+        expect(await characterTab.graduates, ['Middle School', 'High School']);
+      });
+
+      test('should finish studies when aging to 18', () async {
+        await driver.waitUntilNoTransientCallbacks();
+        await homeTab.goTo();
+
+        expect(await homeTab.ageEvent('18').isVisible, isTrue);
+        expect(await homeTab.ageEvent('18').events,
+            contains('You finished your studies'));
+
+        await characterTab.goTo();
+        expect(await characterTab.school, 'None');
+      });
     });
   });
 
-  group('Home Tab', () {
-    test('should display an event with the generated character', () async {
-      await driver.waitUntilNoTransientCallbacks();
+  group('Adult life -', () {
+    group('Work Tab', () {
+      test('should display an event when applying successfully for a job',
+          () async {
+        await driver.waitUntilNoTransientCallbacks();
 
-      await characterTab.goTo();
-      var characterName = await characterTab.name;
-      var characterGender = await characterTab.gender == 'Male' ? 'boy' : 'girl';
-      var characterOrigin = await characterTab.origin;
-      var expectedEvents = [
-        'You just started your life!',
-        'You\'re a baby $characterGender named $characterName from $characterOrigin'
-      ];
+        await workTab.goTo();
 
-      await homeTab.goTo();
+        expect(await workTab.isAvailableJobsVisible, isTrue);
 
-      var ageEventView = homeTab.ageEvent('0');
-      expect(await ageEventView.isVisible, isTrue);
-      expect(await ageEventView.age, 'Age 0');
-      expect(await ageEventView.events, expectedEvents);
+        await workTab.tapOnAvailableJob('Supervisor');
+
+        expect(await workTab.jobDialog.isVisible, isTrue);
+        await workTab.jobDialog.apply();
+        expect(await workTab.jobDialog.isVisible, isFalse);
+
+        expect(await homeTab.isVisible, isTrue);
+        expect(await homeTab.ageEvent('18').isVisible, isTrue);
+        expect(await homeTab.ageEvent('18').events,
+            contains('You\'re now a Supervisor'));
+      });
     });
 
-    test('should display an age button that changes the age of the character', () async {
-      await driver.waitUntilNoTransientCallbacks();
+    group('Character Tab', () {
+      test('should display the current job and salary for Supervisor',
+          () async {
+        await driver.waitUntilNoTransientCallbacks();
 
-      await characterTab.goTo();
+        await characterTab.goTo();
 
-      expect(await characterTab.age, '0');
-
-      await homeTab.goTo();
-      await homeTab.tapOnAgeButton();
-      await characterTab.goTo();
-
-      expect(await characterTab.age, '1');
+        expect(await characterTab.job, 'Supervisor');
+        expect(await characterTab.salary, '\$15,000/year');
+      });
     });
 
-    test('should change the age and age category of the character when tapping on the age button', () async {
-      await driver.waitUntilNoTransientCallbacks();
+    group('Home Tab', () {
+      test('should update the balance when aging', () async {
+        await driver.waitUntilNoTransientCallbacks();
+        await homeTab.goTo();
 
-      expect(await characterTab.age, '1');
-      await homeTab.goTo();
-      await homeTab.tapOnAgeButton();
-      await characterTab.goTo();
+        await homeTab.tapOnAgeButton();
+        expect(await homeTab.getAvailableCash(), '\$15,000.00');
+        expect(await homeTab.ageEvent('19').isVisible, isTrue);
 
-      expect(await characterTab.age, '2');
-      expect(await characterTab.ageCategory, 'Baby');
-
-      await homeTab.goTo();
-      await homeTab.tapOnAgeButton();
-      await characterTab.goTo();
-
-      expect(await characterTab.age, '3');
-      expect(await characterTab.ageCategory, 'Child');
+        await homeTab.tapOnAgeButton();
+        expect(await homeTab.getAvailableCash(), '\$30,000.00');
+        expect(await homeTab.ageEvent('20').isVisible, isTrue);
+      });
     });
 
-    test('should add an event when tapping on the age button', () async {
-      await driver.waitUntilNoTransientCallbacks();
-      await homeTab.goTo();
+    group('Character Tab', () {
+      test('should display the job history', () async {
+        await driver.waitUntilNoTransientCallbacks();
 
-      expect(await homeTab.ageEvent('3').isVisible, isTrue);
-      expect(await homeTab.ageEvent('3').age, 'Age 3');
+        await characterTab.goTo();
+
+        expect(await characterTab.jobHistory(0).name, 'Supervisor');
+        expect(await characterTab.jobHistory(0).experience, '2 years');
+      });
     });
 
-    test('should change school when aging and add event', () async {
-      await driver.waitUntilNoTransientCallbacks();
-      await homeTab.goTo();
+    group('Work Tab', () {
+      test(
+          'should display an event when applying successfully for a Substitute Teacher job',
+          () async {
+        await driver.waitUntilNoTransientCallbacks();
+        await homeTab.goTo();
 
-      expect(await homeTab.ageEvent('3').isVisible, isTrue);
-      expect(await homeTab.ageEvent('3').events, contains('You just started Kindergarten'));
+        await homeTab.tapOnAgeButton();
 
-      await characterTab.goTo();
-      expect(await characterTab.school, 'Kindergarten');
+        await characterTab.goTo();
 
-      await homeTab.goTo();
-      await homeTab.tapOnAgeButton();
-      await homeTab.tapOnAgeButton();
-      await homeTab.tapOnAgeButton();
+        expect(await characterTab.jobHistory(0).name, 'Supervisor');
+        expect(await characterTab.jobHistory(0).experience, '3 years');
 
-      expect(await homeTab.ageEvent('6').isVisible, isTrue);
-      expect(await homeTab.ageEvent('6').events, contains('You just started Primary School'));
+        await workTab.goTo();
+        expect(await workTab.isAvailableJobsVisible, isTrue);
 
-      await characterTab.goTo();
-      expect(await characterTab.school, 'Primary School');
+        await workTab.tapOnAvailableJob('Substitute Teacher');
 
-      await homeTab.goTo();
-      await homeTab.tapOnAgeButton();
-      await homeTab.tapOnAgeButton();
-      await homeTab.tapOnAgeButton();
-      await homeTab.tapOnAgeButton();
-      await homeTab.tapOnAgeButton();
+        expect(await workTab.jobDialog.isVisible, isTrue);
+        expect(await workTab.jobDialog.title, 'Substitute Teacher');
+        expect(await workTab.jobDialog.salary, '\$18,000/year');
+        expect(await workTab.jobDialog.requirements,
+            ['\u2022 Supervisor for 3+ years']);
+        expect(await workTab.jobDialog.personalityTraits,
+            ['\u2022 Patient', '\u2022 Benevolent']);
 
-      expect(await homeTab.ageEvent('11').isVisible, isTrue);
-      expect(await homeTab.ageEvent('11').events, contains('You just started Middle School'));
+        await workTab.jobDialog.apply();
+        expect(await workTab.jobDialog.isVisible, isFalse);
 
-      await characterTab.goTo();
-      expect(await characterTab.school, 'Middle School');
-    });
+        expect(await homeTab.isVisible, isTrue);
+        expect(await homeTab.ageEvent('21').isVisible, isTrue);
+        expect(await homeTab.ageEvent('21').events,
+            contains('You\'re now a Substitute Teacher'));
 
-    test('should change school when aging and add event and graduate after Middle School', () async {
-      await driver.waitUntilNoTransientCallbacks();
-      await homeTab.goTo();
+        await characterTab.goTo();
 
-      await homeTab.tapOnAgeButton();
-      await homeTab.tapOnAgeButton();
-      await homeTab.tapOnAgeButton();
-      await homeTab.tapOnAgeButton();
+        expect(await characterTab.job, 'Substitute Teacher');
+        expect(await characterTab.salary, '\$18,000/year');
+      });
 
-      expect(await homeTab.ageEvent('15').isVisible, isTrue);
-      expect(await homeTab.ageEvent('15').events, contains('You graduated from Middle School'));
+      test(
+          'should display an event when applying successfully for a Teacher job',
+          () async {
+        await driver.waitUntilNoTransientCallbacks();
+        await homeTab.goTo();
 
-      await characterTab.goTo();
-      expect(await characterTab.graduates, ['Middle School']);
-    });
-  });
+        await homeTab.tapOnAgeButton();
 
-  group('Work Tab', () {
-    test('should display a list of jobs', () async {
-      await driver.waitUntilNoTransientCallbacks();
+        await characterTab.goTo();
 
-      await workTab.goTo();
+        expect(await characterTab.jobHistory(0).name, 'Substitute Teacher');
+        expect(await characterTab.jobHistory(0).experience, '1 years');
 
-      expect(await workTab.isAvailableJobsVisible, isTrue);
-      expect(await workTab.availableJobs, ['Supervisor', 'Substitute Teacher', 'Teacher', 'Counselor', 'Associate Director', 'Director']);
-    });
+        await workTab.goTo();
+        expect(await workTab.isAvailableJobsVisible, isTrue);
 
-    test('should display the jobs requirements on available job tap', () async {
-      await driver.waitUntilNoTransientCallbacks();
+        await workTab.tapOnAvailableJob('Teacher');
 
-      await workTab.goTo();
+        expect(await workTab.jobDialog.isVisible, isTrue);
+        expect(await workTab.jobDialog.title, 'Teacher');
+        expect(await workTab.jobDialog.salary, '\$20,000/year');
+        expect(await workTab.jobDialog.requirements,
+            ['\u2022 Substitute Teacher for 1+ years']);
+        expect(await workTab.jobDialog.personalityTraits,
+            ['\u2022 Patient', '\u2022 Benevolent']);
 
-      expect(await workTab.isAvailableJobsVisible, isTrue);
+        await workTab.jobDialog.apply();
+        expect(await workTab.jobDialog.isVisible, isFalse);
 
-      await workTab.tapOnAvailableJob('Supervisor');
+        expect(await homeTab.isVisible, isTrue);
+        expect(await homeTab.ageEvent('22').isVisible, isTrue);
+        expect(await homeTab.ageEvent('22').events,
+            contains('You\'re now a Teacher'));
 
-      expect(await workTab.jobDialog.isVisible, isTrue);
-      expect(await workTab.jobDialog.title, 'Supervisor');
-      expect(await workTab.jobDialog.salary, '\$15,000/year');
-      expect(await workTab.jobDialog.requirements, ['\u2022 High School completed successfully']);
+        await characterTab.goTo();
 
-      await workTab.jobDialog.close();
-      expect(await workTab.jobDialog.isVisible, isFalse);
-    });
+        expect(await characterTab.job, 'Teacher');
+        expect(await characterTab.salary, '\$20,000/year');
+      });
 
-    test('should display an event when failed to apply for a job', () async {
-      await driver.waitUntilNoTransientCallbacks();
+      test(
+          'should display an event when applying successfully for a Counselor job',
+          () async {
+        await driver.waitUntilNoTransientCallbacks();
+        await homeTab.goTo();
 
-      await workTab.goTo();
+        await homeTab.tapOnAgeButton();
+        await homeTab.tapOnAgeButton();
+        await homeTab.tapOnAgeButton();
+        await homeTab.tapOnAgeButton();
+        await homeTab.tapOnAgeButton();
 
-      expect(await workTab.isAvailableJobsVisible, isTrue);
+        await characterTab.goTo();
 
-      await workTab.tapOnAvailableJob('Supervisor');
+        expect(await characterTab.jobHistory(0).name, 'Teacher');
+        expect(await characterTab.jobHistory(0).experience, '5 years');
 
-      expect(await workTab.jobDialog.isVisible, isTrue);
-      await workTab.jobDialog.apply();
-      expect(await workTab.jobDialog.isVisible, isFalse);
+        await workTab.goTo();
+        expect(await workTab.isAvailableJobsVisible, isTrue);
 
-      expect(await homeTab.isVisible, isTrue);
-      expect(await homeTab.ageEvent('15').isVisible, isTrue);
-      expect(await homeTab.ageEvent('15').events,
-          contains('You failed to apply for this new job because you don\'t meet all the requirements'));
-    });
-  });
+        await workTab.tapOnAvailableJob('Counselor');
 
-  group('Home Tab', () {
-    test('should change school when aging and add event and graduate after High School', () async {
-      await driver.waitUntilNoTransientCallbacks();
-      await homeTab.goTo();
+        expect(await workTab.jobDialog.isVisible, isTrue);
+        expect(await workTab.jobDialog.title, 'Counselor');
+        expect(await workTab.jobDialog.salary, '\$25,000/year');
+        expect(await workTab.jobDialog.requirements,
+            ['\u2022 Teacher for 5+ years']);
 
-      expect(await homeTab.ageEvent('15').isVisible, isTrue);
-      expect(await homeTab.ageEvent('15').events, contains('You just started High School'));
+        await workTab.jobDialog.apply();
+        expect(await workTab.jobDialog.isVisible, isFalse);
 
-      await characterTab.goTo();
-      expect(await characterTab.school, 'High School');
+        expect(await homeTab.isVisible, isTrue);
+        expect(await homeTab.ageEvent('27').isVisible, isTrue);
+        expect(await homeTab.ageEvent('27').events,
+            contains('You\'re now a Counselor'));
 
-      await homeTab.goTo();
-      await homeTab.tapOnAgeButton();
-      await homeTab.tapOnAgeButton();
-      await homeTab.tapOnAgeButton();
+        await characterTab.goTo();
 
-      expect(await homeTab.ageEvent('18').isVisible, isTrue);
-      expect(await homeTab.ageEvent('18').events, contains('You graduated from High School'));
+        expect(await characterTab.job, 'Counselor');
+        expect(await characterTab.salary, '\$25,000/year');
+      });
 
-      await characterTab.goTo();
-      expect(await characterTab.graduates, ['Middle School', 'High School']);
-    });
+      test(
+          'should display an event when applying successfully for a Associate Director job',
+          () async {
+        await driver.waitUntilNoTransientCallbacks();
+        await homeTab.goTo();
 
-    test('should finish studies when aging to 18', () async {
-      await driver.waitUntilNoTransientCallbacks();
-      await homeTab.goTo();
+        await homeTab.tapOnAgeButton();
+        await homeTab.tapOnAgeButton();
+        await homeTab.tapOnAgeButton();
+        await homeTab.tapOnAgeButton();
+        await homeTab.tapOnAgeButton();
 
-      expect(await homeTab.ageEvent('18').isVisible, isTrue);
-      expect(await homeTab.ageEvent('18').events, contains('You finished your studies'));
+        await characterTab.goTo();
 
-      await characterTab.goTo();
-      expect(await characterTab.school, 'None');
-    });
-  });
+        expect(await characterTab.jobHistory(0).name, 'Counselor');
+        expect(await characterTab.jobHistory(0).experience, '5 years');
 
-  group('Work Tab', () {
-    test('should display an event when applying successfully for a job', () async {
-      await driver.waitUntilNoTransientCallbacks();
+        await workTab.goTo();
+        expect(await workTab.isAvailableJobsVisible, isTrue);
 
-      await workTab.goTo();
+        await workTab.tapOnAvailableJob('Associate Director');
 
-      expect(await workTab.isAvailableJobsVisible, isTrue);
+        expect(await workTab.jobDialog.isVisible, isTrue);
+        expect(await workTab.jobDialog.title, 'Associate Director');
+        expect(await workTab.jobDialog.salary, '\$35,000/year');
+        expect(await workTab.jobDialog.requirements,
+            ['\u2022 Counselor for 5+ years']);
+        expect(
+            await workTab.jobDialog.personalityTraits, ['\u2022 Charismatic']);
 
-      await workTab.tapOnAvailableJob('Supervisor');
+        await workTab.jobDialog.apply();
+        expect(await workTab.jobDialog.isVisible, isFalse);
 
-      expect(await workTab.jobDialog.isVisible, isTrue);
-      await workTab.jobDialog.apply();
-      expect(await workTab.jobDialog.isVisible, isFalse);
+        expect(await homeTab.isVisible, isTrue);
+        expect(await homeTab.ageEvent('32').isVisible, isTrue);
+        expect(await homeTab.ageEvent('32').events,
+            contains('You\'re now a Associate Director'));
 
-      expect(await homeTab.isVisible, isTrue);
-      expect(await homeTab.ageEvent('18').isVisible, isTrue);
-      expect(await homeTab.ageEvent('18').events, contains('You\'re now a Supervisor'));
-    });
-  });
+        await characterTab.goTo();
 
-  group('Character Tab', () {
-    test('should display the current job and salary for Supervisor', () async {
-      await driver.waitUntilNoTransientCallbacks();
+        expect(await characterTab.job, 'Associate Director');
+        expect(await characterTab.salary, '\$35,000/year');
+      });
 
-      await characterTab.goTo();
+      test(
+          'should display an event when applying successfully for a Director job',
+          () async {
+        await driver.waitUntilNoTransientCallbacks();
+        await homeTab.goTo();
 
-      expect(await characterTab.job, 'Supervisor');
-      expect(await characterTab.salary, '\$15,000/year');
-    });
-  });
+        await homeTab.tapOnAgeButton();
+        await homeTab.tapOnAgeButton();
+        await homeTab.tapOnAgeButton();
+        await homeTab.tapOnAgeButton();
+        await homeTab.tapOnAgeButton();
 
-  group('Home Tab', () {
-    test('should update the balance when aging', () async {
-      await driver.waitUntilNoTransientCallbacks();
-      await homeTab.goTo();
+        await characterTab.goTo();
 
-      await homeTab.tapOnAgeButton();
-      expect(await homeTab.getAvailableCash(), '\$15,000.00');
-      expect(await homeTab.ageEvent('19').isVisible, isTrue);
+        expect(await characterTab.jobHistory(0).name, 'Associate Director');
+        expect(await characterTab.jobHistory(0).experience, '5 years');
 
-      await homeTab.tapOnAgeButton();
-      expect(await homeTab.getAvailableCash(), '\$30,000.00');
-      expect(await homeTab.ageEvent('20').isVisible, isTrue);
-    });
-  });
+        await workTab.goTo();
+        expect(await workTab.isAvailableJobsVisible, isTrue);
 
-  group('Character Tab', () {
-    test('should display the job history', () async {
-      await driver.waitUntilNoTransientCallbacks();
+        await workTab.tapOnAvailableJob('Director');
 
-      await characterTab.goTo();
+        expect(await workTab.jobDialog.isVisible, isTrue);
+        expect(await workTab.jobDialog.title, 'Director');
+        expect(await workTab.jobDialog.salary, '\$50,000/year');
+        expect(await workTab.jobDialog.requirements,
+            ['\u2022 Associate Director for 5+ years']);
+        expect(
+            await workTab.jobDialog.personalityTraits, ['\u2022 Charismatic']);
 
-      expect(await characterTab.jobHistory(0).name, 'Supervisor');
-      expect(await characterTab.jobHistory(0).experience, '2 years');
-    });
-  });
+        await workTab.jobDialog.apply();
+        expect(await workTab.jobDialog.isVisible, isFalse);
 
-  group('Work Tab', () {
-    test('should display an event when applying successfully for a Substitute Teacher job', () async {
-      await driver.waitUntilNoTransientCallbacks();
-      await homeTab.goTo();
+        expect(await homeTab.isVisible, isTrue);
+        expect(await homeTab.ageEvent('37').isVisible, isTrue);
+        expect(await homeTab.ageEvent('37').events,
+            contains('You\'re now a Director'));
 
-      await homeTab.tapOnAgeButton();
+        await characterTab.goTo();
 
-      await characterTab.goTo();
-
-      expect(await characterTab.jobHistory(0).name, 'Supervisor');
-      expect(await characterTab.jobHistory(0).experience, '3 years');
-
-      await workTab.goTo();
-      expect(await workTab.isAvailableJobsVisible, isTrue);
-
-      await workTab.tapOnAvailableJob('Substitute Teacher');
-
-      expect(await workTab.jobDialog.isVisible, isTrue);
-      expect(await workTab.jobDialog.title, 'Substitute Teacher');
-      expect(await workTab.jobDialog.salary, '\$18,000/year');
-      expect(await workTab.jobDialog.requirements, ['\u2022 Supervisor for 3+ years']);
-      expect(await workTab.jobDialog.personalityTraits, ['\u2022 Patient', '\u2022 Benevolent']);
-
-      await workTab.jobDialog.apply();
-      expect(await workTab.jobDialog.isVisible, isFalse);
-
-      expect(await homeTab.isVisible, isTrue);
-      expect(await homeTab.ageEvent('21').isVisible, isTrue);
-      expect(await homeTab.ageEvent('21').events, contains('You\'re now a Substitute Teacher'));
-
-      await characterTab.goTo();
-
-      expect(await characterTab.job, 'Substitute Teacher');
-      expect(await characterTab.salary, '\$18,000/year');
-    });
-
-    test('should display an event when applying successfully for a Teacher job', () async {
-      await driver.waitUntilNoTransientCallbacks();
-      await homeTab.goTo();
-
-      await homeTab.tapOnAgeButton();
-
-      await characterTab.goTo();
-
-      expect(await characterTab.jobHistory(0).name, 'Substitute Teacher');
-      expect(await characterTab.jobHistory(0).experience, '1 years');
-
-      await workTab.goTo();
-      expect(await workTab.isAvailableJobsVisible, isTrue);
-
-      await workTab.tapOnAvailableJob('Teacher');
-
-      expect(await workTab.jobDialog.isVisible, isTrue);
-      expect(await workTab.jobDialog.title, 'Teacher');
-      expect(await workTab.jobDialog.salary, '\$20,000/year');
-      expect(await workTab.jobDialog.requirements, ['\u2022 Substitute Teacher for 1+ years']);
-      expect(await workTab.jobDialog.personalityTraits, ['\u2022 Patient', '\u2022 Benevolent']);
-
-      await workTab.jobDialog.apply();
-      expect(await workTab.jobDialog.isVisible, isFalse);
-
-      expect(await homeTab.isVisible, isTrue);
-      expect(await homeTab.ageEvent('22').isVisible, isTrue);
-      expect(await homeTab.ageEvent('22').events, contains('You\'re now a Teacher'));
-
-      await characterTab.goTo();
-
-      expect(await characterTab.job, 'Teacher');
-      expect(await characterTab.salary, '\$20,000/year');
-    });
-
-    test('should display an event when applying successfully for a Counselor job', () async {
-      await driver.waitUntilNoTransientCallbacks();
-      await homeTab.goTo();
-
-      await homeTab.tapOnAgeButton();
-      await homeTab.tapOnAgeButton();
-      await homeTab.tapOnAgeButton();
-      await homeTab.tapOnAgeButton();
-      await homeTab.tapOnAgeButton();
-
-      await characterTab.goTo();
-
-      expect(await characterTab.jobHistory(0).name, 'Teacher');
-      expect(await characterTab.jobHistory(0).experience, '5 years');
-
-      await workTab.goTo();
-      expect(await workTab.isAvailableJobsVisible, isTrue);
-
-      await workTab.tapOnAvailableJob('Counselor');
-
-      expect(await workTab.jobDialog.isVisible, isTrue);
-      expect(await workTab.jobDialog.title, 'Counselor');
-      expect(await workTab.jobDialog.salary, '\$25,000/year');
-      expect(await workTab.jobDialog.requirements, ['\u2022 Teacher for 5+ years']);
-
-      await workTab.jobDialog.apply();
-      expect(await workTab.jobDialog.isVisible, isFalse);
-
-      expect(await homeTab.isVisible, isTrue);
-      expect(await homeTab.ageEvent('27').isVisible, isTrue);
-      expect(await homeTab.ageEvent('27').events, contains('You\'re now a Counselor'));
-
-      await characterTab.goTo();
-
-      expect(await characterTab.job, 'Counselor');
-      expect(await characterTab.salary, '\$25,000/year');
-    });
-
-    test('should display an event when applying successfully for a Associate Director job', () async {
-      await driver.waitUntilNoTransientCallbacks();
-      await homeTab.goTo();
-
-      await homeTab.tapOnAgeButton();
-      await homeTab.tapOnAgeButton();
-      await homeTab.tapOnAgeButton();
-      await homeTab.tapOnAgeButton();
-      await homeTab.tapOnAgeButton();
-
-      await characterTab.goTo();
-
-      expect(await characterTab.jobHistory(0).name, 'Counselor');
-      expect(await characterTab.jobHistory(0).experience, '5 years');
-
-      await workTab.goTo();
-      expect(await workTab.isAvailableJobsVisible, isTrue);
-
-      await workTab.tapOnAvailableJob('Associate Director');
-
-      expect(await workTab.jobDialog.isVisible, isTrue);
-      expect(await workTab.jobDialog.title, 'Associate Director');
-      expect(await workTab.jobDialog.salary, '\$35,000/year');
-      expect(await workTab.jobDialog.requirements, ['\u2022 Counselor for 5+ years']);
-      expect(await workTab.jobDialog.personalityTraits, ['\u2022 Charismatic']);
-
-      await workTab.jobDialog.apply();
-      expect(await workTab.jobDialog.isVisible, isFalse);
-
-      expect(await homeTab.isVisible, isTrue);
-      expect(await homeTab.ageEvent('32').isVisible, isTrue);
-      expect(await homeTab.ageEvent('32').events, contains('You\'re now a Associate Director'));
-
-      await characterTab.goTo();
-
-      expect(await characterTab.job, 'Associate Director');
-      expect(await characterTab.salary, '\$35,000/year');
-    });
-
-    test('should display an event when applying successfully for a Director job', () async {
-      await driver.waitUntilNoTransientCallbacks();
-      await homeTab.goTo();
-
-      await homeTab.tapOnAgeButton();
-      await homeTab.tapOnAgeButton();
-      await homeTab.tapOnAgeButton();
-      await homeTab.tapOnAgeButton();
-      await homeTab.tapOnAgeButton();
-
-      await characterTab.goTo();
-
-      expect(await characterTab.jobHistory(0).name, 'Associate Director');
-      expect(await characterTab.jobHistory(0).experience, '5 years');
-
-      await workTab.goTo();
-      expect(await workTab.isAvailableJobsVisible, isTrue);
-
-      await workTab.tapOnAvailableJob('Director');
-
-      expect(await workTab.jobDialog.isVisible, isTrue);
-      expect(await workTab.jobDialog.title, 'Director');
-      expect(await workTab.jobDialog.salary, '\$50,000/year');
-      expect(await workTab.jobDialog.requirements, ['\u2022 Associate Director for 5+ years']);
-      expect(await workTab.jobDialog.personalityTraits, ['\u2022 Charismatic']);
-
-      await workTab.jobDialog.apply();
-      expect(await workTab.jobDialog.isVisible, isFalse);
-
-      expect(await homeTab.isVisible, isTrue);
-      expect(await homeTab.ageEvent('37').isVisible, isTrue);
-      expect(await homeTab.ageEvent('37').events, contains('You\'re now a Director'));
-
-      await characterTab.goTo();
-
-      expect(await characterTab.job, 'Director');
-      expect(await characterTab.salary, '\$50,000/year');
+        expect(await characterTab.job, 'Director');
+        expect(await characterTab.salary, '\$50,000/year');
+      });
     });
   });
 
-  group('Settings Tab', () {
-    test('should display an end life button that regenerates the character', () async {
-      await driver.waitUntilNoTransientCallbacks();
+  group('Death -', () {
+    group('Settings Tab', () {
+      test('should display an end life button that regenerates the character',
+          () async {
+        await driver.waitUntilNoTransientCallbacks();
 
-      await characterTab.goTo();
+        await characterTab.goTo();
 
-      expect(await characterTab.age, isNot('0'));
+        expect(await characterTab.age, isNot('0'));
 
-      await settingsTab.goTo();
-      await settingsTab.endLife();
+        await settingsTab.goTo();
+        await settingsTab.endLife();
 
-      expect(await homeTab.ageEvent('37').isVisible, isFalse);
-      await characterTab.goTo();
+        expect(await homeTab.ageEvent('37').isVisible, isFalse);
+        await characterTab.goTo();
 
-      expect(await characterTab.age, '0');
+        expect(await characterTab.age, '0');
+      });
     });
-  });
 
-  group('All Tabs', () {
-    test('should update the cash available', () async {
-      await driver.waitUntilNoTransientCallbacks();
+    group('All Tabs', () {
+      test('should update the cash available', () async {
+        await driver.waitUntilNoTransientCallbacks();
 
-      await homeTab.goTo();
-      expect(await homeTab.getAvailableCash(), '\$0.00');
+        await homeTab.goTo();
+        expect(await homeTab.getAvailableCash(), '\$0.00');
 
-      await characterTab.goTo();
-      expect(await characterTab.getAvailableCash(), '\$0.00');
+        await characterTab.goTo();
+        expect(await characterTab.getAvailableCash(), '\$0.00');
 
-      await settingsTab.goTo();
-      expect(await settingsTab.getAvailableCash(), '\$0.00');
+        await settingsTab.goTo();
+        expect(await settingsTab.getAvailableCash(), '\$0.00');
+      });
     });
   });
 }
