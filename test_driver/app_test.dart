@@ -345,10 +345,12 @@ void main() {
         await homeTab.goTo();
 
         await homeTab.tapOnAgeButton();
+        await driver.waitUntilNoTransientCallbacks();
         expect(await homeTab.getAvailableCash(), '\$15,000.00');
         expect(await homeTab.ageEvent('19').isVisible, isTrue);
 
         await homeTab.tapOnAgeButton();
+        await driver.waitUntilNoTransientCallbacks();
         expect(await homeTab.getAvailableCash(), '\$30,000.00');
         expect(await homeTab.ageEvent('20').isVisible, isTrue);
       });
@@ -356,9 +358,9 @@ void main() {
 
     group('Character Tab', () {
       test('should display the job history', () async {
-        await driver.waitUntilNoTransientCallbacks();
-
         await characterTab.goTo();
+
+        await driver.waitUntilNoTransientCallbacks();
 
         expect(await characterTab.jobHistory(0).name, 'Supervisor');
         expect(await characterTab.jobHistory(0).experience, '2 years');
@@ -369,13 +371,13 @@ void main() {
       test(
           'should display an event when applying successfully for a Substitute Teacher job',
           () async {
-        await driver.waitUntilNoTransientCallbacks();
         await homeTab.goTo();
-
         await homeTab.tapOnAgeButton();
 
         await characterTab.goTo();
 
+        await driver.waitUntilNoTransientCallbacks();
+        
         expect(await characterTab.jobHistory(0).name, 'Supervisor');
         expect(await characterTab.jobHistory(0).experience, '3 years');
 
