@@ -9,6 +9,8 @@ part of 'core_application_injector.dart';
 class _$CoreApplicationInjector extends CoreApplicationInjector {
   void configureAnnotations() {
     final Container container = Container();
+    container.registerFactory((c) => GameRepository(c<String>('gameFileName')));
+    container.registerFactory((c) => GameService(c<GameRepository>()));
     container.registerFactory(
         (c) => AgeEventRepository(c<String>('ageEventsFileName')));
     container.registerFactory((c) => AgeEventService(c<AgeEventRepository>()));

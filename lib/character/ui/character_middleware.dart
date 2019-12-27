@@ -1,3 +1,5 @@
+import 'package:carambar/application/domain/entity/initiate_event.dart';
+import 'package:carambar/application/domain/service/game_service.dart';
 import 'package:carambar/application/ui/application_actions.dart';
 import 'package:carambar/application/ui/application_state.dart';
 import 'package:carambar/character/domain/service/character_service.dart';
@@ -20,12 +22,16 @@ Future initiateCharacter(Store<ApplicationState> store,
   var container = kiwi.Container();
   CharacterService _characterService = container.resolve<CharacterService>();
   AgeEventService _ageEventService = container.resolve<AgeEventService>();
+  GameService _gameService = container.resolve<GameService>();
 
   var character = await _characterService.getCharacter();
 
   if (character == null) {
     character = await _characterService.generateCharacter();
     var displayCharacter = DisplayCharacter.fromCharacter(character);
+    var initiateEvent = InitiateEvent.fromCharacter(character);
+
+    await _gameService.addEvent(initiateEvent);
 
     var newCharacterEvent = '''
       You just started your life!

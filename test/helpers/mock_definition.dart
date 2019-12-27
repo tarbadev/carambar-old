@@ -1,3 +1,5 @@
+import 'package:carambar/application/domain/service/game_service.dart';
+import 'package:carambar/application/repository/game_repository.dart';
 import 'package:carambar/application/ui/application_state.dart';
 import 'package:carambar/character/domain/service/character_service.dart';
 import 'package:carambar/character/domain/service/client/character_client.dart';
@@ -13,6 +15,9 @@ import 'package:mockito/mockito.dart';
 import 'package:redux/redux.dart';
 
 import 'factory.dart';
+
+class MockGameService extends Mock implements GameService {}
+class MockGameRepository extends Mock implements GameRepository {}
 
 class MockCharacterService extends Mock implements CharacterService {}
 class MockCharacterClient extends Mock implements CharacterClient {}
@@ -33,6 +38,9 @@ abstract class MockFunction {
 class MockNext extends Mock implements MockFunction {}
 
 class Mocks {
+  static final GameService gameService = MockGameService();
+  static final GameRepository gameRepository = MockGameRepository();
+
   static final CharacterService characterService = MockCharacterService();
   static final CharacterClient characterClient = MockCharacterClient();
   static final CharacterRepository characterRepository = MockCharacterRepository();

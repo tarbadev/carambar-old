@@ -1,3 +1,4 @@
+import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/ui/application_actions.dart';
 import 'package:carambar/character/ui/character_actions.dart';
 import 'package:carambar/character/ui/character_middleware.dart';
@@ -59,14 +60,23 @@ void main() {
         var ageEvents = [
           Factory.ageEvent(age: 0, events: [expectedEvent])
         ];
+        var gameEvent = InitiateEvent(
+          character.age,
+          character.firstName,
+          character.lastName,
+          character.gender,
+          character.origin,
+        );
 
         when(Mocks.characterService.getCharacter()).thenAnswer((_) async => null);
         when(Mocks.characterService.generateCharacter()).thenAnswer((_) async => character);
-        when(Mocks.ageEventService.addEvent(any, event: anyNamed('event'))).thenAnswer((_) async => ageEvents);
+        when(Mocks.ageEventService.addEvent(any, event: anyNamed('event')))
+            .thenAnswer((_) async => ageEvents);
 
         await initiateCharacter(Mocks.store, initiateStateAction, Mocks.next);
 
         verify(Mocks.ageEventService.addEvent(0, event: expectedEvent));
+        verify(Mocks.gameService.addEvent(gameEvent));
         verify(Mocks.store.dispatch(SetAgeEventsAction(Factory.ageEventsToDisplayAgeEvents(ageEvents))));
       });
     });

@@ -25,6 +25,7 @@ class ApplicationInjector {
     container.registerInstance(_store);
     container.registerInstance('character.json', name: 'characterFileName');
     container.registerInstance('ageEvents.json', name: 'ageEventsFileName');
+    container.registerInstance('game.json', name: 'gameFileName');
   }
 }
 ApplicationInjector getApplicationInjector() => ApplicationInjector();

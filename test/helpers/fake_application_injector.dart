@@ -4,6 +4,7 @@ import 'mock_definition.dart';
 
 void setupDependencyInjectorForTest() {
   final Container container = Container();
+  container.registerInstance(Mocks.gameService);
   container.registerInstance(Mocks.ageEventService);
   container.registerInstance(Mocks.characterService);
   container.registerInstance(Mocks.workService);
