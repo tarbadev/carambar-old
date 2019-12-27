@@ -1,4 +1,4 @@
-import 'package:carambar/character/domain/entity/character.dart';
+import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/character/domain/service/client/character_client_response.dart';
 import 'package:http/http.dart' as http;
 

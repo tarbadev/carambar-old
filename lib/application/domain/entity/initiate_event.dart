@@ -1,5 +1,5 @@
-import 'package:carambar/character/domain/entity/character.dart';
-import 'package:carambar/character/domain/entity/nationality.dart';
+import 'package:carambar/application/domain/entity/character.dart';
+import 'package:carambar/application/domain/entity/nationality.dart';
 import 'package:equatable/equatable.dart';
 
 class InitiateEvent extends Equatable {

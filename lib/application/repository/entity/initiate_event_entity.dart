@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:carambar/application/domain/entity/initiate_event.dart';
-import 'package:carambar/character/domain/entity/nationality.dart';
+import 'package:carambar/application/domain/entity/nationality.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'initiate_event_entity.g.dart';

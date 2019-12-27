@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:carambar/character/domain/entity/character.dart';
+import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/character/repository/character_repository.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';

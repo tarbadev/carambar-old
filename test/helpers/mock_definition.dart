@@ -1,7 +1,7 @@
 import 'package:carambar/application/domain/service/game_service.dart';
 import 'package:carambar/application/repository/game_repository.dart';
 import 'package:carambar/application/ui/application_state.dart';
-import 'package:carambar/character/domain/entity/character.dart';
+import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/character/domain/service/character_service.dart';
 import 'package:carambar/character/domain/service/client/character_client.dart';
 import 'package:carambar/character/repository/character_repository.dart';

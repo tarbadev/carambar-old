@@ -1,5 +1,5 @@
 import 'package:carambar/application/ui/application_actions.dart';
-import 'package:carambar/character/domain/entity/character.dart';
+import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/character/ui/character_actions.dart';
 import 'package:carambar/home/ui/home_actions.dart';
 import 'package:carambar/home/ui/home_middleware.dart';

@@ -1,4 +1,4 @@
-import 'package:carambar/character/domain/entity/character.dart';
+import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/work/domain/entity/job.dart';
 import 'package:equatable/equatable.dart';
 

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/repository/game_repository.dart';
-import 'package:carambar/character/domain/entity/nationality.dart';
+import 'package:carambar/application/domain/entity/nationality.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 

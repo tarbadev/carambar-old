@@ -1,4 +1,4 @@
-import 'package:carambar/character/domain/entity/current_job.dart';
+import 'package:carambar/application/domain/entity/current_job.dart';
 import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 

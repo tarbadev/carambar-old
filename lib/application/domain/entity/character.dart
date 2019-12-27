@@ -1,6 +1,6 @@
-import 'package:carambar/character/domain/entity/current_job.dart';
-import 'package:carambar/character/domain/entity/job_experience.dart';
-import 'package:carambar/character/domain/entity/nationality.dart';
+import 'package:carambar/application/domain/entity/job_experience.dart';
+import 'package:carambar/application/domain/entity/current_job.dart';
+import 'package:carambar/application/domain/entity/nationality.dart';
 import 'package:equatable/equatable.dart';
 
 enum AgeCategory { baby, child, teen, adult }

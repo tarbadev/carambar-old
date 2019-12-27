@@ -1,4 +1,4 @@
-import 'package:carambar/character/domain/entity/character.dart';
+import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/character/repository/entity/character_entity.dart';
 import 'package:carambar/application/repository/internal_file_repository.dart';
 

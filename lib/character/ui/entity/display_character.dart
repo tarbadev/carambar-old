@@ -1,6 +1,6 @@
 import 'package:carambar/application/ui/util/string_utils.dart';
-import 'package:carambar/character/domain/entity/character.dart';
-import 'package:carambar/character/domain/entity/nationality.dart';
+import 'package:carambar/application/domain/entity/character.dart';
+import 'package:carambar/application/domain/entity/nationality.dart';
 import 'package:carambar/character/ui/entity/display_current_job.dart';
 import 'package:carambar/character/ui/entity/display_job_experience.dart';
 import 'package:equatable/equatable.dart';

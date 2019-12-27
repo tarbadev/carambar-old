@@ -1,4 +1,4 @@
-import 'package:carambar/character/domain/entity/job_experience.dart';
+import 'package:carambar/application/domain/entity/job_experience.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 

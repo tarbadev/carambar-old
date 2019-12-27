@@ -1,4 +1,4 @@
-import 'package:carambar/character/domain/entity/job_experience.dart';
+import 'package:carambar/application/domain/entity/job_experience.dart';
 import 'package:equatable/equatable.dart';
 
 class DisplayJobExperience extends Equatable {

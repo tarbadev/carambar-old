@@ -1,7 +1,7 @@
-import 'package:carambar/character/domain/entity/character.dart';
-import 'package:carambar/character/domain/entity/current_job.dart';
-import 'package:carambar/character/domain/entity/job_experience.dart';
-import 'package:carambar/character/domain/entity/nationality.dart';
+import 'package:carambar/application/domain/entity/character.dart';
+import 'package:carambar/application/domain/entity/job_experience.dart';
+import 'package:carambar/application/domain/entity/current_job.dart';
+import 'package:carambar/application/domain/entity/nationality.dart';
 import 'package:carambar/character/domain/service/client/character_client_response.dart';
 import 'package:carambar/character/ui/entity/display_character.dart';
 import 'package:carambar/character/ui/entity/display_current_job.dart';

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:carambar/character/domain/entity/character.dart';
-import 'package:carambar/character/domain/entity/nationality.dart';
+import 'package:carambar/application/domain/entity/character.dart';
+import 'package:carambar/application/domain/entity/nationality.dart';
 import 'package:carambar/character/repository/entity/current_job_entity.dart';
 import 'package:carambar/character/repository/entity/job_experience_entity.dart';
 import 'package:json_annotation/json_annotation.dart';

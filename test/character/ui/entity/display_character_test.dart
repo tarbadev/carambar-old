@@ -1,4 +1,4 @@
-import 'package:carambar/character/domain/entity/character.dart';
+import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/character/ui/entity/display_character.dart';
 import 'package:carambar/character/ui/entity/display_current_job.dart';
 import 'package:carambar/character/ui/entity/display_job_experience.dart';
