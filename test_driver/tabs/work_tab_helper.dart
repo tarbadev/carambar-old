@@ -15,7 +15,7 @@ class WorkTabHelper extends BaseViewDriver {
     try {
       var index = 0;
       do {
-        jobs.add(await getTextByKey('Work__Jobs__title__${index++}', timeout: Duration(milliseconds: 500)));
+        jobs.add(await getTextByKey('Work__Jobs__title__${index++}'));
       } while (true);
     } catch (_) {}
 
@@ -39,7 +39,7 @@ class JobDialogElement extends BaseViewDriver {
     try {
       var index = 0;
       do {
-        requirements.add(await getTextByKey('JobDialog__JobRequirements__${index++}', timeout: Duration(milliseconds: 500)));
+        requirements.add(await getTextByKey('JobDialog__JobRequirements__${index++}'));
       } while (true);
     } catch (_) {}
 
@@ -50,7 +50,7 @@ class JobDialogElement extends BaseViewDriver {
     try {
       var index = 0;
       do {
-        personalityTraits.add(await getTextByKey('JobDialog__JobPersonalityTraits__${index++}', timeout: Duration(milliseconds: 500)));
+        personalityTraits.add(await getTextByKey('JobDialog__JobPersonalityTraits__${index++}'));
       } while (true);
     } catch (_) {}
 

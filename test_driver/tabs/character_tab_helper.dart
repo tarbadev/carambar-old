@@ -14,9 +14,7 @@ class CharacterTabHelper extends BaseViewDriver {
     try {
       var index = 0;
       do {
-        graduates.add(await getTextByKey(
-            'Character__graduates__${index++}',
-            timeout: Duration(milliseconds: 500)));
+        graduates.add(await getTextByKey('Character__graduates__${index++}'));
       } while (true);
     } catch (_) {}
 

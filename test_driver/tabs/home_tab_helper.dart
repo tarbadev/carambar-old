@@ -30,7 +30,7 @@ class AgeEventElement extends BaseViewDriver {
     try {
       var index = 0;
       do {
-        events.add(await getTextByKey('AgeEventItem__${id}__events__${index++}', timeout: Duration(milliseconds: 500)));
+        events.add(await getTextByKey('AgeEventItem__${id}__events__${index++}'));
       } while (true);
     } catch (_) {}
 
