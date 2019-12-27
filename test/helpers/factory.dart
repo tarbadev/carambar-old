@@ -12,11 +12,9 @@ import 'package:carambar/work/domain/entity/job.dart';
 import 'package:carambar/work/ui/entity/display_job.dart';
 
 abstract class Factory {
-  static const List<Graduate> _factoryGraduates = [];
-
   static Character character(
       {int age: 18,
-      List<Graduate> graduates: _factoryGraduates,
+      List<Graduate> graduates: const [],
       CurrentJob currentJob,
       List<JobExperience> jobHistory: const []}) {
     return Character(
@@ -69,17 +67,15 @@ abstract class Factory {
     );
   }
 
-  static const List<String> _factoryEventList = ['Some event'];
-
   static AgeEvent ageEvent(
-      {int age: 0, List<String> events: _factoryEventList}) {
+      {int age: 0, List<String> events: const ['Some event']}) {
     return AgeEvent(age: age, events: events);
   }
 
   static DisplayAgeEvent displayAgeEvent(
       {int id: 0,
       String age: 'Age 0',
-      List<String> events: _factoryEventList}) {
+      List<String> events: const ['Some event']}) {
     return DisplayAgeEvent(id, age, events);
   }
 
@@ -89,17 +85,10 @@ abstract class Factory {
           .map((ageEvent) => DisplayAgeEvent.fromAgeEvent(ageEvent))
           .toList();
 
-  static const List<Requirement> _factoryRequirements = [
-    Requirement.HighSchool
-  ];
-  static const List<PersonalityTrait> _factoryPersonalityTraits = [
-    PersonalityTrait.Charismatic
-  ];
-
   static Job job({
     int id: 1,
-    List<Requirement> requirements: _factoryRequirements,
-    List<PersonalityTrait> personalityTraits: _factoryPersonalityTraits,
+    List<Requirement> requirements: const [Requirement.HighSchool],
+    List<PersonalityTrait> personalityTraits: const [PersonalityTrait.Charismatic],
   }) {
     return Job(
         id: id,
@@ -109,19 +98,12 @@ abstract class Factory {
         personalityTraits: personalityTraits);
   }
 
-  static const List<String> _factoryDisplayRequirements = [
-    '\u2022 High School completed successfully'
-  ];
-  static const List<String> _factoryDisplayPersonalityTraits = [
-    '\u2022 Charismatic'
-  ];
-
   static DisplayJob displayJob({
     String name: 'Supervisor',
-    List<String> requirements: _factoryDisplayRequirements,
+    List<String> requirements: const ['\u2022 High School completed successfully'],
     String salary: '\$15,000/year',
     int id: 1,
-    List<String> personalityTraits: _factoryDisplayPersonalityTraits,
+    List<String> personalityTraits: const ['\u2022 Charismatic'],
   }) {
     return DisplayJob(id, name, requirements, salary, personalityTraits);
   }
