@@ -6,17 +6,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - uses: actions/setup-java@v1
-        with:
-          java-version: '12.x'
       - uses: subosito/flutter-action@v1
         with:
           flutter-version: '1.12.13+hotfix.5'
       - run: flutter analyze
       - run: flutter test
 
-  integration-test-debug-android:
-    name: Integration Tests - Android
+  integration-test-debug:
+    name: Integration Tests - Debug
     needs: test
     runs-on: macOS-latest
     steps:
@@ -24,60 +21,30 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           flutter-version: '1.12.13+hotfix.5'
-      - name: Run Flutter Driver tests
-          uses: reactivecircus/android-emulator-runner@v2
-          with:
-            api-level: 28
-            target: google_apis
-            arch: x86_64
-            script: flutter drive --target=test_driver/app.dart --debug
-
-  build-debug-android:
-    name: Build - Android - Debug
-    needs: integration-test-debug-android
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-java@v1
+      - name: "Run Flutter Driver tests on Android"
+        uses: reactivecircus/android-emulator-runner@v2
         with:
-          java-version: '12.x'
-      - uses: subosito/flutter-action@v1
-        with:
-          flutter-version: '1.12.13+hotfix.5'
-      - run: flutter build apk --debug
-
-
-  integration-test-debug-ios:
-    name: Integration Tests - iOS
-    needs: test
-    runs-on: macOS-latest
-    steps:
+          api-level: 28
+          target: google_apis
+          arch: x86_64
+          script: flutter drive --target=test_driver/app.dart --debug --no-keep-app-running
       - name: "List all simulators"
         run: "xcrun instruments -s"
-      - name: "Start Simulator"
-        run: |
-          UDID=$(
-            xcrun instruments -s |
-            awk \
-              -F ' *[][]' \
-              -v 'device="iPhone 8 (13.1)"' \
-              '$1 == device { print $2 }'
-          )
-          xcrun simctl boot "${UDID:?No Simulator with this name found}"
-      - uses: actions/checkout@v1
-      - uses: subosito/flutter-action@v1
-        with:
-          flutter-version: '1.12.13+hotfix.5'
-      - name: "Run Flutter Driver tests"
-          run: "flutter drive --target=test_driver/app.dart --debug"
+      - name: "Start Simulator iPhone 11 Pro Max (13.1)"
+        run: xcrun simctl boot "7C0BC9A5-C77D-4A47-94D5-AB6756B00F99"
+      - name: "Run Flutter Driver tests on iOS"
+        run: flutter drive --target=test_driver/app.dart --debug --no-keep-app-running
 
-  build-debug-ios:
-    name: Build - iOS - Debug
-    needs: integration-test-debug-ios
+  build-debug:
+    name: Build - Debug
+    needs: integration-test-debug
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v1
       - uses: subosito/flutter-action@v1
         with:
           flutter-version: '1.12.13+hotfix.5'
-      - run: flutter build ios --debug --no-codesign
+      - name: "Build - Android - Debug"
+        run: flutter build apk --debug
+      - name: "Build - iOS - Debug"
+        run: flutter build ios --debug --no-codesign
