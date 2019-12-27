@@ -1,4 +1,4 @@
-# Carambar [![Build Status](https://travis-ci.org/tarbadev/carambar.svg?branch=master)](https://travis-ci.org/tarbadev/carambar)
+# Carambar ![](https://github.com/tarbadev/carambar/workflows/Carambar%20CI/badge.svg)
 
 A life simulation game
 
