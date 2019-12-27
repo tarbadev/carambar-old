@@ -20,11 +20,6 @@ abstract class InternalFileRepository<T> {
     await (await _file).writeAsString(jsonEncode(entity));
   }
 
-  Future<void> writeList(List<T> entities) async {
-    List listToStore = entities.map((entity) => jsonEncode(entity)).toList();
-    await (await _file).writeAsString(listToStore.toString());
-  }
-
   Future<String> read() async {
     try {
       return await (await _file).readAsString();

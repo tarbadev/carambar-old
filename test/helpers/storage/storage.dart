@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:carambar/application/domain/entity/game_event.dart';
 import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/repository/entity/game_event_entity.dart';
 import 'package:carambar/home/domain/entity/age_event.dart';
@@ -80,9 +81,9 @@ class AgeEventStorage extends Storage {
 class GameStorage extends Storage {
   GameStorage() : super('testingGames.json');
 
-  Future<File> store(List<InitiateEvent> events) async {
+  Future<File> store(List<GameEvent> events) async {
     return write(events
-        .map((event) => GameEventEntity.fromInitiateEvent(event))
+        .map((event) => GameEventEntity.fromEvent(event))
         .toList());
   }
 }

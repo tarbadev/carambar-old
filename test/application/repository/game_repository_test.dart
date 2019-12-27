@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:carambar/application/domain/entity/game_event.dart';
 import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/repository/game_repository.dart';
 import 'package:carambar/application/domain/entity/nationality.dart';
@@ -33,7 +34,7 @@ void main() {
       gameRepository = GameRepository(gameStorage.fileName);
     });
 
-    test('createGame saves initiateEvent to event list', () async {
+    test('save saves events', () async {
       final initiateEvent = InitiateEvent(
         12,
         'firstName',
@@ -42,10 +43,16 @@ void main() {
         Nationality.france,
       );
 
-      await gameRepository.createGame(initiateEvent);
+      await gameRepository.save([GameEvent(11), initiateEvent]);
 
       final expectedJsonString = '[{' +
+          '"age":11,' +
+          '"eventType":"IncrementAge",' +
+          '"event":null' +
+          '},' +
+          '{' +
           '"age":12,' +
+          '"eventType":"Initiate",' +
           '"event":{' +
           '"firstName":"firstName",' +
           '"lastName":"lastName",' +
@@ -55,6 +62,22 @@ void main() {
           '}]';
 
       expect(await gameStorage.read(), expectedJsonString);
+    });
+
+    test('readEvents reads character from file when job is null', () async {
+      final initiateEvent = InitiateEvent(
+        12,
+        'firstName',
+        'lastName',
+        'male',
+        Nationality.france,
+      );
+      final events = [GameEvent(11), initiateEvent];
+      await gameStorage.store(events);
+
+      final actual = await gameRepository.readEvents();
+
+      expect(actual, events);
     });
   });
 }

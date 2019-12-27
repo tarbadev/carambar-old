@@ -1,3 +1,4 @@
+import 'package:carambar/application/domain/service/game_service.dart';
 import 'package:carambar/application/ui/application_actions.dart';
 import 'package:carambar/application/ui/application_state.dart';
 import 'package:carambar/application/domain/entity/character.dart';
@@ -29,12 +30,15 @@ Future incrementAge(Store<ApplicationState> store, IncrementAgeAction action, Ne
   var container = kiwi.Container();
   CharacterService _characterService = container.resolve<CharacterService>();
   AgeEventService _ageEventService = container.resolve<AgeEventService>();
+  GameService _gameService = container.resolve<GameService>();
 
   School originalSchool = store.state.character.school;
 
   var character = await _characterService.incrementAge();
   var newDisplayCharacter = DisplayCharacter.fromCharacter(character);
   var event;
+
+  _gameService.incrementAge();
 
   if (character.school != originalSchool) {
     if (newDisplayCharacter.school == 'None') {

@@ -1,3 +1,4 @@
+import 'package:carambar/application/domain/entity/game_event.dart';
 import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/repository/game_repository.dart';
@@ -8,6 +9,12 @@ class GameService {
   GameService(this.gameRepository);
 
   Future initiate(Character character) async {
-    await gameRepository.createGame(InitiateEvent.fromCharacter(character));
+    await gameRepository.save([InitiateEvent.fromCharacter(character)]);
+  }
+
+  Future incrementAge() async {
+    List<GameEvent> events = await gameRepository.readEvents();
+    events.add(GameEvent(events.last.age + 1));
+    await gameRepository.save(events);
   }
 }

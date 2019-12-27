@@ -53,6 +53,7 @@ void main() {
 
         await incrementAge(Mocks.store, incrementAgeAction, Mocks.next);
 
+        verify(Mocks.gameService.incrementAge());
         verify(Mocks.ageEventService.addEvent(18, event: null));
         verify(Mocks.store.dispatch(SetAgeEventsAction(
             Factory.ageEventsToDisplayAgeEvents(ageEvents))));
