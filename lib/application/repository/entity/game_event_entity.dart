@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'package:carambar/application/domain/entity/finish_studies_event.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
 import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/domain/entity/nationality.dart';
@@ -7,7 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'game_event_entity.g.dart';
 
-enum EventType { Initiate, IncrementAge }
+enum EventType { Initiate, IncrementAge, FinishStudies }
 
 @JsonSerializable(nullable: true)
 class GameEventEntity {
@@ -27,6 +26,23 @@ class GameEventEntity {
 
   Map<String, dynamic> toJson() => _$GameEventEntityToJson(this);
 
+
+  factory GameEventEntity.fromEvent(GameEvent event) {
+    switch (event.runtimeType) {
+      case GameEvent:
+        return GameEventEntity.fromGameEvent(event);
+        break;
+      case InitiateEvent:
+        return GameEventEntity.fromInitiateEvent(event);
+        break;
+      case FinishStudiesEvent:
+        return GameEventEntity.fromFinishStudiesEvent(event);
+        break;
+      default:
+        throw GameEventTypeNotKnownException();
+    }
+  }
+
   GameEventEntity.fromInitiateEvent(InitiateEvent initiateEvent)
       : age = initiateEvent.age,
         eventType = EventType.Initiate,
@@ -42,6 +58,23 @@ class GameEventEntity {
         eventType = EventType.IncrementAge,
         event = null;
 
+  GameEventEntity.fromFinishStudiesEvent(FinishStudiesEvent finishStudiesEvent)
+      : age = finishStudiesEvent.age,
+        eventType = EventType.FinishStudies,
+        event = null;
+
+  GameEvent toEvent() {
+    if (eventType == EventType.Initiate) {
+      return _toInitiateEvent();
+    } else if (eventType == EventType.IncrementAge) {
+      return _toGameEvent();
+    } else if (eventType == EventType.FinishStudies) {
+      return _toFinishStudiesEvent();
+    } else {
+      throw GameEventTypeNotKnownException();
+    }
+  }
+
   InitiateEvent _toInitiateEvent() {
     return InitiateEvent(
       age,
@@ -55,20 +88,7 @@ class GameEventEntity {
 
   GameEvent _toGameEvent() => GameEvent(age);
 
-  factory GameEventEntity.fromEvent(GameEvent event) {
-    if (event.runtimeType == InitiateEvent)
-      return GameEventEntity.fromInitiateEvent(event);
-    else if (event.runtimeType == GameEvent) {
-      return GameEventEntity.fromGameEvent(event);
-    } else
-      return null;
-  }
-
-  GameEvent toEvent() {
-    if (eventType == EventType.Initiate) {
-      return _toInitiateEvent();
-    } else if (eventType == EventType.IncrementAge) {
-      return _toGameEvent();
-    }
-  }
+  FinishStudiesEvent _toFinishStudiesEvent() => FinishStudiesEvent(age);
 }
+
+class GameEventTypeNotKnownException implements Exception {}

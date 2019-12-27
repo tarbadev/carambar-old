@@ -98,6 +98,7 @@ void main() {
 
         await incrementAge(Mocks.store, incrementAgeAction, Mocks.next);
 
+        verify(Mocks.gameService.finishStudies());
         verify(Mocks.ageEventService
             .addEvent(18, event: 'You finished your studies'));
       });

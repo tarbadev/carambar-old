@@ -38,10 +38,11 @@ Future incrementAge(Store<ApplicationState> store, IncrementAgeAction action, Ne
   var newDisplayCharacter = DisplayCharacter.fromCharacter(character);
   var event;
 
-  _gameService.incrementAge();
+  await _gameService.incrementAge();
 
   if (character.school != originalSchool) {
     if (newDisplayCharacter.school == 'None') {
+      await _gameService.finishStudies();
       event = 'You finished your studies';
     } else {
       event = 'You just started ${newDisplayCharacter.school}';

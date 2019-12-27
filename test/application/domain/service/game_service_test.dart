@@ -1,3 +1,4 @@
+import 'package:carambar/application/domain/entity/finish_studies_event.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
 import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/entity/initiate_event.dart';
@@ -52,6 +53,20 @@ void main() {
       when(Mocks.gameRepository.readEvents()).thenAnswer((_) async => events);
 
       await gameService.incrementAge();
+
+      var actual = verify(Mocks.gameRepository.save(captureAny)).captured.single;
+      expect(actual, expectedEvents);
+    });
+
+    test('finishStudies generates event and stores it', () async {
+      var previousEvent = GameEvent(11);
+      var finishStudiesEvent = FinishStudiesEvent(11);
+      final events = [previousEvent];
+      final expectedEvents = [previousEvent, finishStudiesEvent];
+
+      when(Mocks.gameRepository.readEvents()).thenAnswer((_) async => events);
+
+      await gameService.finishStudies();
 
       var actual = verify(Mocks.gameRepository.save(captureAny)).captured.single;
       expect(actual, expectedEvents);

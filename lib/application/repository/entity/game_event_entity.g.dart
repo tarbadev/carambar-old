@@ -42,5 +42,6 @@ T _$enumDecodeNullable<T>(Map<T, dynamic> enumValues, dynamic source) {
 
 const _$EventTypeEnumMap = <EventType, dynamic>{
   EventType.Initiate: 'Initiate',
-  EventType.IncrementAge: 'IncrementAge'
+  EventType.IncrementAge: 'IncrementAge',
+  EventType.FinishStudies: 'FinishStudies'
 };

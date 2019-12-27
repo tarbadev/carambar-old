@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:carambar/application/domain/entity/finish_studies_event.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
 import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/repository/game_repository.dart';
@@ -43,7 +44,7 @@ void main() {
         Nationality.france,
       );
 
-      await gameRepository.save([GameEvent(11), initiateEvent]);
+      await gameRepository.save([GameEvent(11), initiateEvent, FinishStudiesEvent(12)]);
 
       final expectedJsonString = '[{' +
           '"age":11,' +
@@ -59,6 +60,10 @@ void main() {
           '"gender":"male",' +
           '"origin":"Nationality.france"' +
           '}' +
+          '},{' +
+          '"age":12,' +
+          '"eventType":"FinishStudies",' +
+          '"event":null' +
           '}]';
 
       expect(await gameStorage.read(), expectedJsonString);
@@ -72,7 +77,7 @@ void main() {
         'male',
         Nationality.france,
       );
-      final events = [GameEvent(11), initiateEvent];
+      final events = [GameEvent(11), initiateEvent, FinishStudiesEvent(12)];
       await gameStorage.store(events);
 
       final actual = await gameRepository.readEvents();
