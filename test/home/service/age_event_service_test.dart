@@ -53,7 +53,8 @@ void main() {
       verify(Mocks.ageEventRepository.save(ageEvents));
     });
 
-    test('addEvent adds an event to the current list with an event message', () async {
+    test('addEvent adds an event to the current list with an event message',
+        () async {
       var event = 'Some Event';
       var ageEvents = [
         Factory.ageEvent(age: 0, events: [event])
@@ -72,18 +73,45 @@ void main() {
       var expectedEvent = 'Some event';
       var ageEvents = [
         Factory.ageEvent(age: 0, events: []),
-        Factory.ageEvent(age: 1, events: [existingAgeEvents[1].events[0], expectedEvent]),
+        Factory.ageEvent(
+            age: 1, events: [existingAgeEvents[1].events[0], expectedEvent]),
       ];
 
       when(Mocks.ageEventRepository.readAgeEvents())
           .thenAnswer((_) async => existingAgeEvents);
 
-      expect(await ageEventService.addEvent(1, event: expectedEvent), ageEvents);
+      expect(
+          await ageEventService.addEvent(1, event: expectedEvent), ageEvents);
 
       verify(Mocks.ageEventRepository.save(ageEvents));
     });
 
-    test('deleteAgeEvents calls the repository to delete the ageEvents', () async {
+    test(
+        'addEvents adds a list of events to the current list of events for this age',
+        () async {
+      var expectedEvents = ['Some event', 'Another event'];
+      var ageEvents = [
+        Factory.ageEvent(age: 0, events: []),
+        Factory.ageEvent(
+          age: 1,
+          events: [
+            existingAgeEvents[1].events[0],
+            'Some event',
+            'Another event',
+          ],
+        ),
+      ];
+
+      when(Mocks.ageEventRepository.readAgeEvents())
+          .thenAnswer((_) async => existingAgeEvents);
+
+      expect(await ageEventService.addEvents(1, expectedEvents), ageEvents);
+
+      verify(Mocks.ageEventRepository.save(ageEvents));
+    });
+
+    test('deleteAgeEvents calls the repository to delete the ageEvents',
+        () async {
       await ageEventService.deleteAgeEvents();
 
       verify(Mocks.ageEventRepository.delete());

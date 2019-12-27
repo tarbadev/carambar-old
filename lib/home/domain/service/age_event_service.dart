@@ -13,11 +13,13 @@ class AgeEventService {
   Future<List<AgeEvent>> addEvent(int age, {String event}) async {
     List<AgeEvent> events = await getAgeEvents();
     AgeEvent ageEvent = events.firstWhere(
-        (existingAgeEvent) => existingAgeEvent.age == age, orElse: () {
-      var newAgeEvent = AgeEvent(age: age, events: []);
-      events.add(newAgeEvent);
-      return newAgeEvent;
-    });
+      (existingAgeEvent) => existingAgeEvent.age == age,
+      orElse: () {
+        var newAgeEvent = AgeEvent.fromAge(age);
+        events.add(newAgeEvent);
+        return newAgeEvent;
+      },
+    );
 
     if (event != null) {
       ageEvent.events.add(event);
@@ -29,4 +31,24 @@ class AgeEventService {
   }
 
   Future<void> deleteAgeEvents() async => await _ageEventRepository.delete();
+
+  Future<List<AgeEvent>> addEvents(int age, List<String> newEvents) async {
+    List<AgeEvent> events = await getAgeEvents();
+    AgeEvent ageEvent = events.firstWhere(
+          (existingAgeEvent) => existingAgeEvent.age == age,
+      orElse: () {
+        var newAgeEvent = AgeEvent.fromAge(age);
+        events.add(newAgeEvent);
+        return newAgeEvent;
+      },
+    );
+
+    if (newEvents != null) {
+      ageEvent.events.addAll(newEvents);
+    }
+
+    await _ageEventRepository.save(events);
+
+    return events;
+  }
 }

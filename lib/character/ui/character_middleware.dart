@@ -6,6 +6,7 @@ import 'package:carambar/character/ui/entity/display_character.dart';
 import 'package:carambar/home/domain/service/age_event_service.dart';
 import 'package:carambar/home/ui/entity/display_age_event.dart';
 import 'package:carambar/home/ui/home_actions.dart';
+import 'package:carambar/work/domain/entity/job.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 import 'package:redux/redux.dart';
 
@@ -14,7 +15,8 @@ List<Middleware<ApplicationState>> createCharacterMiddleware() => [
       TypedMiddleware<ApplicationState, SetCharacterJobAction>(setCharacterJob),
     ];
 
-Future initiateCharacter(Store<ApplicationState> store, InitiateStateAction action, NextDispatcher next) async {
+Future initiateCharacter(Store<ApplicationState> store,
+    InitiateStateAction action, NextDispatcher next) async {
   var container = kiwi.Container();
   CharacterService _characterService = container.resolve<CharacterService>();
   AgeEventService _ageEventService = container.resolve<AgeEventService>();
@@ -32,8 +34,11 @@ Future initiateCharacter(Store<ApplicationState> store, InitiateStateAction acti
         .split('\n')
         .map((line) => line.trim())
         .reduce((line1, line2) => line2.isNotEmpty ? '$line1\n$line2' : line1);
-    var ageEvents = await _ageEventService.addEvent(character.age, event: newCharacterEvent);
-    store.dispatch(SetAgeEventsAction(ageEvents.map((ageEvent) => DisplayAgeEvent.fromAgeEvent(ageEvent)).toList()));
+    var ageEvents = await _ageEventService.addEvent(character.age,
+        event: newCharacterEvent);
+    store.dispatch(SetAgeEventsAction(ageEvents
+        .map((ageEvent) => DisplayAgeEvent.fromAgeEvent(ageEvent))
+        .toList()));
   }
 
   store.dispatch(SetCharacterAction(DisplayCharacter.fromCharacter(character)));
@@ -41,26 +46,43 @@ Future initiateCharacter(Store<ApplicationState> store, InitiateStateAction acti
   next(action);
 }
 
-Future setCharacterJob(Store<ApplicationState> store, SetCharacterJobAction action, NextDispatcher next) async {
+Future setCharacterJob(Store<ApplicationState> store,
+    SetCharacterJobAction action, NextDispatcher next) async {
   var container = kiwi.Container();
   CharacterService _characterService = container.resolve<CharacterService>();
   AgeEventService _ageEventService = container.resolve<AgeEventService>();
 
   var character;
-  var event;
-  if (await _characterService.areRequirementsMet(action.job)) {
+  List<String> events = new List();
+  var unmetRequirements =
+      await _characterService.getUnmetRequirements(action.job);
+  if (unmetRequirements.isEmpty) {
     character = await _characterService.setJob(action.job);
     var displayCharacter = DisplayCharacter.fromCharacter(character);
-    event = 'You\'re now a ${displayCharacter.currentJob.name}';
+    events.add('You\'re now a ${displayCharacter.currentJob.name}');
 
     store.dispatch(SetCharacterAction(displayCharacter));
   } else {
     character = await _characterService.getCharacter();
-    event = 'You failed to apply for this new job because you don\'t meet all the requirements';
+    events.add(
+        'You failed to apply for this new job because you don\'t meet all the requirements:');
+    events.addAll(unmetRequirements.map((unmetRequirement) =>
+        _requirementToDisplayUnmetRequirement[unmetRequirement]));
   }
 
-  var ageEvents = await _ageEventService.addEvent(character.age, event: event);
-  store.dispatch(SetAgeEventsAction(ageEvents.map((ageEvent) => DisplayAgeEvent.fromAgeEvent(ageEvent)).toList()));
+  var ageEvents = await _ageEventService.addEvents(character.age, events);
+  store.dispatch(SetAgeEventsAction(ageEvents
+      .map((ageEvent) => DisplayAgeEvent.fromAgeEvent(ageEvent))
+      .toList()));
 
   next(action);
 }
+
+Map<Requirement, String> _requirementToDisplayUnmetRequirement = {
+  Requirement.HighSchool: '\u2022 Did not graduate from High School',
+  Requirement.Supervisor3Years: '\u2022 Does not have at least 3 years of experience as a Supervisor',
+  Requirement.SubTeacher1Year: '\u2022 Does not have at least 1 year of experience as a Substitute Teacher',
+  Requirement.Teacher5Years: '\u2022 Does not have at least 5 years of experience as a Teacher',
+  Requirement.Counselor5Years: '\u2022 Does not have at least 5 years of experience as a Counselor',
+  Requirement.AssociateDirector5Years: '\u2022 Does not have at least 5 years of experience as a Associate Director',
+};

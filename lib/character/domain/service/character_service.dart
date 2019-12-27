@@ -63,47 +63,45 @@ class CharacterService {
     return character;
   }
 
-  Future<bool> areRequirementsMet(Job job) async {
+  Future<List<Requirement>> getUnmetRequirements(Job job) async {
     Character character = await _characterRepository.readCharacter();
 
     for (final requirement in job.requirements) {
       switch (requirement) {
         case Requirement.HighSchool:
           if (!character.graduates.contains(Graduate.HighSchool)) {
-            return false;
+            return [Requirement.HighSchool];
           }
           break;
         case Requirement.Supervisor3Years:
           if (!verifyJobHistoryRequirement(character, 'Supervisor', 3)) {
-            return false;
+            return [Requirement.Supervisor3Years];
           }
           break;
         case Requirement.SubTeacher1Year:
           if (!verifyJobHistoryRequirement(character, 'Substitute Teacher', 1)) {
-            return false;
+            return [Requirement.SubTeacher1Year];
           }
           break;
         case Requirement.Teacher5Years:
           if (!verifyJobHistoryRequirement(character, 'Teacher', 5)) {
-            return false;
+            return [Requirement.Teacher5Years];
           }
           break;
         case Requirement.Counselor5Years:
           if (!verifyJobHistoryRequirement(character, 'Counselor', 5)) {
-            return false;
+            return [Requirement.Counselor5Years];
           }
           break;
         case Requirement.AssociateDirector5Years:
           if (!verifyJobHistoryRequirement(character, 'Associate Director', 5)) {
-            return false;
+            return [Requirement.AssociateDirector5Years];
           }
           break;
-        default:
-          return false;
       }
     }
 
-    return true;
+    return [];
   }
 
   bool verifyJobHistoryRequirement(Character character, String jobName, int experience) {

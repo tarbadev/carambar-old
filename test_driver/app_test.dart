@@ -243,10 +243,14 @@ void main() {
 
         expect(await homeTab.isVisible, isTrue);
         expect(await homeTab.ageEvent('15').isVisible, isTrue);
+
+        var events = await homeTab.ageEvent('15').events;
         expect(
-            await homeTab.ageEvent('15').events,
-            contains(
-                'You failed to apply for this new job because you don\'t meet all the requirements'));
+            events,
+            containsAll([
+              'You failed to apply for this new job because you don\'t meet all the requirements:',
+              '\u2022 Did not graduate from High School',
+            ]));
       });
     });
 

@@ -8,4 +8,8 @@ class AgeEvent extends Equatable {
 
   @override
   List<Object> get props => [age, events];
+
+  factory AgeEvent.fromAge(int age) {
+    return AgeEvent(age: age, events: []);
+  }
 }
