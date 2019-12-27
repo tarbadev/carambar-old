@@ -8,6 +8,6 @@ class GameService {
   GameService(this.gameRepository);
 
   Future initiate(Character character) async {
-    await gameRepository.save([InitiateEvent.fromCharacter(character)]);
+    await gameRepository.createGame(InitiateEvent.fromCharacter(character));
   }
 }

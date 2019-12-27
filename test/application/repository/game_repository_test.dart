@@ -33,7 +33,7 @@ void main() {
       gameRepository = GameRepository(gameStorage.fileName);
     });
 
-    test('save saves initiateEvent to file', () async {
+    test('createGame saves initiateEvent to event list', () async {
       final initiateEvent = InitiateEvent(
         12,
         'firstName',
@@ -42,7 +42,7 @@ void main() {
         Nationality.france,
       );
 
-      await gameRepository.save([initiateEvent]);
+      await gameRepository.createGame(initiateEvent);
 
       final expectedJsonString = '[{' +
           '"age":12,' +

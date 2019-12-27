@@ -34,7 +34,7 @@ void main() {
 
       await gameService.initiate(character);
 
-      verify(Mocks.gameRepository.save([event]));
+      verify(Mocks.gameRepository.createGame(event));
     });
   });
 }
