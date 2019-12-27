@@ -1,3 +1,4 @@
+import 'package:carambar/application/domain/entity/add_cash_event.dart';
 import 'package:carambar/application/domain/entity/finish_studies_event.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
 import 'package:carambar/application/domain/entity/character.dart';
@@ -43,6 +44,12 @@ class GameService {
   Future incrementJobExperience() async {
     List<GameEvent> events = await gameRepository.readEvents();
     events.add(IncrementJobExperienceEvent(events.last.age));
+    await gameRepository.save(events);
+  }
+
+  Future addCash(double cashToAdd) async {
+    List<GameEvent> events = await gameRepository.readEvents();
+    events.add(AddCashEvent(events.last.age, cashToAdd));
     await gameRepository.save(events);
   }
 }

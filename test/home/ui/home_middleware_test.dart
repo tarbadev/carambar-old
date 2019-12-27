@@ -195,6 +195,7 @@ void main() {
 
         await incrementAge(Mocks.store, incrementAgeAction, Mocks.next);
 
+        verify(Mocks.gameService.addCash(15000));
         verify(Mocks.store.dispatch(AddAvailableCashAction(15000)));
       });
 

@@ -1,3 +1,4 @@
+import 'package:carambar/application/domain/entity/add_cash_event.dart';
 import 'package:carambar/application/domain/entity/finish_studies_event.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
 import 'package:carambar/application/domain/entity/character.dart';
@@ -112,6 +113,20 @@ void main() {
       when(Mocks.gameRepository.readEvents()).thenAnswer((_) async => events);
 
       await gameService.incrementJobExperience();
+
+      var actual = verify(Mocks.gameRepository.save(captureAny)).captured.single;
+      expect(actual, expectedEvents);
+    });
+
+    test('addCash generates an event and stores it', () async {
+      var previousEvent = GameEvent(11);
+      var graduateEvent = AddCashEvent(11, 2000);
+      final events = [previousEvent];
+      final expectedEvents = [previousEvent, graduateEvent];
+
+      when(Mocks.gameRepository.readEvents()).thenAnswer((_) async => events);
+
+      await gameService.addCash(2000);
 
       var actual = verify(Mocks.gameRepository.save(captureAny)).captured.single;
       expect(actual, expectedEvents);

@@ -1,3 +1,4 @@
+import 'package:carambar/application/domain/entity/add_cash_event.dart';
 import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/entity/finish_studies_event.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
@@ -89,6 +90,16 @@ void main() {
         );
         expect(GameEventEntity.fromEvent(event), gameEventEntity);
       });
+
+      test('when event is AddCashEvent', () {
+        final event = AddCashEvent(10, 2000.0);
+        final gameEventEntity = GameEventEntity(
+          10,
+          EventType.AddCash,
+          <String, dynamic>{'amount': 2000.0},
+        );
+        expect(GameEventEntity.fromEvent(event), gameEventEntity);
+      });
     });
 
     group('toEvent', () {
@@ -171,6 +182,18 @@ void main() {
           null,
         );
         final gameEvent = IncrementJobExperienceEvent(10);
+        expect(gameEventEntity.toEvent(), gameEvent);
+      });
+
+      test('when event is AddCashEvent', () {
+        final gameEventEntity = GameEventEntity(
+          10,
+          EventType.AddCash,
+          <String, dynamic>{
+            'amount': 2000.0,
+          },
+        );
+        final gameEvent = AddCashEvent(10, 2000.0);
         expect(gameEventEntity.toEvent(), gameEvent);
       });
     });

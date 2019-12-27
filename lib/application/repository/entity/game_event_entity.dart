@@ -1,3 +1,4 @@
+import 'package:carambar/application/domain/entity/add_cash_event.dart';
 import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/entity/finish_studies_event.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
@@ -18,6 +19,7 @@ enum EventType {
   StartSchool,
   Graduate,
   IncrementJobExperience,
+  AddCash,
 }
 
 @JsonSerializable(nullable: true)
@@ -57,6 +59,9 @@ class GameEventEntity extends Equatable {
         break;
       case IncrementJobExperienceEvent:
         return _fromIncrementJobExperienceEvent(event);
+        break;
+      case AddCashEvent:
+        return _fromAddCashEvent(event);
         break;
       default:
         throw GameEventTypeNotKnownException(event.runtimeType);
@@ -119,6 +124,16 @@ class GameEventEntity extends Equatable {
     );
   }
 
+  static GameEventEntity _fromAddCashEvent(AddCashEvent addCashEvent) {
+    return GameEventEntity(
+      addCashEvent.age,
+      EventType.AddCash,
+      <String, dynamic>{
+        'amount': addCashEvent.amount,
+      },
+    );
+  }
+
   GameEvent toEvent() {
     if (eventType == EventType.Initiate) {
       return _toInitiateEvent();
@@ -132,6 +147,8 @@ class GameEventEntity extends Equatable {
       return _toGraduateEvent();
     } else if (eventType == EventType.IncrementJobExperience) {
       return _toIncrementJobExperienceEvent();
+    } else if (eventType == EventType.AddCash) {
+      return _toAddCashEvent();
     } else {
       throw GameEventTypeNotKnownException(eventType);
     }
@@ -170,6 +187,13 @@ class GameEventEntity extends Equatable {
 
   IncrementJobExperienceEvent _toIncrementJobExperienceEvent() =>
       IncrementJobExperienceEvent(age);
+
+  AddCashEvent _toAddCashEvent() {
+    return AddCashEvent(
+      age,
+      event['amount'] as double,
+    );
+  }
 
   @override
   List<Object> get props => [age, eventType, event];
