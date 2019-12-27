@@ -235,6 +235,7 @@ void main() {
 
         await incrementAge(Mocks.store, incrementAgeAction, Mocks.next);
 
+        verify(Mocks.gameService.incrementJobExperience());
         verify(Mocks.characterService.incrementJobExperience());
         verify(Mocks.store.dispatch(SetCharacterAction(character)));
       });

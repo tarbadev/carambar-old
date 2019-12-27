@@ -2,6 +2,7 @@ import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/entity/finish_studies_event.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
 import 'package:carambar/application/domain/entity/graduate_event.dart';
+import 'package:carambar/application/domain/entity/increment_job_experience_event.dart';
 import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/domain/entity/nationality.dart';
 import 'package:carambar/application/domain/entity/start_school_event.dart';
@@ -16,6 +17,7 @@ enum EventType {
   FinishStudies,
   StartSchool,
   Graduate,
+  IncrementJobExperience,
 }
 
 @JsonSerializable(nullable: true)
@@ -52,6 +54,9 @@ class GameEventEntity extends Equatable {
         break;
       case GraduateEvent:
         return _fromGraduateEvent(event);
+        break;
+      case IncrementJobExperienceEvent:
+        return _fromIncrementJobExperienceEvent(event);
         break;
       default:
         throw GameEventTypeNotKnownException(event.runtimeType);
@@ -105,6 +110,15 @@ class GameEventEntity extends Equatable {
     );
   }
 
+  static GameEventEntity _fromIncrementJobExperienceEvent(
+      IncrementJobExperienceEvent incrementJobExperienceEvent) {
+    return GameEventEntity(
+      incrementJobExperienceEvent.age,
+      EventType.IncrementJobExperience,
+      null,
+    );
+  }
+
   GameEvent toEvent() {
     if (eventType == EventType.Initiate) {
       return _toInitiateEvent();
@@ -116,6 +130,8 @@ class GameEventEntity extends Equatable {
       return _toStartSchoolEvent();
     } else if (eventType == EventType.Graduate) {
       return _toGraduateEvent();
+    } else if (eventType == EventType.IncrementJobExperience) {
+      return _toIncrementJobExperienceEvent();
     } else {
       throw GameEventTypeNotKnownException(eventType);
     }
@@ -151,6 +167,9 @@ class GameEventEntity extends Equatable {
           .firstWhere((e) => e.toString() == event['school'] as String),
     );
   }
+
+  IncrementJobExperienceEvent _toIncrementJobExperienceEvent() =>
+      IncrementJobExperienceEvent(age);
 
   @override
   List<Object> get props => [age, eventType, event];

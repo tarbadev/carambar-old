@@ -50,7 +50,7 @@ Future incrementAge(Store<ApplicationState> store, IncrementAgeAction action, Ne
     }
 
     if (originalSchool == School.HighSchool || originalSchool == School.MiddleSchool) {
-      _gameService.graduate(originalSchool);
+      await _gameService.graduate(originalSchool);
       var graduate = originalSchool == School.HighSchool ? Graduate.HighSchool : Graduate.MiddleSchool;
       character = await _characterService.addGraduate(graduate);
       newDisplayCharacter = DisplayCharacter.fromCharacter(character);
@@ -62,6 +62,7 @@ Future incrementAge(Store<ApplicationState> store, IncrementAgeAction action, Ne
   }
 
   if (character.currentJob != null) {
+    await _gameService.incrementJobExperience();
     character = await _characterService.incrementJobExperience();
     newDisplayCharacter = DisplayCharacter.fromCharacter(character);
 

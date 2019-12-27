@@ -2,6 +2,7 @@ import 'package:carambar/application/domain/entity/finish_studies_event.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
 import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/entity/graduate_event.dart';
+import 'package:carambar/application/domain/entity/increment_job_experience_event.dart';
 import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/domain/entity/start_school_event.dart';
 import 'package:carambar/application/domain/service/game_service.dart';
@@ -20,7 +21,7 @@ void main() {
       reset(Mocks.gameRepository);
     });
 
-    test('initiate generates event from character and stores it', () async {
+    test('initiate generates an event from character and stores it', () async {
       final character = Character(
           firstName: 'firstName',
           lastName: 'lastName',
@@ -40,7 +41,7 @@ void main() {
       verify(Mocks.gameRepository.save([event]));
     });
 
-    test('incrementAge generates event and stores it', () async {
+    test('incrementAge generates an event and stores it', () async {
       var previousEvent = GameEvent(11);
       var initiateEvent = InitiateEvent(
           12,
@@ -60,7 +61,7 @@ void main() {
       expect(actual, expectedEvents);
     });
 
-    test('finishStudies generates event and stores it', () async {
+    test('finishStudies generates an event and stores it', () async {
       var previousEvent = GameEvent(11);
       var finishStudiesEvent = FinishStudiesEvent(11);
       final events = [previousEvent];
@@ -74,7 +75,7 @@ void main() {
       expect(actual, expectedEvents);
     });
 
-    test('startSchool generates event and stores it', () async {
+    test('startSchool generates an event and stores it', () async {
       var previousEvent = GameEvent(11);
       var startSchoolEvent = StartSchoolEvent(11, School.Kindergarten);
       final events = [previousEvent];
@@ -88,7 +89,7 @@ void main() {
       expect(actual, expectedEvents);
     });
 
-    test('graduate generates event and stores it', () async {
+    test('graduate generates an event and stores it', () async {
       var previousEvent = GameEvent(11);
       var graduateEvent = GraduateEvent(11, School.HighSchool);
       final events = [previousEvent];
@@ -96,7 +97,21 @@ void main() {
 
       when(Mocks.gameRepository.readEvents()).thenAnswer((_) async => events);
 
-      await gameService.startSchool(School.Kindergarten);
+      await gameService.graduate(School.HighSchool);
+
+      var actual = verify(Mocks.gameRepository.save(captureAny)).captured.single;
+      expect(actual, expectedEvents);
+    });
+
+    test('incrementJobExperience generates an event and stores it', () async {
+      var previousEvent = GameEvent(11);
+      var newEvent = IncrementJobExperienceEvent(11);
+      final events = [previousEvent];
+      final expectedEvents = [previousEvent, newEvent];
+
+      when(Mocks.gameRepository.readEvents()).thenAnswer((_) async => events);
+
+      await gameService.incrementJobExperience();
 
       var actual = verify(Mocks.gameRepository.save(captureAny)).captured.single;
       expect(actual, expectedEvents);

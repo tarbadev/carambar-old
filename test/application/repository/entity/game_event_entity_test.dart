@@ -2,7 +2,7 @@ import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/entity/finish_studies_event.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
 import 'package:carambar/application/domain/entity/graduate_event.dart';
-import 'package:carambar/application/domain/entity/graduate_event.dart';
+import 'package:carambar/application/domain/entity/increment_job_experience_event.dart';
 import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/domain/entity/nationality.dart';
 import 'package:carambar/application/domain/entity/start_school_event.dart';
@@ -79,6 +79,16 @@ void main() {
         );
         expect(GameEventEntity.fromEvent(event), gameEventEntity);
       });
+
+      test('when event is IncrementJobExperienceEvent', () {
+        final event = IncrementJobExperienceEvent(10);
+        final gameEventEntity = GameEventEntity(
+          10,
+          EventType.IncrementJobExperience,
+          null,
+        );
+        expect(GameEventEntity.fromEvent(event), gameEventEntity);
+      });
     });
 
     group('toEvent', () {
@@ -99,7 +109,7 @@ void main() {
         expect(gameEventEntity.toEvent(), gameEvent);
       });
 
-      test('when event is GameEvent', () {
+      test('when event is InitiateEvent', () {
         final gameEventEntity = GameEventEntity(
           12,
           EventType.Initiate,
@@ -120,7 +130,7 @@ void main() {
         expect(gameEventEntity.toEvent(), initiateEvent);
       });
 
-      test('when event is GameEvent', () {
+      test('when event is FinishStudiesEvent', () {
         final gameEventEntity = GameEventEntity(
           10,
           EventType.FinishStudies,
@@ -151,6 +161,16 @@ void main() {
           },
         );
         final gameEvent = GraduateEvent(10, School.HighSchool);
+        expect(gameEventEntity.toEvent(), gameEvent);
+      });
+
+      test('when event is IncrementJobExperienceEvent', () {
+        final gameEventEntity = GameEventEntity(
+          10,
+          EventType.IncrementJobExperience,
+          null,
+        );
+        final gameEvent = IncrementJobExperienceEvent(10);
         expect(gameEventEntity.toEvent(), gameEvent);
       });
     });
