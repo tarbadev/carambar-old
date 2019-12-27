@@ -30,25 +30,26 @@ Future incrementAge(Store<ApplicationState> store, IncrementAgeAction action, Ne
   CharacterService _characterService = container.resolve<CharacterService>();
   AgeEventService _ageEventService = container.resolve<AgeEventService>();
 
-  String originalSchool = store.state.character.school;
+  School originalSchool = store.state.character.school;
 
   var character = await _characterService.incrementAge();
   var newDisplayCharacter = DisplayCharacter.fromCharacter(character);
   var event;
 
-  if (newDisplayCharacter.school != originalSchool) {
+  if (character.school != originalSchool) {
     if (newDisplayCharacter.school == 'None') {
       event = 'You finished your studies';
     } else {
       event = 'You just started ${newDisplayCharacter.school}';
     }
 
-    if (originalSchool == 'High School' || originalSchool == 'Middle School') {
-      var graduate = originalSchool == 'High School' ? Graduate.HighSchool : Graduate.MiddleSchool;
+    if (originalSchool == School.HighSchool || originalSchool == School.MiddleSchool) {
+      var graduate = originalSchool == School.HighSchool ? Graduate.HighSchool : Graduate.MiddleSchool;
       character = await _characterService.addGraduate(graduate);
       newDisplayCharacter = DisplayCharacter.fromCharacter(character);
 
-      var graduatedEvent = 'You graduated from $originalSchool';
+      var displaySchool = DisplayCharacter.mapSchoolToDisplaySchool[originalSchool];
+      var graduatedEvent = 'You graduated from $displaySchool';
       await _ageEventService.addEvent(character.age, event: graduatedEvent);
     }
   }
@@ -62,7 +63,7 @@ Future incrementAge(Store<ApplicationState> store, IncrementAgeAction action, Ne
 
   var ageEvents = await _ageEventService.addEvent(character.age, event: event);
 
-  store.dispatch(SetCharacterAction(newDisplayCharacter));
+  store.dispatch(SetCharacterAction(character));
   store.dispatch(SetAgeEventsAction(ageEvents.map((ageEvent) => DisplayAgeEvent.fromAgeEvent(ageEvent)).toList()));
 
   next(action);

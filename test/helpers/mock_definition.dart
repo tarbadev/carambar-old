@@ -1,10 +1,10 @@
 import 'package:carambar/application/domain/service/game_service.dart';
 import 'package:carambar/application/repository/game_repository.dart';
 import 'package:carambar/application/ui/application_state.dart';
+import 'package:carambar/character/domain/entity/character.dart';
 import 'package:carambar/character/domain/service/character_service.dart';
 import 'package:carambar/character/domain/service/client/character_client.dart';
 import 'package:carambar/character/repository/character_repository.dart';
-import 'package:carambar/character/ui/entity/display_character.dart';
 import 'package:carambar/home/domain/service/age_event_service.dart';
 import 'package:carambar/home/repository/age_event_repository.dart';
 import 'package:carambar/home/ui/entity/display_age_event.dart';
@@ -60,12 +60,12 @@ class Mocks {
   static setupMockStore({
     List<DisplayAgeEvent> displayAgeEvents = const [],
     bool isEndLifeDialogVisible: false,
-    DisplayCharacter displayCharacter,
+    Character character,
     double availableCash: 4523.67,
     List<DisplayJob> availableJobs: const [],
   }) {
-    if (displayCharacter == null) {
-      displayCharacter = Factory.displayCharacter();
+    if (character == null) {
+      character = Factory.character();
     }
 
     reset(store);
@@ -75,7 +75,7 @@ class Mocks {
     when(store.state).thenReturn(applicationState);
     when(store.onChange).thenAnswer((_) => Stream.empty());
     when(applicationState.currentTab).thenReturn(0);
-    when(applicationState.character).thenReturn(displayCharacter);
+    when(applicationState.character).thenReturn(character);
     when(applicationState.ageEvents).thenReturn(displayAgeEvents);
     when(applicationState.isEndLifeDialogVisible).thenReturn(isEndLifeDialogVisible);
     when(applicationState.availableCash).thenReturn(availableCash);

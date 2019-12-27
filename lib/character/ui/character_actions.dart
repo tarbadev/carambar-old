@@ -1,14 +1,14 @@
-import 'package:carambar/character/ui/entity/display_character.dart';
+import 'package:carambar/character/domain/entity/character.dart';
 import 'package:carambar/work/domain/entity/job.dart';
 import 'package:equatable/equatable.dart';
 
 class SetCharacterAction extends Equatable {
-  final DisplayCharacter displayCharacter;
+  final Character character;
 
-  SetCharacterAction(this.displayCharacter);
+  SetCharacterAction(this.character);
 
   @override
-  List<Object> get props => [displayCharacter];
+  List<Object> get props => [character];
 }
 
 class SetCharacterJobAction extends Equatable {

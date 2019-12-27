@@ -1,10 +1,10 @@
-import 'package:carambar/character/ui/entity/display_character.dart';
+import 'package:carambar/character/domain/entity/character.dart';
 import 'package:carambar/home/ui/entity/display_age_event.dart';
 import 'package:carambar/work/ui/entity/display_job.dart';
 
 class ApplicationState {
   final int currentTab;
-  final DisplayCharacter character;
+  final Character character;
   final List<DisplayAgeEvent> ageEvents;
   final bool isEndLifeDialogVisible;
   final double availableCash;

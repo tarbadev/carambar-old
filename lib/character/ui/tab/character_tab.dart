@@ -26,6 +26,6 @@ class _CharacterTabModel {
   _CharacterTabModel(this.displayCharacter);
 
   factory _CharacterTabModel.create(Store<ApplicationState> store) => _CharacterTabModel(
-        store.state.character,
+        DisplayCharacter.fromCharacter(store.state.character),
       );
 }

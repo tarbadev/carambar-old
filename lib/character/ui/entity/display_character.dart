@@ -40,7 +40,7 @@ class DisplayCharacter extends Equatable {
       '${character.age}',
       _mapNationalityToString[character.origin],
       _mapAgeCategoryToString[character.ageCategory],
-      _mapSchoolToDisplaySchool[character.school],
+      mapSchoolToDisplaySchool[character.school],
       character.graduates.map((graduate) => _mapGraduateToDisplayGraduate[graduate]).toList(),
       DisplayCurrentJob.fromCurrentJob(character.currentJob),
       character.jobHistory
@@ -58,7 +58,7 @@ class DisplayCharacter extends Equatable {
     AgeCategory.baby: 'Baby',
   };
 
-  static final _mapSchoolToDisplaySchool = {
+  static final mapSchoolToDisplaySchool = {
     School.None: 'None',
     School.Kindergarten: 'Kindergarten',
     School.PrimarySchool: 'Primary School',

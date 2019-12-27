@@ -29,7 +29,7 @@ void main() {
 
         await initiateCharacter(Mocks.store, initiateStateAction, Mocks.next);
 
-        verify(Mocks.store.dispatch(SetCharacterAction(DisplayCharacter.fromCharacter(character))));
+        verify(Mocks.store.dispatch(SetCharacterAction(character)));
         verify(Mocks.mockNext.next(initiateStateAction));
         verifyNever(Mocks.characterService.generateCharacter());
       });
@@ -45,7 +45,7 @@ void main() {
 
         await initiateCharacter(Mocks.store, initiateStateAction, Mocks.next);
 
-        verify(Mocks.store.dispatch(SetCharacterAction(DisplayCharacter.fromCharacter(character))));
+        verify(Mocks.store.dispatch(SetCharacterAction(character)));
         verify(Mocks.mockNext.next(initiateStateAction));
       });
 
@@ -86,7 +86,6 @@ void main() {
         var job = Factory.job();
         var currentJob = Factory.currentJob();
         var expectedCharacter = Factory.character(currentJob: currentJob);
-        var expectedDisplayCharacter = Factory.displayCharacter(currentJob: Factory.displayCurrentJob());
         var setCharacterJobAction = SetCharacterJobAction(job);
 
         when(Mocks.characterService.getUnmetRequirements(any)).thenAnswer((_) async => []);
@@ -95,7 +94,7 @@ void main() {
 
         await setCharacterJob(Mocks.store, setCharacterJobAction, Mocks.next);
 
-        verify(Mocks.store.dispatch(SetCharacterAction(expectedDisplayCharacter)));
+        verify(Mocks.store.dispatch(SetCharacterAction(expectedCharacter)));
         verify(Mocks.characterService.setJob(job));
         verify(Mocks.mockNext.next(setCharacterJobAction));
       });

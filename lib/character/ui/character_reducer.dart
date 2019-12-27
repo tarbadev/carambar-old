@@ -1,9 +1,9 @@
+import 'package:carambar/character/domain/entity/character.dart';
 import 'package:carambar/character/ui/character_actions.dart';
-import 'package:carambar/character/ui/entity/display_character.dart';
 import 'package:redux/redux.dart';
 
-final Reducer<DisplayCharacter> setCharacterReducer = combineReducers([
-  TypedReducer<DisplayCharacter, SetCharacterAction>(_setCharacter),
+final Reducer<Character> setCharacterReducer = combineReducers([
+  TypedReducer<Character, SetCharacterAction>(_setCharacter),
 ]);
 
-DisplayCharacter _setCharacter(DisplayCharacter currentDisplayCharacter, SetCharacterAction action) => action.displayCharacter;
+Character _setCharacter(Character currentCharacter, SetCharacterAction action) => action.character;

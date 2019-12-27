@@ -47,7 +47,7 @@ Future initiateCharacter(Store<ApplicationState> store,
         .toList()));
   }
 
-  store.dispatch(SetCharacterAction(DisplayCharacter.fromCharacter(character)));
+  store.dispatch(SetCharacterAction(character));
 
   next(action);
 }
@@ -67,7 +67,7 @@ Future setCharacterJob(Store<ApplicationState> store,
     var displayCharacter = DisplayCharacter.fromCharacter(character);
     events.add('You\'re now a ${displayCharacter.currentJob.name}');
 
-    store.dispatch(SetCharacterAction(displayCharacter));
+    store.dispatch(SetCharacterAction(character));
   } else {
     character = await _characterService.getCharacter();
     events.add(

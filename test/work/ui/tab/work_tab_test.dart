@@ -87,11 +87,11 @@ void main() {
           personalityTraits: expectedPersonalityTraits,
           id: 1)
     ];
-    var currentJob = Factory.displayCurrentJob(name: 'Supervisor', salary: '\$15,000/year', id: 1);
-    var character = Factory.displayCharacter(currentJob: currentJob);
+    var currentJob = Factory.currentJob(name: 'Supervisor', salary: 15000.0, id: 1);
+    var character = Factory.character(currentJob: currentJob);
 
     await tester.pumpWidget(
-        buildTestableWidget(WorkTab(), availableJobs: expectedJobs, displayCharacter: character));
+        buildTestableWidget(WorkTab(), availableJobs: expectedJobs, character: character));
     await workTabView.tapOnAvailableJob('Supervisor');
     await tester.pump();
 
