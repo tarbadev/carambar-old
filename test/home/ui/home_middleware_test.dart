@@ -149,6 +149,7 @@ void main() {
 
         await incrementAge(Mocks.store, incrementAgeAction, Mocks.next);
 
+        verify(Mocks.gameService.graduate(School.MiddleSchool));
         verify(Mocks.ageEventService.addEvent(15, event: expectedEvent));
       });
 
@@ -172,6 +173,7 @@ void main() {
 
         await incrementAge(Mocks.store, incrementAgeAction, Mocks.next);
 
+        verify(Mocks.gameService.graduate(School.HighSchool));
         verify(Mocks.ageEventService.addEvent(18, event: expectedEvent));
       });
 

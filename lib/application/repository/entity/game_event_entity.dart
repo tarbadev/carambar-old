@@ -1,6 +1,7 @@
 import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/entity/finish_studies_event.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
+import 'package:carambar/application/domain/entity/graduate_event.dart';
 import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/domain/entity/nationality.dart';
 import 'package:carambar/application/domain/entity/start_school_event.dart';
@@ -9,7 +10,13 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'game_event_entity.g.dart';
 
-enum EventType { Initiate, IncrementAge, FinishStudies, StartSchool }
+enum EventType {
+  Initiate,
+  IncrementAge,
+  FinishStudies,
+  StartSchool,
+  Graduate,
+}
 
 @JsonSerializable(nullable: true)
 class GameEventEntity extends Equatable {
@@ -42,6 +49,9 @@ class GameEventEntity extends Equatable {
         break;
       case StartSchoolEvent:
         return _fromStartSchoolEvent(event);
+        break;
+      case GraduateEvent:
+        return _fromGraduateEvent(event);
         break;
       default:
         throw GameEventTypeNotKnownException(event.runtimeType);
@@ -85,6 +95,16 @@ class GameEventEntity extends Equatable {
     );
   }
 
+  static GameEventEntity _fromGraduateEvent(GraduateEvent graduateEvent) {
+    return GameEventEntity(
+      graduateEvent.age,
+      EventType.Graduate,
+      <String, dynamic>{
+        'school': graduateEvent.school.toString(),
+      },
+    );
+  }
+
   GameEvent toEvent() {
     if (eventType == EventType.Initiate) {
       return _toInitiateEvent();
@@ -94,6 +114,8 @@ class GameEventEntity extends Equatable {
       return _toFinishStudiesEvent();
     } else if (eventType == EventType.StartSchool) {
       return _toStartSchoolEvent();
+    } else if (eventType == EventType.Graduate) {
+      return _toGraduateEvent();
     } else {
       throw GameEventTypeNotKnownException(eventType);
     }
@@ -117,7 +139,16 @@ class GameEventEntity extends Equatable {
   StartSchoolEvent _toStartSchoolEvent() {
     return StartSchoolEvent(
       age,
-      School.values.firstWhere((e) => e.toString() == event['school'] as String),
+      School.values
+          .firstWhere((e) => e.toString() == event['school'] as String),
+    );
+  }
+
+  GraduateEvent _toGraduateEvent() {
+    return GraduateEvent(
+      age,
+      School.values
+          .firstWhere((e) => e.toString() == event['school'] as String),
     );
   }
 

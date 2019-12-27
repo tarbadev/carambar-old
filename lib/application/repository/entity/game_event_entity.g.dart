@@ -44,5 +44,6 @@ const _$EventTypeEnumMap = <EventType, dynamic>{
   EventType.Initiate: 'Initiate',
   EventType.IncrementAge: 'IncrementAge',
   EventType.FinishStudies: 'FinishStudies',
-  EventType.StartSchool: 'StartSchool'
+  EventType.StartSchool: 'StartSchool',
+  EventType.Graduate: 'Graduate'
 };

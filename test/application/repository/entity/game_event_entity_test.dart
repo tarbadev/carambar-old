@@ -1,9 +1,10 @@
 import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/entity/finish_studies_event.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
+import 'package:carambar/application/domain/entity/graduate_event.dart';
+import 'package:carambar/application/domain/entity/graduate_event.dart';
 import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/domain/entity/nationality.dart';
-import 'package:carambar/application/domain/entity/start_school_event.dart';
 import 'package:carambar/application/domain/entity/start_school_event.dart';
 import 'package:carambar/application/repository/entity/game_event_entity.dart';
 import 'package:test/test.dart';
@@ -68,6 +69,16 @@ void main() {
         );
         expect(GameEventEntity.fromEvent(event), gameEventEntity);
       });
+
+      test('when event is GraduateEvent', () {
+        final event = GraduateEvent(10, School.Kindergarten);
+        final gameEventEntity = GameEventEntity(
+          10,
+          EventType.Graduate,
+          <String, dynamic>{'school': 'School.Kindergarten'},
+        );
+        expect(GameEventEntity.fromEvent(event), gameEventEntity);
+      });
     });
 
     group('toEvent', () {
@@ -128,6 +139,18 @@ void main() {
           },
         );
         final gameEvent = StartSchoolEvent(10, School.HighSchool);
+        expect(gameEventEntity.toEvent(), gameEvent);
+      });
+
+      test('when event is GraduateEvent', () {
+        final gameEventEntity = GameEventEntity(
+          10,
+          EventType.Graduate,
+          <String, dynamic>{
+            'school': 'School.HighSchool',
+          },
+        );
+        final gameEvent = GraduateEvent(10, School.HighSchool);
         expect(gameEventEntity.toEvent(), gameEvent);
       });
     });

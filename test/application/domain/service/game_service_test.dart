@@ -1,6 +1,7 @@
 import 'package:carambar/application/domain/entity/finish_studies_event.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
 import 'package:carambar/application/domain/entity/character.dart';
+import 'package:carambar/application/domain/entity/graduate_event.dart';
 import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/domain/entity/start_school_event.dart';
 import 'package:carambar/application/domain/service/game_service.dart';
@@ -78,6 +79,20 @@ void main() {
       var startSchoolEvent = StartSchoolEvent(11, School.Kindergarten);
       final events = [previousEvent];
       final expectedEvents = [previousEvent, startSchoolEvent];
+
+      when(Mocks.gameRepository.readEvents()).thenAnswer((_) async => events);
+
+      await gameService.startSchool(School.Kindergarten);
+
+      var actual = verify(Mocks.gameRepository.save(captureAny)).captured.single;
+      expect(actual, expectedEvents);
+    });
+
+    test('graduate generates event and stores it', () async {
+      var previousEvent = GameEvent(11);
+      var graduateEvent = GraduateEvent(11, School.HighSchool);
+      final events = [previousEvent];
+      final expectedEvents = [previousEvent, graduateEvent];
 
       when(Mocks.gameRepository.readEvents()).thenAnswer((_) async => events);
 
