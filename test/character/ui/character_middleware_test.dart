@@ -1,12 +1,11 @@
-import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/ui/application_actions.dart';
 import 'package:carambar/character/ui/character_actions.dart';
 import 'package:carambar/character/ui/character_middleware.dart';
 import 'package:carambar/character/ui/entity/display_character.dart';
 import 'package:carambar/home/ui/home_actions.dart';
 import 'package:carambar/work/domain/entity/job.dart';
-import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 
 import '../../helpers/factory.dart';
 import '../../helpers/fake_application_injector.dart';
@@ -60,13 +59,6 @@ void main() {
         var ageEvents = [
           Factory.ageEvent(age: 0, events: [expectedEvent])
         ];
-        var gameEvent = InitiateEvent(
-          character.age,
-          character.firstName,
-          character.lastName,
-          character.gender,
-          character.origin,
-        );
 
         when(Mocks.characterService.getCharacter()).thenAnswer((_) async => null);
         when(Mocks.characterService.generateCharacter()).thenAnswer((_) async => character);
@@ -76,7 +68,7 @@ void main() {
         await initiateCharacter(Mocks.store, initiateStateAction, Mocks.next);
 
         verify(Mocks.ageEventService.addEvent(0, event: expectedEvent));
-        verify(Mocks.gameService.addEvent(gameEvent));
+        verify(Mocks.gameService.initiate(character));
         verify(Mocks.store.dispatch(SetAgeEventsAction(Factory.ageEventsToDisplayAgeEvents(ageEvents))));
       });
     });

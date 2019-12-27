@@ -1,3 +1,4 @@
+import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/domain/service/game_service.dart';
 import 'package:carambar/application/domain/entity/nationality.dart';
@@ -15,7 +16,14 @@ void main() {
       reset(Mocks.gameRepository);
     });
 
-    test('generateGame generates a new game and saves it', () async {
+    test('initiate generates event from character and stores it', () async {
+      final character = Character(
+        firstName: 'firstName',
+        lastName: 'lastName',
+        gender: 'Female',
+        origin: Nationality.france,
+        age: 12
+      );
       final event = InitiateEvent(
         12,
         'firstName',
@@ -24,7 +32,7 @@ void main() {
         Nationality.france,
       );
 
-      await gameService.addEvent(event);
+      await gameService.initiate(character);
 
       verify(Mocks.gameRepository.save([event]));
     });

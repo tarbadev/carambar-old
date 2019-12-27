@@ -1,4 +1,3 @@
-import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/domain/service/game_service.dart';
 import 'package:carambar/application/ui/application_actions.dart';
 import 'package:carambar/application/ui/application_state.dart';
@@ -29,9 +28,8 @@ Future initiateCharacter(Store<ApplicationState> store,
   if (character == null) {
     character = await _characterService.generateCharacter();
     var displayCharacter = DisplayCharacter.fromCharacter(character);
-    var initiateEvent = InitiateEvent.fromCharacter(character);
 
-    await _gameService.addEvent(initiateEvent);
+    await _gameService.initiate(character);
 
     var newCharacterEvent = '''
       You just started your life!

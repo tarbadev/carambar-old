@@ -1,3 +1,4 @@
+import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/repository/game_repository.dart';
 
@@ -6,7 +7,7 @@ class GameService {
 
   GameService(this.gameRepository);
 
-  Future addEvent(InitiateEvent event) async {
-    await gameRepository.save([event]);
+  Future initiate(Character character) async {
+    await gameRepository.save([InitiateEvent.fromCharacter(character)]);
   }
 }
