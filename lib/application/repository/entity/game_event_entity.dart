@@ -1,15 +1,18 @@
+import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/entity/finish_studies_event.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
 import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/domain/entity/nationality.dart';
+import 'package:carambar/application/domain/entity/start_school_event.dart';
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'game_event_entity.g.dart';
 
-enum EventType { Initiate, IncrementAge, FinishStudies }
+enum EventType { Initiate, IncrementAge, FinishStudies, StartSchool }
 
 @JsonSerializable(nullable: true)
-class GameEventEntity {
+class GameEventEntity extends Equatable {
   final int age;
   final EventType eventType;
   final Map<String, dynamic> event;
@@ -26,42 +29,61 @@ class GameEventEntity {
 
   Map<String, dynamic> toJson() => _$GameEventEntityToJson(this);
 
-
   factory GameEventEntity.fromEvent(GameEvent event) {
     switch (event.runtimeType) {
       case GameEvent:
-        return GameEventEntity.fromGameEvent(event);
+        return _fromGameEvent(event);
         break;
       case InitiateEvent:
-        return GameEventEntity.fromInitiateEvent(event);
+        return _fromInitiateEvent(event);
         break;
       case FinishStudiesEvent:
-        return GameEventEntity.fromFinishStudiesEvent(event);
+        return _fromFinishStudiesEvent(event);
+        break;
+      case StartSchoolEvent:
+        return _fromStartSchoolEvent(event);
         break;
       default:
-        throw GameEventTypeNotKnownException();
+        throw GameEventTypeNotKnownException(event.runtimeType);
     }
   }
 
-  GameEventEntity.fromInitiateEvent(InitiateEvent initiateEvent)
-      : age = initiateEvent.age,
-        eventType = EventType.Initiate,
-        event = <String, dynamic>{
-          'firstName': initiateEvent.firstName,
-          'lastName': initiateEvent.lastName,
-          'gender': initiateEvent.gender,
-          'origin': initiateEvent.origin.toString()
-        };
+  static GameEventEntity _fromInitiateEvent(InitiateEvent initiateEvent) {
+    return GameEventEntity(
+      initiateEvent.age,
+      EventType.Initiate,
+      <String, dynamic>{
+        'firstName': initiateEvent.firstName,
+        'lastName': initiateEvent.lastName,
+        'gender': initiateEvent.gender,
+        'origin': initiateEvent.origin.toString(),
+      },
+    );
+  }
 
-  GameEventEntity.fromGameEvent(GameEvent gameEvent)
-      : age = gameEvent.age,
-        eventType = EventType.IncrementAge,
-        event = null;
+  static GameEventEntity _fromGameEvent(GameEvent gameEvent) {
+    return GameEventEntity(gameEvent.age, EventType.IncrementAge, null);
+  }
 
-  GameEventEntity.fromFinishStudiesEvent(FinishStudiesEvent finishStudiesEvent)
-      : age = finishStudiesEvent.age,
-        eventType = EventType.FinishStudies,
-        event = null;
+  static GameEventEntity _fromFinishStudiesEvent(
+      FinishStudiesEvent finishStudiesEvent) {
+    return GameEventEntity(
+      finishStudiesEvent.age,
+      EventType.FinishStudies,
+      null,
+    );
+  }
+
+  static GameEventEntity _fromStartSchoolEvent(
+      StartSchoolEvent startSchoolEvent) {
+    return GameEventEntity(
+      startSchoolEvent.age,
+      EventType.StartSchool,
+      <String, dynamic>{
+        'school': startSchoolEvent.school.toString(),
+      },
+    );
+  }
 
   GameEvent toEvent() {
     if (eventType == EventType.Initiate) {
@@ -70,8 +92,10 @@ class GameEventEntity {
       return _toGameEvent();
     } else if (eventType == EventType.FinishStudies) {
       return _toFinishStudiesEvent();
+    } else if (eventType == EventType.StartSchool) {
+      return _toStartSchoolEvent();
     } else {
-      throw GameEventTypeNotKnownException();
+      throw GameEventTypeNotKnownException(eventType);
     }
   }
 
@@ -89,6 +113,25 @@ class GameEventEntity {
   GameEvent _toGameEvent() => GameEvent(age);
 
   FinishStudiesEvent _toFinishStudiesEvent() => FinishStudiesEvent(age);
+
+  StartSchoolEvent _toStartSchoolEvent() {
+    return StartSchoolEvent(
+      age,
+      School.values.firstWhere((e) => e.toString() == event['school'] as String),
+    );
+  }
+
+  @override
+  List<Object> get props => [age, eventType, event];
 }
 
-class GameEventTypeNotKnownException implements Exception {}
+class GameEventTypeNotKnownException implements Exception {
+  final unknownType;
+
+  GameEventTypeNotKnownException(this.unknownType);
+
+  String toString() {
+    if (unknownType == null) return "GameEventTypeNotKnownException";
+    return "GameEventTypeNotKnownException: Unknown type ($unknownType)";
+  }
+}

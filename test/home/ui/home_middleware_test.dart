@@ -76,6 +76,7 @@ void main() {
 
         await incrementAge(Mocks.store, incrementAgeAction, Mocks.next);
 
+        verify(Mocks.gameService.startSchool(School.Kindergarten));
         verify(Mocks.ageEventService
             .addEvent(3, event: 'You just started Kindergarten'));
       });

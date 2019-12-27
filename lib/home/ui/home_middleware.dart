@@ -45,6 +45,7 @@ Future incrementAge(Store<ApplicationState> store, IncrementAgeAction action, Ne
       await _gameService.finishStudies();
       event = 'You finished your studies';
     } else {
+      await _gameService.startSchool(character.school);
       event = 'You just started ${newDisplayCharacter.school}';
     }
 
