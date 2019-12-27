@@ -6,9 +6,12 @@ import 'package:carambar/application/domain/entity/graduate_event.dart';
 import 'package:carambar/application/domain/entity/increment_job_experience_event.dart';
 import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/domain/entity/nationality.dart';
+import 'package:carambar/application/domain/entity/set_current_job_event.dart';
 import 'package:carambar/application/domain/entity/start_school_event.dart';
 import 'package:carambar/application/repository/entity/game_event_entity.dart';
 import 'package:test/test.dart';
+
+import '../../../helpers/factory.dart';
 
 void main() {
   group('GameEventEntity', () {
@@ -97,6 +100,16 @@ void main() {
           10,
           EventType.AddCash,
           <String, dynamic>{'amount': 2000.0},
+        );
+        expect(GameEventEntity.fromEvent(event), gameEventEntity);
+      });
+
+      test('when event is SetCurrentJobEvent', () {
+        final event = SetCurrentJobEvent(10, 54);
+        final gameEventEntity = GameEventEntity(
+          10,
+          EventType.SetCurrentJob,
+          <String, dynamic>{'jobId': 54},
         );
         expect(GameEventEntity.fromEvent(event), gameEventEntity);
       });
@@ -194,6 +207,18 @@ void main() {
           },
         );
         final gameEvent = AddCashEvent(10, 2000.0);
+        expect(gameEventEntity.toEvent(), gameEvent);
+      });
+
+      test('when event is SetCurrentJobEvent', () {
+        final gameEventEntity = GameEventEntity(
+          10,
+          EventType.SetCurrentJob,
+          <String, dynamic>{
+            'jobId': 23,
+          },
+        );
+        final gameEvent = SetCurrentJobEvent(10, 23);
         expect(gameEventEntity.toEvent(), gameEvent);
       });
     });

@@ -6,6 +6,7 @@ import 'package:carambar/application/domain/entity/graduate_event.dart';
 import 'package:carambar/application/domain/entity/increment_job_experience_event.dart';
 import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/domain/entity/nationality.dart';
+import 'package:carambar/application/domain/entity/set_current_job_event.dart';
 import 'package:carambar/application/domain/entity/start_school_event.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -20,6 +21,7 @@ enum EventType {
   Graduate,
   IncrementJobExperience,
   AddCash,
+  SetCurrentJob,
 }
 
 @JsonSerializable(nullable: true)
@@ -62,6 +64,9 @@ class GameEventEntity extends Equatable {
         break;
       case AddCashEvent:
         return _fromAddCashEvent(event);
+        break;
+      case SetCurrentJobEvent:
+        return _fromSetCurrentJobEvent(event);
         break;
       default:
         throw GameEventTypeNotKnownException(event.runtimeType);
@@ -134,6 +139,16 @@ class GameEventEntity extends Equatable {
     );
   }
 
+  static GameEventEntity _fromSetCurrentJobEvent(SetCurrentJobEvent setCurrentJobEvent) {
+    return GameEventEntity(
+      setCurrentJobEvent.age,
+      EventType.SetCurrentJob,
+      <String, dynamic>{
+        'jobId': setCurrentJobEvent.jobId,
+      },
+    );
+  }
+
   GameEvent toEvent() {
     if (eventType == EventType.Initiate) {
       return _toInitiateEvent();
@@ -149,6 +164,8 @@ class GameEventEntity extends Equatable {
       return _toIncrementJobExperienceEvent();
     } else if (eventType == EventType.AddCash) {
       return _toAddCashEvent();
+    } else if (eventType == EventType.SetCurrentJob) {
+      return _toSetCurrentJobEvent();
     } else {
       throw GameEventTypeNotKnownException(eventType);
     }
@@ -192,6 +209,13 @@ class GameEventEntity extends Equatable {
     return AddCashEvent(
       age,
       event['amount'] as double,
+    );
+  }
+
+  SetCurrentJobEvent _toSetCurrentJobEvent() {
+    return SetCurrentJobEvent(
+      age,
+      event['jobId'],
     );
   }
 

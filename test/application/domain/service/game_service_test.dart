@@ -5,12 +5,14 @@ import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/entity/graduate_event.dart';
 import 'package:carambar/application/domain/entity/increment_job_experience_event.dart';
 import 'package:carambar/application/domain/entity/initiate_event.dart';
+import 'package:carambar/application/domain/entity/set_current_job_event.dart';
 import 'package:carambar/application/domain/entity/start_school_event.dart';
 import 'package:carambar/application/domain/service/game_service.dart';
 import 'package:carambar/application/domain/entity/nationality.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
+import '../../../helpers/factory.dart';
 import '../../../helpers/mock_definition.dart';
 
 void main() {
@@ -127,6 +129,20 @@ void main() {
       when(Mocks.gameRepository.readEvents()).thenAnswer((_) async => events);
 
       await gameService.addCash(2000);
+
+      var actual = verify(Mocks.gameRepository.save(captureAny)).captured.single;
+      expect(actual, expectedEvents);
+    });
+
+    test('setCurrentJob generates an event and stores it', () async {
+      var previousEvent = GameEvent(11);
+      var graduateEvent = SetCurrentJobEvent(11, 34);
+      final events = [previousEvent];
+      final expectedEvents = [previousEvent, graduateEvent];
+
+      when(Mocks.gameRepository.readEvents()).thenAnswer((_) async => events);
+
+      await gameService.setCurrentJob(Factory.job(id: 34));
 
       var actual = verify(Mocks.gameRepository.save(captureAny)).captured.single;
       expect(actual, expectedEvents);

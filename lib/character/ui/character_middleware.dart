@@ -55,12 +55,15 @@ Future setCharacterJob(Store<ApplicationState> store,
   var container = kiwi.Container();
   CharacterService _characterService = container.resolve<CharacterService>();
   AgeEventService _ageEventService = container.resolve<AgeEventService>();
+  GameService _gameService = container.resolve<GameService>();
 
   var character;
   List<String> events = new List();
   var unmetRequirements =
       await _characterService.getUnmetRequirements(action.job);
   if (unmetRequirements.isEmpty) {
+    _gameService.setCurrentJob(action.job);
+
     character = await _characterService.setJob(action.job);
     var displayCharacter = DisplayCharacter.fromCharacter(character);
     events.add('You\'re now a ${displayCharacter.currentJob.name}');
