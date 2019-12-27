@@ -46,10 +46,12 @@ void main() {
 
       final expectedJsonString = '[{' +
           '"age":12,' +
+          '"event":{' +
           '"firstName":"firstName",' +
           '"lastName":"lastName",' +
           '"gender":"male",' +
           '"origin":"Nationality.france"' +
+          '}' +
           '}]';
 
       expect(await gameStorage.read(), expectedJsonString);

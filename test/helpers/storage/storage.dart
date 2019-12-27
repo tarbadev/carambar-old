@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:carambar/application/domain/entity/initiate_event.dart';
-import 'package:carambar/application/repository/entity/initiate_event_entity.dart';
+import 'package:carambar/application/repository/entity/game_event_entity.dart';
 import 'package:carambar/home/domain/entity/age_event.dart';
 import 'package:carambar/home/repository/entity/age_event_entity.dart';
 import 'package:carambar/application/domain/entity/character.dart';
@@ -82,7 +82,7 @@ class GameStorage extends Storage {
 
   Future<File> store(List<InitiateEvent> events) async {
     return write(events
-        .map((event) => InitiateEventEntity.fromInitiateEvent(event))
+        .map((event) => GameEventEntity.fromInitiateEvent(event))
         .toList());
   }
 }
