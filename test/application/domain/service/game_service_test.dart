@@ -1,4 +1,5 @@
 import 'package:carambar/application/domain/entity/add_cash_event.dart';
+import 'package:carambar/application/domain/entity/add_job_apply_failure_event.dart';
 import 'package:carambar/application/domain/entity/finish_studies_event.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
 import 'package:carambar/application/domain/entity/character.dart';
@@ -9,6 +10,7 @@ import 'package:carambar/application/domain/entity/set_current_job_event.dart';
 import 'package:carambar/application/domain/entity/start_school_event.dart';
 import 'package:carambar/application/domain/service/game_service.dart';
 import 'package:carambar/application/domain/entity/nationality.dart';
+import 'package:carambar/work/domain/entity/job.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -143,6 +145,20 @@ void main() {
       when(Mocks.gameRepository.readEvents()).thenAnswer((_) async => events);
 
       await gameService.setCurrentJob(Factory.job(id: 34));
+
+      var actual = verify(Mocks.gameRepository.save(captureAny)).captured.single;
+      expect(actual, expectedEvents);
+    });
+
+    test('addJobApplyFailure generates an event and stores it', () async {
+      var previousEvent = GameEvent(11);
+      var graduateEvent = AddJobApplyFailureEvent(11, 34, Requirement.values);
+      final events = [previousEvent];
+      final expectedEvents = [previousEvent, graduateEvent];
+
+      when(Mocks.gameRepository.readEvents()).thenAnswer((_) async => events);
+
+      await gameService.addJobApplyFailure(Factory.job(id: 34), Requirement.values);
 
       var actual = verify(Mocks.gameRepository.save(captureAny)).captured.single;
       expect(actual, expectedEvents);

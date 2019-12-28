@@ -1,4 +1,5 @@
 import 'package:carambar/application/domain/entity/add_cash_event.dart';
+import 'package:carambar/application/domain/entity/add_job_apply_failure_event.dart';
 import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/entity/finish_studies_event.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
@@ -8,6 +9,7 @@ import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/domain/entity/nationality.dart';
 import 'package:carambar/application/domain/entity/set_current_job_event.dart';
 import 'package:carambar/application/domain/entity/start_school_event.dart';
+import 'package:carambar/work/domain/entity/job.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -22,6 +24,7 @@ enum EventType {
   IncrementJobExperience,
   AddCash,
   SetCurrentJob,
+  AddJobApplyFailure,
 }
 
 @JsonSerializable(nullable: true)
@@ -67,6 +70,9 @@ class GameEventEntity extends Equatable {
         break;
       case SetCurrentJobEvent:
         return _fromSetCurrentJobEvent(event);
+        break;
+      case AddJobApplyFailureEvent:
+        return _fromAddJobApplyFailureEvent(event);
         break;
       default:
         throw GameEventTypeNotKnownException(event.runtimeType);
@@ -139,12 +145,26 @@ class GameEventEntity extends Equatable {
     );
   }
 
-  static GameEventEntity _fromSetCurrentJobEvent(SetCurrentJobEvent setCurrentJobEvent) {
+  static GameEventEntity _fromSetCurrentJobEvent(
+      SetCurrentJobEvent setCurrentJobEvent) {
     return GameEventEntity(
       setCurrentJobEvent.age,
       EventType.SetCurrentJob,
       <String, dynamic>{
         'jobId': setCurrentJobEvent.jobId,
+      },
+    );
+  }
+
+  static GameEventEntity _fromAddJobApplyFailureEvent(
+      AddJobApplyFailureEvent addJobApplyFailureEvent) {
+    return GameEventEntity(
+      addJobApplyFailureEvent.age,
+      EventType.AddJobApplyFailure,
+      <String, dynamic>{
+        'jobId': addJobApplyFailureEvent.jobId,
+        'unmetRequirements': addJobApplyFailureEvent.unmetRequirements
+            .map((requirement) => requirement.toString()).toList()
       },
     );
   }
@@ -166,6 +186,8 @@ class GameEventEntity extends Equatable {
       return _toAddCashEvent();
     } else if (eventType == EventType.SetCurrentJob) {
       return _toSetCurrentJobEvent();
+    } else if (eventType == EventType.AddJobApplyFailure) {
+      return _toAddJobApplyFailureEvent();
     } else {
       throw GameEventTypeNotKnownException(eventType);
     }
@@ -215,7 +237,18 @@ class GameEventEntity extends Equatable {
   SetCurrentJobEvent _toSetCurrentJobEvent() {
     return SetCurrentJobEvent(
       age,
-      event['jobId'],
+      event['jobId'] as int,
+    );
+  }
+
+  AddJobApplyFailureEvent _toAddJobApplyFailureEvent() {
+    return AddJobApplyFailureEvent(
+      age,
+      event['jobId'] as int,
+      (event['unmetRequirements'] as List)
+          .map((requirement) =>
+              Requirement.values.firstWhere((e) => e.toString() == requirement))
+          .toList(),
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:carambar/application/domain/entity/add_cash_event.dart';
+import 'package:carambar/application/domain/entity/add_job_apply_failure_event.dart';
 import 'package:carambar/application/domain/entity/finish_studies_event.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
 import 'package:carambar/application/domain/entity/character.dart';
@@ -58,6 +59,12 @@ class GameService {
   Future setCurrentJob(Job job) async {
     List<GameEvent> events = await gameRepository.readEvents();
     events.add(SetCurrentJobEvent(events.last.age, job.id));
+    await gameRepository.save(events);
+  }
+
+  Future addJobApplyFailure(Job job, List<Requirement> unMetRequirements) async {
+    List<GameEvent> events = await gameRepository.readEvents();
+    events.add(AddJobApplyFailureEvent(events.last.age, job.id, unMetRequirements));
     await gameRepository.save(events);
   }
 }

@@ -137,7 +137,7 @@ void main() {
 
         await setCharacterJob(Mocks.store, setCharacterJobAction, Mocks.next);
 
-        verify(Mocks.gameService.setCurrentJob(job));
+        verify(Mocks.gameService.addJobApplyFailure(job, Requirement.values));
         verify(Mocks.characterService.getUnmetRequirements(job));
         verify(Mocks.ageEventService.addEvents(34, expectedEvents));
         verify(Mocks.store.dispatch(SetAgeEventsAction(Factory.ageEventsToDisplayAgeEvents(ageEvents))));

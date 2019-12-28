@@ -1,4 +1,5 @@
 import 'package:carambar/application/domain/entity/add_cash_event.dart';
+import 'package:carambar/application/domain/entity/add_job_apply_failure_event.dart';
 import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/entity/finish_studies_event.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
@@ -9,6 +10,7 @@ import 'package:carambar/application/domain/entity/nationality.dart';
 import 'package:carambar/application/domain/entity/set_current_job_event.dart';
 import 'package:carambar/application/domain/entity/start_school_event.dart';
 import 'package:carambar/application/repository/entity/game_event_entity.dart';
+import 'package:carambar/work/domain/entity/job.dart';
 import 'package:test/test.dart';
 
 import '../../../helpers/factory.dart';
@@ -110,6 +112,19 @@ void main() {
           10,
           EventType.SetCurrentJob,
           <String, dynamic>{'jobId': 54},
+        );
+        expect(GameEventEntity.fromEvent(event), gameEventEntity);
+      });
+
+      test('when event is AddJobApplyFailureEvent', () {
+        final event = AddJobApplyFailureEvent(10, 34, Requirement.values);
+        final gameEventEntity = GameEventEntity(
+          10,
+          EventType.AddJobApplyFailure,
+          <String, dynamic>{
+            'jobId': 34,
+            'unmetRequirements': Requirement.values.map((requirement) => requirement.toString())
+          },
         );
         expect(GameEventEntity.fromEvent(event), gameEventEntity);
       });
@@ -219,6 +234,19 @@ void main() {
           },
         );
         final gameEvent = SetCurrentJobEvent(10, 23);
+        expect(gameEventEntity.toEvent(), gameEvent);
+      });
+
+      test('when event is AddJobApplyFailureEvent', () {
+        final gameEventEntity = GameEventEntity(
+          10,
+          EventType.AddJobApplyFailure,
+          <String, dynamic>{
+            'jobId': 23,
+            'unmetRequirements': ['Requirement.AssociateDirector5Years']
+          },
+        );
+        final gameEvent = AddJobApplyFailureEvent(10, 23, [Requirement.AssociateDirector5Years]);
         expect(gameEventEntity.toEvent(), gameEvent);
       });
     });

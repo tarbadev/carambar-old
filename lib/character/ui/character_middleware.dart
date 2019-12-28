@@ -62,7 +62,7 @@ Future setCharacterJob(Store<ApplicationState> store,
   var unmetRequirements =
       await _characterService.getUnmetRequirements(action.job);
   if (unmetRequirements.isEmpty) {
-    _gameService.setCurrentJob(action.job);
+    await _gameService.setCurrentJob(action.job);
 
     character = await _characterService.setJob(action.job);
     var displayCharacter = DisplayCharacter.fromCharacter(character);
@@ -70,6 +70,8 @@ Future setCharacterJob(Store<ApplicationState> store,
 
     store.dispatch(SetCharacterAction(character));
   } else {
+    await _gameService.addJobApplyFailure(action.job, unmetRequirements);
+
     character = await _characterService.getCharacter();
     events.add(
         'You failed to apply for this new job because you don\'t meet all the requirements:');
