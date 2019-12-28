@@ -7,12 +7,14 @@ import 'package:carambar/application/repository/internal_file_repository.dart';
 class GameRepository extends InternalFileRepository {
   GameRepository(String fileName) : super(fileName);
 
-  Future save(List<GameEvent> events) async {
+  Future<List<GameEvent>> save(List<GameEvent> events) async {
     var eventList = events
             .map((event) => GameEventEntity.fromEvent(event))
             .toList();
 
     await write(eventList);
+
+    return events;
   }
 
   Future<List<GameEvent>> readEvents() async {

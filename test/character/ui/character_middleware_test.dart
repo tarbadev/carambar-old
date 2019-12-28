@@ -1,8 +1,11 @@
+import 'package:carambar/application/domain/entity/add_job_apply_failure_event.dart';
+import 'package:carambar/application/domain/entity/game_event.dart';
+import 'package:carambar/application/domain/entity/initiate_event.dart';
+import 'package:carambar/application/domain/entity/nationality.dart';
+import 'package:carambar/application/domain/entity/set_current_job_event.dart';
 import 'package:carambar/application/ui/application_actions.dart';
 import 'package:carambar/character/ui/character_actions.dart';
 import 'package:carambar/character/ui/character_middleware.dart';
-import 'package:carambar/character/ui/entity/display_character.dart';
-import 'package:carambar/home/ui/home_actions.dart';
 import 'package:carambar/work/domain/entity/job.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -36,11 +39,9 @@ void main() {
       test('generates a character if none exists and stores it in the state', () async {
         var initiateStateAction = InitiateStateAction();
         var character = Factory.character();
-        var ageEvents = [Factory.ageEvent(age: 18, events: [])];
 
         when(Mocks.characterService.getCharacter()).thenAnswer((_) async => null);
         when(Mocks.characterService.generateCharacter()).thenAnswer((_) async => character);
-        when(Mocks.ageEventService.addEvent(any, event: anyNamed('event'))).thenAnswer((_) async => ageEvents);
 
         await initiateCharacter(Mocks.store, initiateStateAction, Mocks.next);
 
@@ -48,28 +49,25 @@ void main() {
         verify(Mocks.mockNext.next(initiateStateAction));
       });
 
-      test('generates a character if none exists and adds an event', () async {
+      test('generates a character if none exists and stores new game events', () async {
+        final gameEvents = [InitiateEvent(
+          0,
+          'firstName',
+          'lastName',
+          'gender',
+          Nationality.france,
+        )];
         var initiateStateAction = InitiateStateAction();
         var character = Factory.character(age: 0);
-        var displayCharacter = DisplayCharacter.fromCharacter(character);
-        var line1 = 'You just started your life!';
-        var line2 =
-            'You\'re a baby ${displayCharacter.genderChild.toLowerCase()} named ${displayCharacter.name} from ${displayCharacter.origin}';
-        var expectedEvent = '$line1\n$line2';
-        var ageEvents = [
-          Factory.ageEvent(age: 0, events: [expectedEvent])
-        ];
 
         when(Mocks.characterService.getCharacter()).thenAnswer((_) async => null);
         when(Mocks.characterService.generateCharacter()).thenAnswer((_) async => character);
-        when(Mocks.ageEventService.addEvent(any, event: anyNamed('event')))
-            .thenAnswer((_) async => ageEvents);
+        when(Mocks.gameService.initiate(any)).thenAnswer((_) async => gameEvents);
 
         await initiateCharacter(Mocks.store, initiateStateAction, Mocks.next);
 
-        verify(Mocks.ageEventService.addEvent(0, event: expectedEvent));
         verify(Mocks.gameService.initiate(character));
-        verify(Mocks.store.dispatch(SetAgeEventsAction(Factory.ageEventsToDisplayAgeEvents(ageEvents))));
+        verify(Mocks.store.dispatch(SetGameEventsAction(gameEvents)));
       });
     });
 
@@ -82,7 +80,6 @@ void main() {
 
         when(Mocks.characterService.getUnmetRequirements(any)).thenAnswer((_) async => []);
         when(Mocks.characterService.setJob(any)).thenAnswer((_) async => expectedCharacter);
-        when(Mocks.ageEventService.addEvents(any, any)).thenAnswer((_) async => []);
 
         await setCharacterJob(Mocks.store, setCharacterJobAction, Mocks.next);
 
@@ -96,18 +93,20 @@ void main() {
         var currentJob = Factory.currentJob();
         var expectedCharacter = Factory.character(currentJob: currentJob);
         var setCharacterJobAction = SetCharacterJobAction(job);
-        var ageEvents = [
-          Factory.ageEvent(age: 34, events: ['You\'re now a Supervisor'])
+        var gameEvents = [
+          GameEvent(23),
+          SetCurrentJobEvent(23, job.id),
         ];
 
         when(Mocks.characterService.getUnmetRequirements(any)).thenAnswer((_) async => []);
         when(Mocks.characterService.setJob(any)).thenAnswer((_) async => expectedCharacter);
-        when(Mocks.ageEventService.addEvents(any, any)).thenAnswer((_) async => ageEvents);
+        when(Mocks.gameService.setCurrentJob(any))
+            .thenAnswer((_) async => gameEvents);
 
         await setCharacterJob(Mocks.store, setCharacterJobAction, Mocks.next);
 
         verify(Mocks.gameService.setCurrentJob(job));
-        verify(Mocks.store.dispatch(SetAgeEventsAction(Factory.ageEventsToDisplayAgeEvents(ageEvents))));
+        verify(Mocks.store.dispatch(SetGameEventsAction(gameEvents)));
         verify(Mocks.characterService.setJob(job));
         verify(Mocks.mockNext.next(setCharacterJobAction));
       });
@@ -115,32 +114,23 @@ void main() {
       test('calls the service to check if the character meets all the requirements and adds an event', () async {
         var job = Factory.job(id: 23, requirements: Requirement.values);
         var setCharacterJobAction = SetCharacterJobAction(job);
-        var expectedEvents = [
-          'You failed to apply for this new job because you don\'t meet all the requirements:',
-          '\u2022 Did not graduate from High School',
-          '\u2022 Does not have at least 3 years of experience as a Supervisor',
-          '\u2022 Does not have at least 1 year of experience as a Substitute Teacher',
-          '\u2022 Does not have at least 5 years of experience as a Teacher',
-          '\u2022 Does not have at least 5 years of experience as a Counselor',
-          '\u2022 Does not have at least 5 years of experience as a Associate Director',
-        ];
-        var ageEvents = [
-          Factory.ageEvent(age: 34, events: expectedEvents)
+        var gameEvents = [
+          GameEvent(23),
+          AddJobApplyFailureEvent(23, job.id, Requirement.values),
         ];
 
         when(Mocks.characterService.getUnmetRequirements(any))
             .thenAnswer((_) async => Requirement.values);
         when(Mocks.characterService.getCharacter())
             .thenAnswer((_) async => Factory.character(age: 34));
-        when(Mocks.ageEventService.addEvents(any, any))
-            .thenAnswer((_) async => ageEvents);
+        when(Mocks.gameService.addJobApplyFailure(any, any))
+            .thenAnswer((_) async => gameEvents);
 
         await setCharacterJob(Mocks.store, setCharacterJobAction, Mocks.next);
 
-        verify(Mocks.gameService.addJobApplyFailure(job, Requirement.values));
         verify(Mocks.characterService.getUnmetRequirements(job));
-        verify(Mocks.ageEventService.addEvents(34, expectedEvents));
-        verify(Mocks.store.dispatch(SetAgeEventsAction(Factory.ageEventsToDisplayAgeEvents(ageEvents))));
+        verify(Mocks.gameService.addJobApplyFailure(job, Requirement.values));
+        verify(Mocks.store.dispatch(SetGameEventsAction(gameEvents)));
         verify(Mocks.mockNext.next(setCharacterJobAction));
 
         verifyNever(Mocks.store.dispatch(SetCharacterJobAction(job)));

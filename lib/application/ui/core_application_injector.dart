@@ -1,8 +1,6 @@
 import 'package:carambar/application/domain/service/game_service.dart';
 import 'package:carambar/application/repository/game_repository.dart';
-import 'package:carambar/home/repository/age_event_repository.dart';
 import 'package:carambar/character/repository/character_repository.dart';
-import 'package:carambar/home/domain/service/age_event_service.dart';
 import 'package:carambar/character/domain/service/character_service.dart';
 import 'package:carambar/character/domain/service/client/character_client.dart';
 import 'package:carambar/work/domain/service/work_service.dart';
@@ -17,8 +15,6 @@ abstract class CoreApplicationInjector {
 
   @Register.factory(GameRepository, resolvers: {String: 'gameFileName'})
   @Register.factory(GameService)
-  @Register.factory(AgeEventRepository, resolvers: {String: 'ageEventsFileName'})
-  @Register.factory(AgeEventService)
   @Register.factory(CharacterRepository, resolvers: {String: 'characterFileName'})
   @Register.factory(CharacterService)
   @Register.factory(WorkService)

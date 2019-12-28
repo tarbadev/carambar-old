@@ -43,8 +43,9 @@ void main() {
         'male',
         Nationality.france,
       );
+      final events = [GameEvent(11), initiateEvent, FinishStudiesEvent(12)];
 
-      await gameRepository.save([GameEvent(11), initiateEvent, FinishStudiesEvent(12)]);
+      expect(await gameRepository.save(events), events);
 
       final expectedJsonString = '[{' +
           '"age":11,' +

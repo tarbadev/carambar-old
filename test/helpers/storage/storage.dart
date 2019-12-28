@@ -5,8 +5,6 @@ import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
 import 'package:carambar/application/repository/entity/game_event_entity.dart';
 import 'package:carambar/character/repository/entity/character_entity.dart';
-import 'package:carambar/home/domain/entity/age_event.dart';
-import 'package:carambar/home/repository/entity/age_event_entity.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -64,16 +62,6 @@ class CharacterStorage extends Storage {
 
   Future<File> store(Character character) async {
     return write(CharacterEntity.fromCharacter(character));
-  }
-}
-
-class AgeEventStorage extends Storage {
-  AgeEventStorage() : super('testingAgeEvents.json');
-
-  Future<File> store(List<AgeEvent> ageEvents) async {
-    return write(ageEvents
-        .map((ageEvent) => AgeEventEntity.fromAgeEvent(ageEvent))
-        .toList());
   }
 }
 

@@ -1,5 +1,8 @@
 import 'package:carambar/application/domain/entity/character.dart';
+import 'package:carambar/application/domain/entity/finish_studies_event.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
+import 'package:carambar/application/domain/entity/graduate_event.dart';
+import 'package:carambar/application/domain/entity/start_school_event.dart';
 import 'package:carambar/application/ui/application_actions.dart';
 import 'package:carambar/character/ui/character_actions.dart';
 import 'package:carambar/home/ui/home_actions.dart';
@@ -17,7 +20,7 @@ void main() {
   group('Home Middleware', () {
     setUp(() {
       reset(Mocks.characterService);
-      reset(Mocks.ageEventService);
+      reset(Mocks.gameService);
 
       Mocks.setupMockStore();
     });
@@ -31,8 +34,6 @@ void main() {
 
         when(Mocks.characterService.incrementAge())
             .thenAnswer((_) async => character);
-        when(Mocks.ageEventService.addEvent(any, event: anyNamed('event')))
-            .thenAnswer((_) async => []);
 
         await incrementAge(Mocks.store, incrementAgeAction, Mocks.next);
 
@@ -40,24 +41,20 @@ void main() {
         verify(Mocks.mockNext.next(incrementAgeAction));
       });
 
-      test(
-          'calls the ageEventService and saves the new events in state and calls next action',
-          () async {
+      test('calls the gameService incrementAge', () async {
         var incrementAgeAction = IncrementAgeAction();
         var character = Factory.character(age: 18);
-        var ageEvents = [Factory.ageEvent(age: 18, events: [])];
+        var gameEvents = [GameEvent(18)];
 
         when(Mocks.characterService.incrementAge())
             .thenAnswer((_) async => character);
-        when(Mocks.ageEventService.addEvent(any, event: anyNamed('event')))
-            .thenAnswer((_) async => ageEvents);
+        when(Mocks.gameService.incrementAge())
+            .thenAnswer((_) async => gameEvents);
 
         await incrementAge(Mocks.store, incrementAgeAction, Mocks.next);
 
         verify(Mocks.gameService.incrementAge());
-        verify(Mocks.ageEventService.addEvent(18, event: null));
-        verify(Mocks.store.dispatch(SetAgeEventsAction(
-            Factory.ageEventsToDisplayAgeEvents(ageEvents))));
+        verify(Mocks.store.dispatch(SetGameEventsAction(gameEvents)));
         verify(Mocks.mockNext.next(incrementAgeAction));
       });
 
@@ -65,44 +62,44 @@ void main() {
         var incrementAgeAction = IncrementAgeAction();
         var originalCharacter = Factory.character(age: 2);
         var character = Factory.character(age: 3);
-        var ageEvents = [
-          Factory.ageEvent(age: 3, events: ['You just started Kindergarten'])
+        var gameEvents = [
+          GameEvent(18),
+          StartSchoolEvent(18, School.MiddleSchool)
         ];
 
         when(Mocks.applicationState.character).thenReturn(originalCharacter);
         when(Mocks.characterService.incrementAge())
             .thenAnswer((_) async => character);
-        when(Mocks.ageEventService.addEvent(any, event: anyNamed('event')))
-            .thenAnswer((_) async => ageEvents);
+        when(Mocks.gameService.startSchool(any))
+            .thenAnswer((_) async => gameEvents);
 
         await incrementAge(Mocks.store, incrementAgeAction, Mocks.next);
 
         verify(Mocks.gameService.startSchool(School.Kindergarten));
-        verify(Mocks.ageEventService
-            .addEvent(3, event: 'You just started Kindergarten'));
+        verify(Mocks.store.dispatch(SetGameEventsAction(gameEvents)));
       });
 
-      test('adds a different event when finishing school', () async {
+      test('adds an event when finishing school', () async {
         var incrementAgeAction = IncrementAgeAction();
         var originalCharacter = Factory.character(age: 17);
         var character = Factory.character(age: 18);
-        var ageEvents = [
-          Factory.ageEvent(age: 18, events: ['You finished your studies'])
-        ];
+        var gameEvents = [GameEvent(18), FinishStudiesEvent(18)];
 
         when(Mocks.applicationState.character).thenReturn(originalCharacter);
         when(Mocks.characterService.incrementAge())
             .thenAnswer((_) async => character);
         when(Mocks.characterService.addGraduate(any))
             .thenAnswer((_) async => character);
-        when(Mocks.ageEventService.addEvent(any, event: anyNamed('event')))
-            .thenAnswer((_) async => ageEvents);
+        when(Mocks.gameService.finishStudies())
+            .thenAnswer((_) async => gameEvents);
+        when(Mocks.gameService.graduate(any))
+            .thenAnswer((_) async => gameEvents);
 
         await incrementAge(Mocks.store, incrementAgeAction, Mocks.next);
 
+        verify(Mocks.gameService.incrementAge());
         verify(Mocks.gameService.finishStudies());
-        verify(Mocks.ageEventService
-            .addEvent(18, event: 'You finished your studies'));
+        verify(Mocks.store.dispatch(SetGameEventsAction(gameEvents)));
       });
 
       test('calls characterService to add the graduate', () async {
@@ -111,10 +108,9 @@ void main() {
         var character = Factory.character(age: 18, graduates: []);
         var characterWithGraduates =
             Factory.character(age: 18, graduates: [Graduate.HighSchool]);
-
-        var expectedEvent = 'You graduated from High School';
-        var ageEvents = [
-          Factory.ageEvent(age: 18, events: [expectedEvent])
+        var gameEvents = [
+          GameEvent(18),
+          GraduateEvent(18, School.HighSchool)
         ];
 
         when(Mocks.applicationState.character).thenReturn(originalCharacter);
@@ -122,46 +118,23 @@ void main() {
             .thenAnswer((_) async => character);
         when(Mocks.characterService.addGraduate(any))
             .thenAnswer((_) async => characterWithGraduates);
-        when(Mocks.ageEventService.addEvent(any, event: anyNamed('event')))
-            .thenAnswer((_) async => ageEvents);
+        when(Mocks.gameService.graduate(any))
+            .thenAnswer((_) async => gameEvents);
 
         await incrementAge(Mocks.store, incrementAgeAction, Mocks.next);
 
+        verify(Mocks.gameService.graduate(School.HighSchool));
+        verify(Mocks.store.dispatch(SetGameEventsAction(gameEvents)));
         verify(Mocks.characterService.addGraduate(Graduate.HighSchool));
-      });
-
-      test('adds an event when graduating from Middle School', () async {
-        var incrementAgeAction = IncrementAgeAction();
-        var originalCharacter = Factory.character(age: 14);
-        var character = Factory.character(age: 15);
-
-        var expectedEvent = 'You graduated from Middle School';
-        var ageEvents = [
-          Factory.ageEvent(age: 15, events: [expectedEvent])
-        ];
-
-        when(Mocks.applicationState.character).thenReturn(originalCharacter);
-        when(Mocks.characterService.incrementAge())
-            .thenAnswer((_) async => character);
-        when(Mocks.characterService.addGraduate(any))
-            .thenAnswer((_) async => character);
-        when(Mocks.ageEventService.addEvent(any, event: anyNamed('event')))
-            .thenAnswer((_) async => ageEvents);
-
-        await incrementAge(Mocks.store, incrementAgeAction, Mocks.next);
-
-        verify(Mocks.gameService.graduate(School.MiddleSchool));
-        verify(Mocks.ageEventService.addEvent(15, event: expectedEvent));
       });
 
       test('adds an event when graduating from High School', () async {
         var incrementAgeAction = IncrementAgeAction();
         var originalCharacter = Factory.character(age: 17);
         var character = Factory.character(age: 18);
-
-        var expectedEvent = 'You graduated from High School';
-        var ageEvents = [
-          Factory.ageEvent(age: 18, events: [expectedEvent])
+        var gameEvents = [
+          GameEvent(18),
+          GraduateEvent(18, School.HighSchool)
         ];
 
         when(Mocks.applicationState.character).thenReturn(originalCharacter);
@@ -169,13 +142,14 @@ void main() {
             .thenAnswer((_) async => character);
         when(Mocks.characterService.addGraduate(any))
             .thenAnswer((_) async => character);
-        when(Mocks.ageEventService.addEvent(any, event: anyNamed('event')))
-            .thenAnswer((_) async => ageEvents);
+        when(Mocks.gameService.graduate(any))
+            .thenAnswer((_) async => gameEvents);
 
         await incrementAge(Mocks.store, incrementAgeAction, Mocks.next);
 
         verify(Mocks.gameService.graduate(School.HighSchool));
-        verify(Mocks.ageEventService.addEvent(18, event: expectedEvent));
+        verify(Mocks.store.dispatch(SetGameEventsAction(gameEvents)));
+        verify(Mocks.characterService.addGraduate(Graduate.HighSchool));
       });
 
       test('dispatches a AddAvailableCashAction when having a job', () async {
@@ -191,8 +165,6 @@ void main() {
             .thenAnswer((_) async => character);
         when(Mocks.characterService.incrementJobExperience())
             .thenAnswer((_) async => character);
-        when(Mocks.ageEventService.addEvent(any, event: anyNamed('event')))
-            .thenAnswer((_) async => []);
 
         await incrementAge(Mocks.store, incrementAgeAction, Mocks.next);
 
@@ -211,8 +183,6 @@ void main() {
             .thenAnswer((_) async => character);
         when(Mocks.characterService.addGraduate(any))
             .thenAnswer((_) async => character);
-        when(Mocks.ageEventService.addEvent(any, event: anyNamed('event')))
-            .thenAnswer((_) async => []);
 
         await incrementAge(Mocks.store, incrementAgeAction, Mocks.next);
 
@@ -230,8 +200,6 @@ void main() {
 
         when(Mocks.characterService.incrementAge())
             .thenAnswer((_) async => character);
-        when(Mocks.ageEventService.addEvent(any, event: anyNamed('event')))
-            .thenAnswer((_) async => []);
         when(Mocks.characterService.incrementJobExperience())
             .thenAnswer((_) async => character);
 
@@ -245,17 +213,16 @@ void main() {
 
     group('initiateAgeEvents', () {
       test('retrieves the game events and stores them in the state', () async {
-        var initiateStateAction = InitiateStateAction();
+        var gameEvents = [GameEvent(18)];
+        var action = BuildAgeEventsAction(gameEvents);
         var ageEvents = [Factory.ageEvent(age: 18, events: [])];
 
-        when(Mocks.gameService.getEvents())
-            .thenAnswer((_) async => [GameEvent(18)]);
-
-        await initiateAgeEvents(Mocks.store, initiateStateAction, Mocks.next);
+        await initiateAgeEvents(Mocks.store, action, Mocks.next);
 
         verify(Mocks.store.dispatch(SetAgeEventsAction(
             Factory.ageEventsToDisplayAgeEvents(ageEvents))));
-        verify(Mocks.mockNext.next(initiateStateAction));
+        verifyNoMoreInteractions(Mocks.store);
+        verify(Mocks.mockNext.next(action));
       });
     });
   });

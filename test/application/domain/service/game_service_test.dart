@@ -40,10 +40,13 @@ void main() {
         'Female',
         Nationality.france,
       );
+      final gameEvents = [event];
 
-      await gameService.initiate(character);
+      when(Mocks.gameRepository.save(any)).thenAnswer((_) async => gameEvents);
 
-      verify(Mocks.gameRepository.save([event]));
+      expect(await gameService.initiate(character), gameEvents);
+
+      verify(Mocks.gameRepository.save(gameEvents));
     });
 
     test('incrementAge generates an event and stores it', () async {
@@ -59,8 +62,10 @@ void main() {
       final expectedEvents = [previousEvent, initiateEvent, GameEvent(13)];
 
       when(Mocks.gameRepository.readEvents()).thenAnswer((_) async => events);
+      when(Mocks.gameRepository.save(any))
+          .thenAnswer((_) async => expectedEvents);
 
-      await gameService.incrementAge();
+      expect(await gameService.incrementAge(), expectedEvents);
 
       var actual =
           verify(Mocks.gameRepository.save(captureAny)).captured.single;
@@ -74,8 +79,10 @@ void main() {
       final expectedEvents = [previousEvent, finishStudiesEvent];
 
       when(Mocks.gameRepository.readEvents()).thenAnswer((_) async => events);
+      when(Mocks.gameRepository.save(any))
+          .thenAnswer((_) async => expectedEvents);
 
-      await gameService.finishStudies();
+      expect(await gameService.finishStudies(), expectedEvents);
 
       var actual =
           verify(Mocks.gameRepository.save(captureAny)).captured.single;
@@ -89,8 +96,11 @@ void main() {
       final expectedEvents = [previousEvent, startSchoolEvent];
 
       when(Mocks.gameRepository.readEvents()).thenAnswer((_) async => events);
+      when(Mocks.gameRepository.save(any))
+          .thenAnswer((_) async => expectedEvents);
 
-      await gameService.startSchool(School.Kindergarten);
+      expect(
+          await gameService.startSchool(School.Kindergarten), expectedEvents);
 
       var actual =
           verify(Mocks.gameRepository.save(captureAny)).captured.single;
@@ -104,8 +114,10 @@ void main() {
       final expectedEvents = [previousEvent, graduateEvent];
 
       when(Mocks.gameRepository.readEvents()).thenAnswer((_) async => events);
+      when(Mocks.gameRepository.save(any))
+          .thenAnswer((_) async => expectedEvents);
 
-      await gameService.graduate(School.HighSchool);
+      expect(await gameService.graduate(School.HighSchool), expectedEvents);
 
       var actual =
           verify(Mocks.gameRepository.save(captureAny)).captured.single;
@@ -119,8 +131,10 @@ void main() {
       final expectedEvents = [previousEvent, newEvent];
 
       when(Mocks.gameRepository.readEvents()).thenAnswer((_) async => events);
+      when(Mocks.gameRepository.save(any))
+          .thenAnswer((_) async => expectedEvents);
 
-      await gameService.incrementJobExperience();
+      expect(await gameService.incrementJobExperience(), expectedEvents);
 
       var actual =
           verify(Mocks.gameRepository.save(captureAny)).captured.single;
@@ -134,8 +148,10 @@ void main() {
       final expectedEvents = [previousEvent, graduateEvent];
 
       when(Mocks.gameRepository.readEvents()).thenAnswer((_) async => events);
+      when(Mocks.gameRepository.save(any))
+          .thenAnswer((_) async => expectedEvents);
 
-      await gameService.addCash(2000);
+      expect(await gameService.addCash(2000), expectedEvents);
 
       var actual =
           verify(Mocks.gameRepository.save(captureAny)).captured.single;
@@ -149,8 +165,11 @@ void main() {
       final expectedEvents = [previousEvent, graduateEvent];
 
       when(Mocks.gameRepository.readEvents()).thenAnswer((_) async => events);
+      when(Mocks.gameRepository.save(any))
+          .thenAnswer((_) async => expectedEvents);
 
-      await gameService.setCurrentJob(Factory.job(id: 34));
+      expect(
+          await gameService.setCurrentJob(Factory.job(id: 34)), expectedEvents);
 
       var actual =
           verify(Mocks.gameRepository.save(captureAny)).captured.single;
@@ -164,9 +183,14 @@ void main() {
       final expectedEvents = [previousEvent, graduateEvent];
 
       when(Mocks.gameRepository.readEvents()).thenAnswer((_) async => events);
+      when(Mocks.gameRepository.save(any))
+          .thenAnswer((_) async => expectedEvents);
 
-      await gameService.addJobApplyFailure(
-          Factory.job(id: 34), Requirement.values);
+      expect(
+        await gameService.addJobApplyFailure(
+            Factory.job(id: 34), Requirement.values),
+        expectedEvents,
+      );
 
       var actual =
           verify(Mocks.gameRepository.save(captureAny)).captured.single;
@@ -179,7 +203,6 @@ void main() {
       ];
 
       when(Mocks.gameRepository.readEvents()).thenAnswer((_) async => events);
-
 
       expect(await gameService.getEvents(), events);
     });

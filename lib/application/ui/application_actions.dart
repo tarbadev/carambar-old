@@ -1,3 +1,4 @@
+import 'package:carambar/application/domain/entity/game_event.dart';
 import 'package:equatable/equatable.dart';
 
 class SelectTabAction extends Equatable {
@@ -34,4 +35,27 @@ class SetAvailableCashAction extends Equatable {
 
   @override
   List<Object> get props => [cash];
+}
+
+class SetGameEventsAction extends Equatable {
+  final List<GameEvent> gameEvents;
+
+  SetGameEventsAction(this.gameEvents);
+
+  @override
+  List<Object> get props => [gameEvents];
+
+  @override
+  String toString() {
+    return 'SetGameEventsAction{gameEvents: $gameEvents}';
+  }
+}
+
+class BuildAgeEventsAction extends Equatable {
+  final List<GameEvent> gameEvents;
+
+  BuildAgeEventsAction(this.gameEvents);
+
+  @override
+  List<Object> get props => [gameEvents];
 }

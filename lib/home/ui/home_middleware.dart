@@ -4,8 +4,6 @@ import 'package:carambar/application/ui/application_actions.dart';
 import 'package:carambar/application/ui/application_state.dart';
 import 'package:carambar/character/domain/service/character_service.dart';
 import 'package:carambar/character/ui/character_actions.dart';
-import 'package:carambar/character/ui/entity/display_character.dart';
-import 'package:carambar/home/domain/service/age_event_service.dart';
 import 'package:carambar/home/ui/entity/display_age_event.dart';
 import 'package:carambar/home/ui/game_event_to_age_event_mapper.dart';
 import 'package:carambar/home/ui/home_actions.dart';
@@ -13,19 +11,18 @@ import 'package:kiwi/kiwi.dart' as kiwi;
 import 'package:redux/redux.dart';
 
 List<Middleware<ApplicationState>> createHomeMiddleware() => [
-      TypedMiddleware<ApplicationState, InitiateStateAction>(initiateAgeEvents),
+      TypedMiddleware<ApplicationState, BuildAgeEventsAction>(initiateAgeEvents),
       TypedMiddleware<ApplicationState, IncrementAgeAction>(incrementAge),
     ];
 
-Future initiateAgeEvents(Store<ApplicationState> store,
-    InitiateStateAction action, NextDispatcher next) async {
-  var container = kiwi.Container();
-  var _gameService = container<GameService>();
-  var gameEvents = await _gameService.getEvents();
+Future initiateAgeEvents(
+  Store<ApplicationState> store,
+  BuildAgeEventsAction action,
+  NextDispatcher next,
+) async {
+  var ageEvents = GameEventToAgeEventMapper.execute(action.gameEvents);
 
-  var newAgeEvents = GameEventToAgeEventMapper.execute(gameEvents);
-
-  store.dispatch(SetAgeEventsAction(newAgeEvents
+  store.dispatch(SetAgeEventsAction(ageEvents
       .map((ageEvent) => DisplayAgeEvent.fromAgeEvent(ageEvent))
       .toList()));
 
@@ -36,57 +33,40 @@ Future incrementAge(Store<ApplicationState> store, IncrementAgeAction action,
     NextDispatcher next) async {
   var container = kiwi.Container();
   CharacterService _characterService = container.resolve<CharacterService>();
-  AgeEventService _ageEventService = container.resolve<AgeEventService>();
   GameService _gameService = container.resolve<GameService>();
 
   School originalSchool = store.state.character.school;
 
   var character = await _characterService.incrementAge();
-  var newDisplayCharacter = DisplayCharacter.fromCharacter(character);
-  var event;
-
-  await _gameService.incrementAge();
+  var gameEvents = await _gameService.incrementAge();
 
   if (character.school != originalSchool) {
-    if (newDisplayCharacter.school == 'None') {
-      await _gameService.finishStudies();
-      event = 'You finished your studies';
+    if (character.school == School.None) {
+      gameEvents = await _gameService.finishStudies();
     } else {
-      await _gameService.startSchool(character.school);
-      event = 'You just started ${newDisplayCharacter.school}';
+      gameEvents = await _gameService.startSchool(character.school);
     }
 
     if (originalSchool == School.HighSchool ||
         originalSchool == School.MiddleSchool) {
-      await _gameService.graduate(originalSchool);
+      gameEvents = await _gameService.graduate(originalSchool);
       var graduate = originalSchool == School.HighSchool
           ? Graduate.HighSchool
           : Graduate.MiddleSchool;
       character = await _characterService.addGraduate(graduate);
-      newDisplayCharacter = DisplayCharacter.fromCharacter(character);
-
-      var displaySchool =
-          DisplayCharacter.mapSchoolToDisplaySchool[originalSchool];
-      var graduatedEvent = 'You graduated from $displaySchool';
-      await _ageEventService.addEvent(character.age, event: graduatedEvent);
     }
   }
 
   if (character.currentJob != null) {
     await _gameService.incrementJobExperience();
     character = await _characterService.incrementJobExperience();
-    newDisplayCharacter = DisplayCharacter.fromCharacter(character);
 
     await _gameService.addCash(character.currentJob.salary);
     store.dispatch(AddAvailableCashAction(character.currentJob.salary));
   }
 
-  var ageEvents = await _ageEventService.addEvent(character.age, event: event);
-
   store.dispatch(SetCharacterAction(character));
-  store.dispatch(SetAgeEventsAction(ageEvents
-      .map((ageEvent) => DisplayAgeEvent.fromAgeEvent(ageEvent))
-      .toList()));
+  store.dispatch(SetGameEventsAction(gameEvents));
 
   next(action);
 }
