@@ -1,4 +1,6 @@
 import 'package:carambar/application/domain/entity/character.dart';
+import 'package:carambar/application/domain/entity/initiate_event.dart';
+import 'package:carambar/application/domain/entity/nationality.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../helpers/factory.dart';
@@ -21,6 +23,27 @@ void main() {
     test('grow() adds 1 year to the current Character', () {
       expect(Factory.character(age: 0).grow(), Factory.character(age: 1));
       expect(Factory.character(age: 8).grow(), Factory.character(age: 9));
+    });
+
+    test('fromInitiateEvent', () {
+      final initiateEvent = InitiateEvent(
+        0,
+        'firstName',
+        'lastName',
+        'gender',
+        Nationality.france,
+      );
+      final character = Character(
+        age: 0,
+        firstName: 'firstName',
+        lastName: 'lastName',
+        gender: 'gender',
+        origin: Nationality.france,
+        graduates: [],
+        jobHistory: [],
+      );
+
+      expect(Character.fromInitiateEvent(initiateEvent), character);
     });
   });
 }

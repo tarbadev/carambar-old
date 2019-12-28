@@ -1,5 +1,6 @@
-import 'package:carambar/application/ui/application_actions.dart';
 import 'package:carambar/application/domain/entity/character.dart';
+import 'package:carambar/application/domain/entity/game_event.dart';
+import 'package:carambar/application/ui/application_actions.dart';
 import 'package:carambar/character/ui/character_actions.dart';
 import 'package:carambar/home/ui/home_actions.dart';
 import 'package:carambar/home/ui/home_middleware.dart';
@@ -242,20 +243,20 @@ void main() {
       });
     });
 
-    test(
-        'initiateAgeEvents retrieves the ageEvents and stores them in the state',
-        () async {
-      var initiateStateAction = InitiateStateAction();
-      var ageEvents = [Factory.ageEvent(age: 18, events: [])];
+    group('initiateAgeEvents', () {
+      test('retrieves the game events and stores them in the state', () async {
+        var initiateStateAction = InitiateStateAction();
+        var ageEvents = [Factory.ageEvent(age: 18, events: [])];
 
-      when(Mocks.ageEventService.getAgeEvents())
-          .thenAnswer((_) async => ageEvents);
+        when(Mocks.gameService.getEvents())
+            .thenAnswer((_) async => [GameEvent(18)]);
 
-      await initiateAgeEvents(Mocks.store, initiateStateAction, Mocks.next);
+        await initiateAgeEvents(Mocks.store, initiateStateAction, Mocks.next);
 
-      verify(Mocks.store.dispatch(
-          SetAgeEventsAction(Factory.ageEventsToDisplayAgeEvents(ageEvents))));
-      verify(Mocks.mockNext.next(initiateStateAction));
+        verify(Mocks.store.dispatch(SetAgeEventsAction(
+            Factory.ageEventsToDisplayAgeEvents(ageEvents))));
+        verify(Mocks.mockNext.next(initiateStateAction));
+      });
     });
   });
 }

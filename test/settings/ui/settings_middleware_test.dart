@@ -23,6 +23,7 @@ void main() {
 
       verify(Mocks.characterService.deleteCharacter());
       verify(Mocks.ageEventService.deleteAgeEvents());
+      verify(Mocks.gameService.deleteGameEvents());
 
       verify(Mocks.store.dispatch(InitiateStateAction()));
       verify(Mocks.store.dispatch(SelectHomeTabAction()));

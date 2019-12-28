@@ -1,3 +1,4 @@
+import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/domain/entity/job_experience.dart';
 import 'package:carambar/application/domain/entity/current_job.dart';
 import 'package:carambar/application/domain/entity/nationality.dart';
@@ -54,18 +55,6 @@ class Character extends Equatable {
     this.jobHistory,
   });
 
-  @override
-  List<Object> get props => [
-        firstName,
-        lastName,
-        gender,
-        origin,
-        age,
-        graduates,
-        currentJob,
-        jobHistory
-      ];
-
   Character grow() {
     return Character(
         firstName: this.firstName,
@@ -76,5 +65,44 @@ class Character extends Equatable {
         graduates: this.graduates,
         currentJob: this.currentJob,
         jobHistory: this.jobHistory);
+  }
+
+  factory Character.fromInitiateEvent(InitiateEvent initiateEvent) {
+    return Character(
+      age: 0,
+      firstName: initiateEvent.firstName,
+      lastName: initiateEvent.lastName,
+      gender: initiateEvent.gender,
+      origin: initiateEvent.origin,
+      graduates: [],
+      jobHistory: [],
+    );
+  }
+
+  @override
+  List<Object> get props =>
+      [
+        firstName,
+        lastName,
+        gender,
+        origin,
+        age,
+        graduates,
+        currentJob,
+        jobHistory
+      ];
+
+  @override
+  String toString() {
+    return "Character(" +
+        "firstName=$firstName, " +
+        "lastName=$lastName, " +
+        "gender=$gender, " +
+        "origin=$origin, " +
+        "graduates=${graduates.toString()}, " +
+        "age=$age, " +
+        "currentJob=$currentJob, " +
+        "jobHistory=${jobHistory.toString()}" +
+        ")";
   }
 }

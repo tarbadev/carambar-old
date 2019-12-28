@@ -16,5 +16,5 @@ class AgeEventEntity {
       : age = ageEvent.age,
         events = ageEvent.events;
 
-  AgeEvent toAgeEvent() => AgeEvent(age: age, events: events);
+  AgeEvent toAgeEvent() => AgeEvent(age, events: events);
 }

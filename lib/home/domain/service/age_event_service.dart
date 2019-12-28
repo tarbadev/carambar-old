@@ -7,7 +7,7 @@ class AgeEventService {
   AgeEventService(this._ageEventRepository);
 
   Future<List<AgeEvent>> getAgeEvents() async {
-    return await _ageEventRepository.readAgeEvents() ?? [];
+    return await _ageEventRepository.readAgeEvents() ?? List();
   }
 
   Future<List<AgeEvent>> addEvent(int age, {String event}) async {

@@ -1,4 +1,5 @@
 import 'package:carambar/application/domain/entity/character.dart';
+import 'package:carambar/application/domain/entity/game_event.dart';
 import 'package:carambar/application/domain/entity/job_experience.dart';
 import 'package:carambar/application/domain/entity/current_job.dart';
 import 'package:carambar/application/domain/entity/nationality.dart';
@@ -69,7 +70,7 @@ abstract class Factory {
 
   static AgeEvent ageEvent(
       {int age: 0, List<String> events: const ['Some event']}) {
-    return AgeEvent(age: age, events: events);
+    return AgeEvent(age, events: events);
   }
 
   static DisplayAgeEvent displayAgeEvent(
@@ -139,4 +140,8 @@ abstract class Factory {
         name,
         salary,
       );
+}
+
+class TestGameEvent extends GameEvent {
+  TestGameEvent(int age) : super(age);
 }

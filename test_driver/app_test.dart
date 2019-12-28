@@ -282,7 +282,6 @@ void main() {
       });
 
       test('should finish studies when aging to 18', () async {
-        await driver.waitUntilNoTransientCallbacks();
         await homeTab.goTo();
 
         expect(await homeTab.ageEvent('18').isVisible, isTrue);

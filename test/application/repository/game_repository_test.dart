@@ -84,5 +84,9 @@ void main() {
 
       expect(actual, events);
     });
+
+    test('readEvents when no file present returns null', () async {
+      expect(await gameRepository.readEvents(), isNull);
+    });
   });
 }

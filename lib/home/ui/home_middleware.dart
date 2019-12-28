@@ -1,12 +1,13 @@
+import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/service/game_service.dart';
 import 'package:carambar/application/ui/application_actions.dart';
 import 'package:carambar/application/ui/application_state.dart';
-import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/character/domain/service/character_service.dart';
 import 'package:carambar/character/ui/character_actions.dart';
 import 'package:carambar/character/ui/entity/display_character.dart';
 import 'package:carambar/home/domain/service/age_event_service.dart';
 import 'package:carambar/home/ui/entity/display_age_event.dart';
+import 'package:carambar/home/ui/game_event_to_age_event_mapper.dart';
 import 'package:carambar/home/ui/home_actions.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 import 'package:redux/redux.dart';
@@ -16,17 +17,23 @@ List<Middleware<ApplicationState>> createHomeMiddleware() => [
       TypedMiddleware<ApplicationState, IncrementAgeAction>(incrementAge),
     ];
 
-Future initiateAgeEvents(Store<ApplicationState> store, InitiateStateAction action, NextDispatcher next) async {
+Future initiateAgeEvents(Store<ApplicationState> store,
+    InitiateStateAction action, NextDispatcher next) async {
   var container = kiwi.Container();
-  var _ageEventService = container<AgeEventService>();
-  var ageEvents = await _ageEventService.getAgeEvents();
+  var _gameService = container<GameService>();
+  var gameEvents = await _gameService.getEvents();
 
-  store.dispatch(SetAgeEventsAction(ageEvents.map((ageEvent) => DisplayAgeEvent.fromAgeEvent(ageEvent)).toList()));
+  var newAgeEvents = GameEventToAgeEventMapper.execute(gameEvents);
+
+  store.dispatch(SetAgeEventsAction(newAgeEvents
+      .map((ageEvent) => DisplayAgeEvent.fromAgeEvent(ageEvent))
+      .toList()));
 
   next(action);
 }
 
-Future incrementAge(Store<ApplicationState> store, IncrementAgeAction action, NextDispatcher next) async {
+Future incrementAge(Store<ApplicationState> store, IncrementAgeAction action,
+    NextDispatcher next) async {
   var container = kiwi.Container();
   CharacterService _characterService = container.resolve<CharacterService>();
   AgeEventService _ageEventService = container.resolve<AgeEventService>();
@@ -49,13 +56,17 @@ Future incrementAge(Store<ApplicationState> store, IncrementAgeAction action, Ne
       event = 'You just started ${newDisplayCharacter.school}';
     }
 
-    if (originalSchool == School.HighSchool || originalSchool == School.MiddleSchool) {
+    if (originalSchool == School.HighSchool ||
+        originalSchool == School.MiddleSchool) {
       await _gameService.graduate(originalSchool);
-      var graduate = originalSchool == School.HighSchool ? Graduate.HighSchool : Graduate.MiddleSchool;
+      var graduate = originalSchool == School.HighSchool
+          ? Graduate.HighSchool
+          : Graduate.MiddleSchool;
       character = await _characterService.addGraduate(graduate);
       newDisplayCharacter = DisplayCharacter.fromCharacter(character);
 
-      var displaySchool = DisplayCharacter.mapSchoolToDisplaySchool[originalSchool];
+      var displaySchool =
+          DisplayCharacter.mapSchoolToDisplaySchool[originalSchool];
       var graduatedEvent = 'You graduated from $displaySchool';
       await _ageEventService.addEvent(character.age, event: graduatedEvent);
     }
@@ -73,7 +84,9 @@ Future incrementAge(Store<ApplicationState> store, IncrementAgeAction action, Ne
   var ageEvents = await _ageEventService.addEvent(character.age, event: event);
 
   store.dispatch(SetCharacterAction(character));
-  store.dispatch(SetAgeEventsAction(ageEvents.map((ageEvent) => DisplayAgeEvent.fromAgeEvent(ageEvent)).toList()));
+  store.dispatch(SetAgeEventsAction(ageEvents
+      .map((ageEvent) => DisplayAgeEvent.fromAgeEvent(ageEvent))
+      .toList()));
 
   next(action);
 }

@@ -1,3 +1,4 @@
+import 'package:carambar/application/domain/service/game_service.dart';
 import 'package:carambar/application/ui/application_actions.dart';
 import 'package:carambar/application/ui/application_state.dart';
 import 'package:carambar/character/domain/service/character_service.dart';
@@ -14,9 +15,11 @@ Future endLife(Store<ApplicationState> store, EndLifeAction action, NextDispatch
   var container = kiwi.Container();
   CharacterService _characterService = container.resolve<CharacterService>();
   AgeEventService _ageEventService = container.resolve<AgeEventService>();
+  GameService _gameService = container.resolve<GameService>();
 
   await _characterService.deleteCharacter();
   await _ageEventService.deleteAgeEvents();
+  await _gameService.deleteGameEvents();
 
   store.dispatch(InitiateStateAction());
   store.dispatch(SelectHomeTabAction());

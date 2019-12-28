@@ -1,15 +1,15 @@
 import 'package:carambar/application/domain/entity/add_cash_event.dart';
 import 'package:carambar/application/domain/entity/add_job_apply_failure_event.dart';
+import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/entity/finish_studies_event.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
-import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/entity/graduate_event.dart';
 import 'package:carambar/application/domain/entity/increment_job_experience_event.dart';
 import 'package:carambar/application/domain/entity/initiate_event.dart';
+import 'package:carambar/application/domain/entity/nationality.dart';
 import 'package:carambar/application/domain/entity/set_current_job_event.dart';
 import 'package:carambar/application/domain/entity/start_school_event.dart';
 import 'package:carambar/application/domain/service/game_service.dart';
-import 'package:carambar/application/domain/entity/nationality.dart';
 import 'package:carambar/work/domain/entity/job.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -49,12 +49,12 @@ void main() {
     test('incrementAge generates an event and stores it', () async {
       var previousEvent = GameEvent(11);
       var initiateEvent = InitiateEvent(
-          12,
-          'firstName',
-          'lastName',
-          'Female',
-          Nationality.france,
-        );
+        12,
+        'firstName',
+        'lastName',
+        'Female',
+        Nationality.france,
+      );
       final events = [previousEvent, initiateEvent];
       final expectedEvents = [previousEvent, initiateEvent, GameEvent(13)];
 
@@ -62,7 +62,8 @@ void main() {
 
       await gameService.incrementAge();
 
-      var actual = verify(Mocks.gameRepository.save(captureAny)).captured.single;
+      var actual =
+          verify(Mocks.gameRepository.save(captureAny)).captured.single;
       expect(actual, expectedEvents);
     });
 
@@ -76,7 +77,8 @@ void main() {
 
       await gameService.finishStudies();
 
-      var actual = verify(Mocks.gameRepository.save(captureAny)).captured.single;
+      var actual =
+          verify(Mocks.gameRepository.save(captureAny)).captured.single;
       expect(actual, expectedEvents);
     });
 
@@ -90,7 +92,8 @@ void main() {
 
       await gameService.startSchool(School.Kindergarten);
 
-      var actual = verify(Mocks.gameRepository.save(captureAny)).captured.single;
+      var actual =
+          verify(Mocks.gameRepository.save(captureAny)).captured.single;
       expect(actual, expectedEvents);
     });
 
@@ -104,7 +107,8 @@ void main() {
 
       await gameService.graduate(School.HighSchool);
 
-      var actual = verify(Mocks.gameRepository.save(captureAny)).captured.single;
+      var actual =
+          verify(Mocks.gameRepository.save(captureAny)).captured.single;
       expect(actual, expectedEvents);
     });
 
@@ -118,7 +122,8 @@ void main() {
 
       await gameService.incrementJobExperience();
 
-      var actual = verify(Mocks.gameRepository.save(captureAny)).captured.single;
+      var actual =
+          verify(Mocks.gameRepository.save(captureAny)).captured.single;
       expect(actual, expectedEvents);
     });
 
@@ -132,7 +137,8 @@ void main() {
 
       await gameService.addCash(2000);
 
-      var actual = verify(Mocks.gameRepository.save(captureAny)).captured.single;
+      var actual =
+          verify(Mocks.gameRepository.save(captureAny)).captured.single;
       expect(actual, expectedEvents);
     });
 
@@ -146,7 +152,8 @@ void main() {
 
       await gameService.setCurrentJob(Factory.job(id: 34));
 
-      var actual = verify(Mocks.gameRepository.save(captureAny)).captured.single;
+      var actual =
+          verify(Mocks.gameRepository.save(captureAny)).captured.single;
       expect(actual, expectedEvents);
     });
 
@@ -158,10 +165,35 @@ void main() {
 
       when(Mocks.gameRepository.readEvents()).thenAnswer((_) async => events);
 
-      await gameService.addJobApplyFailure(Factory.job(id: 34), Requirement.values);
+      await gameService.addJobApplyFailure(
+          Factory.job(id: 34), Requirement.values);
 
-      var actual = verify(Mocks.gameRepository.save(captureAny)).captured.single;
+      var actual =
+          verify(Mocks.gameRepository.save(captureAny)).captured.single;
       expect(actual, expectedEvents);
+    });
+
+    test('getEvents returns the events', () async {
+      final events = [
+        InitiateEvent(12, 'John', 'Doe', 'Male', Nationality.france)
+      ];
+
+      when(Mocks.gameRepository.readEvents()).thenAnswer((_) async => events);
+
+
+      expect(await gameService.getEvents(), events);
+    });
+
+    test('getEvents when no existing data returns the []', () async {
+      when(Mocks.gameRepository.readEvents()).thenAnswer((_) async => null);
+
+      expect(await gameService.getEvents(), []);
+    });
+
+    test('deleteGameEvents', () async {
+      await gameService.deleteGameEvents();
+
+      verify(Mocks.gameRepository.delete());
     });
   });
 }

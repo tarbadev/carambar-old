@@ -1,8 +1,8 @@
 import 'package:carambar/application/domain/entity/add_cash_event.dart';
 import 'package:carambar/application/domain/entity/add_job_apply_failure_event.dart';
+import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/entity/finish_studies_event.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
-import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/entity/graduate_event.dart';
 import 'package:carambar/application/domain/entity/increment_job_experience_event.dart';
 import 'package:carambar/application/domain/entity/initiate_event.dart';
@@ -67,4 +67,10 @@ class GameService {
     events.add(AddJobApplyFailureEvent(events.last.age, job.id, unMetRequirements));
     await gameRepository.save(events);
   }
+
+  Future<List<GameEvent>> getEvents() async {
+    return await gameRepository.readEvents() ?? [];
+  }
+
+  Future deleteGameEvents() async => await gameRepository.delete();
 }

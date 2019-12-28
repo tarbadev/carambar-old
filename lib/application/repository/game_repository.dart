@@ -17,6 +17,11 @@ class GameRepository extends InternalFileRepository {
 
   Future<List<GameEvent>> readEvents() async {
     final stringData = await read();
+
+    if (stringData == null) {
+      return null;
+    }
+
     List<dynamic> eventList = json.decode(stringData);
     return eventList
         .map((event) => GameEventEntity.fromJson(event).toEvent())

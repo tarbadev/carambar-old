@@ -252,7 +252,3 @@ void main() {
     });
   });
 }
-
-class TestGameEvent extends GameEvent {
-  TestGameEvent(int age) : super(age);
-}

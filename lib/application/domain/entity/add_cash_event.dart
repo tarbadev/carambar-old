@@ -1,4 +1,3 @@
-import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
 
 class AddCashEvent extends GameEvent {
