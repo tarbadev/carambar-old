@@ -17,40 +17,43 @@ import 'package:kiwi/kiwi.dart' as kiwi;
 import 'package:redux/redux.dart';
 
 List<Middleware<ApplicationState>> createCharacterMiddleware() => [
-      TypedMiddleware<ApplicationState, BuildCharacterAction>(
-          initiateCharacter),
+      TypedMiddleware<ApplicationState, InitiateCharacterAction>(initiateCharacter),
+      TypedMiddleware<ApplicationState, BuildCharacterAction>(buildCharacter),
       TypedMiddleware<ApplicationState, SetCharacterJobAction>(setCharacterJob),
     ];
 
 Future initiateCharacter(Store<ApplicationState> store,
+    InitiateCharacterAction action, NextDispatcher next) async {
+  final container = kiwi.Container();
+  final _gameService = container.resolve<GameService>();
+  final _characterService = container.resolve<CharacterService>();
+
+  final character = await _characterService.generateCharacter();
+  final gameEvents = await _gameService.initiate(character);
+
+  store.dispatch(SetGameEventsAction(gameEvents));
+
+  next(action);
+}
+
+Future buildCharacter(Store<ApplicationState> store,
     BuildCharacterAction action, NextDispatcher next) async {
   final gameEvents = action.gameEvents;
 
-  if (gameEvents.isEmpty) {
-    final container = kiwi.Container();
-    final _gameService = container.resolve<GameService>();
-    final _characterService = container.resolve<CharacterService>();
+  final initiateEvent = gameEvents[0] as InitiateEvent;
+  final character = Character(
+    age: gameEvents.last.age,
+    firstName: initiateEvent.firstName,
+    lastName: initiateEvent.lastName,
+    gender: initiateEvent.gender,
+    origin: initiateEvent.origin,
+    graduates: _getGraduatesFromGameEvents(gameEvents),
+    jobHistory: _getJobHistory(gameEvents),
+    currentJob: _getCurrentJob(gameEvents),
+    school: _getSchool(gameEvents),
+  );
 
-    final character = await _characterService.generateCharacter();
-    final gameEvents = await _gameService.initiate(character);
-
-    store.dispatch(SetGameEventsAction(gameEvents));
-  } else {
-    final initiateEvent = gameEvents[0] as InitiateEvent;
-    final character = Character(
-      age: gameEvents.last.age,
-      firstName: initiateEvent.firstName,
-      lastName: initiateEvent.lastName,
-      gender: initiateEvent.gender,
-      origin: initiateEvent.origin,
-      graduates: _getGraduatesFromGameEvents(gameEvents),
-      jobHistory: _getJobHistory(gameEvents),
-      currentJob: _getCurrentJob(gameEvents),
-      school: _getSchool(gameEvents),
-    );
-
-    store.dispatch(SetCharacterAction(character));
-  }
+  store.dispatch(SetCharacterAction(character));
 
   next(action);
 }

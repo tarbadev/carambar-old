@@ -26,7 +26,23 @@ void main() {
       Mocks.setupMockStore();
     });
 
-    group('initiateCharacter', () {
+    test('initiateCharacter generates a character', () async {
+      var gameEvents = [Factory.initiateEvent()];
+      var initiateCharacterAction = InitiateCharacterAction();
+      var character = Character.fromInitiateEvent(gameEvents[0]);
+
+      when(Mocks.characterService.generateCharacter())
+          .thenAnswer((_) async => character);
+      when(Mocks.gameService.initiate(any)).thenAnswer((_) async => gameEvents);
+
+      await initiateCharacter(Mocks.store, initiateCharacterAction, Mocks.next);
+
+      verify(Mocks.gameService.initiate(character));
+      verify(Mocks.store.dispatch(SetGameEventsAction(gameEvents)));
+      verify(Mocks.mockNext.next(initiateCharacterAction));
+    });
+
+    group('buildCharacter', () {
       test('builds the existing character with no job history', () async {
         final jobs = [Factory.job(id: 2), Factory.job(id: 54, name: 'Teacher')];
         var gameEvents = [
@@ -62,11 +78,10 @@ void main() {
 
         when(Mocks.workService.getAvailableJobs()).thenAnswer((_) => jobs);
 
-        await initiateCharacter(Mocks.store, buildCharacterAction, Mocks.next);
+        await buildCharacter(Mocks.store, buildCharacterAction, Mocks.next);
 
         verify(Mocks.store.dispatch(SetCharacterAction(character)));
         verify(Mocks.mockNext.next(buildCharacterAction));
-        verifyNever(Mocks.characterService.generateCharacter());
       });
 
       test('builds the existing character with no school started', () async {
@@ -90,11 +105,10 @@ void main() {
 
         when(Mocks.workService.getAvailableJobs()).thenAnswer((_) => []);
 
-        await initiateCharacter(Mocks.store, buildCharacterAction, Mocks.next);
+        await buildCharacter(Mocks.store, buildCharacterAction, Mocks.next);
 
         verify(Mocks.store.dispatch(SetCharacterAction(character)));
         verify(Mocks.mockNext.next(buildCharacterAction));
-        verifyNever(Mocks.characterService.generateCharacter());
       });
 
       test('builds the existing character and stores it in the state',
@@ -137,28 +151,9 @@ void main() {
 
         when(Mocks.workService.getAvailableJobs()).thenAnswer((_) => jobs);
 
-        await initiateCharacter(Mocks.store, buildCharacterAction, Mocks.next);
+        await buildCharacter(Mocks.store, buildCharacterAction, Mocks.next);
 
         verify(Mocks.store.dispatch(SetCharacterAction(character)));
-        verify(Mocks.mockNext.next(buildCharacterAction));
-        verifyNever(Mocks.characterService.generateCharacter());
-      });
-
-      test('generates a character if none exists and stores it in the state',
-          () async {
-        var gameEvents = [Factory.initiateEvent()];
-        var buildCharacterAction = BuildCharacterAction([]);
-        var character = Character.fromInitiateEvent(gameEvents[0]);
-
-        when(Mocks.characterService.generateCharacter())
-            .thenAnswer((_) async => character);
-        when(Mocks.gameService.initiate(any))
-            .thenAnswer((_) async => gameEvents);
-
-        await initiateCharacter(Mocks.store, buildCharacterAction, Mocks.next);
-
-        verify(Mocks.gameService.initiate(character));
-        verify(Mocks.store.dispatch(SetGameEventsAction(gameEvents)));
         verify(Mocks.mockNext.next(buildCharacterAction));
       });
     });
@@ -181,7 +176,8 @@ void main() {
 
         await setCharacterJob(Mocks.store, setCharacterJobAction, Mocks.next);
 
-        verify(Mocks.characterService.getUnmetRequirements(originalCharacter, job));
+        verify(Mocks.characterService
+            .getUnmetRequirements(originalCharacter, job));
         verify(Mocks.gameService.setCurrentJob(job));
         verify(Mocks.store.dispatch(SetGameEventsAction(gameEvents)));
         verify(Mocks.mockNext.next(setCharacterJobAction));
@@ -206,7 +202,8 @@ void main() {
 
         await setCharacterJob(Mocks.store, setCharacterJobAction, Mocks.next);
 
-        verify(Mocks.characterService.getUnmetRequirements(originalCharacter, job));
+        verify(Mocks.characterService
+            .getUnmetRequirements(originalCharacter, job));
         verify(Mocks.gameService.addJobApplyFailure(job, Requirement.values));
         verify(Mocks.store.dispatch(SetGameEventsAction(gameEvents)));
         verify(Mocks.mockNext.next(setCharacterJobAction));

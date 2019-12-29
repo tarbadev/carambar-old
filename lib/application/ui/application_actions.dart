@@ -51,6 +51,11 @@ class SetGameEventsAction extends Equatable {
   }
 }
 
+class InitiateCharacterAction extends Equatable {
+  @override
+  List<Object> get props => [];
+}
+
 class BuildAgeEventsAction extends Equatable {
   final List<GameEvent> gameEvents;
 

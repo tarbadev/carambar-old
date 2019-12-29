@@ -23,6 +23,18 @@ void main() {
       verify(Mocks.mockNext.next(initiateStateAction));
     });
 
+    test('initiateGameEvents when no events present dispatches a InitiateCharacterAction', () async {
+      var initiateStateAction = InitiateStateAction();
+
+      when(Mocks.gameService.getEvents()).thenAnswer((_) async => []);
+
+      await initiateGameEvents(Mocks.store, initiateStateAction, Mocks.next);
+
+      verify(Mocks.store.dispatch(InitiateCharacterAction()));
+      verifyNoMoreInteractions(Mocks.store);
+      verify(Mocks.mockNext.next(initiateStateAction));
+    });
+
     test('onSetGameEventsAction calls build AgeEvents and Character', () async {
       var gameEvents = [GameEvent(18)];
       var action = SetGameEventsAction(gameEvents);

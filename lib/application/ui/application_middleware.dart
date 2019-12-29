@@ -42,7 +42,11 @@ Future initiateGameEvents(
   final _gameService = container<GameService>();
   final gameEvents = await _gameService.getEvents();
 
-  store.dispatch(SetGameEventsAction(gameEvents));
+  if (gameEvents.isEmpty) {
+    store.dispatch(InitiateCharacterAction());
+  } else {
+    store.dispatch(SetGameEventsAction(gameEvents));
+  }
 
   next(action);
 }

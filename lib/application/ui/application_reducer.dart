@@ -1,4 +1,3 @@
-import 'package:carambar/application/domain/entity/game_event.dart';
 import 'package:carambar/application/ui/application_actions.dart';
 import 'package:carambar/application/ui/application_state.dart';
 import 'package:carambar/character/ui/character_reducer.dart';
@@ -15,7 +14,6 @@ ApplicationState applicationReducer(ApplicationState state, action) =>
       setEndLifeDialogVisibleReducer(state.isEndLifeDialogVisible, action),
       addAvailableCashReducer(state.availableCash, action),
       setAvailableJobsReducer(state.availableJobs, action),
-      setGameEventsReducer(state.gameEvents, action),
     );
 
 final Reducer<int> setCurrentTabReducer = combineReducers([
@@ -34,11 +32,3 @@ double addAvailableCash(double currentCash, AddAvailableCashAction action) =>
 
 double setAvailableCash(double currentCash, SetAvailableCashAction action) =>
     action.cash;
-
-final Reducer<List<GameEvent>> setGameEventsReducer = combineReducers([
-  TypedReducer<List<GameEvent>, SetGameEventsAction>(_setGameEvents),
-]);
-
-List<GameEvent> _setGameEvents(
-        List<GameEvent> currentEvents, SetGameEventsAction action) =>
-    action.gameEvents;

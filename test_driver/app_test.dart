@@ -585,14 +585,14 @@ void main() {
     group('Settings Tab', () {
       test('should display an end life button that regenerates the character',
           () async {
-        await driver.waitUntilNoTransientCallbacks();
-
         await characterTab.goTo();
 
         expect(await characterTab.age, isNot('0'));
 
         await settingsTab.goTo();
         await settingsTab.endLife();
+
+        await driver.waitUntilNoTransientCallbacks();
 
         expect(await homeTab.ageEvent('37').isVisible, isFalse);
         await characterTab.goTo();
