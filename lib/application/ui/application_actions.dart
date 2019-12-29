@@ -19,15 +19,6 @@ class InitiateStateAction extends Equatable {
   List<Object> get props => [];
 }
 
-class AddAvailableCashAction extends Equatable {
-  final double cash;
-
-  AddAvailableCashAction(this.cash);
-
-  @override
-  List<Object> get props => [cash];
-}
-
 class SetAvailableCashAction extends Equatable {
   final double cash;
 

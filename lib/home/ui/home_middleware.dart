@@ -53,8 +53,7 @@ Future incrementAge(Store<ApplicationState> store, IncrementAgeAction action,
   }
 
   if (character.currentJob != null) {
-    await _gameService.addCash(character.currentJob.salary);
-    store.dispatch(AddAvailableCashAction(character.currentJob.salary));
+    gameEvents = await _gameService.addCash(character.currentJob.salary);
   }
 
   store.dispatch(SetGameEventsAction(gameEvents));

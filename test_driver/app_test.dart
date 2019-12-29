@@ -436,6 +436,7 @@ void main() {
             ['\u2022 Patient', '\u2022 Benevolent']);
 
         await workTab.jobDialog.apply();
+        await driver.waitUntilNoTransientCallbacks();
         expect(await workTab.jobDialog.isVisible, isFalse);
 
         expect(await homeTab.isVisible, isTrue);
@@ -478,9 +479,11 @@ void main() {
             ['\u2022 Teacher for 5+ years']);
 
         await workTab.jobDialog.apply();
-        expect(await workTab.jobDialog.isVisible, isFalse);
+        await driver.waitUntilNoTransientCallbacks();
 
+        expect(await workTab.jobDialog.isVisible, isFalse);
         expect(await homeTab.isVisible, isTrue);
+
         expect(await homeTab.ageEvent('27').isVisible, isTrue);
         expect(await homeTab.ageEvent('27').events,
             contains('You\'re now a Counselor'));

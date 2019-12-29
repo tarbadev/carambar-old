@@ -23,12 +23,8 @@ final Reducer<int> setCurrentTabReducer = combineReducers([
 int _selectTab(int currentTab, SelectTabAction action) => action.index;
 
 final Reducer<double> addAvailableCashReducer = combineReducers([
-  TypedReducer<double, AddAvailableCashAction>(addAvailableCash),
   TypedReducer<double, SetAvailableCashAction>(setAvailableCash),
 ]);
-
-double addAvailableCash(double currentCash, AddAvailableCashAction action) =>
-    currentCash + action.cash;
 
 double setAvailableCash(double currentCash, SetAvailableCashAction action) =>
     action.cash;

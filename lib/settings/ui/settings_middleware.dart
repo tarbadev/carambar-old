@@ -1,6 +1,7 @@
 import 'package:carambar/application/domain/service/game_service.dart';
 import 'package:carambar/application/ui/application_actions.dart';
 import 'package:carambar/application/ui/application_state.dart';
+import 'package:carambar/home/ui/home_actions.dart';
 import 'package:carambar/settings/ui/settings_actions.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 import 'package:redux/redux.dart';
@@ -15,6 +16,7 @@ Future endLife(Store<ApplicationState> store, EndLifeAction action, NextDispatch
 
   await _gameService.deleteGameEvents();
 
+  store.dispatch(SetAgeEventsAction([]));
   store.dispatch(InitiateStateAction());
   store.dispatch(SelectHomeTabAction());
 

@@ -175,7 +175,7 @@ void main() {
         verify(Mocks.store.dispatch(SetGameEventsAction(gameEvents)));
       });
 
-      test('dispatches a AddAvailableCashAction when having a job', () async {
+      test('calls addCash when having a job', () async {
         var incrementAgeAction = IncrementAgeAction();
         var salary = 15000.0;
         var originalCharacter = Factory.character(age: 21, currentJob: Factory.job(salary: salary));
@@ -185,15 +185,16 @@ void main() {
         ];
 
         when(Mocks.applicationState.character).thenReturn(originalCharacter);
-        when(Mocks.gameService.incrementAge()).thenAnswer((_) async => gameEvents);
+        when(Mocks.gameService.incrementAge()).thenAnswer((_) async => [GameEvent(18)]);
+        when(Mocks.gameService.addCash(salary)).thenAnswer((_) async => gameEvents);
 
         await incrementAge(Mocks.store, incrementAgeAction, Mocks.next);
 
         verify(Mocks.gameService.addCash(salary));
-        verify(Mocks.store.dispatch(AddAvailableCashAction(salary)));
+        verify(Mocks.store.dispatch(SetGameEventsAction(gameEvents)));
       });
 
-      test('does not dispatch a AddAvailableCashAction when not having a job',
+      test('does not call addCash when not having a job',
           () async {
         var incrementAgeAction = IncrementAgeAction();
         var originalCharacter = Factory.character(age: 21);
@@ -204,7 +205,7 @@ void main() {
 
         await incrementAge(Mocks.store, incrementAgeAction, Mocks.next);
 
-        verifyNever(Mocks.store.dispatch(AddAvailableCashAction(15000)));
+        verifyNever(Mocks.gameService.addCash(15000));
       });
     });
 

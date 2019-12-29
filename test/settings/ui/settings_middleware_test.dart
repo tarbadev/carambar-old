@@ -1,4 +1,5 @@
 import 'package:carambar/application/ui/application_actions.dart';
+import 'package:carambar/home/ui/home_actions.dart';
 import 'package:carambar/settings/ui/settings_actions.dart';
 import 'package:carambar/settings/ui/settings_middleware.dart';
 import 'package:mockito/mockito.dart';
@@ -23,6 +24,7 @@ void main() {
 
       verify(Mocks.gameService.deleteGameEvents());
 
+      verify(Mocks.store.dispatch(SetAgeEventsAction([])));
       verify(Mocks.store.dispatch(InitiateStateAction()));
       verify(Mocks.store.dispatch(SelectHomeTabAction()));
 
