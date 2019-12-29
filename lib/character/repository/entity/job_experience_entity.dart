@@ -18,7 +18,7 @@ class JobExperienceEntity extends Equatable {
   factory JobExperienceEntity.fromJobExperience(JobExperience jobExperience) =>
       JobExperienceEntity(jobExperience.name, jobExperience.experience);
 
-  JobExperience toJobExperience() => JobExperience(name: name, experience: experience);
+  JobExperience toJobExperience() => JobExperience(name, experience);
 
   @override
   List<Object> get props => [name, experience];

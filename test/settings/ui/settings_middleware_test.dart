@@ -21,7 +21,6 @@ void main() {
 
       await endLife(Mocks.store, endLifeAction, Mocks.next);
 
-      verify(Mocks.characterService.deleteCharacter());
       verify(Mocks.gameService.deleteGameEvents());
 
       verify(Mocks.store.dispatch(InitiateStateAction()));

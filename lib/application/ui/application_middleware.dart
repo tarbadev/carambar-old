@@ -53,6 +53,7 @@ Future onSetGameEventsAction(
   NextDispatcher next,
 ) async {
   store.dispatch(BuildAgeEventsAction(action.gameEvents));
+  store.dispatch(BuildCharacterAction(action.gameEvents));
 
   next(action);
 }

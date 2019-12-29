@@ -12,12 +12,15 @@ JobEntity _$JobEntityFromJson(Map<String, dynamic> json) {
       name: json['name'] as String,
       salary: (json['salary'] as num).toDouble(),
       requirements:
-          (json['requirements'] as List).map((e) => e as String).toList());
+          (json['requirements'] as List).map((e) => e as String).toList(),
+      personalityTraits:
+          (json['personalityTraits'] as List).map((e) => e as String).toList());
 }
 
 Map<String, dynamic> _$JobEntityToJson(JobEntity instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'salary': instance.salary,
-      'requirements': instance.requirements
+      'requirements': instance.requirements,
+      'personalityTraits': instance.personalityTraits
     };

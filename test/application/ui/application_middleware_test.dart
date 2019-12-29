@@ -23,13 +23,14 @@ void main() {
       verify(Mocks.mockNext.next(initiateStateAction));
     });
 
-    test('onSetGameEventsAction', () async {
+    test('onSetGameEventsAction calls build AgeEvents and Character', () async {
       var gameEvents = [GameEvent(18)];
       var action = SetGameEventsAction(gameEvents);
 
       await onSetGameEventsAction(Mocks.store, action, Mocks.next);
 
       verify(Mocks.store.dispatch(BuildAgeEventsAction(gameEvents)));
+      verify(Mocks.store.dispatch(BuildCharacterAction(gameEvents)));
       verify(Mocks.mockNext.next(action));
     });
   });

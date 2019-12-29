@@ -11,10 +11,7 @@ class _$CoreApplicationInjector extends CoreApplicationInjector {
     final Container container = Container();
     container.registerFactory((c) => GameRepository(c<String>('gameFileName')));
     container.registerFactory((c) => GameService(c<GameRepository>()));
-    container.registerFactory(
-        (c) => CharacterRepository(c<String>('characterFileName')));
-    container.registerFactory((c) =>
-        CharacterService(c<CharacterRepository>(), c<CharacterClient>()));
+    container.registerFactory((c) => CharacterService(c<CharacterClient>()));
     container.registerFactory((c) => WorkService());
   }
 }

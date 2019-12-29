@@ -14,4 +14,9 @@ class Job extends Equatable {
 
   @override
   List<Object> get props => [id, name, requirements, salary, personalityTraits];
+
+  @override
+  String toString() {
+    return 'Job{id: $id, name: $name, salary: $salary, requirements: $requirements, personalityTraits: $personalityTraits}';
+  }
 }

@@ -11,7 +11,7 @@ void main() {
         '${NumberFormat.simpleCurrency(decimalDigits: 0).format(0)}/year',
       );
 
-      expect(DisplayCurrentJob.fromCurrentJob(null), expectedDisplayCurrentJob);
+      expect(DisplayCurrentJob.fromJob(null), expectedDisplayCurrentJob);
     });
   });
 }

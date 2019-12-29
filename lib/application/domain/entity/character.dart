@@ -1,22 +1,22 @@
 import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/domain/entity/job_experience.dart';
-import 'package:carambar/application/domain/entity/current_job.dart';
 import 'package:carambar/application/domain/entity/nationality.dart';
+import 'package:carambar/work/domain/entity/job.dart';
 import 'package:equatable/equatable.dart';
 
 enum AgeCategory { baby, child, teen, adult }
 enum School { None, Kindergarten, PrimarySchool, MiddleSchool, HighSchool }
-enum Graduate { MiddleSchool, HighSchool }
 
 class Character extends Equatable {
   final String firstName;
   final String lastName;
   final String gender;
   final Nationality origin;
-  final List<Graduate> graduates;
+  final List<School> graduates;
   final int age;
-  final CurrentJob currentJob;
+  final Job currentJob;
   final List<JobExperience> jobHistory;
+  final School school;
 
   AgeCategory get ageCategory {
     if (age >= 18)
@@ -29,21 +29,6 @@ class Character extends Equatable {
       return AgeCategory.baby;
   }
 
-  School get school {
-    if (age >= 18)
-      return School.None;
-    else if (age >= 15)
-      return School.HighSchool;
-    else if (age >= 11)
-      return School.MiddleSchool;
-    else if (age >= 6)
-      return School.PrimarySchool;
-    else if (age >= 3)
-      return School.Kindergarten;
-    else
-      return School.None;
-  }
-
   Character({
     this.firstName,
     this.lastName,
@@ -53,19 +38,8 @@ class Character extends Equatable {
     this.graduates,
     this.currentJob,
     this.jobHistory,
+    this.school,
   });
-
-  Character grow() {
-    return Character(
-        firstName: this.firstName,
-        lastName: this.lastName,
-        gender: this.gender,
-        origin: this.origin,
-        age: this.age + 1,
-        graduates: this.graduates,
-        currentJob: this.currentJob,
-        jobHistory: this.jobHistory);
-  }
 
   factory Character.fromInitiateEvent(InitiateEvent initiateEvent) {
     return Character(
@@ -80,8 +54,7 @@ class Character extends Equatable {
   }
 
   @override
-  List<Object> get props =>
-      [
+  List<Object> get props => [
         firstName,
         lastName,
         gender,
@@ -89,20 +62,12 @@ class Character extends Equatable {
         age,
         graduates,
         currentJob,
-        jobHistory
+        jobHistory,
+    school,
       ];
 
   @override
   String toString() {
-    return "Character(" +
-        "firstName=$firstName, " +
-        "lastName=$lastName, " +
-        "gender=$gender, " +
-        "origin=$origin, " +
-        "graduates=${graduates.toString()}, " +
-        "age=$age, " +
-        "currentJob=$currentJob, " +
-        "jobHistory=${jobHistory.toString()}" +
-        ")";
+    return 'Character{firstName: $firstName, lastName: $lastName, gender: $gender, origin: $origin, graduates: $graduates, age: $age, currentJob: $currentJob, jobHistory: $jobHistory, school: $school}';
   }
 }

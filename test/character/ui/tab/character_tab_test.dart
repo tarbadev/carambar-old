@@ -8,7 +8,7 @@ import '../../../helpers/testable_widget.dart';
 
 void main() {
   testWidgets('character tab shows a the character informations', (WidgetTester tester) async {
-    var character = Factory.character(currentJob: Factory.currentJob());
+    var character = Factory.character(currentJob: Factory.job());
 
     await tester.pumpWidget(buildTestableWidget(CharacterTab(), character: character));
 

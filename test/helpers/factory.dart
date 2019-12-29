@@ -1,7 +1,7 @@
 import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
+import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/domain/entity/job_experience.dart';
-import 'package:carambar/application/domain/entity/current_job.dart';
 import 'package:carambar/application/domain/entity/nationality.dart';
 import 'package:carambar/character/domain/service/client/character_client_response.dart';
 import 'package:carambar/character/ui/entity/display_character.dart';
@@ -13,11 +13,13 @@ import 'package:carambar/work/domain/entity/job.dart';
 import 'package:carambar/work/ui/entity/display_job.dart';
 
 abstract class Factory {
-  static Character character(
-      {int age: 18,
-      List<Graduate> graduates: const [],
-      CurrentJob currentJob,
-      List<JobExperience> jobHistory: const []}) {
+  static Character character({
+    int age: 18,
+    List<School> graduates: const [],
+    Job currentJob,
+    List<JobExperience> jobHistory: const [],
+    School school: School.None,
+  }) {
     return Character(
       firstName: 'john',
       lastName: 'doe',
@@ -27,6 +29,7 @@ abstract class Factory {
       graduates: graduates,
       currentJob: currentJob,
       jobHistory: jobHistory,
+      school: school,
     );
   }
 
@@ -89,19 +92,25 @@ abstract class Factory {
   static Job job({
     int id: 1,
     List<Requirement> requirements: const [Requirement.HighSchool],
-    List<PersonalityTrait> personalityTraits: const [PersonalityTrait.Charismatic],
+    List<PersonalityTrait> personalityTraits: const [
+      PersonalityTrait.Charismatic
+    ],
+    String name: 'Supervisor',
+    double salary: 15000.0,
   }) {
     return Job(
         id: id,
-        name: 'Supervisor',
-        salary: 15000,
+        name: name,
+        salary: salary,
         requirements: requirements,
         personalityTraits: personalityTraits);
   }
 
   static DisplayJob displayJob({
     String name: 'Supervisor',
-    List<String> requirements: const ['\u2022 High School completed successfully'],
+    List<String> requirements: const [
+      '\u2022 High School completed successfully'
+    ],
     String salary: '\$15,000/year',
     int id: 1,
     List<String> personalityTraits: const ['\u2022 Charismatic'],
@@ -111,24 +120,13 @@ abstract class Factory {
 
   static JobExperience jobExperience(
       {String name: 'Supervisor', int experience: 2}) {
-    return JobExperience(name: name, experience: experience);
+    return JobExperience(name, experience);
   }
 
   static DisplayJobExperience displayJobExperience(
       {String name: 'Supervisor', String experience: '2 years'}) {
     return DisplayJobExperience(name: name, experience: experience);
   }
-
-  static CurrentJob currentJob({
-    int id: 1,
-    String name: 'Supervisor',
-    double salary: 15000,
-  }) =>
-      CurrentJob(
-        id: id,
-        name: name,
-        salary: salary,
-      );
 
   static DisplayCurrentJob displayCurrentJob({
     int id: 1,
@@ -140,6 +138,9 @@ abstract class Factory {
         name,
         salary,
       );
+
+  static InitiateEvent initiateEvent() =>
+      InitiateEvent(0, 'John', 'Doe', 'Male', Nationality.france);
 }
 
 class TestGameEvent extends GameEvent {

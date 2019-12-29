@@ -20,11 +20,6 @@ void main() {
       expect(Factory.character(age: 18).ageCategory, AgeCategory.adult);
     });
 
-    test('grow() adds 1 year to the current Character', () {
-      expect(Factory.character(age: 0).grow(), Factory.character(age: 1));
-      expect(Factory.character(age: 8).grow(), Factory.character(age: 9));
-    });
-
     test('fromInitiateEvent', () {
       final initiateEvent = InitiateEvent(
         0,

@@ -2,8 +2,6 @@ import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/service/game_service.dart';
 import 'package:carambar/application/ui/application_actions.dart';
 import 'package:carambar/application/ui/application_state.dart';
-import 'package:carambar/character/domain/service/character_service.dart';
-import 'package:carambar/character/ui/character_actions.dart';
 import 'package:carambar/home/ui/entity/display_age_event.dart';
 import 'package:carambar/home/ui/game_event_to_age_event_mapper.dart';
 import 'package:carambar/home/ui/home_actions.dart';
@@ -11,7 +9,8 @@ import 'package:kiwi/kiwi.dart' as kiwi;
 import 'package:redux/redux.dart';
 
 List<Middleware<ApplicationState>> createHomeMiddleware() => [
-      TypedMiddleware<ApplicationState, BuildAgeEventsAction>(initiateAgeEvents),
+      TypedMiddleware<ApplicationState, BuildAgeEventsAction>(
+          initiateAgeEvents),
       TypedMiddleware<ApplicationState, IncrementAgeAction>(incrementAge),
     ];
 
@@ -32,41 +31,48 @@ Future initiateAgeEvents(
 Future incrementAge(Store<ApplicationState> store, IncrementAgeAction action,
     NextDispatcher next) async {
   var container = kiwi.Container();
-  CharacterService _characterService = container.resolve<CharacterService>();
   GameService _gameService = container.resolve<GameService>();
 
-  School originalSchool = store.state.character.school;
+  var character = store.state.character;
+  School originalSchool = character.school;
 
-  var character = await _characterService.incrementAge();
   var gameEvents = await _gameService.incrementAge();
+  final newSchool = _schoolForAge(gameEvents.last.age);
 
-  if (character.school != originalSchool) {
-    if (character.school == School.None) {
+  if (newSchool != originalSchool) {
+    if (newSchool == School.None) {
       gameEvents = await _gameService.finishStudies();
     } else {
-      gameEvents = await _gameService.startSchool(character.school);
+      gameEvents = await _gameService.startSchool(newSchool);
     }
 
     if (originalSchool == School.HighSchool ||
         originalSchool == School.MiddleSchool) {
       gameEvents = await _gameService.graduate(originalSchool);
-      var graduate = originalSchool == School.HighSchool
-          ? Graduate.HighSchool
-          : Graduate.MiddleSchool;
-      character = await _characterService.addGraduate(graduate);
     }
   }
 
   if (character.currentJob != null) {
-    await _gameService.incrementJobExperience();
-    character = await _characterService.incrementJobExperience();
-
     await _gameService.addCash(character.currentJob.salary);
     store.dispatch(AddAvailableCashAction(character.currentJob.salary));
   }
 
-  store.dispatch(SetCharacterAction(character));
   store.dispatch(SetGameEventsAction(gameEvents));
 
   next(action);
+}
+
+School _schoolForAge(int age) {
+  if (age >= 18)
+    return School.None;
+  else if (age >= 15)
+    return School.HighSchool;
+  else if (age >= 11)
+    return School.MiddleSchool;
+  else if (age >= 6)
+    return School.PrimarySchool;
+  else if (age >= 3)
+    return School.Kindergarten;
+  else
+    return School.None;
 }

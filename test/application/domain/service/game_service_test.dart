@@ -4,7 +4,6 @@ import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/entity/finish_studies_event.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
 import 'package:carambar/application/domain/entity/graduate_event.dart';
-import 'package:carambar/application/domain/entity/increment_job_experience_event.dart';
 import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/domain/entity/nationality.dart';
 import 'package:carambar/application/domain/entity/set_current_job_event.dart';
@@ -118,23 +117,6 @@ void main() {
           .thenAnswer((_) async => expectedEvents);
 
       expect(await gameService.graduate(School.HighSchool), expectedEvents);
-
-      var actual =
-          verify(Mocks.gameRepository.save(captureAny)).captured.single;
-      expect(actual, expectedEvents);
-    });
-
-    test('incrementJobExperience generates an event and stores it', () async {
-      var previousEvent = GameEvent(11);
-      var newEvent = IncrementJobExperienceEvent(11);
-      final events = [previousEvent];
-      final expectedEvents = [previousEvent, newEvent];
-
-      when(Mocks.gameRepository.readEvents()).thenAnswer((_) async => events);
-      when(Mocks.gameRepository.save(any))
-          .thenAnswer((_) async => expectedEvents);
-
-      expect(await gameService.incrementJobExperience(), expectedEvents);
 
       var actual =
           verify(Mocks.gameRepository.save(captureAny)).captured.single;

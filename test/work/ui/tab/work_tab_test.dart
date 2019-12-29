@@ -87,7 +87,7 @@ void main() {
           personalityTraits: expectedPersonalityTraits,
           id: 1)
     ];
-    var currentJob = Factory.currentJob(name: 'Supervisor', salary: 15000.0, id: 1);
+    var currentJob = Factory.job(name: 'Supervisor', salary: 15000.0, id: 1);
     var character = Factory.character(currentJob: currentJob);
 
     await tester.pumpWidget(

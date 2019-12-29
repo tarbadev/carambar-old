@@ -4,7 +4,6 @@ import 'package:carambar/application/ui/application_state.dart';
 import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/character/domain/service/character_service.dart';
 import 'package:carambar/character/domain/service/client/character_client.dart';
-import 'package:carambar/character/repository/character_repository.dart';
 import 'package:carambar/home/ui/entity/display_age_event.dart';
 import 'package:carambar/work/domain/service/work_service.dart';
 import 'package:carambar/work/ui/entity/display_job.dart';
@@ -19,7 +18,6 @@ class MockGameRepository extends Mock implements GameRepository {}
 
 class MockCharacterService extends Mock implements CharacterService {}
 class MockCharacterClient extends Mock implements CharacterClient {}
-class MockCharacterRepository extends Mock implements CharacterRepository {}
 
 class MockWorkService extends Mock implements WorkService {}
 
@@ -38,7 +36,6 @@ class Mocks {
 
   static final CharacterService characterService = MockCharacterService();
   static final CharacterClient characterClient = MockCharacterClient();
-  static final CharacterRepository characterRepository = MockCharacterRepository();
 
   static final WorkService workService = MockWorkService();
 

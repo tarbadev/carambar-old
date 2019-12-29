@@ -1,4 +1,4 @@
-import 'package:carambar/application/domain/entity/current_job.dart';
+import 'package:carambar/work/domain/entity/job.dart';
 import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 
@@ -9,7 +9,7 @@ class DisplayCurrentJob extends Equatable {
 
   DisplayCurrentJob(this.id, this.name, this.salary);
 
-  factory DisplayCurrentJob.fromCurrentJob(CurrentJob currentJob) {
+  factory DisplayCurrentJob.fromJob(Job currentJob) {
     if (currentJob == null) {
       return DisplayCurrentJob(
         0,

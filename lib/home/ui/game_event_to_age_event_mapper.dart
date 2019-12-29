@@ -4,7 +4,6 @@ import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/entity/finish_studies_event.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
 import 'package:carambar/application/domain/entity/graduate_event.dart';
-import 'package:carambar/application/domain/entity/increment_job_experience_event.dart';
 import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/domain/entity/set_current_job_event.dart';
 import 'package:carambar/application/domain/entity/start_school_event.dart';
@@ -66,7 +65,6 @@ class GameEventToAgeEventMapper {
           ageEvent.events.add('You just started ${_mapSchoolToDisplaySchool[actualEvent.school]}');
           break;
         case AddCashEvent:
-        case IncrementJobExperienceEvent:
           break;
         default:
           throw GameEventTypeNotKnownException(event.runtimeType);

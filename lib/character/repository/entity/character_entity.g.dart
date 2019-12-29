@@ -16,8 +16,7 @@ CharacterEntity _$CharacterEntityFromJson(Map<String, dynamic> json) {
       graduates: (json['graduates'] as List)?.map((e) => e as String)?.toList(),
       currentJob: json['currentJob'] == null
           ? null
-          : CurrentJobEntity.fromJson(
-              json['currentJob'] as Map<String, dynamic>),
+          : JobEntity.fromJson(json['currentJob'] as Map<String, dynamic>),
       jobHistory: (json['jobHistory'] as List)
           ?.map((e) => e == null
               ? null

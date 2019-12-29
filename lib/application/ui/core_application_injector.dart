@@ -1,6 +1,5 @@
 import 'package:carambar/application/domain/service/game_service.dart';
 import 'package:carambar/application/repository/game_repository.dart';
-import 'package:carambar/character/repository/character_repository.dart';
 import 'package:carambar/character/domain/service/character_service.dart';
 import 'package:carambar/character/domain/service/client/character_client.dart';
 import 'package:carambar/work/domain/service/work_service.dart';
@@ -15,7 +14,6 @@ abstract class CoreApplicationInjector {
 
   @Register.factory(GameRepository, resolvers: {String: 'gameFileName'})
   @Register.factory(GameService)
-  @Register.factory(CharacterRepository, resolvers: {String: 'characterFileName'})
   @Register.factory(CharacterService)
   @Register.factory(WorkService)
   void configureAnnotations();

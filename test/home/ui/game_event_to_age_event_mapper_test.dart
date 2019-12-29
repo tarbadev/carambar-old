@@ -4,7 +4,6 @@ import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/entity/finish_studies_event.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
 import 'package:carambar/application/domain/entity/graduate_event.dart';
-import 'package:carambar/application/domain/entity/increment_job_experience_event.dart';
 import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/domain/entity/nationality.dart';
 import 'package:carambar/application/domain/entity/set_current_job_event.dart';
@@ -92,13 +91,6 @@ void main() {
 
     test('ignore AddCashEvent', () {
       final event = AddCashEvent(20, 20.0);
-      final ageEvents = [];
-
-      expect(GameEventToAgeEventMapper.execute([event]), ageEvents);
-    });
-
-    test('ignore IncrementJobExperienceEvent', () {
-      final event = IncrementJobExperienceEvent(20);
       final ageEvents = [];
 
       expect(GameEventToAgeEventMapper.execute([event]), ageEvents);

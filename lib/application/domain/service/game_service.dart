@@ -4,7 +4,6 @@ import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/entity/finish_studies_event.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
 import 'package:carambar/application/domain/entity/graduate_event.dart';
-import 'package:carambar/application/domain/entity/increment_job_experience_event.dart';
 import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/domain/entity/set_current_job_event.dart';
 import 'package:carambar/application/domain/entity/start_school_event.dart';
@@ -41,12 +40,6 @@ class GameService {
   Future<List<GameEvent>> graduate(School school) async {
     List<GameEvent> events = await gameRepository.readEvents();
     events.add(GraduateEvent(events.last.age, school));
-    return await gameRepository.save(events);
-  }
-
-  Future<List<GameEvent>> incrementJobExperience() async {
-    List<GameEvent> events = await gameRepository.readEvents();
-    events.add(IncrementJobExperienceEvent(events.last.age));
     return await gameRepository.save(events);
   }
 

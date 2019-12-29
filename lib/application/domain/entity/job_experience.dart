@@ -4,8 +4,13 @@ class JobExperience extends Equatable {
   final String name;
   final int experience;
 
-  JobExperience({this.name, this.experience});
+  JobExperience(this.name, this.experience);
 
   @override
   List<Object> get props => [name, experience];
+
+  @override
+  String toString() {
+    return 'JobExperience{name: $name, experience: $experience}';
+  }
 }

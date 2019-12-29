@@ -9,8 +9,9 @@ class JobEntity {
   final String name;
   final double salary;
   final List<String> requirements;
+  final List<String> personalityTraits;
 
-  JobEntity({this.id, this.name, this.salary, this.requirements});
+  JobEntity({this.id, this.name, this.salary, this.requirements, this.personalityTraits});
 
   factory JobEntity.fromJson(Map<String, dynamic> json) => _$JobEntityFromJson(json);
   Map<String, dynamic> toJson() => _$JobEntityToJson(this);
@@ -19,7 +20,8 @@ class JobEntity {
       : id = job.id,
         name = job.name,
         salary = job.salary,
-        requirements = job.requirements.map((requirement) => requirement.toString()).toList();
+        requirements = job.requirements.map((requirement) => requirement.toString()).toList(),
+        personalityTraits = job.personalityTraits.map((trait) => trait.toString()).toList();
 
   Job toJob() => Job(
         id: id,
@@ -27,6 +29,9 @@ class JobEntity {
         salary: salary,
         requirements: requirements
             .map((requirement) => Requirement.values.firstWhere((e) => e.toString() == requirement))
+            .toList(),
+        personalityTraits: personalityTraits
+            .map((requirement) => PersonalityTrait.values.firstWhere((e) => e.toString() == requirement))
             .toList(),
       );
 }

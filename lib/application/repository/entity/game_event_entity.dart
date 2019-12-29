@@ -4,7 +4,6 @@ import 'package:carambar/application/domain/entity/character.dart';
 import 'package:carambar/application/domain/entity/finish_studies_event.dart';
 import 'package:carambar/application/domain/entity/game_event.dart';
 import 'package:carambar/application/domain/entity/graduate_event.dart';
-import 'package:carambar/application/domain/entity/increment_job_experience_event.dart';
 import 'package:carambar/application/domain/entity/initiate_event.dart';
 import 'package:carambar/application/domain/entity/nationality.dart';
 import 'package:carambar/application/domain/entity/set_current_job_event.dart';
@@ -61,9 +60,6 @@ class GameEventEntity extends Equatable {
         break;
       case GraduateEvent:
         return _fromGraduateEvent(event);
-        break;
-      case IncrementJobExperienceEvent:
-        return _fromIncrementJobExperienceEvent(event);
         break;
       case AddCashEvent:
         return _fromAddCashEvent(event);
@@ -126,15 +122,6 @@ class GameEventEntity extends Equatable {
     );
   }
 
-  static GameEventEntity _fromIncrementJobExperienceEvent(
-      IncrementJobExperienceEvent incrementJobExperienceEvent) {
-    return GameEventEntity(
-      incrementJobExperienceEvent.age,
-      EventType.IncrementJobExperience,
-      null,
-    );
-  }
-
   static GameEventEntity _fromAddCashEvent(AddCashEvent addCashEvent) {
     return GameEventEntity(
       addCashEvent.age,
@@ -180,8 +167,6 @@ class GameEventEntity extends Equatable {
       return _toStartSchoolEvent();
     } else if (eventType == EventType.Graduate) {
       return _toGraduateEvent();
-    } else if (eventType == EventType.IncrementJobExperience) {
-      return _toIncrementJobExperienceEvent();
     } else if (eventType == EventType.AddCash) {
       return _toAddCashEvent();
     } else if (eventType == EventType.SetCurrentJob) {
@@ -223,9 +208,6 @@ class GameEventEntity extends Equatable {
           .firstWhere((e) => e.toString() == event['school'] as String),
     );
   }
-
-  IncrementJobExperienceEvent _toIncrementJobExperienceEvent() =>
-      IncrementJobExperienceEvent(age);
 
   AddCashEvent _toAddCashEvent() {
     return AddCashEvent(

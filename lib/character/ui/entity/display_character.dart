@@ -40,9 +40,9 @@ class DisplayCharacter extends Equatable {
       '${character.age}',
       _mapNationalityToString[character.origin],
       _mapAgeCategoryToString[character.ageCategory],
-      mapSchoolToDisplaySchool[character.school],
-      character.graduates.map((graduate) => _mapGraduateToDisplayGraduate[graduate]).toList(),
-      DisplayCurrentJob.fromCurrentJob(character.currentJob),
+      _mapSchoolToDisplaySchool[character.school],
+      character.graduates.map((graduate) => _mapSchoolToDisplaySchool[graduate]).toList(),
+      DisplayCurrentJob.fromJob(character.currentJob),
       character.jobHistory
           .map((jobExperience) => DisplayJobExperience.fromJobExperience(jobExperience))
           .toList()
@@ -58,17 +58,12 @@ class DisplayCharacter extends Equatable {
     AgeCategory.baby: 'Baby',
   };
 
-  static final mapSchoolToDisplaySchool = {
+  static final _mapSchoolToDisplaySchool = {
     School.None: 'None',
     School.Kindergarten: 'Kindergarten',
     School.PrimarySchool: 'Primary School',
     School.MiddleSchool: 'Middle School',
     School.HighSchool: 'High School',
-  };
-
-  static final _mapGraduateToDisplayGraduate = {
-    Graduate.MiddleSchool: 'Middle School',
-    Graduate.HighSchool: 'High School',
   };
 
   static final _mapNationalityToString = {
@@ -90,4 +85,9 @@ class DisplayCharacter extends Equatable {
     Nationality.turkey: 'Turkey',
     Nationality.unitedStates: 'United States',
   };
+
+  @override
+  String toString() {
+    return 'DisplayCharacter{name: $name, gender: $gender, age: $age, origin: $origin, ageCategory: $ageCategory, currentJob: $currentJob, jobHistory: $jobHistory, school: $school, graduates: $graduates}';
+  }
 }

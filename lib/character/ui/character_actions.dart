@@ -9,6 +9,11 @@ class SetCharacterAction extends Equatable {
 
   @override
   List<Object> get props => [character];
+
+  @override
+  String toString() {
+    return 'SetCharacterAction{character: $character}';
+  }
 }
 
 class SetCharacterJobAction extends Equatable {
@@ -18,4 +23,9 @@ class SetCharacterJobAction extends Equatable {
 
   @override
   List<Object> get props => [job];
+
+  @override
+  String toString() {
+    return 'SetCharacterJobAction{job: $job}';
+  }
 }
